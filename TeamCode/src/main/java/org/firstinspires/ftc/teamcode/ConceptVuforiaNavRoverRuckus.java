@@ -90,7 +90,7 @@ import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocaliz
  * is explained below.
  */
 
-@TeleOp(name="Concept: Vuforia Rover Nav", group ="Concept")
+@TeleOp(name="Concept: Vuforia Rover Nav Test", group ="Concept")
 public class ConceptVuforiaNavRoverRuckus extends LinearOpMode {
 
     /*
@@ -121,7 +121,7 @@ public class ConceptVuforiaNavRoverRuckus extends LinearOpMode {
     private boolean targetVisible = false;
 
     /**
-     * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
+     * {#vuforia} is the variable we will use to store our instance of the Vuforia
      * localization engine.
      */
     VuforiaLocalizer vuforia;
