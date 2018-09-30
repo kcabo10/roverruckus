@@ -27,11 +27,10 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.robotcontroller.external.samples;
+package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
@@ -42,15 +41,15 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.DEGREES;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.XYZ;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.YZX;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.EXTRINSIC;
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.FRONT;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -91,8 +90,8 @@ import java.util.List;
  * is explained below.
  */
 
-@TeleOp(name="Concept: Vuforia Rover Nav", group ="Concept")
-public class ConceptVuforiaNavRoverRuckus extends LinearOpMode {
+@TeleOp(name="Concept: Vuforia Rover Nav_", group ="Concept")
+public class ConceptVuforiaNavRoverRuckus_ extends LinearOpMode {
 
     /*
      * IMPORTANT: You need to obtain your own license key to use Vuforia. The string below with which
@@ -143,6 +142,9 @@ public class ConceptVuforiaNavRoverRuckus extends LinearOpMode {
 
         //  Instantiate the Vuforia engine
         vuforia = ClassFactory.getInstance().createVuforia(parameters);
+
+        float gridPos[];
+        gridPos = new float[2];
 
         // Load the data sets that for the trackable objects. These particular data
         // sets are stored in the 'assets' part of our application.
@@ -249,14 +251,14 @@ public class ConceptVuforiaNavRoverRuckus extends LinearOpMode {
          * In this example, it is centered (left to right), but 110 mm forward of the middle of the robot, and 200 mm above ground level.
          */
 
-        final int CAMERA_FORWARD_DISPLACEMENT  = 110;   // eg: Camera is 110 mm in front of robot center
+        final int CAMERA_FORWARD_DISPLACEMENT  = 159;   // eg: Camera is 110 mm in front of robot center
         final int CAMERA_VERTICAL_DISPLACEMENT = 267;   // eg: Camera is 200 mm above ground
-        final int CAMERA_LEFT_DISPLACEMENT     = 159;     // eg: Camera is ON the robot's center line
+        final int CAMERA_LEFT_DISPLACEMENT     = 165;     // eg: Camera is ON the robot's center line
 
         OpenGLMatrix phoneLocationOnRobot = OpenGLMatrix
                 .translation(CAMERA_FORWARD_DISPLACEMENT, CAMERA_LEFT_DISPLACEMENT, CAMERA_VERTICAL_DISPLACEMENT)
                 .multiplied(Orientation.getRotationMatrix(EXTRINSIC, YZX, DEGREES,
-                        CAMERA_CHOICE == FRONT ? 90 : -90, 0, 0));
+                        CAMERA_CHOICE == FRONT ? 45 : -45, 0, 0));
 
         /**  Let all the trackable listeners know where the phone is.  */
         for (VuforiaTrackable trackable : allTrackables)
@@ -300,6 +302,10 @@ public class ConceptVuforiaNavRoverRuckus extends LinearOpMode {
                 // express the rotation of the robot in degrees.
                 Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
                 telemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f", rotation.firstAngle, rotation.secondAngle, rotation.thirdAngle);
+                gridPos[0] = translation.get(0) / mmPerInch / 12;
+                gridPos[1] = translation.get(1) / mmPerInch / 12;
+                telemetry.addData("GridNav Pos", "{X, Y} = %.1f, %.1f", gridPos[0], gridPos[1], rotation.thirdAngle);
+
             }
             else {
                 telemetry.addData("Visible Target", "none");

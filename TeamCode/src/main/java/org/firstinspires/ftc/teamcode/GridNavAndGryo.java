@@ -24,7 +24,7 @@ public class GridNavAndGryo {
     double turnAngle = 0;
 
 
-    public void GridNavWithGyroTurn(double xDestination, double yDestination){
+    public void GridNavImplimented(double xDestination, double yDestination, double power){
         gridnav.GridNavDriveDistance(xDestination, yDestination);
         gridnav.GridNavTurnAngle(xDestination, yDestination);
 
@@ -46,10 +46,10 @@ public class GridNavAndGryo {
         gyro.RightFront.setTargetPosition((int)(Distance * COUNTS_PER_INCH));
         gyro.RightBack.setTargetPosition((int)(Distance * COUNTS_PER_INCH));
 
-        gyro.LeftFront.setPower(Distance);
-        gyro.LeftBack.setPower(Distance);
-        gyro.RightFront.setPower(Distance);
-        gyro.RightBack.setPower(Distance);
+        gyro.LeftFront.setPower(power);
+        gyro.LeftBack.setPower(power);
+        gyro.RightFront.setPower(power);
+        gyro.RightBack.setPower(power);
 
         while((gyro.LeftFront.getCurrentPosition() < (Distance * COUNTS_PER_INCH))
                 && (gyro.RightFront.getCurrentPosition() < (Distance * COUNTS_PER_INCH))){}
