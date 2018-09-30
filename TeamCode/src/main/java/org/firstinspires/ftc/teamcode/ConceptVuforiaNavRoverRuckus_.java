@@ -251,14 +251,14 @@ public class ConceptVuforiaNavRoverRuckus_ extends LinearOpMode {
          * In this example, it is centered (left to right), but 110 mm forward of the middle of the robot, and 200 mm above ground level.
          */
 
-        final int CAMERA_FORWARD_DISPLACEMENT  = 159;   // eg: Camera is 110 mm in front of robot center
-        final int CAMERA_VERTICAL_DISPLACEMENT = 267;   // eg: Camera is 200 mm above ground
-        final int CAMERA_LEFT_DISPLACEMENT     = 165;     // eg: Camera is ON the robot's center line
+        final int CAMERA_FORWARD_DISPLACEMENT  = 235;   // eg: Camera is 110 mm in front of robot center
+        final int CAMERA_VERTICAL_DISPLACEMENT = 275;   // eg: Camera is 200 mm above ground
+        final int CAMERA_LEFT_DISPLACEMENT     = 190;   // eg: Camera is ON the robot's center line
 
         OpenGLMatrix phoneLocationOnRobot = OpenGLMatrix
                 .translation(CAMERA_FORWARD_DISPLACEMENT, CAMERA_LEFT_DISPLACEMENT, CAMERA_VERTICAL_DISPLACEMENT)
                 .multiplied(Orientation.getRotationMatrix(EXTRINSIC, YZX, DEGREES,
-                        CAMERA_CHOICE == FRONT ? 45 : -45, 0, 0));
+                        CAMERA_CHOICE == FRONT ? 90 : -90, 0, 0));
 
         /**  Let all the trackable listeners know where the phone is.  */
         for (VuforiaTrackable trackable : allTrackables)
@@ -302,9 +302,9 @@ public class ConceptVuforiaNavRoverRuckus_ extends LinearOpMode {
                 // express the rotation of the robot in degrees.
                 Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
                 telemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f", rotation.firstAngle, rotation.secondAngle, rotation.thirdAngle);
-                gridPos[0] = translation.get(0) / mmPerInch / 12;
-                gridPos[1] = translation.get(1) / mmPerInch / 12;
-                telemetry.addData("GridNav Pos", "{X, Y} = %.1f, %.1f", gridPos[0], gridPos[1], rotation.thirdAngle);
+                gridPos[0] = translation.get(0) / mmPerInch / 24;
+                gridPos[1] = translation.get(1) / mmPerInch / 24;
+                telemetry.addData("GridNav Pos", "{X, Y, Heading} = %.1f, %.1f, %.0f", gridPos[0], gridPos[1], rotation.thirdAngle);
 
             }
             else {
