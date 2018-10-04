@@ -14,6 +14,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 @Autonomous(name="Michael Gryo Testing 1", group="Exercises")
 //@Disabled
 public class MichaelGyroTurnTest extends LinearOpMode {
+
     DcMotor  LeftFront;
     DcMotor  LeftBack;
     DcMotor  RightFront;
@@ -28,7 +29,8 @@ public class MichaelGyroTurnTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
-
+        telemetry.addData("Telemetry", "run opMode start");
+        telemetry.update();
         LeftFront = hardwareMap.dcMotor.get("left_front");
         LeftBack =  hardwareMap.dcMotor.get("left_back");
 
@@ -36,6 +38,8 @@ public class MichaelGyroTurnTest extends LinearOpMode {
         RightBack  = hardwareMap.dcMotor.get("right_back");
         RightFront.setDirection(DcMotor.Direction.REVERSE);
         RightBack.setDirection(DcMotor.Direction.REVERSE);
+        telemetry.addData("Telemtry", "hardware map set complete");
+        telemetry.update();
 
         // get a reference to REV Touch sensor.
 //        touch = hardwareMap.digitalChannel.get("touch_sensor");
@@ -45,7 +49,7 @@ public class MichaelGyroTurnTest extends LinearOpMode {
         parameters.mode = BNO055IMU.SensorMode.IMU;
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters.loggingEnabled = false;
+        parameters.loggingEnabled = true;
 
         // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
         // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
@@ -70,6 +74,28 @@ public class MichaelGyroTurnTest extends LinearOpMode {
         // wait for start button.
 
         waitForStart();
+
+        LibraryGridNavigation gridNav = null;
+        try{
+            gridNav = new LibraryGridNavigation();
+        } catch (Exception e) {
+            telemetry.addData("GridNavException: ", e.getStackTrace());
+            telemetry.update();
+        }
+
+        telemetry.addData("Telemtry", "gridNav init complete");
+        telemetry.update();
+
+
+        gridNav.setGridPosition(0d,0d,0f);
+        telemetry.addData("Telemtry", "gridNav SetPosition complete");
+        telemetry.update();
+
+
+        gridNav.driveToPosition(2d,2d, 1d);
+        telemetry.addData("Telemtry", "gridNav GridNavImplemented complete");
+        telemetry.update();
+
 
         GyroTurn(90);
         while (opModeIsActive()) {

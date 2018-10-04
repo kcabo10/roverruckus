@@ -10,9 +10,10 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
-@Autonomous(name="Michael Gryo Testing 4", group="Exercises")
+//@Autonomous(name="Michael Gryo Testing 4", group="Exercises")
 //@Disabled
-public class MichaelGyroTurnTest4 extends LinearOpMode {
+
+public class LibraryGyro extends LinearOpMode {
     DcMotor LeftFront;
     DcMotor LeftBack;
     DcMotor RightFront;
@@ -30,11 +31,7 @@ public class MichaelGyroTurnTest4 extends LinearOpMode {
     double errSum, lastErr;
     double kp, ki, kd;
 
-
-    // called when init button is  pressed.
-    @Override
-    public void runOpMode() throws InterruptedException {
-
+    public LibraryGyro(){
 
         LeftFront = hardwareMap.dcMotor.get("left_front");
         LeftBack = hardwareMap.dcMotor.get("left_back");
@@ -69,6 +66,45 @@ public class MichaelGyroTurnTest4 extends LinearOpMode {
             sleep(50);
             idle();
         }
+    }
+
+    // called when init button is  pressed.
+//    @Override
+    public void runOpMode() throws InterruptedException {
+//
+//        LeftFront = hardwareMap.dcMotor.get("left_front");
+//        LeftBack = hardwareMap.dcMotor.get("left_back");
+//
+//        RightFront = hardwareMap.dcMotor.get("right_front");
+//        RightBack = hardwareMap.dcMotor.get("right_back");
+//        RightFront.setDirection(DcMotor.Direction.REVERSE);
+//        RightBack.setDirection(DcMotor.Direction.REVERSE);
+//
+//        // get a reference to REV Touch sensor.
+////        touch = hardwareMap.digitalChannel.get("touch_sensor");
+//
+//        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+//
+//        parameters.mode = BNO055IMU.SensorMode.IMU;
+//        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+//        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+//        parameters.loggingEnabled = false;
+//
+//        // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
+//        // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
+//        // and named "imu".
+//        imu = hardwareMap.get(BNO055IMU.class, "imu");
+//
+//        imu.initialize(parameters);
+//
+//        telemetry.addData("Mode", "calibrating...");
+//        telemetry.update();
+//
+//        // make sure the imu gyro is calibrated before continuing.
+//        while (!isStopRequested() && !imu.isGyroCalibrated()) {
+//            sleep(50);
+//            idle();
+//        }
 
         telemetry.addData("Mode", "waiting for start");
         telemetry.addData("imu calib status", imu.getCalibrationStatus().toString());
@@ -155,98 +191,7 @@ public class MichaelGyroTurnTest4 extends LinearOpMode {
         return correction;
     }
 
-    /**
-     * Rotate left or right the number of degrees. Does not support turning more than 180 degrees.
-     *
-     * @param degrees Degrees to turn, + is left - is right
-     */
-    private void GyroTurn(int degrees) {
 
-        resetAngle();
-
-        double realign;
-
-        if (degrees < 0) {
-            //rotates left
-
-            while (opModeIsActive() && getAngle() > degrees) {
-
-                double Proportional = (degrees - getAngle()) / degrees;
-                speed = Math.round(Proportional);
-                telemetry.addData("Speed", speed);
-
-
-            }
-
-            telemetry.addData("Telemetry 3", "Active");
-
-            LeftFront.setPower(0);
-            LeftBack.setPower(0);
-            RightFront.setPower(0);
-            RightBack.setPower(0);
-            // set leftPower to 0;
-            // set rightPower to 0;
-
-            realign = degrees - getAngle();
-
-            while (opModeIsActive() && realign > 0) {
-
-                LeftFront.setPower(.1);
-                LeftBack.setPower(.1);
-                RightFront.setPower(-.1);
-                RightBack.setPower(-.1);
-                // set leftPower to .1
-                // set rightPower to -.1
-            }
-        } else if (degrees > 0) {
-            //rotates right
-
-            while (opModeIsActive() && getAngle() < degrees) {
-
-                double Proportional = (degrees - getAngle()) / degrees;
-                speed = Math.round(Proportional * 100.0) / 10.0;
-
-                telemetry.addData("Telemetry 4", "Active");
-
-                LeftFront.setPower(-speed);
-                LeftBack.setPower(-speed);
-                RightFront.setPower(speed);
-                RightBack.setPower(speed);
-                // set leftPower to speed;
-                // set rightPower to -speed;
-
-                telemetry.addData("Telemetry 5", "Active");
-            }
-
-
-            telemetry.addData("Telemetry 6", "Active");
-
-            LeftFront.setPower(0);
-            LeftBack.setPower(0);
-            RightFront.setPower(0);
-            RightBack.setPower(0);
-            // set leftPower to 0;
-            // set rightPower to 0;
-
-            sleep(1500);
-
-            realign = degrees - getAngle();
-
-            while (opModeIsActive() && realign > 0) {
-
-                LeftFront.setPower(-.1);
-                LeftBack.setPower(-.1);
-                RightFront.setPower(.1);
-                RightBack.setPower(.1);
-                // set leftPower to -.1
-                // set rightPower to .1
-
-            }
-        } else return;
-
-        resetAngle();
-
-    }
     public void ComputePID() {
         long now = System.currentTimeMillis();
         double timeChange = (double) (now - lastTime);
