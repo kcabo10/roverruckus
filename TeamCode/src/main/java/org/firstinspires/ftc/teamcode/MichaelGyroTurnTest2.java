@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
@@ -13,6 +14,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 @Autonomous(name="Michael Gryo Testing 2", group="Exercises")
 //@Disabled
 public class MichaelGyroTurnTest2 extends LinearOpMode {
+
+    HardwarePushbot robot   = new HardwarePushbot();
     DcMotor  LeftFront;
     DcMotor  LeftBack;
     DcMotor  RightFront;
@@ -27,7 +30,7 @@ public class MichaelGyroTurnTest2 extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
-
+        robot.init(hardwareMap);
         LeftFront = hardwareMap.dcMotor.get("left_front");
         LeftBack =  hardwareMap.dcMotor.get("left_back");
 

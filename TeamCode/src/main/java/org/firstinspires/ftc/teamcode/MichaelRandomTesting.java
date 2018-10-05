@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 
+import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
@@ -15,8 +16,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
 @Autonomous(name="Michael's Test Program", group="Exercises")
 //@Disabled
-public class MichaelRandomTesting extends LinearOpMode
-{
+public class MichaelRandomTesting extends LinearOpMode {
+
+    HardwarePushbot robot = new HardwarePushbot();
     DcMotor                 leftMotor;
     DcMotor                 rightMotor;
     //    DigitalChannel          touch;
@@ -30,6 +32,7 @@ public class MichaelRandomTesting extends LinearOpMode
     @Override
     public void runOpMode() throws InterruptedException
     {
+        robot.init(hardwareMap);
         leftMotor = hardwareMap.dcMotor.get("left_motor");
 
         rightMotor = hardwareMap.dcMotor.get("right_motor");
