@@ -24,6 +24,7 @@ public class MichaelGyroTurnTest extends LinearOpMode {
     double globalAngle, power = .30, correction;
     double angle_variable;
     boolean aButton, bButton, touched;
+    LibraryGridNavigation gridNav = new LibraryGridNavigation();
 
     // called when init button is  pressed.
     @Override
@@ -75,13 +76,14 @@ public class MichaelGyroTurnTest extends LinearOpMode {
 
         waitForStart();
 
-        LibraryGridNavigation gridNav = null;
+        /*
         try{
             gridNav = new LibraryGridNavigation();
         } catch (Exception e) {
             telemetry.addData("GridNavException: ", e.getStackTrace());
             telemetry.update();
         }
+        */
 
         telemetry.addData("Telemtry", "gridNav init complete");
         telemetry.update();
