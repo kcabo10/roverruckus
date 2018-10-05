@@ -14,6 +14,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 //@Disabled
 
 public class LibraryGyro extends LinearOpMode {
+    HardwareBeep robot = new HardwareBeep();
     DcMotor LeftFront;
     DcMotor LeftBack;
     DcMotor RightFront;

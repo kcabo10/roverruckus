@@ -4,22 +4,27 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 /**
  * Created by vasudevfamily on 8/31/17.
+ *
+ * This library contains the grid navigation program, which utilizes a virtual grid
+ * with origin (0, 0) starting the center of the field.  The angle fo 0 degrees
+ * begins on the positive X axis and moves counterclockwise
  */
 
 public class LibraryGridNavigation {
 
+    HardwareBeep robot = new HardwareBeep();
     LibraryGyro gyro = new LibraryGyro();
 
 
-    double xOrigin;
+    double xOrigin = 0;
     //X1 is starting X coordinate
     double xDestination;
     //X2 is X destination
-    double yOrigin;
+    double yOrigin = 0;
     //Y1 is starting Y coordinate
     double yDestination;
     //Y2 is Y destination
-    float StartingAngle;
+    float StartingAngle = 0;
     //X1 is starting X coordinate
     //Y1 is starting Y coordinate
     double Distance;
@@ -88,38 +93,38 @@ public class LibraryGridNavigation {
         gyro.turnGyro(turnAngle);
 
         double COUNTS_PER_INCH = 1120;
-        gyro.LeftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        gyro.LeftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        gyro.RightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        gyro.RightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        gyro.LeftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        gyro.LeftBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        gyro.RightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        gyro.RightBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.leftBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.rightBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        gyro.LeftFront.setTargetPosition((int)(Distance * COUNTS_PER_INCH));
-        gyro.LeftBack.setTargetPosition((int)(Distance * COUNTS_PER_INCH));
-        gyro.RightFront.setTargetPosition((int)(Distance * COUNTS_PER_INCH));
-        gyro.RightBack.setTargetPosition((int)(Distance * COUNTS_PER_INCH));
+        robot.leftFront.setTargetPosition((int)(Distance * COUNTS_PER_INCH));
+        robot.leftBack.setTargetPosition((int)(Distance * COUNTS_PER_INCH));
+        robot.rightFront.setTargetPosition((int)(Distance * COUNTS_PER_INCH));
+        robot.rightBack.setTargetPosition((int)(Distance * COUNTS_PER_INCH));
 
-        gyro.LeftFront.setPower(power);
-        gyro.LeftBack.setPower(power);
-        gyro.RightFront.setPower(power);
-        gyro.RightBack.setPower(power);
+        robot.leftFront.setPower(power);
+        robot.leftBack.setPower(power);
+        robot.rightFront.setPower(power);
+        robot.rightBack.setPower(power);
 
-        while((gyro.LeftFront.getCurrentPosition() < (Distance * COUNTS_PER_INCH))
-                && (gyro.RightFront.getCurrentPosition() < (Distance * COUNTS_PER_INCH))){}
+        while((robot.leftFront.getCurrentPosition() < (Distance * COUNTS_PER_INCH))
+                && (robot.rightFront.getCurrentPosition() < (Distance * COUNTS_PER_INCH))){}
 
-        gyro.LeftFront.setPower(0);
-        gyro.LeftBack.setPower(0);
-        gyro.RightFront.setPower(0);
-        gyro.RightBack.setPower(0);
+        robot.leftFront.setPower(0);
+        robot.leftBack.setPower(0);
+        robot.rightFront.setPower(0);
+        robot.rightBack.setPower(0);
 
-        gyro.LeftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        gyro.LeftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        gyro.RightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        gyro.RightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
     }
 
