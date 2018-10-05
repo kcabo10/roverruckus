@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
+import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
@@ -15,6 +16,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 //@Disabled
 public class MichaelGyroTurnTest extends LinearOpMode {
 
+    HardwarePushbot robot   = new HardwarePushbot();
     DcMotor  LeftFront;
     DcMotor  LeftBack;
     DcMotor  RightFront;
@@ -29,13 +31,14 @@ public class MichaelGyroTurnTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
+        robot.init(hardwareMap);
         telemetry.addData("Telemetry", "run opMode start");
         telemetry.update();
-        LeftFront = hardwareMap.dcMotor.get("left_front");
-        LeftBack =  hardwareMap.dcMotor.get("left_back");
+        LeftFront = hardwareMap.get(DcMotor.class, "left_front");
+        LeftBack =  hardwareMap.get(DcMotor.class, "left_back");
 
-        RightFront = hardwareMap.dcMotor.get("right_front");
-        RightBack  = hardwareMap.dcMotor.get("right_back");
+        RightFront = hardwareMap.get(DcMotor.class, "right_front");
+        RightBack  = hardwareMap.get(DcMotor.class, "right_back");
         RightFront.setDirection(DcMotor.Direction.REVERSE);
         RightBack.setDirection(DcMotor.Direction.REVERSE);
         telemetry.addData("Telemtry", "hardware map set complete");
