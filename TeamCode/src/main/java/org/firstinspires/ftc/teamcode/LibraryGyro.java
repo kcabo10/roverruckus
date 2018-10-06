@@ -4,6 +4,7 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.Hardware;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
@@ -15,10 +16,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 public class LibraryGyro extends LinearOpMode {
     HardwareBeep robot = new HardwareBeep();
-    DcMotor LeftFront;
-    DcMotor LeftBack;
-    DcMotor RightFront;
-    DcMotor RightBack;
+
     BNO055IMU imu;
     Orientation lastAngles = new Orientation();
     double globalAngle, power = .30, correction;
@@ -33,15 +31,6 @@ public class LibraryGyro extends LinearOpMode {
     double kp, ki, kd;
 
     public LibraryGyro(){
-
-        LeftFront = hardwareMap.dcMotor.get("left_front");
-        LeftBack = hardwareMap.dcMotor.get("left_back");
-
-        RightFront = hardwareMap.dcMotor.get("right_front");
-        RightBack = hardwareMap.dcMotor.get("right_back");
-        RightFront.setDirection(DcMotor.Direction.REVERSE);
-        RightBack.setDirection(DcMotor.Direction.REVERSE);
-
         // get a reference to REV Touch sensor.
 //        touch = hardwareMap.digitalChannel.get("touch_sensor");
 
@@ -72,40 +61,6 @@ public class LibraryGyro extends LinearOpMode {
     // called when init button is  pressed.
 //    @Override
     public void runOpMode() throws InterruptedException {
-//
-//        LeftFront = hardwareMap.dcMotor.get("left_front");
-//        LeftBack = hardwareMap.dcMotor.get("left_back");
-//
-//        RightFront = hardwareMap.dcMotor.get("right_front");
-//        RightBack = hardwareMap.dcMotor.get("right_back");
-//        RightFront.setDirection(DcMotor.Direction.REVERSE);
-//        RightBack.setDirection(DcMotor.Direction.REVERSE);
-//
-//        // get a reference to REV Touch sensor.
-////        touch = hardwareMap.digitalChannel.get("touch_sensor");
-//
-//        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-//
-//        parameters.mode = BNO055IMU.SensorMode.IMU;
-//        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-//        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-//        parameters.loggingEnabled = false;
-//
-//        // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
-//        // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
-//        // and named "imu".
-//        imu = hardwareMap.get(BNO055IMU.class, "imu");
-//
-//        imu.initialize(parameters);
-//
-//        telemetry.addData("Mode", "calibrating...");
-//        telemetry.update();
-//
-//        // make sure the imu gyro is calibrated before continuing.
-//        while (!isStopRequested() && !imu.isGyroCalibrated()) {
-//            sleep(50);
-//            idle();
-//        }
 
         telemetry.addData("Mode", "waiting for start");
         telemetry.addData("imu calib status", imu.getCalibrationStatus().toString());
@@ -228,10 +183,10 @@ public class LibraryGyro extends LinearOpMode {
         long startTime = 0;
 //        imu = (BNO055IMU) hardwareMap.gyroSensor.get("imu");
         resetAngle();
-        LeftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        LeftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        RightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        RightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.rightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
 //        telemetry.addData("Current Pos", currentHeading);
@@ -254,10 +209,10 @@ public class LibraryGyro extends LinearOpMode {
         do {
 
             ComputePID();
-            LeftFront.setPower(-Output);
-            LeftBack.setPower(-Output);
-            RightFront.setPower(Output);
-            RightBack.setPower(Output);
+            robot.leftFront.setPower(-Output);
+            robot.leftBack.setPower(-Output);
+            robot.rightFront.setPower(Output);
+            robot.rightBack.setPower(Output);
             timer++;
             //sleep(1000);
             Input = getAngle();
@@ -279,10 +234,10 @@ public class LibraryGyro extends LinearOpMode {
         updateTelemetry(telemetry);
 
 
-        LeftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        LeftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        RightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        RightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
 //        sleep(10000);
 

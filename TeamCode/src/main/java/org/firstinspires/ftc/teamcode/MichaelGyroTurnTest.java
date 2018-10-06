@@ -16,7 +16,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 //@Disabled
 public class MichaelGyroTurnTest extends LinearOpMode {
 
-    HardwarePushbot robot   = new HardwarePushbot();
+    HardwareBeep robot   = new HardwareBeep();
     DcMotor  LeftFront;
     DcMotor  LeftBack;
     DcMotor  RightFront;
