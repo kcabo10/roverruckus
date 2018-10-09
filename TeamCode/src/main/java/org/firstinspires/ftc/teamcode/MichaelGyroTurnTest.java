@@ -32,6 +32,8 @@ public class MichaelGyroTurnTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
+        telemetry.addData("Telemetry", "robot initializing");
+        telemetry.update();
         robot.init(hardwareMap);
         telemetry.addData("Telemetry", "run opMode start");
         telemetry.update();
