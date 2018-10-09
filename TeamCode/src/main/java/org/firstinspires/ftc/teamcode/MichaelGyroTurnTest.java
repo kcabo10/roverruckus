@@ -17,7 +17,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 public class MichaelGyroTurnTest extends LinearOpMode {
 
     HardwareBeep robot   = new HardwareBeep();
-    BNO055IMU imu;
     Orientation lastAngles = new Orientation();
     double globalAngle, power = .30, correction;
     double angle_variable;
@@ -30,6 +29,7 @@ public class MichaelGyroTurnTest extends LinearOpMode {
 
         telemetry.addData("Telemetry", "robot initializing");
         telemetry.update();
+        sleep(2000);
         robot.init(hardwareMap);
         telemetry.addData("Telemetry", "run opMode start");
         telemetry.update();
@@ -47,21 +47,20 @@ public class MichaelGyroTurnTest extends LinearOpMode {
         // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
         // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
         // and named "imu".
-        imu = hardwareMap.get(BNO055IMU.class, "imu");
 
-        imu.initialize(parameters);
+        robot.imu.initialize(parameters);
 
         telemetry.addData("Mode", "calibrating...");
         telemetry.update();
 
         // make sure the imu gyro is calibrated before continuing.
-        while (!isStopRequested() && !imu.isGyroCalibrated()) {
+        while (!isStopRequested() && !robot.imu.isGyroCalibrated()) {
             sleep(50);
             idle();
         }
 
         telemetry.addData("Mode", "waiting for start");
-        telemetry.addData("imu calib status", imu.getCalibrationStatus().toString());
+        telemetry.addData("imu calib status", robot.imu.getCalibrationStatus().toString());
         telemetry.update();
 
         // wait for start button.
@@ -109,7 +108,7 @@ public class MichaelGyroTurnTest extends LinearOpMode {
      * Resets the cumulative angle tracking to zero.
      */
     private void resetAngle() {
-        lastAngles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        lastAngles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
         globalAngle = 0;
     }
@@ -125,7 +124,7 @@ public class MichaelGyroTurnTest extends LinearOpMode {
         // returned as 0 to +180 or 0 to -180 rolling back to -179 or +179 when rotation passes
         // 180 degrees. We detect this transition and track the total cumulative angle of rotation.
 
-        Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        Orientation angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
         double deltaAngle = angles.firstAngle - lastAngles.firstAngle;
 
