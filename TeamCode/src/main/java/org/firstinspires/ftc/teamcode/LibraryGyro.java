@@ -17,7 +17,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 public class LibraryGyro extends LinearOpMode {
     HardwareBeep robot = new HardwareBeep();
 
-    BNO055IMU imu;
     Orientation lastAngles = new Orientation();
     double globalAngle, power = .30, correction;
     double angle_variable;
@@ -30,40 +29,42 @@ public class LibraryGyro extends LinearOpMode {
     double errSum, lastErr;
     double kp, ki, kd;
 
-    public LibraryGyro(){
-        // get a reference to REV Touch sensor.
-//        touch = hardwareMap.digitalChannel.get("touch_sensor");
+//    public LibraryGyro(){
 
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+//        robot.init(hardwareMap);
+//        // get a reference to REV Touch sensor.
+////        touch = hardwareMap.digitalChannel.get("touch_sensor");
+//
+//        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+//
+//        parameters.mode = BNO055IMU.SensorMode.IMU;
+//        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+//        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+//        parameters.loggingEnabled = false;
 
-        parameters.mode = BNO055IMU.SensorMode.IMU;
-        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters.loggingEnabled = false;
+//        // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
+//        // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
+//        // and named "imu".
+//        imu = hardwareMap.get(BNO055IMU.class, "imu");
 
-        // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
-        // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
-        // and named "imu".
-        imu = hardwareMap.get(BNO055IMU.class, "imu");
+//        robot.imu.initialize(parameters);
 
-        imu.initialize(parameters);
-
-        telemetry.addData("Mode", "calibrating...");
-        telemetry.update();
-
-        // make sure the imu gyro is calibrated before continuing.
-        while (!isStopRequested() && !imu.isGyroCalibrated()) {
-            sleep(50);
-            idle();
-        }
-    }
+//        telemetry.addData("Mode", "calibrating...");
+//        telemetry.update();
+//
+//        // make sure the imu gyro is calibrated before continuing.
+//        while (!isStopRequested() && !robot.imu.isGyroCalibrated()) {
+//            sleep(50);
+//            idle();
+//        }
+//    }
 
     // called when init button is  pressed.
 //    @Override
     public void runOpMode() throws InterruptedException {
 
         telemetry.addData("Mode", "waiting for start");
-        telemetry.addData("imu calib status", imu.getCalibrationStatus().toString());
+        telemetry.addData("imu calib status", robot.imu.getCalibrationStatus().toString());
         telemetry.update();
 
         // wait for start button.
@@ -92,7 +93,7 @@ public class LibraryGyro extends LinearOpMode {
      * Resets the cumulative angle tracking to zero.
      */
     private void resetAngle() {
-        lastAngles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        lastAngles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
         globalAngle = 0;
     }
@@ -108,7 +109,7 @@ public class LibraryGyro extends LinearOpMode {
         // returned as 0 to +180 or 0 to -180 rolling back to -179 or +179 when rotation passes
         // 180 degrees. We detect this transition and track the total cumulative angle of rotation.
 
-        Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        Orientation angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
         double deltaAngle = angles.firstAngle - lastAngles.firstAngle;
 
