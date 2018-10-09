@@ -16,7 +16,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 //@Disabled
 public class MichaelGyroTurnTest extends LinearOpMode {
 
-    HardwarePushbot robot   = new HardwarePushbot();
+    HardwareBeep robot   = new HardwareBeep();
     DcMotor  LeftFront;
     DcMotor  LeftBack;
     DcMotor  RightFront;
@@ -32,6 +32,8 @@ public class MichaelGyroTurnTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
+        telemetry.addData("Telemetry", "robot initializing");
+        telemetry.update();
         robot.init(hardwareMap);
         telemetry.addData("Telemetry", "run opMode start");
         telemetry.update();
