@@ -41,17 +41,15 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.DEGREES;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.XYZ;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.YZX;
-import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.ZYX;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.EXTRINSIC;
-import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.INTRINSIC;
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.FRONT;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -70,7 +68,6 @@ import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocaliz
  *
  * From the Audience perspective, the Red Alliance station is on the right and the
  * Blue Alliance Station is on the left.
-
  * The four vision targets are located in the center of each of the perimeter walls with
  * the images facing inwards towards the robots:
  *     - BlueRover is the Mars Rover image target on the wall closest to the blue alliance
@@ -92,8 +89,8 @@ import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocaliz
  * is explained below.
  */
 
-@TeleOp(name="Concept: Vuforia Rover Nav with Grid Pos", group ="Concept")
-public class ConceptVuforiaNavRoverRuckusWithGridPosConversion extends LinearOpMode {
+@TeleOp(name="New Concept: Vuforia Rover Nav", group ="Concept")
+public class NewConceptVuforiaNavRoverRuckus extends LinearOpMode {
 
     /*
      * IMPORTANT: You need to obtain your own license key to use Vuforia. The string below with which
@@ -144,8 +141,6 @@ public class ConceptVuforiaNavRoverRuckusWithGridPosConversion extends LinearOpM
 
         //  Instantiate the Vuforia engine
         vuforia = ClassFactory.getInstance().createVuforia(parameters);
-        float gridPos[];
-        gridPos = new float[2];
 
         // Load the data sets that for the trackable objects. These particular data
         // sets are stored in the 'assets' part of our application.
@@ -232,7 +227,7 @@ public class ConceptVuforiaNavRoverRuckusWithGridPosConversion extends LinearOpM
         /**
          * Create a transformation matrix describing where the phone is on the robot.
          *
-         * The coordinate fra me for the robot looks the same as the field.
+         * The coordinate frame for the robot looks the same as the field.
          * The robot's "forward" direction is facing out along X axis, with the LEFT side facing out along the Y axis.
          * Z is UP on the robot.  This equates to a bearing angle of Zero degrees.
          *
@@ -252,12 +247,12 @@ public class ConceptVuforiaNavRoverRuckusWithGridPosConversion extends LinearOpM
          * In this example, it is centered (left to right), but 110 mm forward of the middle of the robot, and 200 mm above ground level.
          */
 
-        final int CAMERA_FORWARD_DISPLACEMENT  = 165;   // eg: Camera is 110 mm in front of robot center
-        final int CAMERA_VERTICAL_DISPLACEMENT = 279;   // eg: Camera is 200 mm above ground
-        final int CAMERA_LEFT_DISPLACEMENT     = 191;   // eg: Camera is ON the robot's center line
+        final int CAMERA_FORWARD_DISPLACEMENT  = 162;   // eg: Camera is 110 mm in front of robot center
+        final int CAMERA_VERTICAL_DISPLACEMENT = 267;   // eg: Camera is 200 mm above ground
+        final int CAMERA_LEFT_DISPLACEMENT     = 195;   // eg: Camera is ON the robot's center line
 
         OpenGLMatrix phoneLocationOnRobot = OpenGLMatrix
-                .translation( CAMERA_LEFT_DISPLACEMENT, CAMERA_VERTICAL_DISPLACEMENT, CAMERA_FORWARD_DISPLACEMENT)
+                .translation(CAMERA_FORWARD_DISPLACEMENT, CAMERA_LEFT_DISPLACEMENT, CAMERA_VERTICAL_DISPLACEMENT)
                 .multiplied(Orientation.getRotationMatrix(EXTRINSIC, YZX, DEGREES,
                         CAMERA_CHOICE == FRONT ? 90 : -90, 0, 0));
 
@@ -303,10 +298,6 @@ public class ConceptVuforiaNavRoverRuckusWithGridPosConversion extends LinearOpM
                 // express the rotation of the robot in degrees.
                 Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
                 telemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f", rotation.firstAngle, rotation.secondAngle, rotation.thirdAngle);
-                gridPos[0] = translation.get(0) / mmPerInch / 24;
-                gridPos[1] = translation.get(1) / mmPerInch / 24;
-                telemetry.addData("GridNav Pos", "{X, Y, Heading} = %.1f, %.1f, %.0f", gridPos[0], gridPos[1], rotation.thirdAngle);
-
             }
             else {
                 telemetry.addData("Visible Target", "none");
