@@ -17,10 +17,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 public class MichaelGyroTurnTest extends LinearOpMode {
 
     HardwareBeep robot   = new HardwareBeep();
-    DcMotor  LeftFront;
-    DcMotor  LeftBack;
-    DcMotor  RightFront;
-    DcMotor  RightBack;
     BNO055IMU imu;
     Orientation lastAngles = new Orientation();
     double globalAngle, power = .30, correction;
@@ -36,15 +32,6 @@ public class MichaelGyroTurnTest extends LinearOpMode {
         telemetry.update();
         robot.init(hardwareMap);
         telemetry.addData("Telemetry", "run opMode start");
-        telemetry.update();
-        LeftFront = hardwareMap.get(DcMotor.class, "left_front");
-        LeftBack =  hardwareMap.get(DcMotor.class, "left_back");
-
-        RightFront = hardwareMap.get(DcMotor.class, "right_front");
-        RightBack  = hardwareMap.get(DcMotor.class, "right_back");
-        RightFront.setDirection(DcMotor.Direction.REVERSE);
-        RightBack.setDirection(DcMotor.Direction.REVERSE);
-        telemetry.addData("Telemtry", "hardware map set complete");
         telemetry.update();
 
         // get a reference to REV Touch sensor.
@@ -195,10 +182,10 @@ public class MichaelGyroTurnTest extends LinearOpMode {
                 double speed = Math.round(Proportional);
 
                 telemetry.addData("Telemetry 1", "Active");
-                LeftFront.setPower(-speed);
-                LeftBack.setPower(-speed);
-                RightFront.setPower(speed);
-                RightBack.setPower(speed);
+                robot.leftFront.setPower(-speed);
+                robot.leftBack.setPower(-speed);
+                robot.rightFront.setPower(speed);
+                robot.rightBack.setPower(speed);
                 // set leftPower to -speed;
                 // set rightPower to speed;
                 telemetry.addData("Telemetry 2", "Active");
@@ -208,10 +195,10 @@ public class MichaelGyroTurnTest extends LinearOpMode {
 
             telemetry.addData("Telemetry 3", "Active");
 
-            LeftFront.setPower(0);
-            LeftBack.setPower(0);
-            RightFront.setPower(0);
-            RightBack.setPower(0);
+            robot.leftFront.setPower(0);
+            robot.leftBack.setPower(0);
+            robot.rightFront.setPower(0);
+            robot.rightBack.setPower(0);
             // set leftPower to 0;
             // set rightPower to 0;
 
@@ -219,10 +206,10 @@ public class MichaelGyroTurnTest extends LinearOpMode {
 
             while (opModeIsActive() && realign > 0){
 
-                LeftFront.setPower(.1);
-                LeftBack.setPower(.1);
-                RightFront.setPower(-.1);
-                RightBack.setPower(-.1);
+                robot.leftFront.setPower(.1);
+                robot.leftBack.setPower(.1);
+                robot.rightFront.setPower(-.1);
+                robot.rightBack.setPower(-.1);
                 // set leftPower to .1
                 // set rightPower to -.1
             }
@@ -237,10 +224,10 @@ public class MichaelGyroTurnTest extends LinearOpMode {
 
                 telemetry.addData("Telemetry 4", "Active");
 
-                LeftFront.setPower(speed);
-                LeftBack.setPower(speed);
-                RightFront.setPower(speed);
-                RightBack.setPower(speed);
+                robot.leftFront.setPower(speed);
+                robot.leftBack.setPower(speed);
+                robot.rightFront.setPower(speed);
+                robot.rightBack.setPower(speed);
                 // set leftPower to speed;
                 // set rightPower to -speed;
                 telemetry.addData("Telemetry 5", "Active");
@@ -250,10 +237,10 @@ public class MichaelGyroTurnTest extends LinearOpMode {
 
             telemetry.addData("Telemetry 6", "Active");
 
-            LeftFront.setPower(0);
-            LeftBack.setPower(0);
-            RightFront.setPower(0);
-            RightBack.setPower(0);
+            robot.leftFront.setPower(0);
+            robot.leftBack.setPower(0);
+            robot.rightFront.setPower(0);
+            robot.rightBack.setPower(0);
             // set leftPower to 0;
             // set rightPower to 0;
 
@@ -261,10 +248,10 @@ public class MichaelGyroTurnTest extends LinearOpMode {
 
             while (opModeIsActive() && realign > 0){
 
-                LeftFront.setPower(-.1);
-                LeftBack.setPower(-.1);
-                RightFront.setPower(.1);
-                RightBack.setPower(.1);
+                robot.leftFront.setPower(-.1);
+                robot.leftBack.setPower(-.1);
+                robot.rightFront.setPower(.1);
+                robot.rightBack.setPower(.1);
                 // set leftPower to -.1
                 // set rightPower to .1
 
