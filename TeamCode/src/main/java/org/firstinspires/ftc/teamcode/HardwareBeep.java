@@ -14,7 +14,7 @@ public class HardwareBeep {
     public DcMotor rightFront = null;
     public DcMotor rightBack = null;
 
-    BNO055IMU imu;
+    public BNO055IMU imu = null;
 
 
     /* local OpMode members. */
