@@ -142,6 +142,9 @@ public class NewConceptVuforiaNavRoverRuckus extends LinearOpMode {
         //  Instantiate the Vuforia engine
         vuforia = ClassFactory.getInstance().createVuforia(parameters);
 
+        float gridPos[];
+        gridPos = new float[2];
+
         // Load the data sets that for the trackable objects. These particular data
         // sets are stored in the 'assets' part of our application.
         VuforiaTrackables targetsRoverRuckus = this.vuforia.loadTrackablesFromAsset("RoverRuckus");
@@ -247,8 +250,8 @@ public class NewConceptVuforiaNavRoverRuckus extends LinearOpMode {
          * In this example, it is centered (left to right), but 110 mm forward of the middle of the robot, and 200 mm above ground level.
          */
 
-        final int CAMERA_FORWARD_DISPLACEMENT  = 162;   // eg: Camera is 110 mm in front of robot center
-        final int CAMERA_VERTICAL_DISPLACEMENT = 267;   // eg: Camera is 200 mm above ground
+        final int CAMERA_FORWARD_DISPLACEMENT  = 160;   // eg: Camera is 110 mm in front of robot center
+        final int CAMERA_VERTICAL_DISPLACEMENT = 273;   // eg: Camera is 200 mm above ground
         final int CAMERA_LEFT_DISPLACEMENT     = 195;   // eg: Camera is ON the robot's center line
 
         OpenGLMatrix phoneLocationOnRobot = OpenGLMatrix
@@ -290,6 +293,7 @@ public class NewConceptVuforiaNavRoverRuckus extends LinearOpMode {
 
             // Provide feedback as to where the robot is located (if we know).
             if (targetVisible) {
+
                 // express position (translation) of robot in inches.
                 VectorF translation = lastLocation.getTranslation();
                 telemetry.addData("Pos (in)", "{X, Y, Z} = %.1f, %.1f, %.1f",
@@ -298,6 +302,10 @@ public class NewConceptVuforiaNavRoverRuckus extends LinearOpMode {
                 // express the rotation of the robot in degrees.
                 Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
                 telemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f", rotation.firstAngle, rotation.secondAngle, rotation.thirdAngle);
+                gridPos[0] = translation.get(0) / mmPerInch / 24;
+                gridPos[1] = translation.get(1) / mmPerInch / 24;
+                telemetry.addData("GridNav Pos", "{X, Y, Heading} = %.1f, %.1f, %.0f", gridPos[0], gridPos[1], rotation.thirdAngle);
+
             }
             else {
                 telemetry.addData("Visible Target", "none");
