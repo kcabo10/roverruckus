@@ -63,19 +63,19 @@ public class LibraryGyro extends LinearOpMode {
 //    @Override
     public void runOpMode() throws InterruptedException {
 
-        telemetry.addData("Mode", "waiting for start");
-        telemetry.addData("imu calib status", robot.imu.getCalibrationStatus().toString());
-        telemetry.update();
+            telemetry.addData("Mode", "waiting for start");
+            telemetry.addData("imu calib status", robot.imu.getCalibrationStatus().toString());
+            telemetry.update();
 
-        // wait for start button.
+            // wait for start button.
 
-        waitForStart();
+            waitForStart();
 
-        turnGyro(90);
+            turnGyro(90);
 
-        sleep(1000);
+            sleep(1000);
 
-        turnGyro(-90);
+            turnGyro(-90);
 
         while (opModeIsActive()) {
 
