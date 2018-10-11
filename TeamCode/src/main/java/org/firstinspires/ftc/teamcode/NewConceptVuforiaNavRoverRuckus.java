@@ -311,6 +311,7 @@ public class NewConceptVuforiaNavRoverRuckus extends LinearOpMode {
                 telemetry.addData("Visible Target", "none");
             }
             telemetry.update();
+            sleep(5000);
         }
     }
 }
