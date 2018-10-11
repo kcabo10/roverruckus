@@ -13,7 +13,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 public class LibraryGridNavigation {
 
     HardwareBeep robot = new HardwareBeep();
-    LibraryGyro gyro = new LibraryGyro();
+    LibraryGyro gyro = new LibraryGyro(robot);
 
 
     double xOrigin = 0;

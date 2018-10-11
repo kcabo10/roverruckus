@@ -15,8 +15,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 //@Disabled
 
 public class LibraryGyro extends LinearOpMode {
-    HardwareBeep robot = new HardwareBeep();
 
+    HardwareBeep robot = null;
     Orientation lastAngles = new Orientation();
     double globalAngle, power = .30, correction;
     double angle_variable;
@@ -29,9 +29,12 @@ public class LibraryGyro extends LinearOpMode {
     double errSum, lastErr;
     double kp, ki, kd;
 
-//    public LibraryGyro(){
 
+    public LibraryGyro(HardwareBeep self){
+
+        robot = self;
 //        robot.init(hardwareMap);
+
 //        // get a reference to REV Touch sensor.
 ////        touch = hardwareMap.digitalChannel.get("touch_sensor");
 //
@@ -57,12 +60,13 @@ public class LibraryGyro extends LinearOpMode {
 //            sleep(50);
 //            idle();
 //        }
-//    }
+    }
 
     // called when init button is  pressed.
 //    @Override
     public void runOpMode() throws InterruptedException {
 
+        robot.init(hardwareMap);
         telemetry.addData("Mode", "waiting for start");
         telemetry.addData("imu calib status", robot.imu.getCalibrationStatus().toString());
         telemetry.update();
@@ -103,6 +107,7 @@ public class LibraryGyro extends LinearOpMode {
      *
      * @return Angle in degrees. + = left, - = right.
      */
+
     private double getAngle() {
         // We experimentally determined the Z axis is the axis we want to use for heading angle.
         // We have to process the angle because the imu works in euler angles so the Z axis is

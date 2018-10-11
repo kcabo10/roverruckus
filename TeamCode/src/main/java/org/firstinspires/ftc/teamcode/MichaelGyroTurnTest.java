@@ -15,7 +15,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 //@Disabled
 public class MichaelGyroTurnTest extends LinearOpMode {
 
-    HardwareBeep robot   = new HardwareBeep();
+    public HardwareBeep robot   = new HardwareBeep();
     Orientation lastAngles = new Orientation();
     double globalAngle, power = .30, correction;
     double angle_variable;
