@@ -5,6 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
@@ -16,6 +18,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 public class MichaelGyroTurnTest extends LinearOpMode {
 
     public HardwareBeep robot   = new HardwareBeep();
+    public LibraryGyro gyro     = new LibraryGyro();
     Orientation lastAngles = new Orientation();
     double globalAngle, power = .30, correction;
     double angle_variable;
@@ -30,7 +33,9 @@ public class MichaelGyroTurnTest extends LinearOpMode {
         telemetry.update();
 
         robot.init(hardwareMap);
-        gridNav.init(robot);
+        gyro.init(robot, telemetry);
+        gridNav.init(robot, gyro);
+
 
         telemetry.addData("Telemetry", "run opMode start");
         telemetry.update();

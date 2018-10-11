@@ -65,7 +65,7 @@ public class LibraryGridNavigation {
 
 //        impl.GridNav(2,3,1.0);
 //        impl.GridNav(4,3,1.0);
-        return turnAngle;
+        return -turnAngle;
 
     }
 
@@ -128,9 +128,9 @@ public class LibraryGridNavigation {
 
     }
 
-    public void init(HardwareBeep myRobot){
+    public void init(HardwareBeep myRobot, LibraryGyro myGyro){
         robot = myRobot;
-        gyro = new LibraryGyro(robot);
+        gyro = myGyro;
     }
 
 }

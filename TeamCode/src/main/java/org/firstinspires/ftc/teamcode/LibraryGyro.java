@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.Hardware;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
@@ -15,87 +16,28 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 //@Autonomous(name="Michael Gryo Testing 4", group="Exercises")
 //@Disabled
 
-public class LibraryGyro extends LinearOpMode {
+public class LibraryGyro {
 
     HardwareBeep robot = null;
+    Telemetry telemetry;
     Orientation lastAngles = new Orientation();
     double globalAngle, power = .30, correction;
     double angle_variable;
     double speed;
     boolean aButton, bButton, touched;
 
-
     long lastTime;
     double Input, Output, Setpoint;
     double errSum, lastErr;
     double kp, ki, kd;
 
-    public LibraryGyro(HardwareBeep myRobot){
 
+    /**
+     * The hardware class needs to be initialized before this function is called
+    */
+    public void init(HardwareBeep myRobot, Telemetry myTelemetry){
         robot = myRobot;
-        //robot.imu = hwMap.get(BNO055IMU.class, "imu");
-//        robot.init(hardwareMap);
-//        // get a reference to REV Touch sensor.
-////        touch = hardwareMap.digitalChannel.get("touch_sensor");
-//
-//        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-//
-//        parameters.mode = BNO055IMU.SensorMode.IMU;
-//        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-//        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-//        parameters.loggingEnabled = false;
-
-//        // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
-//        // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
-//        // and named "imu".
-//        imu = hardwareMap.get(BNO055IMU.class, "imu");
-
-//        robot.imu.initialize(parameters);
-
-//        telemetry.addData("Mode", "calibrating...");
-//        telemetry.update();
-//
-//        // make sure the imu gyro is calibrated before continuing.
-//        while (!isStopRequested() && !robot.imu.isGyroCalibrated()) {
-//            sleep(50);
-//            idle();
-//        }
-    }
-
-    // called when init button is  pressed.
-//    @Override
-
-//    public void gyroInit(HardwareMap ahwMap){
-//
-//        robot.init(ahwMap);
-//    }
-
-    public void runOpMode() throws InterruptedException {
-
-        telemetry.addData("Mode", "waiting for start");
-        telemetry.addData("imu calib status", robot.imu.getCalibrationStatus().toString());
-        telemetry.update();
-
-        // wait for start button.
-
-        waitForStart();
-
-        turnGyro(90);
-
-        sleep(1000);
-
-        turnGyro(-90);
-
-        while (opModeIsActive()) {
-
-            getAngle();
-            angle_variable = getAngle();
-            telemetry.addData("Mode", "running");
-            telemetry.addData("Current Angle", getAngle());
-            telemetry.update();
-
-            // drive until end of period.
-        }
+        telemetry = myTelemetry;
     }
 
     /**
@@ -211,8 +153,8 @@ public class LibraryGyro extends LinearOpMode {
         telemetry.addData("Current Pos ", currentHeading);
         telemetry.addData("Setpoint ", Setpoint);
         telemetry.addData("Input ", Input);
-        updateTelemetry(telemetry);
-//        sleep(5000);
+        telemetry.update();
+        //        sleep(5000);
 
         //Input = currentHeading;
 
@@ -229,7 +171,7 @@ public class LibraryGyro extends LinearOpMode {
             //sleep(1000);
             telemetry.addData("curHeading", Input);
             telemetry.addData("tarHeading", Setpoint);
-            updateTelemetry(telemetry);
+            telemetry.update();
             //} while (Input < targetHeading && (System.currentTimeMillis() < (startTime + 6000)));
         } while ((Math.abs(Input - Setpoint) > TOLERANCE) || (System.currentTimeMillis() < (startTime + 3000)));
 
@@ -241,8 +183,7 @@ public class LibraryGyro extends LinearOpMode {
         //telemetry.addData("headingErr", headingError);
         //telemetry.addData("driveSteer", driveSteering);
         telemetry.addData("DRIVEGAIN", DRIVEGAIN);
-        updateTelemetry(telemetry);
-
+        telemetry.update();
 
         robot.leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
