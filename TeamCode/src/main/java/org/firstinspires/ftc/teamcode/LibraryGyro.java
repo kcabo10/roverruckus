@@ -4,6 +4,7 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.Hardware;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -15,8 +16,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 //@Disabled
 
 public class LibraryGyro extends LinearOpMode {
-    HardwareBeep robot = new HardwareBeep();
 
+    HardwareBeep robot = null;
     Orientation lastAngles = new Orientation();
     double globalAngle, power = .30, correction;
     double angle_variable;
@@ -29,8 +30,10 @@ public class LibraryGyro extends LinearOpMode {
     double errSum, lastErr;
     double kp, ki, kd;
 
-//    public LibraryGyro(){
+    public LibraryGyro(HardwareBeep myRobot){
 
+        robot = myRobot;
+        //robot.imu = hwMap.get(BNO055IMU.class, "imu");
 //        robot.init(hardwareMap);
 //        // get a reference to REV Touch sensor.
 ////        touch = hardwareMap.digitalChannel.get("touch_sensor");
@@ -57,10 +60,16 @@ public class LibraryGyro extends LinearOpMode {
 //            sleep(50);
 //            idle();
 //        }
-//    }
+    }
 
     // called when init button is  pressed.
 //    @Override
+
+//    public void gyroInit(HardwareMap ahwMap){
+//
+//        robot.init(ahwMap);
+//    }
+
     public void runOpMode() throws InterruptedException {
 
         telemetry.addData("Mode", "waiting for start");

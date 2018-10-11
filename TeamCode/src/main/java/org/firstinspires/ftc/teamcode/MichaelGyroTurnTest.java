@@ -28,8 +28,10 @@ public class MichaelGyroTurnTest extends LinearOpMode {
 
         telemetry.addData("Telemetry", "robot initializing");
         telemetry.update();
-        sleep(2000);
+
         robot.init(hardwareMap);
+        gridNav.init(robot);
+
         telemetry.addData("Telemetry", "run opMode start");
         telemetry.update();
 

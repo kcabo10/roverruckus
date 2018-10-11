@@ -12,8 +12,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 public class LibraryGridNavigation {
 
-    HardwareBeep robot = new HardwareBeep();
-    LibraryGyro gyro = new LibraryGyro(robot);
+    HardwareBeep robot;// = new HardwareBeep();
+    LibraryGyro gyro;// = new LibraryGyro();
 
 
     double xOrigin = 0;
@@ -128,8 +128,9 @@ public class LibraryGridNavigation {
 
     }
 
-    public void init(){
-
+    public void init(HardwareBeep myRobot){
+        robot = myRobot;
+        gyro = new LibraryGyro(robot);
     }
 
 }
