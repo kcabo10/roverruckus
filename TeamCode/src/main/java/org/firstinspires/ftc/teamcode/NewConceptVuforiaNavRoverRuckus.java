@@ -251,11 +251,11 @@ public class NewConceptVuforiaNavRoverRuckus extends LinearOpMode {
          */
 
         final int CAMERA_FORWARD_DISPLACEMENT  = 160;   // eg: Camera is 110 mm in front of robot center
-        final int CAMERA_VERTICAL_DISPLACEMENT = 273;   // eg: Camera is 200 mm above ground
-        final int CAMERA_LEFT_DISPLACEMENT     = 195;   // eg: Camera is ON the robot's center line
+        final int CAMERA_VERTICAL_DISPLACEMENT = 205;   // eg: Camera is 200 mm above ground
+        final int CAMERA_LEFT_DISPLACEMENT     = 200;   // eg: Camera is ON the robot's center line
 
         OpenGLMatrix phoneLocationOnRobot = OpenGLMatrix
-                .translation(CAMERA_FORWARD_DISPLACEMENT, CAMERA_LEFT_DISPLACEMENT, CAMERA_VERTICAL_DISPLACEMENT)
+                .translation(CAMERA_LEFT_DISPLACEMENT, CAMERA_VERTICAL_DISPLACEMENT, CAMERA_FORWARD_DISPLACEMENT)
                 .multiplied(Orientation.getRotationMatrix(EXTRINSIC, YZX, DEGREES,
                         CAMERA_CHOICE == FRONT ? 90 : -90, 0, 0));
 
