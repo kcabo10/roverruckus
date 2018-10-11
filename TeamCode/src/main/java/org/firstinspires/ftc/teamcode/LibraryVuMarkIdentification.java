@@ -31,9 +31,12 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+
 import com.vuforia.Trackable;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
 import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
@@ -90,7 +93,7 @@ import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocaliz
  * is explained below.
  */
 
-public class LibraryVuMarkIdentification extends LinearOpMode {
+public class LibraryVuMarkIdentification{
 
     /*
      * IMPORTANT: You need to obtain your own license key to use Vuforia. The string below with which
@@ -123,10 +126,18 @@ public class LibraryVuMarkIdentification extends LinearOpMode {
     /**
      * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
      * localization engine.
-     */    VuforiaLocalizer vuforia;
+     */
+    VuforiaLocalizer vuforia;
 
-    public void runOpMode() throws InterruptedException {
+    HardwareMap hardwareMap;
 
+    Telemetry telemetry;
+
+    public LibraryVuMarkIdentification(HardwareMap newHardwareMap, Telemetry newTelemetry){
+
+        hardwareMap = newHardwareMap;
+
+        telemetry = newTelemetry;
     }
 
      public String getTarget() {
@@ -272,11 +283,9 @@ public class LibraryVuMarkIdentification extends LinearOpMode {
         /** Wait for the game to begin */
         telemetry.addData(">", "Press Play to start tracking");
         telemetry.update();
-        waitForStart();
 
         /** Start tracking the data sets we care about. */
         targetsRoverRuckus.activate();
-        while (opModeIsActive()) {
 
             // check all the trackable target to see which one (if any) is visible.
             targetVisible = false;
@@ -316,7 +325,6 @@ public class LibraryVuMarkIdentification extends LinearOpMode {
                 telemetry.addData("Visible Target", "none");
             }
             telemetry.update();
-        }
          return foundTargetName;
 
      }
