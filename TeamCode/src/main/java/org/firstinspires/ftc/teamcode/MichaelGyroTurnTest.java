@@ -34,7 +34,7 @@ public class MichaelGyroTurnTest extends LinearOpMode {
 
         robot.init(hardwareMap);
         gyro.init(robot, telemetry);
-        gridNav.init(robot, gyro);
+        gridNav.init(robot, gyro, telemetry);
 
 
         telemetry.addData("Telemetry", "run opMode start");
@@ -86,7 +86,7 @@ public class MichaelGyroTurnTest extends LinearOpMode {
         telemetry.update();
 
 
-        gridNav.setGridPosition(0d,0d,0f);
+        gridNav.setGridPosition(0d,0d,45f);
         telemetry.addData("Telemtry", "gridNav SetPosition complete");
         telemetry.update();
 
@@ -95,8 +95,9 @@ public class MichaelGyroTurnTest extends LinearOpMode {
         telemetry.addData("Telemtry", "gridNav GridNavImplemented complete");
         telemetry.update();
 
+        gridNav.driveToPosition(0d,0d,1f);
 
-        GyroTurn(90);
+
         while (opModeIsActive()) {
 
             getAngle();

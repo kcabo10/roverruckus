@@ -1,6 +1,9 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 
 /**
  * Created by vasudevfamily on 8/31/17.
@@ -14,7 +17,8 @@ public class LibraryGridNavigation {
 
     HardwareBeep robot;// = new HardwareBeep();
     LibraryGyro gyro;// = new LibraryGyro();
-
+    private ElapsedTime runtime = new ElapsedTime();
+    Telemetry telemetry;
 
     double xOrigin = 0;
     //X1 is starting X coordinate
@@ -45,9 +49,6 @@ public class LibraryGridNavigation {
 
         double yLeg = yDestination - yOrigin;
 
-//        Distance = ((Math.hypot(xLeg, yLeg)*12)/12.57)*1120;
-        // Distance is in encoder ticks
-
         double theta = Math.atan2(yLeg, xLeg);
         //atan2 automatically corrects for the limited domain of the inverse tangent function
         System.out.println(xLeg);
@@ -55,7 +56,6 @@ public class LibraryGridNavigation {
         tanAngle = (float) Math.toDegrees(theta);
         System.out.println("Start Angle is " + StartingAngle);
         System.out.println("Tangent Angle is " + tanAngle);
-//        System.out.println("Hypotenus is " + Distance);
         xOrigin = xDestination;
         yOrigin = yDestination;
 
@@ -63,9 +63,7 @@ public class LibraryGridNavigation {
         System.out.println("Turn angle " + turnAngle);
         StartingAngle = tanAngle;
 
-//        impl.GridNav(2,3,1.0);
-//        impl.GridNav(4,3,1.0);
-        return -turnAngle;
+        return turnAngle;
 
     }
 
@@ -78,8 +76,7 @@ public class LibraryGridNavigation {
         Distance = ((Math.hypot(xLeg, yLeg)*12)/12.57)*1120;
         // Distance is in encoder ticks
 
-        System.out.println("Hypotenus is " + Distance);
-
+        System.out.println("Drive Distance is " + Distance);
 
         return Distance;
     }
@@ -92,29 +89,43 @@ public class LibraryGridNavigation {
 
         gyro.turnGyro(turnAngle);
 
-        double COUNTS_PER_INCH = 1120;
         robot.leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        robot.leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.rightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        robot.leftFront.setTargetPosition((int)(Distance));
+        robot.leftBack.setTargetPosition((int)(Distance));
+        robot.rightFront.setTargetPosition((int)(Distance));
+        robot.rightBack.setTargetPosition((int)(Distance));
 
         robot.leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.leftBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.rightBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        robot.leftFront.setTargetPosition((int)(Distance * COUNTS_PER_INCH));
-        robot.leftBack.setTargetPosition((int)(Distance * COUNTS_PER_INCH));
-        robot.rightFront.setTargetPosition((int)(Distance * COUNTS_PER_INCH));
-        robot.rightBack.setTargetPosition((int)(Distance * COUNTS_PER_INCH));
-
         robot.leftFront.setPower(power);
         robot.leftBack.setPower(power);
         robot.rightFront.setPower(power);
         robot.rightBack.setPower(power);
 
-        while((robot.leftFront.getCurrentPosition() < (Distance * COUNTS_PER_INCH))
-                && (robot.rightFront.getCurrentPosition() < (Distance * COUNTS_PER_INCH))){}
+        runtime.reset();
+
+        while((runtime.seconds() < 4)
+                && (robot.rightFront.isBusy() && robot.leftFront.isBusy())){
+
+            // Display it for the driver.
+            telemetry.addData("Path1",  "Running to ", Distance);
+            telemetry.addData("Left side",  "Current position",
+                    robot.leftFront.getCurrentPosition());
+            telemetry.addData("Right Drive Current Position", robot.rightFront.getCurrentPosition());
+            telemetry.update();
+        }
 
         robot.leftFront.setPower(0);
         robot.leftBack.setPower(0);
@@ -128,9 +139,10 @@ public class LibraryGridNavigation {
 
     }
 
-    public void init(HardwareBeep myRobot, LibraryGyro myGyro){
+    public void init(HardwareBeep myRobot, LibraryGyro myGyro, Telemetry myTelemetry){
         robot = myRobot;
         gyro = myGyro;
+        telemetry = myTelemetry;
     }
 
 }
