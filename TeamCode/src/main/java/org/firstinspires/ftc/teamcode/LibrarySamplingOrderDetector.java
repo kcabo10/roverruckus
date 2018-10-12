@@ -26,7 +26,7 @@ import java.util.List;
  * Created by Victo on 9/10/2018.
  */
 
-public class SamplingOrderDetectorTest extends DogeCVDetector {
+public class LibrarySamplingOrderDetector extends DogeCVDetector {
 
     // Enum to describe gold location
     public enum GoldLocation {
@@ -61,7 +61,7 @@ public class SamplingOrderDetectorTest extends DogeCVDetector {
     private Mat whiteMask   = new Mat();
     private Mat hiarchy     = new Mat();
 
-    public SamplingOrderDetectorTest() {
+    public LibrarySamplingOrderDetector() {
         super();
         this.detectorName = "Sampling Order Detector";
     }
@@ -230,21 +230,21 @@ public class SamplingOrderDetectorTest extends DogeCVDetector {
                 }
             }
             if(leftCount == 0){
-                currentOrder = SamplingOrderDetectorTest.GoldLocation.LEFT;
+                currentOrder = LibrarySamplingOrderDetector.GoldLocation.LEFT;
             }
 
             if(leftCount == 1){
-                currentOrder = SamplingOrderDetectorTest.GoldLocation.CENTER;
+                currentOrder = LibrarySamplingOrderDetector.GoldLocation.CENTER;
             }
 
             if(leftCount >= 2){
-                currentOrder = SamplingOrderDetectorTest.GoldLocation.RIGHT;
+                currentOrder = LibrarySamplingOrderDetector.GoldLocation.RIGHT;
             }
             isFound = true;
             lastOrder = currentOrder;
 
         }else{
-            currentOrder = SamplingOrderDetectorTest.GoldLocation.UNKNOWN;
+            currentOrder = LibrarySamplingOrderDetector.GoldLocation.UNKNOWN;
             isFound = false;
         }
 
