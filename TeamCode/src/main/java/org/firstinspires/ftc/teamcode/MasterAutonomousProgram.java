@@ -8,14 +8,16 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.vuforia.Vuforia;
 
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+
 
 @Autonomous(name="Master Autonomous Program", group="Beep")
 public class MasterAutonomousProgram extends LinearOpMode {
 
     HardwareBeep robot   = new HardwareBeep();
     LibraryGyro gyro = new LibraryGyro();
-    LibraryDogeforia vuMark = null;
-    Dogeforia vuforia;
+    LibraryDogeforia dogeforia = null;
+    //Dogeforia vuforia;
 
 
     static final double DRIVE_SPEED = 1.0;
@@ -40,12 +42,7 @@ public class MasterAutonomousProgram extends LinearOpMode {
         telemetry.addData("Telemetry", "run opMode start");
         telemetry.update();
 
-        vuMark = new LibraryDogeforia(hardwareMap, telemetry);
-
-        vuforia.setDogeCVDetector(detector);
-        vuforia.enableDogeCV();
-        vuforia.showDebug();
-        vuforia.start();
+        dogeforia = new LibraryDogeforia(hardwareMap, telemetry);
 
         // wait for start button.
 
@@ -53,7 +50,7 @@ public class MasterAutonomousProgram extends LinearOpMode {
 
         gyro.turnGyro(45);
 
-        foundTargetName = vuMark.loop();
+        foundTargetName = dogeforia.loop();
         telemetry.addData("Found Target is ", foundTargetName);
         telemetry.update();
 
@@ -64,7 +61,6 @@ public class MasterAutonomousProgram extends LinearOpMode {
                 telemetry.addData("Telemetry","Crater Program");
                 //Land robot
                 //Set motors to zero
-                vuforia.stop();
                 gyro.turnGyro(-45);
                 getMineralPosition();
                 break;
@@ -74,7 +70,6 @@ public class MasterAutonomousProgram extends LinearOpMode {
                 //Land robot
                 //Set motors to zero
                 gyro.turnGyro(-45);
-                vuforia.stop();
                 getMineralPosition();
                 break;
             default:
