@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.disnodeteam.dogecv.CameraViewDisplay;
 import com.disnodeteam.dogecv.DogeCV;
+import com.disnodeteam.dogecv.Dogeforia;
 import com.disnodeteam.dogecv.detectors.roverrukus.SamplingOrderDetector;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -13,16 +14,18 @@ public class MasterAutonomousProgram extends LinearOpMode {
 
     HardwareBeep robot   = new HardwareBeep();
     LibraryGyro gyro = new LibraryGyro();
-    LibraryVuMarkIdentification vuMark = null;
+    LibraryDogeforia vuMark = null;
+    Dogeforia vuforia;
 
 
-    static final double DRIVE_SPEED = 0.3;
-    static final double TURN_SPEED = 0.3;
+    static final double DRIVE_SPEED = 1.0;
+    static final double TURN_SPEED = 1.0;
 
 
     public String foundTargetName = "";
 
-    private LibrarySamplingOrderDetector detector;
+    private LibrarySamplingOrderDetector detector = new LibrarySamplingOrderDetector();
+
 
     // called when init button is  pressed.
     @Override
@@ -31,15 +34,18 @@ public class MasterAutonomousProgram extends LinearOpMode {
 
         telemetry.addData("Telemetry", "robot initializing");
         telemetry.update();
-        sleep(2000);
         robot.init(hardwareMap);
         gyro.init(robot, telemetry);
-
+        detector.init(hardwareMap.appContext,CameraViewDisplay.getInstance(), 0, true);
         telemetry.addData("Telemetry", "run opMode start");
         telemetry.update();
 
-        vuMark = new LibraryVuMarkIdentification(hardwareMap, telemetry);
+        vuMark = new LibraryDogeforia(hardwareMap, telemetry);
 
+        vuforia.setDogeCVDetector(detector);
+        vuforia.enableDogeCV();
+        vuforia.showDebug();
+        vuforia.start();
 
         // wait for start button.
 
@@ -47,7 +53,7 @@ public class MasterAutonomousProgram extends LinearOpMode {
 
         gyro.turnGyro(45);
 
-        foundTargetName = vuMark.getTarget();
+        foundTargetName = vuMark.loop();
         telemetry.addData("Found Target is ", foundTargetName);
         telemetry.update();
 
@@ -58,6 +64,7 @@ public class MasterAutonomousProgram extends LinearOpMode {
                 telemetry.addData("Telemetry","Crater Program");
                 //Land robot
                 //Set motors to zero
+                vuforia.stop();
                 gyro.turnGyro(-45);
                 getMineralPosition();
                 break;
@@ -67,6 +74,7 @@ public class MasterAutonomousProgram extends LinearOpMode {
                 //Land robot
                 //Set motors to zero
                 gyro.turnGyro(-45);
+                vuforia.stop();
                 getMineralPosition();
                 break;
             default:
@@ -74,8 +82,7 @@ public class MasterAutonomousProgram extends LinearOpMode {
 
         }
         telemetry.update();
-        sleep(10000);
-
+        sleep(2000);
 
     }
     public void getMineralPosition(){

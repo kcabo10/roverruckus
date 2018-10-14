@@ -75,8 +75,8 @@ import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocaliz
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-public class LibraryDogeforia
-{
+public class LibraryDogeforia{
+
     private static String foundTargetName = "";
 
     private ElapsedTime runtime = new ElapsedTime();
@@ -96,6 +96,7 @@ public class LibraryDogeforia
 
     GoldAlignDetector detector;
 
+
     HardwareMap hardwareMap;
 
     Telemetry telemetry;
@@ -105,6 +106,7 @@ public class LibraryDogeforia
         hardwareMap = newHardwareMap;
 
         telemetry = newTelemetry;
+
     }
 
     public void init() {
@@ -113,11 +115,9 @@ public class LibraryDogeforia
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 
-        parameters.vuforiaLicenseKey = "AWbfTmn/////AAABmY0xuIe3C0RHvL3XuzRxyEmOT2OekXBSbqN2jot1si3OGBObwWadfitJR/D6Vk8VEBiW0HG2Q8UAEd0//OliF9aWCRmyDJ1mMqKCJZxpZemfT5ELFuWnJIZWUkKyjQfDNe2RIaAh0ermSxF4Bq77IDFirgggdYJoRIyi2Ys7Gl9lD/tSonV8OnldIN/Ove4/MtEBJTKHqjUEjC5U2khV+26AqkeqbxhFTNiIMl0LcmSSfugGhmWFGFtuPtp/+flPBRGoBO+tSl9P2sV4mSUBE/WrpHqB0Jd/tAmeNvbtgQXtZEGYc/9NszwRLVNl9k13vrBcgsiNxs2UY5xAvA4Wb6LN7Yu+tChwc+qBiVKAQe09\n";
+        parameters.vuforiaLicenseKey = "AehWUEP/////AAAAGdLM1Ir3CEUunWFOGlSVegZ02oYjauBrfpYGcP/MNvZGEWO15KaOdjuIx0XAGISDJtiT9pfALwG5bGHfY2d5LVLV3jBq+2vLfcYh7zxUbHOcJpPfbzpUDVkGI5WHZlZ6IaqoCAEPznkxcZ5uyMwfZr1qyZp9LVTTAFhYwjRgSuF4/mcjzI3/ujUOZEKUzIOQbSlAPyNkiNMnRA0RHlzK7djpkXvghYsX7LYJDnJc5Fvpi6mqZqI+lyco0jnUHhMh4l7HczZ1HbKTAwuJFqc3aQab8bnjw9QegJb62vURA/ljwEIEUhT6mEGx+XJSOUA+KCwi/WDnKcZwOZr43VqmHPgLCvJmTFpVeOdBY4ozX5/J";
         parameters.fillCameraMonitorViewParent = true;
 
-        float gridPos[];
-        gridPos = new float[2];
 
         vuforia = new Dogeforia(parameters);
         vuforia.enableConvertFrameToBitmap();
@@ -198,7 +198,7 @@ public class LibraryDogeforia
         runtime.reset();
     }
 
-    public void loop() {
+    public String loop() {
         targetVisible = false;
         while (!targetVisible) {
             for (VuforiaTrackable trackable : allTrackables) {
@@ -219,6 +219,8 @@ public class LibraryDogeforia
 
         // Provide feedback as to where the robot is located (if we know).
         if (targetVisible) {
+            float gridPos[];
+            gridPos = new float[2];
             // express position (translation) of robot in inches.
             VectorF translation = lastLocation.getTranslation();
             telemetry.addData("Pos (in)", "{X, Y, Z} = %.1f, %.1f, %.1f",
