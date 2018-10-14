@@ -50,9 +50,9 @@ public class LibrarySamplingOrderDetector extends DogeCVDetector {
 
 
     // Results for the detector
-    private GoldLocation currentOrder = GoldLocation.UNKNOWN;
-    private GoldLocation lastOrder    = GoldLocation.UNKNOWN;
-    private boolean      isFound      = false;
+    public GoldLocation currentOrder = GoldLocation.UNKNOWN;
+    public GoldLocation lastOrder    = GoldLocation.UNKNOWN;
+    public boolean      isFound      = false;
 
     // Create the mats used
     private Mat workingMat  = new Mat();

@@ -6,9 +6,12 @@ import com.disnodeteam.dogecv.Dogeforia;
 import com.disnodeteam.dogecv.detectors.roverrukus.SamplingOrderDetector;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.vuforia.Vuforia;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.opencv.core.Mat;
 
 
 @Autonomous(name="Master Autonomous Program", group="Beep")
@@ -16,7 +19,7 @@ public class MasterAutonomousProgram extends LinearOpMode {
 
     HardwareBeep robot   = new HardwareBeep();
     LibraryGyro gyro = new LibraryGyro();
-    LibraryDogeforia dogeforia = null;
+    LibraryDogeforia dogeforia = new LibraryDogeforia(robot.hwMap, telemetry);
     //Dogeforia vuforia;
 
 
@@ -25,8 +28,6 @@ public class MasterAutonomousProgram extends LinearOpMode {
 
 
     public String foundTargetName = "";
-
-    private LibrarySamplingOrderDetector detector = new LibrarySamplingOrderDetector();
 
 
     // called when init button is  pressed.
@@ -38,11 +39,11 @@ public class MasterAutonomousProgram extends LinearOpMode {
         telemetry.update();
         robot.init(hardwareMap);
         gyro.init(robot, telemetry);
-        detector.init(hardwareMap.appContext,CameraViewDisplay.getInstance(), 0, true);
         telemetry.addData("Telemetry", "run opMode start");
         telemetry.update();
+        dogeforia.init();
 
-        dogeforia = new LibraryDogeforia(hardwareMap, telemetry);
+
 
         // wait for start button.
 
@@ -83,8 +84,8 @@ public class MasterAutonomousProgram extends LinearOpMode {
     public void getMineralPosition(){
         telemetry.addData("Status", "DogeCV 2018.0 - Sampling Order Example");
 
-        detector = new LibrarySamplingOrderDetector();
-        detector.init(hardwareMap.appContext, CameraViewDisplay.getInstance());
+       LibrarySamplingOrderDetector detector = new LibrarySamplingOrderDetector();
+        detector.init(robot.hwMap.appContext, CameraViewDisplay.getInstance());
         detector.useDefaults();
 
         detector.downscale = 0.4; // How much to downscale the input frames
