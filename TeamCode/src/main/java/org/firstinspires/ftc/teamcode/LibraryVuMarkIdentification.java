@@ -161,7 +161,8 @@ public class LibraryVuMarkIdentification{
         float gridPos[];
         gridPos = new float[2];
 
-        // Load the data sets that for the trackable objects. These particular data
+
+         // Load the data sets that for the trackable objects. These particular data
         // sets are stored in the 'assets' part of our application.
         VuforiaTrackables targetsRoverRuckus = this.vuforia.loadTrackablesFromAsset("RoverRuckus");
         VuforiaTrackable blueRover = targetsRoverRuckus.get(0);
@@ -322,7 +323,6 @@ public class LibraryVuMarkIdentification{
                 gridPos[0] = translation.get(0) / mmPerInch / 24;
                 gridPos[1] = translation.get(1) / mmPerInch / 24;
                 telemetry.addData("GridNav Pos", "{X, Y, Heading} = %.1f, %.1f, %.0f", gridPos[0], gridPos[1], rotation.thirdAngle);
-
             }
             else {
                 telemetry.addData("Visible Target", "none");

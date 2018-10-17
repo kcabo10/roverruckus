@@ -12,13 +12,9 @@ public class MasterAutonomousProgram extends LinearOpMode {
 
     HardwareBeep robot   = new HardwareBeep();
     LibraryGyro gyro = new LibraryGyro();
+    LibraryGridNavigation gridNav = new LibraryGridNavigation();
     LibraryDogeforia dogeforia = new LibraryDogeforia(robot, telemetry);
-    //Dogeforia vuforia;
     LibraryVuMarkIdentification vuforia;
-
-
-    static final double DRIVE_SPEED = 1.0;
-    static final double TURN_SPEED = 1.0;
 
 
     public String foundTargetName = "";
@@ -33,9 +29,9 @@ public class MasterAutonomousProgram extends LinearOpMode {
         telemetry.update();
         robot.init(hardwareMap);
         gyro.init(robot, telemetry);
+        gridNav.init(robot, gyro, telemetry);
         telemetry.addData("Telemetry", "run opMode start");
         telemetry.update();
-        //dogeforia.init();
         vuforia = new LibraryVuMarkIdentification(robot.hwMap, telemetry);
 
 
@@ -44,33 +40,22 @@ public class MasterAutonomousProgram extends LinearOpMode {
         waitForStart();
 
         gyro.turnGyro(45);
-        sleep(3000);
-
-//        while (foundTargetName != "") {
-//            foundTargetName = dogeforia.loop();
-//            telemetry.addData("Found Target is ", foundTargetName);
-//            telemetry.update();
-//        }
 
         foundTargetName = vuforia.getTarget();
-        sleep(2000);
         telemetry.addData("MAP", "Entering Vuf Switch");
         telemetry.update();
-        sleep(2000);
         switch (foundTargetName) {
             case "Blue-Rover":
             case "Red-Footprint":
                 telemetry.addData("Telemetry", "Crater Program");
-                //Land robot
-                //Set motors to zero
+
                 gyro.turnGyro(-45);
                 getMineralPosition();
                 break;
             case "Front-Craters":
             case "Back-Space":
                 telemetry.addData("Telemetry", "Depot Program");
-                //Land robot
-                //Set motors to zero
+
                 gyro.turnGyro(-45);
                 getMineralPosition();
                 break;
