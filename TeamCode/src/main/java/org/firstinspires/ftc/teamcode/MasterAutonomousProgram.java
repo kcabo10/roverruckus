@@ -37,22 +37,20 @@ public class MasterAutonomousProgram extends LinearOpMode {
         dogeforia.init();
 
 
-
         // wait for start button.
 
         waitForStart();
 
         gyro.turnGyro(45);
-
-        foundTargetName = dogeforia.loop();
-        telemetry.addData("Found Target is ", foundTargetName);
-        telemetry.update();
-
-
-        switch(foundTargetName){
+        while (foundTargetName != "") {
+            foundTargetName = dogeforia.loop();
+            telemetry.addData("Found Target is ", foundTargetName);
+            telemetry.update();
+        }
+        switch (foundTargetName) {
             case "Blue-Rover":
             case "Red-Footprint":
-                telemetry.addData("Telemetry","Crater Program");
+                telemetry.addData("Telemetry", "Crater Program");
                 //Land robot
                 //Set motors to zero
                 gyro.turnGyro(-45);
@@ -60,19 +58,17 @@ public class MasterAutonomousProgram extends LinearOpMode {
                 break;
             case "Front-Craters":
             case "Back-Space":
-                telemetry.addData("Telemetry","Depot Program");
+                telemetry.addData("Telemetry", "Depot Program");
                 //Land robot
                 //Set motors to zero
                 gyro.turnGyro(-45);
                 getMineralPosition();
                 break;
             default:
-                telemetry.addData("Telemetry","No vuMark found");
+                telemetry.addData("Telemetry", "No vuMark found");
 
         }
         telemetry.update();
-        sleep(2000);
-
     }
     public void getMineralPosition(){
         telemetry.addData("Status", "DogeCV 2018.0 - Sampling Order Example");
