@@ -91,6 +91,14 @@ public class MasterAutonomousProgram extends LinearOpMode {
 
         String myPosition = null;
         myPosition = detector.getLastOrder().toString();
+        telemetry.addData("MAP", "Running Sampling Order loop");
+        while (myPosition == null) {
+
+            telemetry.addData("Current Order" , detector.getCurrentOrder().toString()); // The current result for the frame
+            telemetry.addData("Last Order" , detector.getLastOrder().toString()); // The last known result
+
+            myPosition = detector.getLastOrder().toString();
+
         switch(myPosition){
             case("LEFT"):
                 telemetry.addData("Telemetry", "Left Position");
@@ -110,5 +118,7 @@ public class MasterAutonomousProgram extends LinearOpMode {
                 break;
         }
         telemetry.update();
+    }
+
     }
 }
