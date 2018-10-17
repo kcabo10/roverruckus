@@ -33,7 +33,7 @@ public class LibraryGyro {
 
 
     /**
-     * The hardware class needs to be initialized before this function is called
+     * The hardware class needs to be initialized before this f unction is called
     */
     public void init(HardwareBeep myRobot, Telemetry myTelemetry){
         robot = myRobot;
@@ -100,6 +100,7 @@ public class LibraryGyro {
     }
 
 
+
     public void ComputePID() {
         long now = System.currentTimeMillis();
         double timeChange = (double) (now - lastTime);
@@ -118,7 +119,6 @@ public class LibraryGyro {
         ki = Ki;
         kd = Kd;
     }
-
 
 
     public double turnGyro(float targetHeading) {
@@ -161,10 +161,10 @@ public class LibraryGyro {
         do {
 
             ComputePID();
-            robot.leftFront.setPower(-Output);
-            robot.leftBack.setPower(-Output);
-            robot.rightFront.setPower(Output);
-            robot.rightBack.setPower(Output);
+            robot.leftFront.setPower(Output);
+            robot.leftBack.setPower(Output);
+            robot.rightFront.setPower(-Output);
+            robot.rightBack.setPower(-Output);
             timer++;
             //sleep(1000);
             Input = getAngle();
@@ -173,7 +173,7 @@ public class LibraryGyro {
             telemetry.addData("tarHeading", Setpoint);
             telemetry.update();
             //} while (Input < targetHeading && (System.currentTimeMillis() < (startTime + 6000)));
-        } while ((Math.abs(Input - Setpoint) > TOLERANCE) || (System.currentTimeMillis() < (startTime + 3000)));
+        } while ((Math.abs(Input - Setpoint) > TOLERANCE) || (System.currentTimeMillis() < (startTime + 1050)));
 
 
         telemetry.addData("curHeading", Input);
@@ -190,9 +190,9 @@ public class LibraryGyro {
         robot.rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-//        sleep(10000);
 
         return Input;
+
     }
 
 }
