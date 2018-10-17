@@ -38,7 +38,7 @@ public class MasterAutonomousProgram extends LinearOpMode {
         //dogeforia.init();
         vuforia = new LibraryVuMarkIdentification(robot.hwMap, telemetry);
 
-        
+
         // wait for start button.
 
         waitForStart();
@@ -102,33 +102,37 @@ public class MasterAutonomousProgram extends LinearOpMode {
         String myPosition = null;
         myPosition = detector.getLastOrder().toString();
         telemetry.addData("MAP", "Running Sampling Order loop");
-        while (myPosition == null) {
+        while (true) {
 
-            telemetry.addData("Current Order" , detector.getCurrentOrder().toString()); // The current result for the frame
-            telemetry.addData("Last Order" , detector.getLastOrder().toString()); // The last known result
 
-            myPosition = detector.getLastOrder().toString();
+            myPosition = detector.getCurrentOrder() .toString();
 
-        switch(myPosition){
-            case("LEFT"):
-                telemetry.addData("Telemetry", "Left Position");
-                telemetry.update();
-                break;
-            case ("RIGHT"):
-                telemetry.addData("Telemetry", "Right Position");
-                telemetry.update();
-                break;
-            case ("CENTER"):
-                telemetry.addData("Telemetry", "Center Position");
-                telemetry.update();
-                break;
-            case("UNKNOWN"):
-                telemetry.addData("Telemetry", "Unknown Position");
-                telemetry.update();
-                break;
+            telemetry.addData("Current Order", detector.getCurrentOrder().toString()); // The current result for the frame
+            telemetry.addData("Last Order", detector.getLastOrder().toString()); // The last known result
+
+
+
+            switch (myPosition) {
+                case ("LEFT"):
+                    telemetry.addData("Telemetry", "Left Position");
+                    telemetry.update();
+                    break;
+                case ("RIGHT"):
+                    telemetry.addData("Telemetry", "Right Position");
+                    telemetry.update();
+                    break;
+                case ("CENTER"):
+                    telemetry.addData("Telemetry", "Center Position");
+                    telemetry.update();
+                    break;
+                case ("UNKNOWN"):
+                    telemetry.addData("Telemetry", "Unknown Position");
+                    telemetry.update();
+                    break;
+            }
+            telemetry.update();
         }
-        telemetry.update();
-    }
+
 
     }
 }
