@@ -171,12 +171,12 @@ public class LibraryDogeforia{
 
         targetsRoverRuckus.activate();
 
-        detector = new GoldAlignDetector();
-        detector.init(robot.hwMap.appContext,CameraViewDisplay.getInstance(), 0, true);
-
-        detector.yellowFilter = new LeviColorFilter(LeviColorFilter.ColorPreset.YELLOW, 100);
-        detector.useDefaults();
-        detector.areaScoringMethod = DogeCV.AreaScoringMethod.MAX_AREA; // Can also be PERFECT_AREA
+//        detector = new GoldAlignDetector();
+//        detector.init(robot.hwMap.appContext,CameraViewDisplay.getInstance(), 0, true);
+//
+//        detector.yellowFilter = new LeviColorFilter(LeviColorFilter.ColorPreset.YELLOW, 100);
+//        detector.useDefaults();
+//        detector.areaScoringMethod = DogeCV.AreaScoringMethod.MAX_AREA; // Can also be PERFECT_AREA
         //detector.perfectAreaScorer.perfectArea = 10000; // if using PERFECT_AREA scoring
         vuforia.setDogeCVDetector(detector);
         vuforia.enableDogeCV();
@@ -204,6 +204,8 @@ public class LibraryDogeforia{
                     telemetry.addData("Visible Target", trackable.getName());
                     targetVisible = true;
                     foundTargetName = trackable.getName();
+
+                    telemetry.addData("Vumark Found", trackable.getTrackables());
 
                     // getUpdatedRobotLocation() will return null if no new information is available since
                     // the last time that call was made, or if the trackable is not currently visible.

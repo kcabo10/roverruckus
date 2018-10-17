@@ -14,6 +14,7 @@ public class MasterAutonomousProgram extends LinearOpMode {
     LibraryGyro gyro = new LibraryGyro();
     LibraryDogeforia dogeforia = new LibraryDogeforia(robot, telemetry);
     //Dogeforia vuforia;
+    LibraryVuMarkIdentification vuforia;
 
 
     static final double DRIVE_SPEED = 1.0;
@@ -34,7 +35,9 @@ public class MasterAutonomousProgram extends LinearOpMode {
         gyro.init(robot, telemetry);
         telemetry.addData("Telemetry", "run opMode start");
         telemetry.update();
-        dogeforia.init();
+        //dogeforia.init();
+        vuforia = new LibraryVuMarkIdentification(robot.hwMap, telemetry);
+
 
 
         // wait for start button.
@@ -42,11 +45,19 @@ public class MasterAutonomousProgram extends LinearOpMode {
         waitForStart();
 
         gyro.turnGyro(45);
-        while (foundTargetName != "") {
-            foundTargetName = dogeforia.loop();
-            telemetry.addData("Found Target is ", foundTargetName);
-            telemetry.update();
-        }
+        sleep(3000);
+
+//        while (foundTargetName != "") {
+//            foundTargetName = dogeforia.loop();
+//            telemetry.addData("Found Target is ", foundTargetName);
+//            telemetry.update();
+//        }
+
+        foundTargetName = vuforia.getTarget();
+        sleep(2000);
+        telemetry.addData("MAP", "Entering Vuf Switch");
+        telemetry.update();
+        sleep(2000);
         switch (foundTargetName) {
             case "Blue-Rover":
             case "Red-Footprint":
