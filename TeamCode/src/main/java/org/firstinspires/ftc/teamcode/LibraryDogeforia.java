@@ -32,7 +32,7 @@ package org.firstinspires.ftc.teamcode;
 import com.disnodeteam.dogecv.CameraViewDisplay;
 import com.disnodeteam.dogecv.DogeCV;
 import com.disnodeteam.dogecv.Dogeforia;
-import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
+import com.disnodeteam.dogecv.detectors.roverrukus.SamplingOrderDetector;
 import com.disnodeteam.dogecv.filters.LeviColorFilter;
 import com.disnodeteam.dogecv.scoring.MaxAreaScorer;
 import com.disnodeteam.dogecv.scoring.RatioScorer;
@@ -94,7 +94,7 @@ public class LibraryDogeforia{
     WebcamName webcamName;
     List<VuforiaTrackable> allTrackables = new ArrayList<VuforiaTrackable>();
 
-    GoldAlignDetector detector;
+    SamplingOrderDetector detector;
 
     HardwareBeep robot;
     Telemetry telemetry;
@@ -171,12 +171,12 @@ public class LibraryDogeforia{
 
         targetsRoverRuckus.activate();
 
-//        detector = new GoldAlignDetector();
-//        detector.init(robot.hwMap.appContext,CameraViewDisplay.getInstance(), 0, true);
-//
-//        detector.yellowFilter = new LeviColorFilter(LeviColorFilter.ColorPreset.YELLOW, 100);
-//        detector.useDefaults();
-//        detector.areaScoringMethod = DogeCV.AreaScoringMethod.MAX_AREA; // Can also be PERFECT_AREA
+        detector = new SamplingOrderDetector();
+        detector.init(robot.hwMap.appContext,CameraViewDisplay.getInstance(), 0, true);
+
+        detector.yellowFilter = new LeviColorFilter(LeviColorFilter.ColorPreset.YELLOW, 100);
+        detector.useDefaults();
+        detector.areaScoringMethod = DogeCV.AreaScoringMethod.MAX_AREA; // Can also be PERFECT_AREA
         //detector.perfectAreaScorer.perfectArea = 10000; // if using PERFECT_AREA scoring
         vuforia.setDogeCVDetector(detector);
         vuforia.enableDogeCV();
@@ -204,8 +204,6 @@ public class LibraryDogeforia{
                     telemetry.addData("Visible Target", trackable.getName());
                     targetVisible = true;
                     foundTargetName = trackable.getName();
-
-                    telemetry.addData("Vumark Found", trackable.getTrackables());
 
                     // getUpdatedRobotLocation() will return null if no new information is available since
                     // the last time that call was made, or if the trackable is not currently visible.
