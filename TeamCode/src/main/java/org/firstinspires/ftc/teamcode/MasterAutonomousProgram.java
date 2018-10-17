@@ -38,8 +38,7 @@ public class MasterAutonomousProgram extends LinearOpMode {
         //dogeforia.init();
         vuforia = new LibraryVuMarkIdentification(robot.hwMap, telemetry);
 
-
-
+        
         // wait for start button.
 
         waitForStart();
