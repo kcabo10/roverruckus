@@ -96,14 +96,12 @@ public class LibraryDogeforia{
 
     GoldAlignDetector detector;
 
-
-    HardwareMap hardwareMap;
-
+    HardwareBeep robot;
     Telemetry telemetry;
 
-    public LibraryDogeforia(HardwareMap newHardwareMap, Telemetry newTelemetry){
+    public LibraryDogeforia(HardwareBeep newHardwareBeep, Telemetry newTelemetry){
 
-        hardwareMap = newHardwareMap;
+        robot = newHardwareBeep;
 
         telemetry = newTelemetry;
 
@@ -112,7 +110,7 @@ public class LibraryDogeforia{
     public void init() {
 
 
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        int cameraMonitorViewId = robot.hwMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", robot.hwMap.appContext.getPackageName());
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 
         parameters.vuforiaLicenseKey = "AehWUEP/////AAAAGdLM1Ir3CEUunWFOGlSVegZ02oYjauBrfpYGcP/MNvZGEWO15KaOdjuIx0XAGISDJtiT9pfALwG5bGHfY2d5LVLV3jBq+2vLfcYh7zxUbHOcJpPfbzpUDVkGI5WHZlZ6IaqoCAEPznkxcZ5uyMwfZr1qyZp9LVTTAFhYwjRgSuF4/mcjzI3/ujUOZEKUzIOQbSlAPyNkiNMnRA0RHlzK7djpkXvghYsX7LYJDnJc5Fvpi6mqZqI+lyco0jnUHhMh4l7HczZ1HbKTAwuJFqc3aQab8bnjw9QegJb62vURA/ljwEIEUhT6mEGx+XJSOUA+KCwi/WDnKcZwOZr43VqmHPgLCvJmTFpVeOdBY4ozX5/J";
@@ -174,7 +172,7 @@ public class LibraryDogeforia{
         targetsRoverRuckus.activate();
 
         detector = new GoldAlignDetector();
-        detector.init(hardwareMap.appContext,CameraViewDisplay.getInstance(), 0, true);
+        detector.init(robot.hwMap.appContext,CameraViewDisplay.getInstance(), 0, true);
 
         detector.yellowFilter = new LeviColorFilter(LeviColorFilter.ColorPreset.YELLOW, 100);
         detector.useDefaults();

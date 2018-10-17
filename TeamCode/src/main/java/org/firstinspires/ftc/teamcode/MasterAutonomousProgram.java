@@ -2,16 +2,9 @@ package org.firstinspires.ftc.teamcode;
 
 import com.disnodeteam.dogecv.CameraViewDisplay;
 import com.disnodeteam.dogecv.DogeCV;
-import com.disnodeteam.dogecv.Dogeforia;
-import com.disnodeteam.dogecv.detectors.roverrukus.SamplingOrderDetector;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.vuforia.Vuforia;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
-import org.opencv.core.Mat;
 
 
 @Autonomous(name="Master Autonomous Program", group="Beep")
@@ -19,7 +12,7 @@ public class MasterAutonomousProgram extends LinearOpMode {
 
     HardwareBeep robot   = new HardwareBeep();
     LibraryGyro gyro = new LibraryGyro();
-    LibraryDogeforia dogeforia = new LibraryDogeforia(robot.hwMap, telemetry);
+    LibraryDogeforia dogeforia = new LibraryDogeforia(robot, telemetry);
     //Dogeforia vuforia;
 
 
