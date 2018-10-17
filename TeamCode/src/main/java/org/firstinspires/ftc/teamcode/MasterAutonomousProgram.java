@@ -13,11 +13,6 @@ public class MasterAutonomousProgram extends LinearOpMode {
     HardwareBeep robot   = new HardwareBeep();
     LibraryGyro gyro = new LibraryGyro();
     LibraryDogeforia dogeforia = new LibraryDogeforia(robot, telemetry);
-    //Dogeforia vuforia;
-
-
-    static final double DRIVE_SPEED = 1.0;
-    static final double TURN_SPEED = 1.0;
 
 
     public String foundTargetName = "";
@@ -40,8 +35,18 @@ public class MasterAutonomousProgram extends LinearOpMode {
         // wait for start button.
 
         waitForStart();
+        //Land robot
 
-        gyro.turnGyro(45);
+        //Set robot motors to zero
+
+        //Turn robot slightly to the right
+
+        //Drive forward far enough to give space to turn
+
+        gyro.turnGyro(-45);
+
+        //Stop and read grid pos with ultrasonic sensors
+
         while (foundTargetName != "") {
             foundTargetName = dogeforia.loop();
             telemetry.addData("Found Target is ", foundTargetName);
@@ -51,17 +56,13 @@ public class MasterAutonomousProgram extends LinearOpMode {
             case "Blue-Rover":
             case "Red-Footprint":
                 telemetry.addData("Telemetry", "Crater Program");
-                //Land robot
-                //Set motors to zero
-                gyro.turnGyro(-45);
+                gyro.turnGyro(45);
                 getMineralPosition();
                 break;
             case "Front-Craters":
             case "Back-Space":
                 telemetry.addData("Telemetry", "Depot Program");
-                //Land robot
-                //Set motors to zero
-                gyro.turnGyro(-45);
+                gyro.turnGyro(45);
                 getMineralPosition();
                 break;
             default:
@@ -103,14 +104,17 @@ public class MasterAutonomousProgram extends LinearOpMode {
             case("LEFT"):
                 telemetry.addData("Telemetry", "Left Position");
                 telemetry.update();
+                //Use grid pos to navigate to the left pos with grid coordinates
                 break;
             case ("RIGHT"):
                 telemetry.addData("Telemetry", "Right Position");
                 telemetry.update();
+                //Use grid pos to navigate to the right pos with grid coordinates
                 break;
             case ("CENTER"):
                 telemetry.addData("Telemetry", "Center Position");
                 telemetry.update();
+                //Use grid pos to navigate to the center pos with grid coordinates
                 break;
             case("UNKNOWN"):
                 telemetry.addData("Telemetry", "Unknown Position");

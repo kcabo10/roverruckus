@@ -32,7 +32,7 @@ package org.firstinspires.ftc.teamcode;
 import com.disnodeteam.dogecv.CameraViewDisplay;
 import com.disnodeteam.dogecv.DogeCV;
 import com.disnodeteam.dogecv.Dogeforia;
-import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
+import com.disnodeteam.dogecv.detectors.roverrukus.SamplingOrderDetector;
 import com.disnodeteam.dogecv.filters.LeviColorFilter;
 import com.disnodeteam.dogecv.scoring.MaxAreaScorer;
 import com.disnodeteam.dogecv.scoring.RatioScorer;
@@ -94,7 +94,7 @@ public class LibraryDogeforia{
     WebcamName webcamName;
     List<VuforiaTrackable> allTrackables = new ArrayList<VuforiaTrackable>();
 
-    GoldAlignDetector detector;
+    SamplingOrderDetector detector;
 
     HardwareBeep robot;
     Telemetry telemetry;
@@ -171,7 +171,7 @@ public class LibraryDogeforia{
 
         targetsRoverRuckus.activate();
 
-        detector = new GoldAlignDetector();
+        detector = new SamplingOrderDetector();
         detector.init(robot.hwMap.appContext,CameraViewDisplay.getInstance(), 0, true);
 
         detector.yellowFilter = new LeviColorFilter(LeviColorFilter.ColorPreset.YELLOW, 100);
