@@ -45,7 +45,7 @@ public class LibrarySamplingOrderDetector extends DogeCVDetector {
     public PerfectAreaScorer perfectAreaScorer = new PerfectAreaScorer(5000,0.05);
 
     //Create the filters used
-    public DogeCVColorFilter yellowFilter = new LeviColorFilter(LeviColorFilter.ColorPreset.YELLOW,100);
+    public DogeCVColorFilter yellowFilter = new LeviColorFilter(LeviColorFilter.ColorPreset.YELLOW,70);
     public DogeCVColorFilter whiteFilter  = new HSVRangeFilter(new Scalar(0,0,200), new Scalar(50,40,255));
 
 
@@ -197,6 +197,7 @@ public class LibrarySamplingOrderDetector extends DogeCVDetector {
                     1.3,
                     new Scalar(0, 255, 255),
                     2);
+
 
         }
         //Draw found white elements
