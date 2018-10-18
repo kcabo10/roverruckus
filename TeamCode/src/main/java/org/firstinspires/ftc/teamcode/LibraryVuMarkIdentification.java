@@ -123,6 +123,8 @@ public class LibraryVuMarkIdentification{
 
     private OpenGLMatrix lastLocation = null;
     private boolean targetVisible = false;
+    public float gridPos[] = new float[2];
+    public Orientation rotation;
 
     /**
      * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
@@ -158,7 +160,7 @@ public class LibraryVuMarkIdentification{
         //  Instantiate the Vuforia engine
         vuforia = ClassFactory.getInstance().createVuforia(parameters);
 
-        float gridPos[];
+
         gridPos = new float[2];
 
         // Load the data sets that for the trackable objects. These particular data
@@ -317,7 +319,7 @@ public class LibraryVuMarkIdentification{
                         translation.get(0) / mmPerInch, translation.get(1) / mmPerInch, translation.get(2) / mmPerInch);
 
                 // express the rotation of the robot in degrees.
-                Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
+                rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
                 telemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f", rotation.firstAngle, rotation.secondAngle, rotation.thirdAngle);
                 gridPos[0] = translation.get(0) / mmPerInch / 24;
                 gridPos[1] = translation.get(1) / mmPerInch / 24;

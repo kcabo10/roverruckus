@@ -30,6 +30,7 @@
 package org.firstinspires.ftc.robotcontroller.external.samples;
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -71,7 +72,6 @@ import com.qualcomm.robotcore.util.Range;
  */
 
 @Autonomous(name="Pushbot: Auto Drive By Gyro", group="Pushbot")
-@Disabled
 public class PushbotAutoDriveByGyro_Linear extends LinearOpMode {
 
     /* Declare OpMode members. */

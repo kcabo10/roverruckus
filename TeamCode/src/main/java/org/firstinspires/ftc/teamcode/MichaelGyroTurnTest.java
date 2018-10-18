@@ -59,7 +59,7 @@ public class MichaelGyroTurnTest extends LinearOpMode {
         telemetry.addData("Mode", "calibrating...");
         telemetry.update();
 
-        // make sure the imu gyro is calibrated before continuing.
+        // make sure the imu gyroTurn is calibrated before continuing.
         while (!isStopRequested() && !robot.imu.isGyroCalibrated()) {
             sleep(50);
             idle();

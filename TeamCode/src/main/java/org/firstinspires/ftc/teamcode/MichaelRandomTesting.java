@@ -61,7 +61,7 @@ public class MichaelRandomTesting extends LinearOpMode {
         telemetry.addData("Mode", "calibrating...");
         telemetry.update();
 
-        // make sure the imu gyro is calibrated before continuing.
+        // make sure the imu gyroTurn is calibrated before continuing.
         while (!isStopRequested() && !imu.isGyroCalibrated())
         {
             sleep(50);
@@ -89,7 +89,7 @@ public class MichaelRandomTesting extends LinearOpMode {
         }
         while (opModeIsActive())
         {
-            // Use gyro to drive in a straight line.
+            // Use gyroTurn to drive in a straight line.
 
             correction = checkDirection();
 

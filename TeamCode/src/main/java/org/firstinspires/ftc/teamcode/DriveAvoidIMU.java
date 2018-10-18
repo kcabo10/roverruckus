@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 
@@ -14,7 +15,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 //import org.firstinspires.ftc.robotcore.external.navigation.Position;
 //import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
-@Autonomous(name = "Drive Avoid IMU", group = "Exercises")
+@TeleOp(name = "Drive Avoid IMU", group = "Exercises")
 public class DriveAvoidIMU extends LinearOpMode {
 
     DigitalChannel touch;
@@ -28,10 +29,10 @@ public class DriveAvoidIMU extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        robot.leftFront = hardwareMap.dcMotor.get("left_front_drive");
-        robot.rightFront = hardwareMap.dcMotor.get("right_front_drive");
-        robot.leftBack = hardwareMap.dcMotor.get("left_back_drive");
-        robot.rightBack = hardwareMap.dcMotor.get("right_back_drive");
+        robot.leftFront = hardwareMap.dcMotor.get("left_front");
+        robot.rightFront = hardwareMap.dcMotor.get("right_front");
+        robot.leftBack = hardwareMap.dcMotor.get("left_back");
+        robot.rightBack = hardwareMap.dcMotor.get("right_back");
 
 //        rightFrontMotor.setDirection(DcMotor.Direction.REVERSE);
 //        leftFrontMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -60,7 +61,7 @@ public class DriveAvoidIMU extends LinearOpMode {
         imu.initialize(parameters);
         telemetry.addData("Mode", "calibrating mode...");
 
-        // make sure the imu gyro is calibrated before continuing.
+        // make sure the imu gyroTurn is calibrated before continuing.
         while (!isStopRequested() && !imu.isGyroCalibrated()) {
             sleep(50);
             idle();
@@ -81,7 +82,7 @@ public class DriveAvoidIMU extends LinearOpMode {
         while (opModeIsActive()) {
 
             try {
-                // Use gyro to drive in a straight line.
+                // Use gyroTurn to drive in a straight line.
                 correction = checkDirection();
 
                 telemetry.addData("1 imu heading", lastAngles.firstAngle);
@@ -105,13 +106,13 @@ public class DriveAvoidIMU extends LinearOpMode {
                 telemetry.addData("gamepad1a", gamepad1.toString());
                 telemetry.addData("bButton", bButton);
 
+//
                 if (!aButton || !bButton) { //TODO: remove NOT condition ! when using working gamepad
                     setMotorPower(power, power);
                     telemetry.addData("power", power);
                     telemetry.addData("aButton", aButton);
 
                     sleep(50);
-
 
                     // turn 90 degrees right.
                     if (aButton) rotate(-90, power);
