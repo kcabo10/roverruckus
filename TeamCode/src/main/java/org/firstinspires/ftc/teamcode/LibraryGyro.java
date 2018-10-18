@@ -136,9 +136,9 @@ public class LibraryGyro {
 //        imu = (BNO055IMU) hardwareMap.gyroSensor.get("imu");
         resetAngle();
         robot.leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.leftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         robot.rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.rightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
 //        telemetry.addData("Current Pos", currentHeading);
@@ -186,9 +186,7 @@ public class LibraryGyro {
         telemetry.update();
 
         robot.leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
 
         return Input;

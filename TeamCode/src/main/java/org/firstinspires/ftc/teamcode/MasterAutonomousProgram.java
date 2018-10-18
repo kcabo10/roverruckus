@@ -56,7 +56,14 @@ public class MasterAutonomousProgram extends LinearOpMode {
         gridNavigation.setGridPosition(vuforia.gridPos[0], vuforia.gridPos[1], vuforia.rotation.thirdAngle);
 
         telemetry.addData("MAP", "Entering Vuf Switch");
+
+        telemetry.addData("Grid Nav Set Pos X", vuforia.gridPos[0]);
+        telemetry.addData("Grid Nav Set Pos Y", vuforia.gridPos[1]);
+
+
         telemetry.update();
+
+        sleep(3000);
 
         int X = 0;
         int Y = 1;
@@ -64,34 +71,34 @@ public class MasterAutonomousProgram extends LinearOpMode {
 //        Change values to grab mineral
 
 
-        double[] BLUE_DEPOT_LEFT = {-1, -2};
-        double[] BLUE_DEPOT_RIGHT = {-2, -1};
+        double[] BLUE_DEPOT_LEFT = {-2, -1};
+        double[] BLUE_DEPOT_RIGHT = {-1, -2};
         double[] BLUE_DEPOT_CENTER = {-1.5, -1.5};
 
-        double[] BLUE_CRATER_LEFT = {-1, 2};
-        double[] BLUE_CRATER_RIGHT = {-2, 1};
-        double[] BLUE_CRATER_CENTER = {-1.5, 1.5};
+        double[] BLUE_CRATER_LEFT = {1, -2};
+        double[] BLUE_CRATER_RIGHT = {2, -1};
+        double[] BLUE_CRATER_CENTER = {1.5, -1.5};
 
-        double[] RED_DEPOT_LEFT = {1, 2};
-        double[] RED_DEPOT_RIGHT = {2, 1};
+        double[] RED_DEPOT_LEFT = {2, 1};
+        double[] RED_DEPOT_RIGHT = {1, 2};
         double[] RED_DEPOT_CENTER = {1.5, 1.5};
 
-        double[] RED_CRATER_LEFT = {2, -1};
-        double[] RED_CRATER_RIGHT = {1, -2};
-        double[] RED_CRATER_CENTER = {1.5, -1.5};
+        double[] RED_CRATER_LEFT = {-1, 2};
+        double[] RED_CRATER_RIGHT = {-2, 1};
+        double[] RED_CRATER_CENTER = {-1.5, 1.5};
 
         switch (foundTargetName) {
             case "Red-Footprint":
                 telemetry.addData("Telemetry", "Red Crater Program");
 
                 if (goldPosition == "LEFT") {
-                    gridNavigation.driveToPosition(RED_CRATER_LEFT[X], RED_CRATER_LEFT[Y], .2);
+                    gridNavigation.driveToPosition(RED_CRATER_LEFT[X], RED_CRATER_LEFT[Y], .1);
                 }
                 if (goldPosition == "RIGHT"){
-                    gridNavigation.driveToPosition(RED_CRATER_RIGHT[X], RED_CRATER_RIGHT[Y], .2);
+                    gridNavigation.driveToPosition(RED_CRATER_RIGHT[X], RED_CRATER_RIGHT[Y], .1);
                 }
                 if (goldPosition == "CENTER"){
-                    gridNavigation.driveToPosition(RED_CRATER_CENTER[X], RED_CRATER_CENTER[Y], .2);
+                    gridNavigation.driveToPosition(RED_CRATER_CENTER[X], RED_CRATER_CENTER[Y], .1);
                 }
                 else {
                     telemetry.addData("Telemetry", "No Position Found");
@@ -102,13 +109,13 @@ public class MasterAutonomousProgram extends LinearOpMode {
                 telemetry.addData("Telemetry", "Blue Crater Program");
 
                 if (goldPosition == "LEFT") {
-                    gridNavigation.driveToPosition(BLUE_CRATER_LEFT[X], BLUE_CRATER_LEFT[Y], .2);
+                    gridNavigation.driveToPosition(BLUE_CRATER_LEFT[X], BLUE_CRATER_LEFT[Y], .1);
                 }
                 if (goldPosition == "RIGHT"){
-                        gridNavigation.driveToPosition(BLUE_CRATER_RIGHT[X], BLUE_CRATER_RIGHT[Y], .2);
+                        gridNavigation.driveToPosition(BLUE_CRATER_RIGHT[X], BLUE_CRATER_RIGHT[Y], .1);
                 }
                 if (goldPosition == "CENTER"){
-                        gridNavigation.driveToPosition(BLUE_CRATER_CENTER[X], BLUE_CRATER_CENTER[Y], .2);
+                        gridNavigation.driveToPosition(BLUE_CRATER_CENTER[X], BLUE_CRATER_CENTER[Y], .1);
                 }
                 else {
                     telemetry.addData("Telemetry", "No Position Found");
@@ -120,13 +127,13 @@ public class MasterAutonomousProgram extends LinearOpMode {
                 telemetry.addData("Telemetry", "Blue Depot Program");
 
                 if (goldPosition == "LEFT") {
-                    gridNavigation.driveToPosition(BLUE_DEPOT_LEFT[X], BLUE_DEPOT_LEFT[Y], .5);
+                    gridNavigation.driveToPosition(BLUE_DEPOT_LEFT[X], BLUE_DEPOT_LEFT[Y], .1);
                 }
                 if (goldPosition == "RIGHT"){
-                    gridNavigation.driveToPosition(BLUE_DEPOT_RIGHT[X], BLUE_DEPOT_RIGHT[Y], .5);
+                    gridNavigation.driveToPosition(BLUE_DEPOT_RIGHT[X], BLUE_DEPOT_RIGHT[Y], .1);
                 }
                 if (goldPosition == "CENTER"){
-                    gridNavigation.driveToPosition(BLUE_DEPOT_CENTER[X], BLUE_DEPOT_CENTER[Y], .5);
+                    gridNavigation.driveToPosition(BLUE_DEPOT_CENTER[X], BLUE_DEPOT_CENTER[Y], .1);
                 }
                 else {
                     telemetry.addData("Telemetry", "No Position Found");
@@ -140,17 +147,17 @@ public class MasterAutonomousProgram extends LinearOpMode {
 
 
                 if (goldPosition == "LEFT") {
-                    gridNavigation.driveToPosition(RED_DEPOT_LEFT[X], RED_DEPOT_LEFT[Y], .5);
+                    gridNavigation.driveToPosition(RED_DEPOT_LEFT[X], RED_DEPOT_LEFT[Y], .1);
                     telemetry.addData("Grid Nav Goto Pos X", RED_DEPOT_LEFT[X]);
                     telemetry.addData("Grid Nav Goto Pos Y", RED_DEPOT_LEFT[Y]);
                 }
                 if (goldPosition == "RIGHT"){
-                    gridNavigation.driveToPosition(RED_DEPOT_RIGHT[X], RED_DEPOT_RIGHT[Y], .5);
+                    gridNavigation.driveToPosition(RED_DEPOT_RIGHT[X], RED_DEPOT_RIGHT[Y], .1);
                     telemetry.addData("Grid Nav Goto Pos X", RED_DEPOT_RIGHT[X]);
                     telemetry.addData("Grid Nav Goto Pos Y", RED_DEPOT_RIGHT[Y]);
                 }
                 if (goldPosition == "CENTER"){
-                    gridNavigation.driveToPosition(RED_DEPOT_CENTER[X], RED_DEPOT_CENTER[Y], .5);
+                    gridNavigation.driveToPosition(RED_DEPOT_CENTER[X], RED_DEPOT_CENTER[Y], .1);
                     telemetry.addData("Grid Nav Goto Pos X", RED_DEPOT_CENTER[X]);
                     telemetry.addData("Grid Nav Goto Pos Y", RED_DEPOT_CENTER[Y]);
                 }
@@ -196,7 +203,7 @@ public class MasterAutonomousProgram extends LinearOpMode {
 
 
 
-        goldPosition = "UNKNOWN";
+        goldPosition = "RIGHT";
         telemetry.addData("MAP", "Running Sampling Order loop");
         while (goldPosition == "UNKNOWN") {
 
