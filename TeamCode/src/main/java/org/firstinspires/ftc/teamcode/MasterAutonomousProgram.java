@@ -71,21 +71,21 @@ public class MasterAutonomousProgram extends LinearOpMode {
 //        Change values to grab mineral
 
 
-        double[] BLUE_DEPOT_LEFT = {-2, -1};
-        double[] BLUE_DEPOT_RIGHT = {-1, -2};
-        double[] BLUE_DEPOT_CENTER = {-1.5, -1.5};
+        double[] BLUE_DEPOT_LEFT = {-2, 1};
+        double[] BLUE_DEPOT_RIGHT = {-1, 2};
+        double[] BLUE_DEPOT_CENTER = {-1.5, 1.5};
 
-        double[] BLUE_CRATER_LEFT = {1, -2};
-        double[] BLUE_CRATER_RIGHT = {2, -1};
-        double[] BLUE_CRATER_CENTER = {1.5, -1.5};
+        double[] BLUE_CRATER_LEFT = {1, 2};
+        double[] BLUE_CRATER_RIGHT = {2, 1};
+        double[] BLUE_CRATER_CENTER = {1.5, 1.5};
 
-        double[] RED_DEPOT_LEFT = {2, 1};
-        double[] RED_DEPOT_RIGHT = {1, 2};
-        double[] RED_DEPOT_CENTER = {1.5, 1.5};
+        double[] RED_DEPOT_LEFT = {4, -2};
+        double[] RED_DEPOT_RIGHT = {2, -4};
+        double[] RED_DEPOT_CENTER = {3, -3};
 
-        double[] RED_CRATER_LEFT = {-1, 2};
-        double[] RED_CRATER_RIGHT = {-2, 1};
-        double[] RED_CRATER_CENTER = {-1.5, 1.5};
+        double[] RED_CRATER_LEFT = {-1, -2};
+        double[] RED_CRATER_RIGHT = {-2, -1};
+        double[] RED_CRATER_CENTER = {-1.5, -1.5};
 
         switch (foundTargetName) {
             case "Red-Footprint":
@@ -147,17 +147,17 @@ public class MasterAutonomousProgram extends LinearOpMode {
 
 
                 if (goldPosition == "LEFT") {
-                    gridNavigation.driveToPosition(RED_DEPOT_LEFT[X], RED_DEPOT_LEFT[Y], .1);
+                    gridNavigation.driveToPosition(RED_DEPOT_LEFT[X], RED_DEPOT_LEFT[Y], .2);
                     telemetry.addData("Grid Nav Goto Pos X", RED_DEPOT_LEFT[X]);
                     telemetry.addData("Grid Nav Goto Pos Y", RED_DEPOT_LEFT[Y]);
                 }
                 if (goldPosition == "RIGHT"){
-                    gridNavigation.driveToPosition(RED_DEPOT_RIGHT[X], RED_DEPOT_RIGHT[Y], .1);
+                    gridNavigation.driveToPosition(RED_DEPOT_RIGHT[X], RED_DEPOT_RIGHT[Y], .2);
                     telemetry.addData("Grid Nav Goto Pos X", RED_DEPOT_RIGHT[X]);
                     telemetry.addData("Grid Nav Goto Pos Y", RED_DEPOT_RIGHT[Y]);
                 }
                 if (goldPosition == "CENTER"){
-                    gridNavigation.driveToPosition(RED_DEPOT_CENTER[X], RED_DEPOT_CENTER[Y], .1);
+                    gridNavigation.driveToPosition(RED_DEPOT_CENTER[X], RED_DEPOT_CENTER[Y], .2);
                     telemetry.addData("Grid Nav Goto Pos X", RED_DEPOT_CENTER[X]);
                     telemetry.addData("Grid Nav Goto Pos Y", RED_DEPOT_CENTER[Y]);
                 }

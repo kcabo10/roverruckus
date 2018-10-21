@@ -91,11 +91,11 @@ public class MichaelGyroTurnTest extends LinearOpMode {
         telemetry.update();
 
 
-        gridNav.driveToPosition(2d,2d, 1d);
+        gridNav.driveToPosition(2d,2d, .5d);
         telemetry.addData("Telemtry", "gridNav GridNavImplemented complete");
         telemetry.update();
 
-        gridNav.driveToPosition(0d,0d,1f);
+        gridNav.driveToPosition(0d,0d,.5d);
 
 
         while (opModeIsActive()) {

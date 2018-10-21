@@ -111,6 +111,7 @@ public class LibraryGyro {
         Output = kp * error + ki * errSum + kd * dErr;
         lastErr = error;
         lastTime = now;
+
     }
 
     public void SetTunings (double Kp, double Ki, double Kd)
@@ -146,7 +147,7 @@ public class LibraryGyro {
 
         startTime = System.currentTimeMillis();
         currentHeading = getAngle();
-        SetTunings(.01, 0, 0.1);
+        SetTunings(.02, 0, 0.1);
 
         Setpoint = targetHeading;
         Input = getAngle();
