@@ -47,7 +47,7 @@ public class CameraViewDisplay implements ViewDisplay {
     private CameraViewDisplay() {
     }
 
-    public static CameraViewDisplay getInstance() {
+    public static CameraViewDisplay     getInstance() {
         if (instance == null) instance = new CameraViewDisplay();
         return instance;
     }

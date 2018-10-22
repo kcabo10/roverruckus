@@ -14,7 +14,6 @@ public class MasterAutonomousProgram extends LinearOpMode {
     LibraryGyro gyroTurn = new LibraryGyro();
     DriveAvoidIMU gyroDrive = new DriveAvoidIMU();
     LibraryDogeforia dogeforia = new LibraryDogeforia(robot, telemetry);
-    //Dogeforia vuforia;
     LibraryVuMarkIdentification vuforia;
     LibraryGridNavigation gridNavigation = new LibraryGridNavigation();
 
@@ -109,13 +108,13 @@ public class MasterAutonomousProgram extends LinearOpMode {
                 telemetry.addData("Telemetry", "Blue Crater Program");
 
                 if (goldPosition == "LEFT") {
-                    gridNavigation.driveToPosition(BLUE_CRATER_LEFT[X], BLUE_CRATER_LEFT[Y], .1);
+                    gridNavigation.driveToPosition(BLUE_CRATER_LEFT[X], BLUE_CRATER_LEFT[Y], .2);
                 }
                 if (goldPosition == "RIGHT"){
-                        gridNavigation.driveToPosition(BLUE_CRATER_RIGHT[X], BLUE_CRATER_RIGHT[Y], .1);
+                        gridNavigation.driveToPosition(BLUE_CRATER_RIGHT[X], BLUE_CRATER_RIGHT[Y], .2);
                 }
                 if (goldPosition == "CENTER"){
-                        gridNavigation.driveToPosition(BLUE_CRATER_CENTER[X], BLUE_CRATER_CENTER[Y], .1);
+                        gridNavigation.driveToPosition(BLUE_CRATER_CENTER[X], BLUE_CRATER_CENTER[Y], .2);
                 }
                 else {
                     telemetry.addData("Telemetry", "No Position Found");
@@ -127,13 +126,13 @@ public class MasterAutonomousProgram extends LinearOpMode {
                 telemetry.addData("Telemetry", "Blue Depot Program");
 
                 if (goldPosition == "LEFT") {
-                    gridNavigation.driveToPosition(BLUE_DEPOT_LEFT[X], BLUE_DEPOT_LEFT[Y], .1);
+                    gridNavigation.driveToPosition(BLUE_DEPOT_LEFT[X], BLUE_DEPOT_LEFT[Y], .2);
                 }
                 if (goldPosition == "RIGHT"){
-                    gridNavigation.driveToPosition(BLUE_DEPOT_RIGHT[X], BLUE_DEPOT_RIGHT[Y], .1);
+                    gridNavigation.driveToPosition(BLUE_DEPOT_RIGHT[X], BLUE_DEPOT_RIGHT[Y], .2);
                 }
                 if (goldPosition == "CENTER"){
-                    gridNavigation.driveToPosition(BLUE_DEPOT_CENTER[X], BLUE_DEPOT_CENTER[Y], .1);
+                    gridNavigation.driveToPosition(BLUE_DEPOT_CENTER[X], BLUE_DEPOT_CENTER[Y], .2);
                 }
                 else {
                     telemetry.addData("Telemetry", "No Position Found");

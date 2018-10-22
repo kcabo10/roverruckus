@@ -1,11 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.util.Hardware;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -16,12 +12,13 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 //@Autonomous(name="Michael Gryo Testing 4", group="Exercises")
 //@Disabled
 
-public class LibraryGyro {
+public class LibraryGyroDrive {
 
     HardwareBeep robot = null;
+
     Telemetry telemetry;
     Orientation lastAngles = new Orientation();
-    double globalAngle, power = .30, correction;
+    double globalAngle, power = .05, correction;
     double angle_variable;
     double speed;
     boolean aButton, bButton, touched;
@@ -32,12 +29,15 @@ public class LibraryGyro {
     double kp, ki, kd;
 
 
+
+
     /**
      * The hardware class needs to be initialized before this f unction is called
     */
     public void init(HardwareBeep myRobot, Telemetry myTelemetry){
         robot = myRobot;
         telemetry = myTelemetry;
+
     }
 
     /**
@@ -85,6 +85,8 @@ public class LibraryGyro {
         // The gain value determines how sensitive the correction is to direction changes.
         // You will have to experiment with your robot to get small smooth direction changes
         // to stay on a straight line.
+        correction = checkDirection();
+
         double correction, angle, gain = .10;
 
         angle = getAngle();
@@ -97,6 +99,19 @@ public class LibraryGyro {
         correction = correction * gain;
 
         return correction;
+    }
+
+    private void setMotorPower(double powerL, double powerR) {
+
+        robot.leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.rightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        robot.leftBack.setPower(powerL);
+        robot.leftFront.setPower(powerL);
+        robot.rightBack.setPower(powerR);
+        robot.rightFront.setPower(powerR);
     }
 
 
@@ -137,9 +152,9 @@ public class LibraryGyro {
 //        imu = (BNO055IMU) hardwareMap.gyroSensor.get("imu");
         resetAngle();
         robot.leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.leftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         robot.rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.rightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
 //        telemetry.addData("Current Pos", currentHeading);
@@ -174,7 +189,8 @@ public class LibraryGyro {
             telemetry.addData("tarHeading", Setpoint);
             telemetry.update();
             //} while (Input < targetHeading && (System.currentTimeMillis() < (startTime + 6000)));
-        } while ((Math.abs(Input - Setpoint) > TOLERANCE) || (System.currentTimeMillis() < (startTime + 1050)));
+        }
+        while ((Math.abs(Input - Setpoint) > TOLERANCE) || (System.currentTimeMillis() < (startTime + 1050)));
 
 
         telemetry.addData("curHeading", Input);
@@ -192,6 +208,12 @@ public class LibraryGyro {
 
         return Input;
 
+
     }
 
+        public void gyroDrive (float speed) {
+
+        correction = checkDirection();
+
+        }
 }
