@@ -1,11 +1,12 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -13,15 +14,14 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
-@Autonomous(name="Drive Avoid PID", group="Exercises")
+@TeleOp(name="Drive Avoid PID", group="Exercises")
 public class DriveAvoidPid extends LinearOpMode
 {
-    HardwareBeep robot = null;
-    Telemetry telemetry;
+    HardwareBeep robot = new HardwareBeep();
     DigitalChannel          touch;
     BNO055IMU               imu;
     Orientation             lastAngles = new Orientation();
-    double                  globalAngle, power = .30, correction;
+    double                  globalAngle, power = .2, correction;
     boolean                 aButton, bButton, touched;
     PIDController           pidRotate, pidDrive;
 
@@ -29,13 +29,7 @@ public class DriveAvoidPid extends LinearOpMode
     @Override
     public void runOpMode() throws InterruptedException
     {
-        robot.leftFront = hardwareMap.dcMotor.get("left_front_motor");
-        robot.leftBack = hardwareMap.dcMotor.get("left_back_motor");
-
-        robot.rightBack = hardwareMap.dcMotor.get("right_front_motor");
-        robot.rightFront = hardwareMap.dcMotor.get("right_back_motor");
-        robot.rightBack.setDirection(DcMotor.Direction.REVERSE);
-        robot.rightFront.setDirection(DcMotor.Direction.REVERSE);
+        robot.init(hardwareMap);
 
         robot.rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         robot.rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -63,7 +57,7 @@ public class DriveAvoidPid extends LinearOpMode
 
         // Set PID proportional value to produce non-zero correction value when robot veers off
         // straight line. P value controls how sensitive the correction is.
-        pidDrive = new PIDController(.05, 0, 0);
+        pidDrive = new PIDController(.1, 0, 0);
 
         telemetry.addData("Mode", "calibrating...");
         telemetry.update();
@@ -119,36 +113,12 @@ public class DriveAvoidPid extends LinearOpMode
 
 
 
-            if (!touched || aButton || bButton)
-            {
-                // backup.
-                robot.leftBack.setPower(power);
-                robot.leftFront.setPower(power);
-                robot.rightBack.setPower(power);
-                robot.rightFront.setPower(power);
 
-                sleep(500);
 
-                // stop.
-                robot.leftFront.setPower(0);
-                robot.leftBack.setPower(0);
-                robot.rightFront.setPower(0);
-                robot.rightBack.setPower(0);
-
-                // turn 90 degrees right.
-                if (!touched || aButton) rotate(-90, power);
-
-                // turn 90 degrees left.
-                if (bButton) rotate(90, power);
             }
         }
 
-        // turn the motors off.
-        robot.leftFront.setPower(0);
-        robot.leftBack.setPower(0);
-        robot.rightFront.setPower(0);
-        robot.rightBack.setPower(0);
-    }
+
 
     /**
      * Resets the cumulative angle tracking to zero.
