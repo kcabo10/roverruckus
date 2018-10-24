@@ -110,15 +110,8 @@ public class DriveAvoidPid extends LinearOpMode
             // We record the sensor values because we will test them in more than
             // one place with time passing between those places. See the lesson on
             // Timing Considerations to know why.
-
-
-
-
-
             }
         }
-
-
 
     /**
      * Resets the cumulative angle tracking to zero.
