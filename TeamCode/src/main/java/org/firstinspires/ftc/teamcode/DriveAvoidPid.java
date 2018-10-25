@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -14,7 +15,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
-@TeleOp(name="Drive Avoid PID", group="Exercises")
 public class DriveAvoidPid extends LinearOpMode
 {
     HardwareBeep robot = new HardwareBeep();
@@ -25,16 +25,34 @@ public class DriveAvoidPid extends LinearOpMode
     boolean                 aButton, bButton, touched;
     PIDController           pidRotate, pidDrive;
 
+
+    static final double     COUNTS_PER_MOTOR_REV    = 1440 ;    // eg: TETRIX Motor Encoder
+    static final double     DRIVE_GEAR_REDUCTION    = 2.0 ;     // This is < 1.0 if geared UP
+    static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
+    static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
+            (WHEEL_DIAMETER_INCHES * 3.1415);
+
     // called when init button is  pressed.
     @Override
-    public void runOpMode() throws InterruptedException
-    {
+    public void runOpMode() throws InterruptedException {
+    }
+    public void gyroDrive(double power, double distance) {
+
+        int     newLeftTarget;
+        int     newRightTarget;
+        int     moveCounts;
+
         robot.init(hardwareMap);
 
         robot.rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         robot.rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         robot.leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         robot.leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        robot.leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         // get a reference to REV Touch sensor.
 
@@ -90,8 +108,7 @@ public class DriveAvoidPid extends LinearOpMode
 
         // drive until end of period.
 
-        while (opModeIsActive())
-        {
+        while (distance > 0) {
             // Use PID with imu input to drive in a straight line.
             correction = pidDrive.performPID(getAngle());
 
@@ -99,6 +116,18 @@ public class DriveAvoidPid extends LinearOpMode
             telemetry.addData("2 global heading", globalAngle);
             telemetry.addData("3 correction", correction);
             telemetry.update();
+
+            // Determine new target position, and pass to motor controller
+            moveCounts = (int)(distance * COUNTS_PER_INCH);
+            newLeftTarget = robot.leftFront.getCurrentPosition() + moveCounts;
+            newRightTarget = robot.rightFront.getCurrentPosition() + moveCounts;
+
+            // Set Target and Turn On RUN_TO_POSITION
+            robot.leftFront.setTargetPosition(newLeftTarget);
+            robot.rightFront.setTargetPosition(newRightTarget);
+
+            robot.leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             // set power levels.
             robot.leftFront.setPower(-power + correction);
@@ -127,6 +156,8 @@ public class DriveAvoidPid extends LinearOpMode
      * Get current cumulative angle rotation from last reset.
      * @return Angle in degrees. + = left, - = right from zero point.
      */
+
+
     private double getAngle()
     {
         // We experimentally determined the Z axis is the axis we want to use for heading angle.

@@ -12,7 +12,7 @@ public class MasterAutonomousProgram extends LinearOpMode {
 
     HardwareBeep robot = new HardwareBeep();
     LibraryGyro gyroTurn = new LibraryGyro();
-    DriveAvoidIMU gyroDrive = new DriveAvoidIMU();
+    DriveAvoidPid gyroDrive = new DriveAvoidPid();
     LibraryDogeforia dogeforia = new LibraryDogeforia(robot, telemetry);
     LibraryVuMarkIdentification vuforia;
     LibraryGridNavigation gridNavigation = new LibraryGridNavigation();
@@ -31,6 +31,7 @@ public class MasterAutonomousProgram extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
 
+
         telemetry.addData("Telemetry", "robot initializing");
         telemetry.update();
         robot.init(hardwareMap);
@@ -38,7 +39,6 @@ public class MasterAutonomousProgram extends LinearOpMode {
         gyroTurn.init(robot, telemetry);
         telemetry.addData("Telemetry", "run opMode start");
         telemetry.update();
-        //dogeforia.init();
         vuforia = new LibraryVuMarkIdentification(robot.hwMap, telemetry);
 
 
@@ -50,6 +50,7 @@ public class MasterAutonomousProgram extends LinearOpMode {
         sleep(500);
 
         gyroTurn.turnGyro(45);
+        gyroDrive.gyroDrive(.2, 24);
 
         foundTargetName = vuforia.getTarget();
         gridNavigation.setGridPosition(vuforia.gridPos[0], vuforia.gridPos[1], vuforia.rotation.thirdAngle);
