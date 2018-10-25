@@ -32,6 +32,7 @@ public class HardwareBeep {
 
     }
 
+    
     /* Initialize standard Hardware interfaces */
     public void init(HardwareMap ahwMap) {
         // Save reference to Hardware map
