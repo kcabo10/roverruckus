@@ -41,8 +41,6 @@ public class TeleOpProgram extends OpMode
         robot.leftFront.setPower((/*deadZoneY */ frontLeftY) - (/*deadZoneX */ frontLeftX));
         robot.leftBack.setPower((/*deadZoneY */ backLeftY) + (/*deadZoneX */ backLeftX));
 
-     
-
 
         /*
         Intake Control
