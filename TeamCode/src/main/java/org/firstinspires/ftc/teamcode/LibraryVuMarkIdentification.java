@@ -272,7 +272,6 @@ public class LibraryVuMarkIdentification{
          * Next, translate the camera lens to where it is on the robot.
          * In this example, it is centered (left to right), but 110 mm forward of the middle of the robot, and 200 mm above ground level.
          */
-
         final int CAMERA_FORWARD_DISPLACEMENT  = 85;   // eg: Camera is 110 mm in front of robot center
         final int CAMERA_VERTICAL_DISPLACEMENT = 286;   // eg: Camera is 200 mm above ground
         final int CAMERA_LEFT_DISPLACEMENT     = 150;   // eg: Camera is ON the robot's center line
