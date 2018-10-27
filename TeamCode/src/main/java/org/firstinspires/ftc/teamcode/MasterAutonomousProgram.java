@@ -4,7 +4,7 @@ import com.disnodeteam.dogecv.CameraViewDisplay;
 import com.disnodeteam.dogecv.DogeCV;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 
 @Autonomous(name="Master Autonomous Program", group="Beep")
@@ -12,7 +12,7 @@ public class MasterAutonomousProgram extends LinearOpMode {
 
     HardwareBeep robot = new HardwareBeep();
     LibraryGyro gyroTurn = new LibraryGyro();
-    DriveAvoidIMU gyroDrive = new DriveAvoidIMU();
+    LibraryGyroDrive gyroDrive = new LibraryGyroDrive();
     LibraryDogeforia dogeforia = new LibraryDogeforia(robot, telemetry);
     LibraryVuMarkIdentification vuforia;
     LibraryGridNavigation gridNavigation = new LibraryGridNavigation();
@@ -36,6 +36,7 @@ public class MasterAutonomousProgram extends LinearOpMode {
         robot.init(hardwareMap);
         gridNavigation.init(robot, gyroTurn, telemetry);
         gyroTurn.init(robot, telemetry);
+        gyroDrive.init(robot, telemetry, robot.rightBack);
         telemetry.addData("Telemetry", "run opMode start");
         telemetry.update();
         //dogeforia.init();
@@ -49,7 +50,8 @@ public class MasterAutonomousProgram extends LinearOpMode {
         getMineralPosition();
         sleep(500);
 
-        gyroTurn.turnGyro(45);
+        //gyroTurn.turnGyro(45);
+        gyroDrive.driveGyro(.3, -9000);//1611);
 
         foundTargetName = vuforia.getTarget();
         gridNavigation.setGridPosition(vuforia.gridPos[0], vuforia.gridPos[1], vuforia.rotation.thirdAngle);
