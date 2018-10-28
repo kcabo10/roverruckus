@@ -47,11 +47,32 @@ public class MasterAutonomousProgram extends LinearOpMode {
 
         waitForStart();
 
+        // landing our robot
+
+        robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.lift.setTargetPosition(-12500);
+        robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.lift.setPower(1);
+
+        while (opModeIsActive() &&
+                robot.lift.isBusy()){
+            telemetry.addData("Lift Encoder Ticks", robot.lift.getCurrentPosition());
+            telemetry.update();
+
+        }
+
+        robot.lift.setPower(0);
+
         getMineralPosition();
         sleep(500);
 
-        //gyroTurn.turnGyro(45);
-        gyroDrive.driveGyro(.3, -9000);//1611);
+        telemetry.addData("Turning", telemetry);
+        telemetry.update();
+
+        gyroTurn.turnGyro(-45);
+        gyroDrive.driveGyro(.3, -400);//1611);
+
+        gyroTurn.turnGyro(45);
 
         foundTargetName = vuforia.getTarget();
         gridNavigation.setGridPosition(vuforia.gridPos[0], vuforia.gridPos[1], vuforia.rotation.thirdAngle);
