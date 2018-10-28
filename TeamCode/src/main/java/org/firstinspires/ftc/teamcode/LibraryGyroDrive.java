@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.sun.tools.javac.tree.DCTree;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -17,6 +18,8 @@ public class LibraryGyroDrive {
     HardwareBeep robot = null;
 
     Telemetry telemetry;
+    LibraryPIDController pidRotate, pidDrive;
+
     Orientation lastAngles = new Orientation();
     double globalAngle, power = .05, correction;
     double angle_variable;
@@ -28,17 +31,107 @@ public class LibraryGyroDrive {
     double errSum, lastErr;
     double kp, ki, kd;
 
-
+    DcMotor motor;
 
 
     /**
      * The hardware class needs to be initialized before this f unction is called
-    */
-    public void init(HardwareBeep myRobot, Telemetry myTelemetry){
+     */
+    public void init(HardwareBeep myRobot, Telemetry myTelemetry, DcMotor myMotor) {
         robot = myRobot;
         telemetry = myTelemetry;
+        motor = myMotor;
 
     }
+
+    public void driveGyro(double power, int targetEncoderTicks) {
+
+        robot.rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        robot.rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        robot.leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        robot.leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        // get a reference to REV Touch sensor.
+
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+
+        parameters.mode = BNO055IMU.SensorMode.IMU;
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.loggingEnabled = false;
+
+        // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
+        // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
+        // and named "imu".
+        //imu = robot.hwMap.get(BNO055IMU.class, "imu");
+
+        robot.imu.initialize(parameters);
+
+        // Set PID proportional value to start reducing power at about 50 degrees of rotation.
+        pidRotate = new LibraryPIDController(.005, 0, 0);
+
+        // Set PID proportional value to produce non-zero correction value when robot veers off
+        // straight line. P value controls how sensitive the correction is.
+        pidDrive = new LibraryPIDController(.05, 0, 0);
+
+        motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //sleep(1000);
+
+        // Set up parameters for driving in a straight line.
+        pidDrive.setSetpoint(0);
+        pidDrive.setOutputRange(0, power);
+        pidDrive.setInputRange(-90, 90);
+        pidDrive.enable();
+
+        robot.rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.rightFront.setTargetPosition(targetEncoderTicks);
+        robot.rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.leftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        // drive until end of period.
+
+        do {
+
+            // Use PID with imu input to drive in a straight line.
+            correction = pidDrive.performPID(getAngle());
+
+            telemetry.addData("1 imu heading", lastAngles.firstAngle);
+            telemetry.addData("2 global heading", globalAngle);
+            telemetry.addData("3 correction", correction);
+            telemetry.update();
+
+            // set power levels.
+            robot.leftFront.setPower(-power + correction);
+            robot.leftBack.setPower(-power + correction);
+
+            robot.rightFront.setPower(-power);
+            robot.rightBack.setPower(-power);
+
+            // We record the sensor values because we will test them in more than
+            // one place with time passing between those places. See the lesson on
+            // Timing Considerations to know why.
+
+
+        } while (robot.rightFront.isBusy());
+
+        robot.rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        robot.rightBack.setPower(0);
+        robot.rightFront.setPower(0);
+        robot.leftBack.setPower(0);
+        robot.leftFront.setPower(0);
+
+    }
+
+
 
     /**
      * Resets the cumulative angle tracking to zero.
@@ -210,10 +303,4 @@ public class LibraryGyroDrive {
 
 
     }
-
-        public void gyroDrive (float speed) {
-
-        correction = checkDirection();
-
-        }
 }

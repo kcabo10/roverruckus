@@ -4,7 +4,7 @@ import com.disnodeteam.dogecv.CameraViewDisplay;
 import com.disnodeteam.dogecv.DogeCV;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 
 @Autonomous(name="Master Autonomous Program", group="Beep")
@@ -12,7 +12,7 @@ public class MasterAutonomousProgram extends LinearOpMode {
 
     HardwareBeep robot = new HardwareBeep();
     LibraryGyro gyroTurn = new LibraryGyro();
-    DriveAvoidPid gyroDrive = new DriveAvoidPid();
+    LibraryGyroDrive gyroDrive = new LibraryGyroDrive();
     LibraryDogeforia dogeforia = new LibraryDogeforia(robot, telemetry);
     LibraryVuMarkIdentification vuforia;
     LibraryGridNavigation gridNavigation = new LibraryGridNavigation();
@@ -31,14 +31,15 @@ public class MasterAutonomousProgram extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
 
-
         telemetry.addData("Telemetry", "robot initializing");
         telemetry.update();
         robot.init(hardwareMap);
         gridNavigation.init(robot, gyroTurn, telemetry);
         gyroTurn.init(robot, telemetry);
+        gyroDrive.init(robot, telemetry, robot.rightBack);
         telemetry.addData("Telemetry", "run opMode start");
         telemetry.update();
+        //dogeforia.init();
         vuforia = new LibraryVuMarkIdentification(robot.hwMap, telemetry);
 
 
@@ -46,11 +47,32 @@ public class MasterAutonomousProgram extends LinearOpMode {
 
         waitForStart();
 
+        // landing our robot
+
+        robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.lift.setTargetPosition(-12500);
+        robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.lift.setPower(1);
+
+        while (opModeIsActive() &&
+                robot.lift.isBusy()){
+            telemetry.addData("Lift Encoder Ticks", robot.lift.getCurrentPosition());
+            telemetry.update();
+
+        }
+
+        robot.lift.setPower(0);
+
         getMineralPosition();
         sleep(500);
 
+        telemetry.addData("Turning", telemetry);
+        telemetry.update();
+
+        gyroTurn.turnGyro(-45);
+        gyroDrive.driveGyro(.3, -400);//1611);
+
         gyroTurn.turnGyro(45);
-        gyroDrive.gyroDrive(.2, 24);
 
         foundTargetName = vuforia.getTarget();
         gridNavigation.setGridPosition(vuforia.gridPos[0], vuforia.gridPos[1], vuforia.rotation.thirdAngle);
