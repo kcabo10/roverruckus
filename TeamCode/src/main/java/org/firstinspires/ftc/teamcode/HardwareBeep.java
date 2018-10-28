@@ -19,6 +19,10 @@ public class HardwareBeep {
     public DcMotor rightFront = null;
     public DcMotor rightBack = null;
     public DcMotor lift = null;
+    public DcMotor arm = null;
+    public DcMotor armExtrusion = null;
+    public DcMotor intake = null;
+//    public Servo basket = null;
 
     public BNO055IMU imu = null;
 
@@ -43,12 +47,20 @@ public class HardwareBeep {
         rightFront = hwMap.get(DcMotor.class, "right_front");
         rightBack = hwMap.get(DcMotor.class, "right_back");
         lift = hwMap.get(DcMotor.class, "lift");
+        arm = hwMap.get(DcMotor.class, "arm");
+        armExtrusion = hwMap.get(DcMotor.class, "arm_extrusion");
+        intake = hwMap.get(DcMotor.class, "intake");
+//        basket = hwMap.get(Servo.class, "basket");
 
         leftFront.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
         leftBack.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
         rightFront.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
         rightBack.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
         lift.setDirection(DcMotor.Direction.FORWARD);
+        arm.setDirection(DcMotor.Direction.FORWARD);
+        armExtrusion.setDirection(DcMotor.Direction.FORWARD);
+        intake.setDirection(DcMotor.Direction.FORWARD);
+
 
         // Set all motors to zero power
         leftFront.setPower(0);
@@ -56,14 +68,21 @@ public class HardwareBeep {
         rightFront.setPower(0);
         rightBack.setPower(0);
         lift.setPower(0);
+        arm.setPower(0);
+        armExtrusion.setPower(0);
+        intake.setPower(0);
+//        basket.setPosition(0.50);
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
-        leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        leftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        intake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
 
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
