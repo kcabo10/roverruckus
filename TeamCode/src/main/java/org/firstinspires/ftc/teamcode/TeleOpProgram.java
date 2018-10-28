@@ -15,8 +15,8 @@ public class TeleOpProgram extends OpMode
 
     private int buttonYPressed;
     private int buttonAPressed;
-    private int direction;
-    private double scaleFactor;
+    private int direction = 1;
+    private double scaleFactor = 1;
 
     public void reverseDirection() {
         if (direction == 1) {
@@ -43,14 +43,16 @@ public class TeleOpProgram extends OpMode
     public void init_loop() {
         buttonYPressed = 0;
         robot.lift.setPower(0);
-        robot.arm.setPower(0);
+//        robot.arm.setPower(0);
+//        robot.armExtrusion.setPower(0);
+//        robot.intake.setPower(0);
 //        robot.basket.setPosition(0);
     }
 
     public void loop() {
 
-        /*
-        POV Mecanum Wheel Control
+        /**
+         *POV Mecanum Wheel Control
          */
 
         double r = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
@@ -66,45 +68,45 @@ public class TeleOpProgram extends OpMode
         robot.leftBack.setPower(v3*0.5);
         robot.rightBack.setPower(v4*0.5);
 
-        /*
-        Invert Direction On Y Button
+        /**
+         *Invert Direction On Y Button
          */
 
         switch (buttonYPressed){
             case(0):
-                if (gamepad2.y) {
+                if (gamepad1.y) {
                     buttonYPressed = 1;
                 }
                 break;
             case(1):
-                if (gamepad2.y) {
+                if (gamepad1.y) {
                     buttonYPressed = 0;
                     reverseDirection();
                 }
                 break;
         }
 
-        /*
-        ScaleFactor on A Button
+        /**
+         *ScaleFactor on A Button
          */
 
 
         switch (buttonAPressed) {
             case(0):
-             if (gamepad2.a)  {
+             if (gamepad1.a)  {
                  buttonAPressed = 1;
              }
             break;
             case(1):
-                if (gamepad2.a) {
+                if (gamepad1.a) {
                     buttonAPressed = 0;
                     scaleFactor();
                 }
             break;
         }
 
-        /*
-        Lift Control
+        /**
+         *Lift Control
          */
 
         if (gamepad2.left_bumper) {
@@ -112,19 +114,19 @@ public class TeleOpProgram extends OpMode
         } else if (gamepad2.left_trigger < 0) {
             robot.lift.setPower(-1); }
 
-        /*
-        Intake Control
+        /**
+         *Intake Control
          */
 
-        if (gamepad2.left_bumper) {
-            robot.intake.setPower(0.3);
-        } else if (gamepad2.left_trigger > 0) {
-            robot.intake.setPower(-0.3);
-        } else
-            robot.intake.setPower(0);
+//        if (gamepad2.left_bumper) {
+//            robot.intake.setPower(0.3);
+//        } else if (gamepad2.left_trigger > 0) {
+//            robot.intake.setPower(-0.3);
+//        } else
+//            robot.intake.setPower(0);
 
-        /*
-        Basket Control
+        /**
+         *Basket Control
          */
 //        if (gamepad2.dpad_down && !gamepad2.dpad_up)        {
 //
@@ -135,33 +137,35 @@ public class TeleOpProgram extends OpMode
 //            robot.basket.setPosition(0.50);
 //        }
 
-        /*
-        Arm Control
+        /**
+         *Arm Control
          */
 
-        if (gamepad2.left_stick_y > 0) {
-            robot.arm.setPower(0.3);
-        } else if (gamepad2.left_stick_y < 0)
-            robot.arm.setPower(-0.3);
-        else if (gamepad2.left_stick_y == 0)
-            robot.arm.setPower(0);
+//        if (gamepad2.left_stick_y > 0) {
+//            robot.arm.setPower(0.3);
+//        } else if (gamepad2.left_stick_y < 0)
+//            robot.arm.setPower(-0.3);
+//        else if (gamepad2.left_stick_y == 0)
+//            robot.arm.setPower(0);
 
-        /*
+        /**
         Arm Extrusions
          */
 
-        if (gamepad2.right_stick_y > 0) {
-            robot.armExtrusion.setPower(0.3);
-        } else if (gamepad2.right_stick_y < 0)
-            robot.armExtrusion.setPower(-0.3);
-        else if (gamepad2.right_stick_y == 0)
-            robot.armExtrusion.setPower(0);
+//        if (gamepad2.right_stick_y > 0) {
+//            robot.armExtrusion.setPower(0.3);
+//        } else if (gamepad2.right_stick_y < 0)
+//            robot.armExtrusion.setPower(-0.3);
+//        else if (gamepad2.right_stick_y == 0)
+//            robot.armExtrusion.setPower(0);
     }
     
     public void stop() {
 
         robot.lift.setPower(0);
-        robot.arm.setPower(0);
+//        robot.arm.setPower(0);
+//        robot.armExtrusion.setPower(0);
+//        robot.intake.setPower(0);
 //        robot.basket.setPosition(0);
     }
 }
