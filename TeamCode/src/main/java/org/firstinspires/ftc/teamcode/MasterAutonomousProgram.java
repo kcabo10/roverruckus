@@ -26,7 +26,10 @@ public class MasterAutonomousProgram extends LinearOpMode {
 
     public String foundTargetName = "";
 
-    // called when init button is  pressed.
+    /**
+    Called when init button is  pressed.
+    */
+
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -39,15 +42,14 @@ public class MasterAutonomousProgram extends LinearOpMode {
         gyroDrive.init(robot, telemetry, robot.rightBack);
         telemetry.addData("Telemetry", "run opMode start");
         telemetry.update();
-        //dogeforia.init();
         vuforia = new LibraryVuMarkIdentification(robot.hwMap, telemetry);
 
 
-        // wait for start button.
+        /**
+        Wait for start button.
+         */
 
         waitForStart();
-
-        // landing our robot
 
         robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.lift.setTargetPosition(-12500);
@@ -90,7 +92,9 @@ public class MasterAutonomousProgram extends LinearOpMode {
         int X = 0;
         int Y = 1;
 
-//        Change values to grab mineral
+       /**
+        Change values to grab mineral
+        */
 
 
         double[] BLUE_DEPOT_LEFT = {-2, 1};

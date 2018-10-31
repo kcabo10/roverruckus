@@ -73,7 +73,7 @@ public class TeleOpProgram extends OpMode
         telemetry.addData("v3", v3);
         telemetry.addData("v4", v4);
         telemetry.addData("direction", direction);
-        telemetry.addData("scaleFactor", scaleFactor);         
+        telemetry.addData("scaleFactor", scaleFactor);
         telemetry.update();
 
         /**
@@ -87,7 +87,7 @@ public class TeleOpProgram extends OpMode
                 }
                 break;
             case(1):
-                if (gamepad1.y) {
+                if (!gamepad1.y) {
                     buttonYPressed = 0;
                     reverseDirection();
                 }
@@ -106,7 +106,7 @@ public class TeleOpProgram extends OpMode
              }
             break;
             case(1):
-                if (gamepad1.a) {
+                if (!gamepad1.a) {
                     buttonAPressed = 0;
                     scaleFactor();
                 }
