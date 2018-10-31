@@ -16,7 +16,7 @@ public class TeleOpProgram extends OpMode
     private int buttonYPressed;
     private int buttonAPressed;
     private int direction = 1;
-    private double scaleFactor = 1;
+    private double scaleFactor = 0.5;
 
     public void reverseDirection() {
         if (direction == 1) {
@@ -58,15 +58,23 @@ public class TeleOpProgram extends OpMode
         double r = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
         double robotAngle = Math.atan2(gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4;
         double rightX = gamepad1.right_stick_x;
-        final double v1 = ((r * Math.cos(robotAngle) - rightX) * direction) * scaleFactor;
-        final double v2 = ((r * Math.sin(robotAngle) + rightX) * direction) * scaleFactor;
-        final double v3 = ((r * Math.sin(robotAngle) - rightX) * direction) * scaleFactor;
-        final double v4 = ((r * Math.cos(robotAngle) + rightX) * direction) * scaleFactor;
+        final double v1 = (((r * Math.cos(robotAngle) - rightX) * direction) * scaleFactor);
+        final double v2 = (((r * Math.sin(robotAngle) + rightX) * direction) * scaleFactor);
+        final double v3 = (((r * Math.sin(robotAngle) - rightX) * direction) * scaleFactor);
+        final double v4 = (((r * Math.cos(robotAngle) + rightX) * direction) * scaleFactor);
 
-        robot.leftFront.setPower(v1*0.5);
-        robot.rightFront.setPower(v2*0.5);
-        robot.leftBack.setPower(v3*0.5);
-        robot.rightBack.setPower(v4*0.5);
+        robot.leftFront.setPower(v1);
+        robot.rightFront.setPower(v2);
+        robot.leftBack.setPower(v3);
+        robot.rightBack.setPower(v4);
+
+        telemetry.addData("v1", v1);
+        telemetry.addData("v2", v2);
+        telemetry.addData("v3", v3);
+        telemetry.addData("v4", v4);
+        telemetry.addData("direction", direction);
+        telemetry.addData("scaleFactor", scaleFactor);         
+        telemetry.update();
 
         /**
          *Invert Direction On Y Button
