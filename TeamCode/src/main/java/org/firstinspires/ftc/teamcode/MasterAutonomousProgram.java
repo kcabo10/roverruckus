@@ -51,7 +51,9 @@ public class MasterAutonomousProgram extends LinearOpMode {
 
         waitForStart();
 
-        // landing our robot
+        /**
+         landing our robot
+        */
 
 //        robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 //        robot.lift.setTargetPosition(-12500);
@@ -67,9 +69,21 @@ public class MasterAutonomousProgram extends LinearOpMode {
 //
 //        robot.lift.setPower(0);
 
+        /**
+        Setting Code Position
+         */
+
         int codePos = 0;
 
+        /**
+         Getting the Mineral Position
+         */
+
         getMineralPosition();
+
+        /**
+         Printing Telemetry
+         */
 
         printTelemetry(10);
 
@@ -78,13 +92,33 @@ public class MasterAutonomousProgram extends LinearOpMode {
         telemetry.addData("Turning", telemetry);
         telemetry.update();
 
+        /**
+         Turning Robot 45 degrees and Driving Forward 800 Encoder Ticks
+         */
+
         gyroTurn.turnGyro(45);
         gyroDrive.driveGyro(.3, -800);//1611);
 
+        /**
+         Printing Telemetry
+         */
+
         printTelemetry(20);
 
+        /**
+         Reading VuMark
+         */
+
         foundTargetName = vuforia.getTarget();
+
+        /**
+         Getting Grid Position From vuMark
+         */
         gridNavigation.setGridPosition(vuforia.gridPos[0], vuforia.gridPos[1], vuforia.rotation.thirdAngle);
+
+        /**
+         Printing Telemetry
+         */
 
         telemetry.addData("Grid Nav Set Pos X", vuforia.gridPos[0]);
         telemetry.addData("Grid Nav Set Pos Y", vuforia.gridPos[1]);
@@ -96,13 +130,16 @@ public class MasterAutonomousProgram extends LinearOpMode {
 
         sleep(3000);
 
+        /**
+         Setting X and Y
+          */
+
         int X = 0;
         int Y = 1;
 
-       /**
-        Change values to grab mineral
-        */
-
+        /**
+         Change values to grab mineral
+         */
 
         double[] BLUE_DEPOT_LEFT = {-2, 1};
         double[] BLUE_DEPOT_RIGHT = {-1, 2};
@@ -120,7 +157,9 @@ public class MasterAutonomousProgram extends LinearOpMode {
         double[] RED_CRATER_RIGHT = {-2, -1};
         double[] RED_CRATER_CENTER = {-1.5, -1.5};
 
-//        Change values to park
+        /**
+        Change values to park
+         */
 
         double[] BLUE_DEPOT_LEFT_PARKING = {0, 0};
         double[] BLUE_DEPOT_RIGHT_PARKING = {0, 0};
@@ -137,6 +176,10 @@ public class MasterAutonomousProgram extends LinearOpMode {
         double[] RED_CRATER_LEFT_PARKING = {0, 0};
         double[] RED_CRATER_RIGHT_PARKING = {0, 0};
         double[] RED_CRATER_CENTER_PARKING = {0, 0};
+
+        /**
+         Determining Target Position and Following Set Commands
+         */
 
         switch (foundTargetName) {
             case "Red-Footprint":
@@ -251,6 +294,9 @@ public class MasterAutonomousProgram extends LinearOpMode {
 
     }
 
+    /**
+     Print Telemetry Function
+     */
 
     private void printTelemetry(int codePos) {
         telemetry.addData("Target Found", foundTargetName);
@@ -259,11 +305,23 @@ public class MasterAutonomousProgram extends LinearOpMode {
         telemetry.update();
     }
 
+    /**
+     Get Mineral Position Function
+     */
 
     public void getMineralPosition() {
+
+        /**
+         Debounce Algoritm to Detect Mineral Accurately
+         */
+
         int debounceCount = 0;
         long startTime = 0;
         startTime = System.currentTimeMillis();
+
+        /**
+         Initializing DogeCV for Getting Mineral Position
+         */
 
         String previousPosition;
         telemetry.addData("Status", "DogeCV 2018.0 - Sampling Order Example");
@@ -283,8 +341,6 @@ public class MasterAutonomousProgram extends LinearOpMode {
         detector.ratioScorer.perfectRatio = 1.0;
 
         detector.enable();
-
-
 
         goldPosition = "UNKNOWN";
         previousPosition = "UNKNOWN";
@@ -322,6 +378,9 @@ public class MasterAutonomousProgram extends LinearOpMode {
             telemetry.addData("Current Order", detector.getCurrentOrder().toString()); // The current result for the frame
             telemetry.addData("Last Order", detector.getLastOrder().toString()); // The last known result
 
+            /**
+             Telemetry for Gold Position
+             */
 
             switch (goldPosition) {
                 case ("LEFT"):
