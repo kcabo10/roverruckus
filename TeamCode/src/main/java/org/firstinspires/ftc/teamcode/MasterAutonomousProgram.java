@@ -70,19 +70,19 @@ public class MasterAutonomousProgram extends LinearOpMode {
 //        robot.lift.setPower(0);
 
         /**
-        Setting Code Position
+        Setting code position
          */
 
         int codePos = 0;
 
         /**
-         Getting the Mineral Position
+         Getting the mineral position
          */
 
         getMineralPosition();
 
         /**
-         Printing Telemetry
+         Printing telemetry
          */
 
         printTelemetry(10);
@@ -93,31 +93,31 @@ public class MasterAutonomousProgram extends LinearOpMode {
         telemetry.update();
 
         /**
-         Turning Robot 45 degrees and Driving Forward 800 Encoder Ticks
+         Turning robot 45 degrees and driving forward 800 encoder ticks
          */
 
         gyroTurn.turnGyro(45);
         gyroDrive.driveGyro(.3, -800);//1611);
 
         /**
-         Printing Telemetry
+         Printing telemetry
          */
 
         printTelemetry(20);
 
         /**
-         Reading VuMark
+         Reading vuMark
          */
 
         foundTargetName = vuforia.getTarget();
 
         /**
-         Getting Grid Position From vuMark
+         Getting grid position from vuMark
          */
         gridNavigation.setGridPosition(vuforia.gridPos[0], vuforia.gridPos[1], vuforia.rotation.thirdAngle);
 
         /**
-         Printing Telemetry
+         Printing telemetry
          */
 
         telemetry.addData("Grid Nav Set Pos X", vuforia.gridPos[0]);
@@ -131,7 +131,7 @@ public class MasterAutonomousProgram extends LinearOpMode {
         sleep(3000);
 
         /**
-         Setting X and Y
+         Setting x and y
           */
 
         int X = 0;
@@ -178,7 +178,7 @@ public class MasterAutonomousProgram extends LinearOpMode {
         double[] RED_CRATER_CENTER_PARKING = {0, 0};
 
         /**
-         Determining Target Position and Following Set Commands
+         Determining target position and following set commands
          */
 
         switch (foundTargetName) {
@@ -187,14 +187,23 @@ public class MasterAutonomousProgram extends LinearOpMode {
                 printTelemetry(40);
 
                 if (goldPosition == "LEFT") {
+                    /**
+                     Drives to the red crater left position using preset grid positions
+                     */
                     gridNavigation.driveToPosition(RED_CRATER_LEFT[X], RED_CRATER_LEFT[Y], .2);
 //                    gridNavigation.driveToPosition(RED_CRATER_LEFT_PARKING[X], RED_CRATER_LEFT_PARKING[Y], .2);
                 }
                 if (goldPosition == "RIGHT"){
+                    /**
+                     Drives to the red crater right position using preset grid positions
+                     */
                     gridNavigation.driveToPosition(RED_CRATER_RIGHT[X], RED_CRATER_RIGHT[Y], .2);
 //                    gridNavigation.driveToPosition(RED_CRATER_RIGHT_PARKING[X], RED_CRATER_RIGHT_PARKING[Y], .2);
                 }
                 if (goldPosition == "CENTER"){
+                    /**
+                     Drives to the red crater center position using preset grid positions
+                     */
                     gridNavigation.driveToPosition(RED_CRATER_CENTER[X], RED_CRATER_CENTER[Y], .2);
 //                    gridNavigation.driveToPosition(RED_CRATER_CENTER_PARKING[X], RED_CRATER_CENTER_PARKING[Y], .2);
                 }
@@ -295,7 +304,7 @@ public class MasterAutonomousProgram extends LinearOpMode {
     }
 
     /**
-     Print Telemetry Function
+     Print telemetry function
      */
 
     private void printTelemetry(int codePos) {
@@ -306,13 +315,13 @@ public class MasterAutonomousProgram extends LinearOpMode {
     }
 
     /**
-     Get Mineral Position Function
+     Get mineral position function
      */
 
     public void getMineralPosition() {
 
         /**
-         Debounce Algoritm to Detect Mineral Accurately
+         Debounce algoritm to detect mineral accurately
          */
 
         int debounceCount = 0;
@@ -320,7 +329,7 @@ public class MasterAutonomousProgram extends LinearOpMode {
         startTime = System.currentTimeMillis();
 
         /**
-         Initializing DogeCV for Getting Mineral Position
+         Initializing dogeCV for getting mineral position
          */
 
         String previousPosition;
@@ -347,6 +356,9 @@ public class MasterAutonomousProgram extends LinearOpMode {
         telemetry.addData("MAP", "Running Sampling Order loop");
         goldPosition = detector.getCurrentOrder().toString();
 
+        /**
+         This while function is waiting until it has seen the correct mineral position by finding the value of one of the mineral position then debouncing the mineral position until it settles at the correct mineral position.
+         */
         while (goldPosition == "UNKNOWN") {
 
             gyroTurn.turnGyro(-5);
@@ -379,7 +391,7 @@ public class MasterAutonomousProgram extends LinearOpMode {
             telemetry.addData("Last Order", detector.getLastOrder().toString()); // The last known result
 
             /**
-             Telemetry for Gold Position
+             Telemetry for gold position
              */
 
             switch (goldPosition) {
