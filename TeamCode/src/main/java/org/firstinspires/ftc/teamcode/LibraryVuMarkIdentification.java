@@ -272,14 +272,14 @@ public class LibraryVuMarkIdentification{
          * Next, translate the camera lens to where it is on the robot.
          * In this example, it is centered (left to right), but 110 mm forward of the middle of the robot, and 200 mm above ground level.
          */
-        final int CAMERA_FORWARD_DISPLACEMENT  = 85;   // eg: Camera is 110 mm in front of robot center
-        final int CAMERA_VERTICAL_DISPLACEMENT = 286;   // eg: Camera is 200 mm above ground
-        final int CAMERA_LEFT_DISPLACEMENT     = 150;   // eg: Camera is ON the robot's center line
+        final int CAMERA_FORWARD_DISPLACEMENT  = 242;   // eg: Camera is 110 mm in front of robot center
+        final int CAMERA_VERTICAL_DISPLACEMENT = 265;   // eg: Camera is 200 mm above ground
+        final int CAMERA_LEFT_DISPLACEMENT     = 48;   // eg: Camera is ON the robot's center line
 
         OpenGLMatrix phoneLocationOnRobot = OpenGLMatrix
                 .translation(CAMERA_LEFT_DISPLACEMENT, CAMERA_VERTICAL_DISPLACEMENT, CAMERA_FORWARD_DISPLACEMENT)
                 .multiplied(Orientation.getRotationMatrix(EXTRINSIC, YZX, DEGREES,
-                        CAMERA_CHOICE == FRONT ? 90 : -90, 0, 90));
+                        CAMERA_CHOICE == FRONT ? 90 : -90, 0, 0));
 
         /**  Let all the trackable listeners know where the phone is.  */
         for (VuforiaTrackable trackable : allTrackables)
