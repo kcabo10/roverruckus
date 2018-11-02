@@ -26,7 +26,7 @@ public class TestingCRServo extends OpMode
     public void loop() {
 
          robot.basket.setPosition(.499);
-         
+
     }
 
     public void stop() {
