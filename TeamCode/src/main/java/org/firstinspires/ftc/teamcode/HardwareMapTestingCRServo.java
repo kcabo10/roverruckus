@@ -20,7 +20,7 @@ public class HardwareMapTestingCRServo {
 
         basket = hwMap.get(Servo.class, "basket");
 
-        basket.setPosition(0.49);
+        basket.setPosition(0.45);
 
 
     }
