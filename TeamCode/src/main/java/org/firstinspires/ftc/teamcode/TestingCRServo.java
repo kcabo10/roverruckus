@@ -20,7 +20,7 @@ public class TestingCRServo extends OpMode
 
     public void init_loop() {
 
-         robot.basket.setPosition(.45);
+         robot.basket.setPosition(.46);
     }
 
     public void loop() {
@@ -30,13 +30,12 @@ public class TestingCRServo extends OpMode
         } else if (gamepad2.dpad_up && !gamepad2.dpad_down) {
             robot.basket.setPosition(-1);
         } else if (!gamepad2.dpad_up && !gamepad2.dpad_down) {
-            robot.basket.setPosition(0.45);
+            robot.basket.setPosition(0.46);
         }
-
     }
 
     public void stop() {
 
-        robot.basket.setPosition(.45);
+        robot.basket.setPosition(.46);
     }
 }
