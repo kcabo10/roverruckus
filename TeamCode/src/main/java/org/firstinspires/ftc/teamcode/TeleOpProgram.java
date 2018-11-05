@@ -138,11 +138,11 @@ public class TeleOpProgram extends OpMode
          */
 //        if (gamepad2.dpad_down && !gamepad2.dpad_up)        {
 //
-//            robot.basket.setPosition(270);
+//            robot.basket.setPosition(1);
 //        } else if (gamepad2.dpad_up && !gamepad2.dpad_down) {
-//            robot.basket.setPosition(-270;
+//            robot.basket.setPosition(-1;
 //        } else if (!gamepad2.dpad_up && !gamepad2.dpad_down) {
-//            robot.basket.setPosition(0.50);
+//            robot.basket.setPosition(0.45);
 //        }
 
         /**
