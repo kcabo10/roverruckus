@@ -14,6 +14,7 @@ public class DepotProgram extends LinearOpMode {
     LibraryGyroDrive gyroDrive = new LibraryGyroDrive();
     LibraryDogeforia dogeforia = new LibraryDogeforia(robot, telemetry);
     LibraryGridNavigation gridNavigation = new LibraryGridNavigation();
+    LibraryTensorFlowObjectDetection tensorFlow = new LibraryTensorFlowObjectDetection(robot, telemetry);
 
     String goldPosition = "";
 
@@ -65,9 +66,9 @@ public class DepotProgram extends LinearOpMode {
 
         int codePos = 0;
 
-        //getMineralPosition();
+        getMineralPosition();
 
-        goldPosition = "RIGHT";
+        //goldPosition = "RIGHT";
         printTelemetry(10);
         telemetry.update();
 
@@ -186,30 +187,17 @@ public class DepotProgram extends LinearOpMode {
         int debounceCount = 0;
         long startTime = 0;
         String previousPosition;
-        telemetry.addData("Status", "DogeCV 2018.0 - Sampling Order Example");
-
-        LibrarySamplingOrderDetector detector = new LibrarySamplingOrderDetector();
-        detector.init(robot.hwMap.appContext, CameraViewDisplay.getInstance());
-        detector.useDefaults();
-
-        detector.downscale = 0.4; // How much to downscale the input frames
-
-        // Optional Tuning
-        detector.areaScoringMethod = DogeCV.AreaScoringMethod.MAX_AREA; // Can also be PERFECT_AREA
-        //detector.perfectAreaScorer.perfectArea = 10000; // if using PERFECT_AREA scoring
-        detector.maxAreaScorer.weight = 0.001;
-
-        detector.ratioScorer.weight = 15;
-        detector.ratioScorer.perfectRatio = 1.0;
-
-        detector.enable();
 
 
 
-        goldPosition = "RIGHT";
-        previousPosition = "UNKNOWN";
-        telemetry.addData("MAP", "Running Sampling Order loop");
-        goldPosition = detector.getLastOrder().toString();
+        //goldPosition = "RIGHT";
+        //previousPosition = "UNKNOWN";
+
+        goldPosition = tensorFlow.findMineral();
+
+
+//        telemetry.addData("MAP", "Running Sampling Order loop");
+//        goldPosition = detector.getLastOrder().toString();
 
 //        while (goldPosition == "UNKNOWN") {
 //
@@ -240,9 +228,9 @@ public class DepotProgram extends LinearOpMode {
 //                telemetry.update();
 //            }
 
-
-            telemetry.addData("Current Order", detector.getCurrentOrder().toString()); // The current result for the frame
-            telemetry.addData("Last Order", detector.getLastOrder().toString()); // The last known result
+//
+//            telemetry.addData("Current Order", detector.getCurrentOrder().toString()); // The current result for the frame
+//            telemetry.addData("Last Order", detector.getLastOrder().toString()); // The last known result
 
 
             switch (goldPosition) {
