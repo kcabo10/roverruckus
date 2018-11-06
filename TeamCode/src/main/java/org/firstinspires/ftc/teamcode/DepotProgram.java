@@ -61,18 +61,21 @@ public class DepotProgram extends LinearOpMode {
 //
 //        robot.lift.setPower(0);
 
-        gridNavigation.setGridPosition(.5, -.5, 45);
+        gridNavigation.setGridPosition(.5, -.5, -45);
 
         int codePos = 0;
 
-        getMineralPosition();
+        //getMineralPosition();
 
+        goldPosition = "RIGHT";
         printTelemetry(10);
         telemetry.update();
 
         //telemetry.update();
 
         sleep(3000);
+
+        gridNavigation.driveToPosition(.7, 0.7, .2);
 
         int X = 0;
         int Y = 1;
@@ -86,9 +89,9 @@ public class DepotProgram extends LinearOpMode {
         double[] BLUE_DEPOT_RIGHT = {-1, -2};
         double[] BLUE_DEPOT_CENTER = {-1.5, -1.5};
 
-        double[] RED_DEPOT_LEFT = {2, 1};
-        double[] RED_DEPOT_RIGHT = {1, 2};
-        double[] RED_DEPOT_CENTER = {1.5, 1.5};
+        double[] RED_DEPOT_LEFT = {2, -1};
+        double[] RED_DEPOT_RIGHT = {1, -2};
+        double[] RED_DEPOT_CENTER = {1.5, -1.5};
 
 //        Change values to park
 
@@ -160,6 +163,7 @@ public class DepotProgram extends LinearOpMode {
 
             default:
                 telemetry.addData("Telemetry", "Didn't see gold pos");
+                telemetry.update();
 
         }
         //foundTargetName, mineral postion,
@@ -202,39 +206,39 @@ public class DepotProgram extends LinearOpMode {
 
 
 
-        goldPosition = "UNKNOWN";
+        goldPosition = "RIGHT";
         previousPosition = "UNKNOWN";
         telemetry.addData("MAP", "Running Sampling Order loop");
         goldPosition = detector.getLastOrder().toString();
 
-        while (goldPosition == "UNKNOWN") {
-
-            // waits to turn after it has tried to check for the mineral pos
-
-            if (startTime != 0) gyroTurn.turnGyro(-5);
-
-            sleep(1000);
-
-            startTime = System.currentTimeMillis();
-
-
-            while (System.currentTimeMillis() < (startTime + 3000)) {
-
-                goldPosition = detector.getLastOrder().toString();
-
-                if (goldPosition == previousPosition) {
-                }
-                else {
-                    previousPosition = goldPosition;
-                    startTime = System.currentTimeMillis();
-
-                }
-                telemetry.addData("StartTime: ", startTime);
-                telemetry.addData("CurrentTime: ", System.currentTimeMillis());
-                telemetry.addData("Prev Position:  ", previousPosition);
-                telemetry.addData("Gold Position:  ", goldPosition);
-                telemetry.update();
-            }
+//        while (goldPosition == "UNKNOWN") {
+//
+//            // waits to turn after it has tried to check for the mineral pos
+//
+//            if (startTime != 0) gyroTurn.turnGyro(-5);
+//
+//            sleep(1000);
+//
+//            startTime = System.currentTimeMillis();
+//
+//
+//            while (System.currentTimeMillis() < (startTime + 3000)) {
+//
+//                goldPosition = detector.getLastOrder().toString();
+//
+//                if (goldPosition == previousPosition) {
+//                }
+//                else {
+//                    previousPosition = goldPosition;
+//                    startTime = System.currentTimeMillis();
+//
+//                }
+//                telemetry.addData("StartTime: ", startTime);
+//                telemetry.addData("CurrentTime: ", System.currentTimeMillis());
+//                telemetry.addData("Prev Position:  ", previousPosition);
+//                telemetry.addData("Gold Position:  ", goldPosition);
+//                telemetry.update();
+//            }
 
 
             telemetry.addData("Current Order", detector.getCurrentOrder().toString()); // The current result for the frame
@@ -261,7 +265,7 @@ public class DepotProgram extends LinearOpMode {
             }
             telemetry.update();
         }
-        detector.disable();
+//        detector.disable();
 
     }
-}
+//}
