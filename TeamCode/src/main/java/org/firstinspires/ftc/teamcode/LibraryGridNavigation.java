@@ -99,20 +99,20 @@ public class LibraryGridNavigation {
         robot.rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.rightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        robot.leftFront.setTargetPosition((int)(Distance));
-        robot.leftBack.setTargetPosition((int)(Distance));
-        robot.rightFront.setTargetPosition((int)(Distance));
-        robot.rightBack.setTargetPosition((int)(Distance));
+        robot.leftFront.setTargetPosition((int)(-Distance));
+        robot.leftBack.setTargetPosition((int)(-Distance));
+        robot.rightFront.setTargetPosition((int)(-Distance));
+        robot.rightBack.setTargetPosition((int)(-Distance));
 
         robot.leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.leftBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.rightBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        robot.leftFront.setPower(power);
-        robot.leftBack.setPower(power);
-        robot.rightFront.setPower(power);
-        robot.rightBack.setPower(power);
+        robot.leftFront.setPower(-power);
+        robot.leftBack.setPower(-power);
+        robot.rightFront.setPower(-power);
+        robot.rightBack.setPower(-power);
 
         runtime.reset();
 
@@ -124,6 +124,7 @@ public class LibraryGridNavigation {
             telemetry.addData("Left side",  "Current position",
                     robot.leftFront.getCurrentPosition());
             telemetry.addData("Right Drive Current Position", robot.rightFront.getCurrentPosition());
+            telemetry.addData("Speed", power);
             telemetry.update();
         }
 
