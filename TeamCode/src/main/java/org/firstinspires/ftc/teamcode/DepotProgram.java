@@ -4,6 +4,8 @@ import com.disnodeteam.dogecv.CameraViewDisplay;
 import com.disnodeteam.dogecv.DogeCV;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 
 @Autonomous(name="Depot Program", group="Beep")
@@ -17,6 +19,7 @@ public class DepotProgram extends LinearOpMode {
     LibraryTensorFlowObjectDetection tensorFlow = new LibraryTensorFlowObjectDetection(robot, telemetry);
 
     String goldPosition = "";
+    public ElapsedTime runtime = new ElapsedTime();
 
 
 
@@ -44,25 +47,37 @@ public class DepotProgram extends LinearOpMode {
         Wait for start button.
          */
 
+
+
         waitForStart();
+
 
         // landing our robot
 
-//        robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        robot.lift.setTargetPosition(-12500);
-//        robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//        robot.lift.setPower(1);
-//
-//        while (opModeIsActive() &&
-//                robot.lift.isBusy()){
-//            telemetry.addData("Lift Encoder Ticks", robot.lift.getCurrentPosition());
-//            telemetry.update();
-//
-//        }
-//
-//        robot.lift.setPower(0);
+        robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.lift.setTargetPosition(12500);
+        robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.lift.setPower(1);
 
-        gridNavigation.setGridPosition(.5, -.5, -45);
+        while (opModeIsActive() &&
+                robot.lift.isBusy()){
+            telemetry.addData("Lift Encoder Ticks", robot.lift.getCurrentPosition());
+            telemetry.update();
+
+        }
+
+        robot.lift.setPower(0);
+
+        runtime.reset();
+
+        robot.latch.setPower(-1);
+
+        while (runtime.seconds() <1.15){
+
+        }
+        robot.latch.setPower(-.1);
+
+        gridNavigation.setGridPosition(.75125, .75125, -45);
 
         int codePos = 0;
 
@@ -76,7 +91,7 @@ public class DepotProgram extends LinearOpMode {
 
         sleep(3000);
 
-        gridNavigation.driveToPosition(.7, 0.7, .2);
+        gridNavigation.driveToPosition(1, 1, .2);
 
         int X = 0;
         int Y = 1;
@@ -86,13 +101,13 @@ public class DepotProgram extends LinearOpMode {
         */
 
 
-        double[] BLUE_DEPOT_LEFT = {-2, -1};
-        double[] BLUE_DEPOT_RIGHT = {-1, -2};
+        double[] BLUE_DEPOT_LEFT = {-1, -2};
+        double[] BLUE_DEPOT_RIGHT = {-2, -1};
         double[] BLUE_DEPOT_CENTER = {-1.5, -1.5};
 
-        double[] RED_DEPOT_LEFT = {2, -1};
-        double[] RED_DEPOT_RIGHT = {1, -2};
-        double[] RED_DEPOT_CENTER = {1.5, -1.5};
+        double[] RED_DEPOT_LEFT = {1, 2};
+        double[] RED_DEPOT_RIGHT = {2, 1};
+        double[] RED_DEPOT_CENTER = {1.5, 1.5};
 
 //        Change values to park
 
@@ -193,7 +208,9 @@ public class DepotProgram extends LinearOpMode {
         //goldPosition = "RIGHT";
         //previousPosition = "UNKNOWN";
 
-        goldPosition = tensorFlow.findMineral();
+        goldPosition = "RIGHT";
+
+//        goldPosition = tensorFlow.findMineral();
 
 
 //        telemetry.addData("MAP", "Running Sampling Order loop");
