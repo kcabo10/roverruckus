@@ -1,9 +1,12 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -19,12 +22,16 @@ public class HardwareBeep {
     public DcMotor rightFront = null;
     public DcMotor rightBack = null;
     public DcMotor lift = null;
+    public CRServo latch = null;
 //    public DcMotor arm = null;
 //    public DcMotor armExtrusion = null;
 //    public DcMotor intake = null;
 //    public Servo basket = null;
 
+
     public BNO055IMU imu = null;
+    public NormalizedColorSensor colorSensor = null;
+
 
 
     /* local OpMode members. */
@@ -47,6 +54,7 @@ public class HardwareBeep {
         rightFront = hwMap.get(DcMotor.class, "right_front");
         rightBack = hwMap.get(DcMotor.class, "right_back");
         lift = hwMap.get(DcMotor.class, "lift");
+        latch = hwMap.get(CRServo.class, "latch");
 //        arm = hwMap.get(DcMotor.class, "arm");
 //        armExtrusion = hwMap.get(DcMotor.class, "arm_extrusion");
 //        intake = hwMap.get(DcMotor.class, "intake");
@@ -87,6 +95,8 @@ public class HardwareBeep {
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
 
+
+
         parameters.mode = BNO055IMU.SensorMode.IMU;
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
@@ -96,6 +106,7 @@ public class HardwareBeep {
         // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
         // and named "imu".
         imu = hwMap.get(BNO055IMU.class, "imu");
+        colorSensor = hwMap.get(NormalizedColorSensor.class, "colorSensor");
 
         imu.initialize(parameters);
     }
