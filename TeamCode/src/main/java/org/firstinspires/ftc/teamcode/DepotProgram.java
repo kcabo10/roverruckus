@@ -54,28 +54,28 @@ public class DepotProgram extends LinearOpMode {
 
         // landing our robot
 
-//        robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        robot.lift.setTargetPosition(-17000);
-//        robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//        robot.lift.setPower(1);
-//
-//        while (opModeIsActive() &&
-//                robot.lift.isBusy()){
-//            telemetry.addData("Lift Encoder Ticks", robot.lift.getCurrentPosition());
-//            telemetry.update();
-//
-//        }
-//
-//        robot.lift.setPower(0);
-//
-//        runtime.reset();
-//
-//        robot.latch.setPower(-1);
-//
-//        while (runtime.seconds() <1.15){
-//
-//        }
-//        robot.latch.setPower(-.1);
+        robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.lift.setTargetPosition(-17000);
+        robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.lift.setPower(1);
+
+        while (opModeIsActive() &&
+                robot.lift.isBusy()){
+            telemetry.addData("Lift Encoder Ticks", robot.lift.getCurrentPosition());
+            telemetry.update();
+
+        }
+
+        robot.lift.setPower(0);
+
+        runtime.reset();
+
+        robot.latch.setPower(-1);
+
+        while (runtime.seconds() <1.15){
+
+        }
+        robot.latch.setPower(-.1);
 
         gridNavigation.setGridPosition(.5417, .5417, 45);
 
@@ -89,7 +89,7 @@ public class DepotProgram extends LinearOpMode {
 
         //telemetry.update();
 
-        gridNavigation.driveToPosition(.75, .75, .2);
+        gridNavigation.driveToPosition(.75, .75, .3);
 
         int X = 0;
         int Y = 1;
@@ -113,48 +113,46 @@ public class DepotProgram extends LinearOpMode {
             case "LEFT":
                 telemetry.addData("Telemetry", "Gold Pos = LEFT");
                 printTelemetry(20);
-
                 if (goldPosition == "LEFT") {
-                    gridNavigation.driveToPosition(RED_DEPOT_LEFT[X], RED_DEPOT_LEFT[Y], .2);
+                    gridNavigation.driveToPosition(RED_DEPOT_LEFT[X], RED_DEPOT_LEFT[Y], .3);
                     telemetry.addData("Grid Nav Goto Pos X", RED_DEPOT_LEFT[X]);
                     telemetry.addData("Grid Nav Goto Pos Y", RED_DEPOT_LEFT[Y]);
-                    gridNavigation.driveToPosition(2,2.5, .2);
+                    gridNavigation.driveToPosition(1,2.5, .3);
+                    gridNavigation.driveToPosition(-2, 2.4, .2);
                 }
                 else {
                     telemetry.addData("Telemetry", "No Position Found");
                     printTelemetry(30);
                 }
 
-
+                break;
 
             case "RIGHT":
                 telemetry.addData("Telemetry", "Gold Pos = RIGHT");
                 printTelemetry(40);
-
                 if (goldPosition == "RIGHT"){
-                    gridNavigation.driveToPosition(RED_DEPOT_RIGHT[X], RED_DEPOT_RIGHT[Y], .2);
+                    gridNavigation.driveToPosition(RED_DEPOT_RIGHT[X], RED_DEPOT_RIGHT[Y], .3);
                     telemetry.addData("Grid Nav Goto Pos X", RED_DEPOT_RIGHT[X]);
                     telemetry.addData("Grid Nav Goto Pos Y", RED_DEPOT_RIGHT[Y]);
-                    gridNavigation.driveToPosition(2.5, 1,.2 );
-                    gridNavigation.driveToPosition(2.5, -1, .2);
+                    gridNavigation.driveToPosition(2.2,1,.3);
+                    gridNavigation.driveToPosition(2.8, -2, .2);
                 }
                 else {
                     telemetry.addData("Telemetry", "No Position Found");
                     printTelemetry(50);
                 }
 
-
+                break;
 
             case "CENTER":
                 telemetry.addData("Telemetry", "Gold Pos = CENTER");
                 printTelemetry(60);
-
                 if (goldPosition == "CENTER"){
-                    gridNavigation.driveToPosition(RED_DEPOT_CENTER[X], RED_DEPOT_CENTER[Y], .2);
+                    gridNavigation.driveToPosition(RED_DEPOT_CENTER[X], RED_DEPOT_CENTER[Y], .3);
                     telemetry.addData("Grid Nav Goto Pos X", RED_DEPOT_CENTER[X]);
                     telemetry.addData("Grid Nav Goto Pos Y", RED_DEPOT_CENTER[Y]);
-                    gridNavigation.driveToPosition(2.5,2,.2);
-                    gridNavigation.driveToPosition(2.5, -1,.2);
+                    gridNavigation.driveToPosition(2.2,2,.3);
+                    gridNavigation.driveToPosition(2.7, -1,.2);
                 }
                 else {
                     telemetry.addData("Telemetry", "No Position Found");
@@ -171,6 +169,7 @@ public class DepotProgram extends LinearOpMode {
             default:
                 telemetry.addData("Telemetry", "Didn't see gold pos");
                 telemetry.update();
+                break;
 
         }
         //foundTargetName, mineral postion,

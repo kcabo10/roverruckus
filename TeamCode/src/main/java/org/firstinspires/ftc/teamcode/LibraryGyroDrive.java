@@ -74,7 +74,7 @@ public class LibraryGyroDrive {
         // straight line. P value controls how sensitive the correction is.
         pidDrive = new LibraryPIDController(.05, 0, 0);
 
-        motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         //sleep(1000);
 
         // Set up parameters for driving in a straight line.
@@ -103,7 +103,7 @@ public class LibraryGyroDrive {
             telemetry.addData("1 imu heading", lastAngles.firstAngle);
             telemetry.addData("2 global heading", globalAngle);
             telemetry.addData("3 correction", correction);
-            telemetry.update();
+            telemetry.addData("4 commanded power", power);
 
             // set power levels.
             robot.leftFront.setPower(-power + correction);
@@ -115,9 +115,14 @@ public class LibraryGyroDrive {
             // We record the sensor values because we will test them in more than
             // one place with time passing between those places. See the lesson on
             // Timing Considerations to know why.
-
-
+            telemetry.addData("left front power", robot.leftFront.getPower());
+            telemetry.addData("left back power", robot.leftBack.getPower());
+            telemetry.addData("right front power", robot.rightFront.getPower());
+            telemetry.addData("right back power", robot.rightBack.getPower());
+            telemetry.addData("right front ticks", robot.rightFront.getCurrentPosition());
+            telemetry.update();
         } while (robot.rightFront.isBusy());
+        //} while (robot.rightFront.getCurrentPosition() < targetEncoderTicks);
 
         robot.rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

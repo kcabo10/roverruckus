@@ -17,6 +17,7 @@ public class LibraryGridNavigation {
 
     HardwareBeep robot;// = new HardwareBeep();
     LibraryGyro gyro;// = new LibraryGyro();
+    LibraryGyroDrive gyroDrive = new LibraryGyroDrive();
     private ElapsedTime runtime = new ElapsedTime();
     Telemetry telemetry;
 
@@ -97,10 +98,21 @@ public class LibraryGridNavigation {
 
         runtime.reset();
 
-        while((runtime.seconds() < 10)) {
+        while((runtime.seconds() < 4)) {
         }
         /* END TEST CODE */
         return Distance;
+    }
+
+    //The grid is set such as that the origin (0, 0) is at the center and each grid point is 2 feet from the next point
+    public void driveToPositionGyro(double xDestination, double yDestination, double power){
+        // NEEDS ADDL TESTING
+        getDriveDistance(xDestination, yDestination);
+        getTurnAngle(xDestination, yDestination);
+
+        gyro.turnGyro(turnAngle);
+
+        gyroDrive.driveGyro(power, (int)(Distance));
     }
 
     //The grid is set such as that the origin (0, 0) is at the center and each grid point is 2 feet from the next point
@@ -138,8 +150,7 @@ public class LibraryGridNavigation {
 
         runtime.reset();
 
-        while((runtime.seconds() < 4)
-                && (robot.rightFront.isBusy() && robot.leftFront.isBusy())){
+        while((robot.rightFront.isBusy() && robot.leftFront.isBusy())){
 
             // Display it for the driver.
             telemetry.addData("Path1",  "Running to ", Distance);
@@ -166,6 +177,7 @@ public class LibraryGridNavigation {
         robot = myRobot;
         gyro = myGyro;
         telemetry = myTelemetry;
+        gyroDrive.init(robot, telemetry, robot.leftFront);
     }
 
 }
