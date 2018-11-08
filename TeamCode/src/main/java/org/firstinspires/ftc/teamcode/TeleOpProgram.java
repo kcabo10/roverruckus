@@ -48,7 +48,7 @@ public class TeleOpProgram extends OpMode
         robot.armExtrusion.setPower(0);
         robot.intake.setPower(0);
 //        robot.basket.setPosition(.45);
-        robot.latch.setPosition(.45);
+        robot.latch.setPower(-.1);
     }
 
     public void loop() {
@@ -126,8 +126,12 @@ public class TeleOpProgram extends OpMode
         if (gamepad2.dpad_down && !gamepad2.dpad_up)        {
 
             robot.lift.setPower(1);
+            telemetry.addData("Encoder Ticks", robot.lift.getCurrentPosition());
+            telemetry.update();
         } else if (gamepad2.dpad_up && !gamepad2.dpad_down) {
             robot.lift.setPower(-1);
+            telemetry.addData("Encoder Ticks", robot.lift.getCurrentPosition());
+            telemetry.update();
         } else if (!gamepad2.dpad_up && !gamepad2.dpad_down) {
             robot.lift.setPower(0);
         }
@@ -138,11 +142,11 @@ public class TeleOpProgram extends OpMode
 
         if (gamepad2.dpad_right && !gamepad2.dpad_left)        {
 
-            robot.latch.setPosition(1);
+            robot.latch.setPower(1);
         } else if (gamepad2.dpad_left && !gamepad2.dpad_right) {
-            robot.latch.setPosition(-1);
+            robot.latch.setPower(-1);
         } else if (!gamepad2.dpad_left && !gamepad2.dpad_right) {
-            robot.latch.setPosition(0.45);
+            robot.latch.setPower(-.1);
         }
 
 
@@ -187,6 +191,17 @@ public class TeleOpProgram extends OpMode
             robot.armExtrusion.setPower(-0.3);
         else if (gamepad2.right_stick_y == 0)
             robot.armExtrusion.setPower(0);
+
+
+        telemetry.addData("Commanded left motor power", left);
+        telemetry.addData("Commanded right motor power", right);
+        telemetry.addData("Scale Factor", scaleFactor);
+        telemetry.addData("Direction", direction);
+        telemetry.addData("left front power", robot.leftFront.getPower());
+        telemetry.addData("left back power", robot.leftBack.getPower());
+        telemetry.addData("right front power", robot.rightFront.getPower());
+        telemetry.addData("right back power", robot.rightBack.getPower());
+        telemetry.update();
     }
     
     public void stop() {
@@ -196,6 +211,6 @@ public class TeleOpProgram extends OpMode
         robot.armExtrusion.setPower(0);
         robot.intake.setPower(0);
 //        robot.basket.setPosition(.45);
-        robot.latch.setPosition(.45);
+        robot.latch.setPower(-.1);
     }
 }

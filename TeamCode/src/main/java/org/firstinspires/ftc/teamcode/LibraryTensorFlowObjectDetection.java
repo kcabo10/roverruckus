@@ -29,9 +29,12 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import android.hardware.camera2.CameraDevice;
+
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.vuforia.Vuforia;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -100,11 +103,14 @@ public class LibraryTensorFlowObjectDetection {
         // first.
         initVuforia();
 
+        phoneLight(true);
+
         if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
             initTfod();
         } else {
             telemetry.addData("Sorry!", "This device is not compatible with TFOD");
         }
+
 
 //        /** Wait for the game to begin */
 //        telemetry.addData(">", "Press Play to start tracking");
@@ -124,7 +130,7 @@ public class LibraryTensorFlowObjectDetection {
                     List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
                     if (updatedRecognitions != null) {
                       telemetry.addData("# Object Detected", updatedRecognitions.size());
-                      if (updatedRecognitions.size() == 3) {
+                      if (updatedRecognitions.size() == 2) {
                         int goldMineralX = -1;
                         int silverMineral1X = -1;
                         int silverMineral2X = -1;
@@ -137,15 +143,20 @@ public class LibraryTensorFlowObjectDetection {
                             silverMineral2X = (int) recognition.getLeft();
                           }
                         }
-                        if (goldMineralX != -1 && silverMineral1X != -1 && silverMineral2X != -1) {
-                          if (goldMineralX < silverMineral1X && goldMineralX < silverMineral2X) {
-                            returnVal = "LEFT";
-                          } else if (goldMineralX > silverMineral1X && goldMineralX > silverMineral2X) {
-                            returnVal = "RIGHT";
-                          } else {
-                            returnVal = "CENTER";
+
+                          if (goldMineralX == -1 && silverMineral1X != -1 && silverMineral2X != -1) {
+                              telemetry.addData("Gold Mineral Position", "Left"); }
+                              returnVal = "LEFT";
+                          if (goldMineralX != -1 && silverMineral1X != -1) {
+                              if (goldMineralX > silverMineral1X) {
+                                  telemetry.addData("Gold Mineral Position", "Right");
+                                  returnVal = "RIGHT";
+                              }
+                              else {
+                                  telemetry.addData("Gold Mineral Position", "Center");
+                                  returnVal = "CENTER";
+                              }
                           }
-                        }
                       }
                     }
                 }
@@ -157,6 +168,7 @@ public class LibraryTensorFlowObjectDetection {
         }
         telemetry.addData("Mineral Position: ", returnVal);
         telemetry.update();
+        phoneLight(false);
         return returnVal;
     }
 
@@ -176,6 +188,12 @@ public class LibraryTensorFlowObjectDetection {
         vuforia = ClassFactory.getInstance().createVuforia(parameters);
 
         // Loading trackables is not necessary for the Tensor Flow Object Detection engine.
+    }
+
+    private void phoneLight(boolean on){
+
+            com.vuforia.CameraDevice.getInstance().setFlashTorchMode(on);
+
     }
 
     /**

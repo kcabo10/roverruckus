@@ -86,16 +86,28 @@ public class MichaelGyroTurnTest extends LinearOpMode {
         telemetry.update();
 
 
-        gridNav.setGridPosition(0d,0d,45f);
+        gridNav.setGridPosition(0,0,0);
         telemetry.addData("Telemtry", "gridNav SetPosition complete");
         telemetry.update();
 
+        sleep(3000);
 
-        gridNav.driveToPosition(2d,2d, .5d);
+
+        gridNav.driveToPosition(0,2, power);
         telemetry.addData("Telemtry", "gridNav GridNavImplemented complete");
         telemetry.update();
 
-        gridNav.driveToPosition(0d,0d,.5d);
+        sleep(3000);
+
+        gridNav.driveToPosition(2,2,power);
+        sleep(3000);
+
+        gridNav.driveToPosition(2,0,power);
+        sleep(3000);
+
+        gridNav.driveToPosition(0,0, power);
+        sleep(3000);
+
 
 
         while (opModeIsActive()) {

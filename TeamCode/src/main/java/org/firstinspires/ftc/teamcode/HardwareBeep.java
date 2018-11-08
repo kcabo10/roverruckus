@@ -26,10 +26,7 @@ public class HardwareBeep {
     public DcMotor armExtrusion = null;
     public DcMotor intake = null;
     public CRServo latch = null;
-//    public DcMotor arm = null;
-//    public DcMotor armExtrusion = null;
-//    public DcMotor intake = null;
-//    public Servo basket = null;
+//    public Servo    basket = null;
 
     public BNO055IMU imu = null;
     public NormalizedColorSensor colorSensor = null;
@@ -57,9 +54,9 @@ public class HardwareBeep {
         rightBack = hwMap.get(DcMotor.class, "right_back");
         lift = hwMap.get(DcMotor.class, "lift");
         latch = hwMap.get(CRServo.class, "latch");
-//        arm = hwMap.get(DcMotor.class, "arm");
-//        armExtrusion = hwMap.get(DcMotor.class, "arm_extrusion");
-//        intake = hwMap.get(DcMotor.class, "intake");
+        arm = hwMap.get(DcMotor.class, "arm");
+        armExtrusion = hwMap.get(DcMotor.class, "arm_extrusion");
+        intake = hwMap.get(DcMotor.class, "intake");
 //        basket = hwMap.get(Servo.class, "basket");
 
         leftFront.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
@@ -82,17 +79,17 @@ public class HardwareBeep {
         armExtrusion.setPower(0);
         intake.setPower(0);
 //        basket.setPosition(0.45);
-        latch.setPosition(.45);
+        latch.setPower(-.1);
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
-        leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        intake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
 
