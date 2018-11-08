@@ -17,6 +17,7 @@ public class LibraryGridNavigation {
 
     HardwareBeep robot;// = new HardwareBeep();
     LibraryGyro gyro;// = new LibraryGyro();
+    LibraryGyroDrive gyroDrive = new LibraryGyroDrive();
     private ElapsedTime runtime = new ElapsedTime();
     Telemetry telemetry;
 
@@ -33,6 +34,7 @@ public class LibraryGridNavigation {
     //Y1 is starting Y coordinate
     double Distance;
     float turnAngle = 0f;
+    double GEAR_RATIO_SCALING_FACTOR = 1.2857142857;//(35/45);
 
     //The angle 0 degrees starts on the positive X axis and moves counterclockwise
     public void setGridPosition(double xPosition, double yPosition, float angle){
@@ -52,16 +54,21 @@ public class LibraryGridNavigation {
         double theta = Math.atan2(yLeg, xLeg);
         //atan2 automatically corrects for the limited domain of the inverse tangent function
         System.out.println(xLeg);
+        telemetry.addData("X pos", xLeg);
         System.out.println(yLeg);
+        telemetry.addData("Y pos", yLeg);
         tanAngle = (float) Math.toDegrees(theta);
         System.out.println("Start Angle is " + StartingAngle);
+        telemetry.addData("Start Angle is ", StartingAngle);
         System.out.println("Tangent Angle is " + tanAngle);
+        telemetry.addData("Tangent Angle is ", tanAngle);
         xOrigin = xDestination;
         yOrigin = yDestination;
 
         turnAngle = tanAngle - StartingAngle;
         System.out.println("Turn angle " + turnAngle);
         StartingAngle = tanAngle;
+        telemetry.update();
 
         return turnAngle;
 
@@ -73,12 +80,39 @@ public class LibraryGridNavigation {
 
         double yLeg = yDestination - yOrigin;
 
-        Distance = ((Math.hypot(xLeg, yLeg)*12)/12.57)*1120;
+        Distance = ((Math.hypot(xLeg, yLeg)*24)/12.57)*537.6 * GEAR_RATIO_SCALING_FACTOR;
         // Distance is in encoder ticks
 
         System.out.println("Drive Distance is " + Distance);
 
+        /* START TEST CODE FOR SHOWING PRINTS
+        telemetry.addData("Drive Distance is ", Distance);
+        telemetry.addData("Gear Scale Factor", GEAR_RATIO_SCALING_FACTOR);
+        telemetry.addData("xOrigin", xOrigin);
+        telemetry.addData("yOrigin", yOrigin);
+        telemetry.addData("xDestination", xDestination);
+        telemetry.addData("yDestimation", yDestination);
+        telemetry.addData("xLeg", xLeg);
+        telemetry.addData("yLeg", yLeg);
+        telemetry.update();
+
+        runtime.reset();
+
+        while((runtime.seconds() < 4)) {
+        }
+        /* END TEST CODE */
         return Distance;
+    }
+
+    //The grid is set such as that the origin (0, 0) is at the center and each grid point is 2 feet from the next point
+    public void driveToPositionGyro(double xDestination, double yDestination, double power){
+        // NEEDS ADDL TESTING
+        getDriveDistance(xDestination, yDestination);
+        getTurnAngle(xDestination, yDestination);
+
+        gyro.turnGyro(turnAngle);
+
+        gyroDrive.driveGyro(power, (int)(Distance));
     }
 
     //The grid is set such as that the origin (0, 0) is at the center and each grid point is 2 feet from the next point
@@ -99,25 +133,24 @@ public class LibraryGridNavigation {
         robot.rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.rightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        robot.leftFront.setTargetPosition((int)(-Distance));
-        robot.leftBack.setTargetPosition((int)(-Distance));
-        robot.rightFront.setTargetPosition((int)(-Distance));
-        robot.rightBack.setTargetPosition((int)(-Distance));
+        robot.leftFront.setTargetPosition((int)(Distance));
+        robot.leftBack.setTargetPosition((int)(Distance));
+        robot.rightFront.setTargetPosition((int)(Distance));
+        robot.rightBack.setTargetPosition((int)(Distance));
 
         robot.leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.leftBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.rightBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        robot.leftFront.setPower(-power);
-        robot.leftBack.setPower(-power);
-        robot.rightFront.setPower(-power);
-        robot.rightBack.setPower(-power);
+        robot.leftFront.setPower(power);
+        robot.leftBack.setPower(power);
+        robot.rightFront.setPower(power);
+        robot.rightBack.setPower(power);
 
         runtime.reset();
 
-        while((runtime.seconds() < 4)
-                && (robot.rightFront.isBusy() && robot.leftFront.isBusy())){
+        while((robot.rightFront.isBusy() && robot.leftFront.isBusy())){
 
             // Display it for the driver.
             telemetry.addData("Path1",  "Running to ", Distance);
@@ -144,6 +177,7 @@ public class LibraryGridNavigation {
         robot = myRobot;
         gyro = myGyro;
         telemetry = myTelemetry;
+        gyroDrive.init(robot, telemetry, robot.leftFront);
     }
 
 }
