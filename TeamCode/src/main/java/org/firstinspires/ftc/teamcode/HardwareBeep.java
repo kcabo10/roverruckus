@@ -1,9 +1,12 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -22,10 +25,15 @@ public class HardwareBeep {
     public DcMotor arm = null;
     public DcMotor armExtrusion = null;
     public DcMotor intake = null;
+    public CRServo latch = null;
+//    public DcMotor arm = null;
+//    public DcMotor armExtrusion = null;
+//    public DcMotor intake = null;
 //    public Servo basket = null;
-    public Servo latch = null;
 
     public BNO055IMU imu = null;
+    public NormalizedColorSensor colorSensor = null;
+
 
 
     /* local OpMode members. */
@@ -48,11 +56,11 @@ public class HardwareBeep {
         rightFront = hwMap.get(DcMotor.class, "right_front");
         rightBack = hwMap.get(DcMotor.class, "right_back");
         lift = hwMap.get(DcMotor.class, "lift");
-        arm = hwMap.get(DcMotor.class, "arm");
-        armExtrusion = hwMap.get(DcMotor.class, "arm_extrusion");
-        intake = hwMap.get(DcMotor.class, "intake");
+        latch = hwMap.get(CRServo.class, "latch");
+//        arm = hwMap.get(DcMotor.class, "arm");
+//        armExtrusion = hwMap.get(DcMotor.class, "arm_extrusion");
+//        intake = hwMap.get(DcMotor.class, "intake");
 //        basket = hwMap.get(Servo.class, "basket");
-        latch = hwMap.get(Servo.class, "latch");
 
         leftFront.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
         leftBack.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
@@ -99,6 +107,7 @@ public class HardwareBeep {
         // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
         // and named "imu".
         imu = hwMap.get(BNO055IMU.class, "imu");
+        colorSensor = hwMap.get(NormalizedColorSensor.class, "colorSensor");
 
         imu.initialize(parameters);
     }

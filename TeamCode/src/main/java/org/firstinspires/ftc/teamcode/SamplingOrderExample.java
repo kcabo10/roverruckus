@@ -58,8 +58,8 @@ public class SamplingOrderExample extends OpMode
         detector.downscale = 0.4; // How much to downscale the input frames
 
         // Optional Tuning
-        detector.areaScoringMethod = DogeCV.AreaScoringMethod.MAX_AREA; // Can also be PERFECT_AREA
-        //detector.perfectAreaScorer.perfectArea = 10000; // if using PERFECT_AREA scoring
+        detector.areaScoringMethod = DogeCV.AreaScoringMethod.PERFECT_AREA; // Can also be PERFECT_AREA
+        detector.perfectAreaScorer.perfectArea = 1000; // if using PERFECT_AREA scoring
         detector.maxAreaScorer.weight = 0.001;
 
         detector.ratioScorer.weight = 15;
