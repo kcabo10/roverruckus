@@ -82,7 +82,7 @@ public class HardwareBeep {
         armExtrusion.setPower(0);
         intake.setPower(0);
 //        basket.setPosition(0.45);
-        latch.setPosition(.45);
+        latch.setPower(-.1);
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.

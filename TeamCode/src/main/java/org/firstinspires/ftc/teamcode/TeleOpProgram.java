@@ -48,7 +48,7 @@ public class TeleOpProgram extends OpMode
         robot.armExtrusion.setPower(0);
         robot.intake.setPower(0);
 //        robot.basket.setPosition(.45);
-        robot.latch.setPosition(.45);
+        robot.latch.setPower(-.1);
     }
 
     public void loop() {
@@ -138,11 +138,11 @@ public class TeleOpProgram extends OpMode
 
         if (gamepad2.dpad_right && !gamepad2.dpad_left)        {
 
-            robot.latch.setPosition(1);
+            robot.latch.setPower(1);
         } else if (gamepad2.dpad_left && !gamepad2.dpad_right) {
-            robot.latch.setPosition(-1);
+            robot.latch.setPower(-1);
         } else if (!gamepad2.dpad_left && !gamepad2.dpad_right) {
-            robot.latch.setPosition(0.45);
+            robot.latch.setPower(-.1);
         }
 
 
@@ -196,6 +196,6 @@ public class TeleOpProgram extends OpMode
         robot.armExtrusion.setPower(0);
         robot.intake.setPower(0);
 //        robot.basket.setPosition(.45);
-        robot.latch.setPosition(.45);
+        robot.latch.setPower(-.1);
     }
 }
