@@ -43,6 +43,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.Came
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -124,17 +125,45 @@ public class LibraryTensorFlowObjectDetection {
             }
 
             while (returnVal == "") {
-                if (tfod != null) {
-                    // getUpdatedRecognitions() will return null if no new information is available since
+                if (tfod != null) {                    // getUpdatedRecognitions() will return null if no new information is available since
                     // the last time that call was made.
                     List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
                     if (updatedRecognitions != null) {
-                      telemetry.addData("# Object Detected", updatedRecognitions.size());
-                      if (updatedRecognitions.size() >= 2) {
-                        int goldMineralX = -1;
-                        int silverMineral1X = -1;
-                        int silverMineral2X = -1;
-                        for (Recognition recognition : updatedRecognitions) {
+                        telemetry.addData("# Object Detected", updatedRecognitions.size());
+                        if (updatedRecognitions.size() >= 2) {
+                            int goldMineralX = -1;
+                            int silverMineral1X = -1;
+                            int silverMineral2X = -1;
+                            LinkedList<Recognition> recognitionLinkedList = new LinkedList<Recognition>();
+                            telemetry.addData("New Linked List creation", "");
+                            for (Recognition recognition : updatedRecognitions) {
+                                telemetry.addData("Iterate over updatedRecognitions", updatedRecognitions.indexOf(recognition));
+                                telemetry.update();
+                                //sleep(2000);
+                            /* FOR TESTING
+                            telemetry.addData("rec label", recognition.getLabel());
+                            telemetry.addData("rec angle", recognition.estimateAngleToObject(AngleUnit.DEGREES));
+                            telemetry.addData("rec bottm", recognition.getBottom());
+                            telemetry.addData("rec confd", recognition.getConfidence());
+                            telemetry.addData("rec heigt", recognition.getImageHeight());
+                            */
+
+                                if ((recognitionLinkedList.isEmpty()) ||
+                                        (recognition.getBottom() > recognitionLinkedList.getFirst().getBottom())) {
+                                    //telemetry.addData("Added element to recognitionLinkedList", "");
+                                    //sleep(2000);
+                                    recognitionLinkedList.addFirst(recognition);
+                                }
+                                else {
+                                    recognitionLinkedList.add(recognition);
+                                }
+                            }
+                          Recognition recognition = null;
+                          for (int i = 0; i < 2; i++) {
+                              //telemetry.addData("iterate over first two elements: element ", i);
+                              //telemetry.addData("List size", recognitionLinkedList.size());
+                              //telemetry.update();
+                              recognition = recognitionLinkedList.get(i);
                           if (recognition.getLabel().equals(LABEL_GOLD_MINERAL)) {
                             goldMineralX = (int) recognition.getLeft();
                           } else if (silverMineral1X == -1) {
