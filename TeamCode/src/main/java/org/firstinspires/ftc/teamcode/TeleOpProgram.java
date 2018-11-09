@@ -143,7 +143,7 @@ public class TeleOpProgram extends OpMode
             case(1):
                 if (!gamepad1.b) {
                     buttonBPressed = 0;
-                    scaleFactor();
+                    craterSpeed();
                 }
                 break;
         }
