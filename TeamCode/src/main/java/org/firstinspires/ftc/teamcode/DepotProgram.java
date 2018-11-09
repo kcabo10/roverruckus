@@ -117,8 +117,10 @@ public class DepotProgram extends LinearOpMode {
                     gridNavigation.driveToPosition(RED_DEPOT_LEFT[X], RED_DEPOT_LEFT[Y], .3);
                     telemetry.addData("Grid Nav Goto Pos X", RED_DEPOT_LEFT[X]);
                     telemetry.addData("Grid Nav Goto Pos Y", RED_DEPOT_LEFT[Y]);
-                    gridNavigation.driveToPosition(1,2.5, .3);
-                    gridNavigation.driveToPosition(-2, 2.4, .2);
+                    gridNavigation.driveToPosition(2.1, 2.5, .4);
+                    gridNavigation.driveToPosition(2.8,0,.4);
+                    gridNavigation.driveToPosition(2.8,-2,.2);
+
                 }
                 else {
                     telemetry.addData("Telemetry", "No Position Found");
@@ -151,8 +153,8 @@ public class DepotProgram extends LinearOpMode {
                     gridNavigation.driveToPosition(RED_DEPOT_CENTER[X], RED_DEPOT_CENTER[Y], .3);
                     telemetry.addData("Grid Nav Goto Pos X", RED_DEPOT_CENTER[X]);
                     telemetry.addData("Grid Nav Goto Pos Y", RED_DEPOT_CENTER[Y]);
-                    gridNavigation.driveToPosition(2.2,2,.3);
-                    gridNavigation.driveToPosition(2.7, -1,.2);
+                    gridNavigation.driveToPosition(2.35,2,.3);
+                    gridNavigation.driveToPosition(2.7, -2,.2);
                 }
                 else {
                     telemetry.addData("Telemetry", "No Position Found");
