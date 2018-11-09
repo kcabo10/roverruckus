@@ -15,8 +15,10 @@ public class TeleOpProgram extends OpMode
 
     private int buttonYPressed;
     private int buttonAPressed;
+    private int buttonBPressed;
     private int direction = 1;
     private double scaleFactor = 0.5;
+    private double craterSpeed = 0.2;
 
     public void reverseDirection() {
         if (direction == 1) {
@@ -31,6 +33,14 @@ public class TeleOpProgram extends OpMode
             scaleFactor = 0.5;
         } else if (scaleFactor == 0.5) {
             scaleFactor = 1;
+        }
+    }
+
+    public void craterSpeed() {
+        if (craterSpeed == 1 || craterSpeed == 0.5) {
+            craterSpeed = 0.2;
+        } else if (craterSpeed == 0.2) {
+            craterSpeed = 1;
         }
     }
      @Override
@@ -74,9 +84,9 @@ public class TeleOpProgram extends OpMode
             right /= max;
         }
 
-        left = left * scaleFactor * direction;
+        left = left * scaleFactor * direction * craterSpeed;
 
-        right = right * scaleFactor * direction;
+        right = right * scaleFactor * direction * craterSpeed;
 
         robot.leftFront.setPower(left);
         robot.leftBack.setPower(left);
@@ -118,6 +128,24 @@ public class TeleOpProgram extends OpMode
                     scaleFactor();
                 }
             break;
+        }
+
+
+        /**
+         CraterSpeed on B Button
+         */
+        switch (buttonBPressed) {
+            case(0):
+                if (gamepad1.b)  {
+                    buttonBPressed = 1;
+                }
+                break;
+            case(1):
+                if (!gamepad1.b) {
+                    buttonBPressed = 0;
+                    scaleFactor();
+                }
+                break;
         }
 
         /**
