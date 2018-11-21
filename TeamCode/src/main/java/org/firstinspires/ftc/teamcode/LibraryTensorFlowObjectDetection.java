@@ -89,7 +89,7 @@ public class LibraryTensorFlowObjectDetection {
     HardwareBeep robot;
     Telemetry telemetry;
 
-    public LibraryTensorFlowObjectDetection(HardwareBeep newHardwareBeep, Telemetry newTelemetry){
+    public LibraryTensorFlowObjectDetection(HardwareBeep newHardwareBeep, Telemetry newTelemetry) {
 
         robot = newHardwareBeep;
 
@@ -98,8 +98,6 @@ public class LibraryTensorFlowObjectDetection {
     }
 
     public String findMineral() {
-
-        String returnVal = "";
         // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
         // first.
         initVuforia();
@@ -119,27 +117,68 @@ public class LibraryTensorFlowObjectDetection {
 //        waitForStart();
 
         //if (opModeIsActive()) {
-            /** Activate Tensor Flow Object Detection. */
-            if (tfod != null) {
-                tfod.activate();
-            }
+//            }
+        /** Activate Tensor Flow Object Detection. */
+        if (tfod != null) {
+            tfod.activate();
+        }
+        long startTime = 0;
+        String previousPosition = "";
+        String goldPosition = "";
 
-            while (returnVal == "") {
-                if (tfod != null) {                    // getUpdatedRecognitions() will return null if no new information is available since
-                    // the last time that call was made.
-                    List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
-                    if (updatedRecognitions != null) {
-                        telemetry.addData("# Object Detected", updatedRecognitions.size());
-                        if (updatedRecognitions.size() >= 2) {
-                            int goldMineralX = -1;
-                            int silverMineral1X = -1;
-                            int silverMineral2X = -1;
-                            LinkedList<Recognition> recognitionLinkedList = new LinkedList<Recognition>();
-                            telemetry.addData("New Linked List creation", "");
-                            for (Recognition recognition : updatedRecognitions) {
-                                telemetry.addData("Iterate over updatedRecognitions", updatedRecognitions.indexOf(recognition));
-                                telemetry.update();
-                                //sleep(2000);
+
+            startTime = System.currentTimeMillis();
+
+
+            while (System.currentTimeMillis() < (startTime + 3000)) {
+
+                 goldPosition = readMineral();
+
+                if (goldPosition == previousPosition) {
+                }
+                else {
+                    previousPosition = goldPosition;
+                    startTime = System.currentTimeMillis();
+
+                }
+                telemetry.addData("StartTime: ", startTime);
+                telemetry.addData("CurrentTime: ", System.currentTimeMillis());
+                telemetry.addData("Prev Position:  ", previousPosition);
+                telemetry.addData("Gold Position:  ", goldPosition);
+                telemetry.update();
+        }
+
+        if (tfod != null) {
+            tfod.shutdown();
+        }
+        telemetry.addData("Mineral Position: ", goldPosition);
+        telemetry.update();
+        phoneLight(false);
+        return goldPosition;
+    }
+
+    /**
+     * Initialize the Vuforia localization engine.
+     */
+    public String readMineral() {
+        String currentPos = "";
+
+        while (currentPos == "") {
+            if (tfod != null) {                    // getUpdatedRecognitions() will return null if no new information is available since
+                // the last time that call was made.
+                List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
+                if (updatedRecognitions != null) {
+                    telemetry.addData("# Object Detected", updatedRecognitions.size());
+                    if (updatedRecognitions.size() >= 2) {
+                        int goldMineralX = -1;
+                        int silverMineral1X = -1;
+                        int silverMineral2X = -1;
+                        LinkedList<Recognition> recognitionLinkedList = new LinkedList<Recognition>();
+                        telemetry.addData("New Linked List creation", "");
+                        for (Recognition recognition : updatedRecognitions) {
+                            telemetry.addData("Iterate over updatedRecognitions", updatedRecognitions.indexOf(recognition));
+                            telemetry.update();
+                            //sleep(2000);
                             /* FOR TESTING
                             telemetry.addData("rec label", recognition.getLabel());
                             telemetry.addData("rec angle", recognition.estimateAngleToObject(AngleUnit.DEGREES));
@@ -148,63 +187,49 @@ public class LibraryTensorFlowObjectDetection {
                             telemetry.addData("rec heigt", recognition.getImageHeight());
                             */
 
-                                if ((recognitionLinkedList.isEmpty()) ||
-                                        (recognition.getBottom() > recognitionLinkedList.getFirst().getBottom())) {
-                                    //telemetry.addData("Added element to recognitionLinkedList", "");
-                                    //sleep(2000);
-                                    recognitionLinkedList.addFirst(recognition);
-                                }
-                                else {
-                                    recognitionLinkedList.add(recognition);
-                                }
+                            if ((recognitionLinkedList.isEmpty()) ||
+                                    (recognition.getBottom() > recognitionLinkedList.getFirst().getBottom())) {
+                                //telemetry.addData("Added element to recognitionLinkedList", "");
+                                //sleep(2000);
+                                recognitionLinkedList.addFirst(recognition);
+                            } else {
+                                recognitionLinkedList.add(recognition);
                             }
-                          Recognition recognition = null;
-                          for (int i = 0; i < 2; i++) {
-                              //telemetry.addData("iterate over first two elements: element ", i);
-                              //telemetry.addData("List size", recognitionLinkedList.size());
-                              //telemetry.update();
-                              recognition = recognitionLinkedList.get(i);
-                          if (recognition.getLabel().equals(LABEL_GOLD_MINERAL)) {
-                            goldMineralX = (int) recognition.getLeft();
-                          } else if (silverMineral1X == -1) {
-                            silverMineral1X = (int) recognition.getLeft();
-                          } else {
-                            silverMineral2X = (int) recognition.getLeft();
-                          }
+                        }
+                        Recognition recognition = null;
+                        for (int i = 0; i < 2; i++) {
+                            //telemetry.addData("iterate over first two elements: element ", i);
+                            //telemetry.addData("List size", recognitionLinkedList.size());
+                            //telemetry.update();
+                            recognition = recognitionLinkedList.get(i);
+                            if (recognition.getLabel().equals(LABEL_GOLD_MINERAL)) {
+                                goldMineralX = (int) recognition.getLeft();
+                            } else if (silverMineral1X == -1) {
+                                silverMineral1X = (int) recognition.getLeft();
+                            } else {
+                                silverMineral2X = (int) recognition.getLeft();
+                            }
                         }
 
-                          if (goldMineralX == -1 && silverMineral1X != -1 && silverMineral2X != -1) {
-                              telemetry.addData("Gold Mineral Position", "Left");
-                              returnVal = "LEFT";
-                          }
-                          if (goldMineralX != -1 && silverMineral1X != -1) {
-                              if (goldMineralX > silverMineral1X) {
-                                  telemetry.addData("Gold Mineral Position", "Right");
-                                  returnVal = "RIGHT";
-                              }
-                              else {
-                                  telemetry.addData("Gold Mineral Position", "Center");
-                                  returnVal = "CENTER";
-                              }
-                          }
-                      }
+                        if (goldMineralX == -1 && silverMineral1X != -1 && silverMineral2X != -1) {
+                            telemetry.addData("Gold Mineral Position", "Left");
+                            currentPos = "LEFT";
+                        }
+                        if (goldMineralX != -1 && silverMineral1X != -1) {
+                            if (goldMineralX > silverMineral1X) {
+                                telemetry.addData("Gold Mineral Position", "Right");
+                                currentPos = "RIGHT";
+                            } else {
+                                telemetry.addData("Gold Mineral Position", "Center");
+                                currentPos = "CENTER";
+                            }
+                        }
                     }
                 }
             }
-        //}
-
-        if (tfod != null) {
-            tfod.shutdown();
         }
-        telemetry.addData("Mineral Position: ", returnVal);
-        telemetry.update();
-        phoneLight(false);
-        return returnVal;
+        return currentPos;
     }
-
-    /**
-     * Initialize the Vuforia localization engine.
-     */
     private void initVuforia() {
         /*
          * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.

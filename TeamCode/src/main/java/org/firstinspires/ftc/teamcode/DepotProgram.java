@@ -52,30 +52,30 @@ public class DepotProgram extends LinearOpMode {
         waitForStart();
 
 
-        // landing our robot
-
-        robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.lift.setTargetPosition(-17000);
-        robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.lift.setPower(1);
-
-        while (opModeIsActive() &&
-                robot.lift.isBusy()){
-            telemetry.addData("Lift Encoder Ticks", robot.lift.getCurrentPosition());
-            telemetry.update();
-
-        }
-
-        robot.lift.setPower(0);
-
-        runtime.reset();
-
-        robot.latch.setPower(-1);
-
-        while (runtime.seconds() <1.15){
-
-        }
-        robot.latch.setPower(-.1);
+//        // landing our robot
+//
+//        robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        robot.lift.setTargetPosition(-17000);
+//        robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        robot.lift.setPower(1);
+//
+//        while (opModeIsActive() &&
+//                robot.lift.isBusy()){
+//            telemetry.addData("Lift Encoder Ticks", robot.lift.getCurrentPosition());
+//            telemetry.update();
+//
+//        }
+//
+//        robot.lift.setPower(0);
+//
+//        runtime.reset();
+//
+//        robot.latch.setPower(-1);
+//
+//        while (runtime.seconds() <1.15){
+//
+//        }
+//        robot.latch.setPower(-.1);
 
         gridNavigation.setGridPosition(.5417, .5417, 45);
 
@@ -119,7 +119,7 @@ public class DepotProgram extends LinearOpMode {
                     telemetry.addData("Grid Nav Goto Pos Y", RED_DEPOT_LEFT[Y]);
                     gridNavigation.driveToPosition(2.1, 2.5, .4);
                     gridNavigation.driveToPosition(2.8,0,.4);
-                    gridNavigation.driveToPosition(2.8,-2,.2);
+                    gridNavigation.driveToPosition(2.7,-2,.2);
 
                 }
                 else {
@@ -137,7 +137,7 @@ public class DepotProgram extends LinearOpMode {
                     telemetry.addData("Grid Nav Goto Pos X", RED_DEPOT_RIGHT[X]);
                     telemetry.addData("Grid Nav Goto Pos Y", RED_DEPOT_RIGHT[Y]);
                     gridNavigation.driveToPosition(2.2,1,.3);
-                    gridNavigation.driveToPosition(2.8, -2, .2);
+                    gridNavigation.driveToPosition(2.7, -2, .2);
                 }
                 else {
                     telemetry.addData("Telemetry", "No Position Found");
@@ -208,35 +208,6 @@ public class DepotProgram extends LinearOpMode {
 
 //        telemetry.addData("MAP", "Running Sampling Order loop");
 //        goldPosition = detector.getLastOrder().toString();
-
-//        while (goldPosition == "UNKNOWN") {
-//
-//            // waits to turn after it has tried to check for the mineral pos
-//
-//            if (startTime != 0) gyroTurn.turnGyro(-5);
-//
-//            sleep(1000);
-//
-//            startTime = System.currentTimeMillis();
-//
-//
-//            while (System.currentTimeMillis() < (startTime + 3000)) {
-//
-//                goldPosition = detector.getLastOrder().toString();
-//
-//                if (goldPosition == previousPosition) {
-//                }
-//                else {
-//                    previousPosition = goldPosition;
-//                    startTime = System.currentTimeMillis();
-//
-//                }
-//                telemetry.addData("StartTime: ", startTime);
-//                telemetry.addData("CurrentTime: ", System.currentTimeMillis());
-//                telemetry.addData("Prev Position:  ", previousPosition);
-//                telemetry.addData("Gold Position:  ", goldPosition);
-//                telemetry.update();
-//            }
 
 //
 //            telemetry.addData("Current Order", detector.getCurrentOrder().toString()); // The current result for the frame
