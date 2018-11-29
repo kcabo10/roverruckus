@@ -1,12 +1,13 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 /**
  * Created by kyliestruth 10/27/18.
  */
-
+@Disabled
 @TeleOp(name= "TestingCRServo", group= "TankDrive")
 public class TestingCRServo extends OpMode
 {

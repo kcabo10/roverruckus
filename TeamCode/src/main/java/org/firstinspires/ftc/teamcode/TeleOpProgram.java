@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.graphics.Color;
+
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -15,10 +17,10 @@ public class TeleOpProgram extends OpMode
 
     private int buttonYPressed;
     private int buttonAPressed;
-    private int buttonBPressed;
     private int direction = 1;
-    private double scaleFactor = 0.5;
-    private double craterSpeed = 0.2;
+    private double scaleFactor = 1;
+    private double craterSpeed = 1;
+
 
     public void reverseDirection() {
         if (direction == 1) {
@@ -36,14 +38,6 @@ public class TeleOpProgram extends OpMode
         }
     }
 
-    public void craterSpeed() {
-        if (craterSpeed == 1 || craterSpeed == 0.5) {
-            craterSpeed = 0.2;
-        } else if (craterSpeed == 0.2) {
-            craterSpeed = 1;
-        }
-    }
-     @Override
     public void init() {
         robot.init(hardwareMap);
         telemetry.addData("Say", "Hello Driver");
@@ -57,8 +51,8 @@ public class TeleOpProgram extends OpMode
         robot.arm.setPower(0);
         robot.armExtrusion.setPower(0);
         robot.intake.setPower(0);
-//        robot.basket.setPosition(.45);
         robot.latch.setPower(-.1);
+
     }
 
     public void loop() {
@@ -71,11 +65,12 @@ public class TeleOpProgram extends OpMode
         /**
          *POV Mecanum Wheel Control
          */
+
         drive = -gamepad1.left_stick_y;
         turn  =  gamepad1.right_stick_x;
 
-        left  = drive + turn;
-        right = drive - turn;
+        left  = drive - turn;
+        right = drive + turn;
 
         max = Math.max(Math.abs(left), Math.abs(right));
         if (max > 1.0)
@@ -92,6 +87,22 @@ public class TeleOpProgram extends OpMode
         robot.leftBack.setPower(left);
         robot.rightFront.setPower(right);
         robot.rightBack.setPower(right);
+
+        /**
+         Strafing on left stick x axis
+         */
+
+        if (gamepad1.left_stick_x < 0) {
+            robot.leftFront.setPower(left);
+            robot.leftBack.setPower(-left);
+            robot.rightFront.setPower(-right);
+            robot.rightBack.setPower(right);
+        } else if (gamepad1.left_stick_x > 0) {
+            robot.leftFront.setPower(-left);
+            robot.leftBack.setPower(left);
+            robot.rightFront.setPower(right);
+            robot.rightBack.setPower(-right);
+        }
 
         /**
          *Invert Direction On Y Button
@@ -130,24 +141,6 @@ public class TeleOpProgram extends OpMode
             break;
         }
 
-
-        /**
-         CraterSpeed on B Button
-         */
-        switch (buttonBPressed) {
-            case(0):
-                if (gamepad1.b)  {
-                    buttonBPressed = 1;
-                }
-                break;
-            case(1):
-                if (!gamepad1.b) {
-                    buttonBPressed = 0;
-                    craterSpeed();
-                }
-                break;
-        }
-
         /**
          *Lift Control
          */
@@ -182,30 +175,20 @@ public class TeleOpProgram extends OpMode
          *Intake Control
          */
         if (gamepad2.right_bumper) {
-            robot.intake.setPower(0.3);
+            robot.intake.setPower(1);
         } else if (gamepad2.right_trigger > 0) {
-            robot.intake.setPower(-0.3);
+            robot.intake.setPower(-1);
         } else
             robot.intake.setPower(0);
-
-        /**
-         *Basket Control
-         */
-//        if (gamepad2.left_bumper) {
-//            robot.basket.setPosition(1);
-//        } else if (gamepad2.left_trigger > 0.45) {
-//            robot.basket.setPower(-1);
-//        } else
-//            robot.basket.setPower(0.45);
 
         /**
          *Arm Control
          */
 
         if (gamepad2.left_stick_y > 0) {
-            robot.arm.setPower(0.3);
+            robot.arm.setPower(0.5);
         } else if (gamepad2.left_stick_y < 0)
-            robot.arm.setPower(-0.3);
+            robot.arm.setPower(-1);
         else if (gamepad2.left_stick_y == 0)
             robot.arm.setPower(0);
 
@@ -221,8 +204,8 @@ public class TeleOpProgram extends OpMode
             robot.armExtrusion.setPower(0);
 
 
-        telemetry.addData("Commanded left motor power", left);
-        telemetry.addData("Commanded right motor power", right);
+//        telemetry.addData("Commanded left motor power", left);
+//        telemetry.addData("Commanded right motor power", right);
         telemetry.addData("Scale Factor", scaleFactor);
         telemetry.addData("Direction", direction);
         telemetry.addData("left front power", robot.leftFront.getPower());
@@ -238,7 +221,6 @@ public class TeleOpProgram extends OpMode
         robot.arm.setPower(0);
         robot.armExtrusion.setPower(0);
         robot.intake.setPower(0);
-//        robot.basket.setPosition(.45);
         robot.latch.setPower(-.1);
     }
 }

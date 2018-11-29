@@ -3,9 +3,10 @@ package org.firstinspires.ftc.teamcode;
 import com.disnodeteam.dogecv.CameraViewDisplay;
 import com.disnodeteam.dogecv.DogeCV;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-
+@Disabled
 @Autonomous(name="CRServo Autonomous", group="Beep")
 public class CRServoAutonomous extends LinearOpMode {
 

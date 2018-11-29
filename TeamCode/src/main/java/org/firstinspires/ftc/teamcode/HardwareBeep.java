@@ -26,7 +26,6 @@ public class HardwareBeep {
     public DcMotor armExtrusion = null;
     public DcMotor intake = null;
     public CRServo latch = null;
-//    public Servo    basket = null;
 
     public BNO055IMU imu = null;
     public NormalizedColorSensor colorSensor = null;
@@ -57,7 +56,6 @@ public class HardwareBeep {
         arm = hwMap.get(DcMotor.class, "arm");
         armExtrusion = hwMap.get(DcMotor.class, "arm_extrusion");
         intake = hwMap.get(DcMotor.class, "intake");
-//        basket = hwMap.get(Servo.class, "basket");
 
         leftFront.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
         leftBack.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
@@ -78,7 +76,6 @@ public class HardwareBeep {
         arm.setPower(0);
         armExtrusion.setPower(0);
         intake.setPower(0);
-//        basket.setPosition(0.45);
         latch.setPower(-.1);
 
         // Set all motors to run without encoders.
@@ -89,7 +86,6 @@ public class HardwareBeep {
         rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
 

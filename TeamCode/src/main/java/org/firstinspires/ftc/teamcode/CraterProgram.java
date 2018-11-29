@@ -1,7 +1,10 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.graphics.Color;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -51,9 +54,9 @@ public class CraterProgram extends LinearOpMode {
 
         while (opModeIsActive() &&
                 robot.lift.isBusy()){
+            getMineralPosition();
             telemetry.addData("Lift Encoder Ticks", robot.lift.getCurrentPosition());
             telemetry.update();
-
         }
 
         robot.lift.setPower(0);
@@ -72,7 +75,7 @@ public class CraterProgram extends LinearOpMode {
         printTelemetry(0);
         telemetry.update();
 
-        getMineralPosition();
+//        getMineralPosition();
 
         //goldPosition = "RIGHT";
         printTelemetry(10);
