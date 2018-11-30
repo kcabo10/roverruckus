@@ -1,50 +1,68 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-//@Disabled
-@TeleOp(name="Strafing Test", group="Beep")
-public class StrafingTest extends OpMode
-{
+@TeleOp(name="Strafing Test", group="Pushbot")
+public class StrafingTest extends LinearOpMode {
 
-    private HardwareMapStrafingTest robot = new HardwareMapStrafingTest();
+    /* Declare OpMode members. */
+    HardwareMapStrafingTest robot = new HardwareMapStrafingTest();
 
-    public void init() {
+    @Override
+    public void runOpMode() {
+        double left;
+        double right;
+        double drive;
+        double turn;
+        double max;
+
+
         robot.init(hardwareMap);
-        telemetry.addData("Say", "Hello Driver");
 
-    }
+        telemetry.addData("Say", "Hello Driver");    //
+        telemetry.update();
 
-    public void init_loop() {
+        waitForStart();
 
+        while (opModeIsActive()) {
 
-    }
+            drive = -gamepad1.left_stick_y;
+            turn  =  gamepad1.right_stick_x;
 
-    public void loop() {
+            // Combine drive and turn for blended motion.
+            left  = drive + turn;
+            right = drive - turn;
 
-        /**
-         *POV Mecanum Wheel Control
-         */
+            // Normalize the values so neither exceed +/- 1.0
+            max = Math.max(Math.abs(left), Math.abs(right));
+            if (max > 1.0)
+            {
+                left /= max;
+                right /= max;
+            }
 
-        double r = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
-        double robotAngle = Math.atan2(gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4;
-        double rightX = gamepad1.right_stick_x;
-        final double v1 = r * Math.cos(robotAngle) + rightX;
-        final double v2 = r * Math.sin(robotAngle) - rightX;
-        final double v3 = r * Math.sin(robotAngle) + rightX;
-        final double v4 = r * Math.cos(robotAngle) - rightX;
+            // Output the safe vales to the motor drives.
+            robot.leftFront.setPower(left);
+            robot.leftBack.setPower(left);
+            robot.rightFront.setPower(right);
+            robot.rightBack.setPower(right);
 
-        robot.leftFront.setPower(v1);
-        robot.rightFront.setPower(v2);
-        robot.leftBack.setPower(v3);
-        robot.rightBack.setPower(v4);
-    }
+            /**
+             Strafing on left stick x axis
+             */
 
-    public void stop() {
-
-
+            if (gamepad1.left_stick_x < 0) {
+                robot.leftFront.setPower(left);
+                robot.leftBack.setPower(-left);
+                robot.rightFront.setPower(-right);
+                robot.rightBack.setPower(right);
+            } else if (gamepad1.left_stick_x > 0) {
+                robot.leftFront.setPower(-left);
+                robot.leftBack.setPower(left);
+                robot.rightFront.setPower(right);
+                robot.rightBack.setPower(-right);
+            }
+        }
     }
 }

@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import android.graphics.Color;
-
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -13,7 +11,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 @TeleOp(name= "TeleOp Program", group= "TankDrive")
 public class TeleOpProgram extends OpMode
 {
-    private HardwareBeep robot = new HardwareBeep();
+    private HardwareMapStrafingTest robot = new HardwareMapStrafingTest();
 
     private int buttonYPressed;
     private int buttonAPressed;
@@ -47,11 +45,11 @@ public class TeleOpProgram extends OpMode
     public void init_loop() {
 
         buttonYPressed = 0;
-        robot.lift.setPower(0);
-        robot.arm.setPower(0);
-        robot.armExtrusion.setPower(0);
-        robot.intake.setPower(0);
-        robot.latch.setPower(-.1);
+//        robot.lift.setPower(0);
+//        robot.arm.setPower(0);
+//        robot.armExtrusion.setPower(0);
+//        robot.intake.setPower(0);
+//        robot.latch.setPower(-.1);
 
     }
 
@@ -129,79 +127,79 @@ public class TeleOpProgram extends OpMode
 
         switch (buttonAPressed) {
             case(0):
-             if (gamepad1.a)  {
-                 buttonAPressed = 1;
-             }
-            break;
+                if (gamepad1.a)  {
+                    buttonAPressed = 1;
+                }
+                break;
             case(1):
                 if (!gamepad1.a) {
                     buttonAPressed = 0;
                     scaleFactor();
                 }
-            break;
+                break;
         }
 
         /**
          *Lift Control
          */
-        if (gamepad2.dpad_down && !gamepad2.dpad_up)        {
-
-            robot.lift.setPower(1);
-            telemetry.addData("Encoder Ticks", robot.lift.getCurrentPosition());
-            telemetry.update();
-        } else if (gamepad2.dpad_up && !gamepad2.dpad_down) {
-            robot.lift.setPower(-1);
-            telemetry.addData("Encoder Ticks", robot.lift.getCurrentPosition());
-            telemetry.update();
-        } else if (!gamepad2.dpad_up && !gamepad2.dpad_down) {
-            robot.lift.setPower(0);
-        }
+//        if (gamepad2.dpad_down && !gamepad2.dpad_up)        {
+//
+//            robot.lift.setPower(1);
+//            telemetry.addData("Encoder Ticks", robot.lift.getCurrentPosition());
+//            telemetry.update();
+//        } else if (gamepad2.dpad_up && !gamepad2.dpad_down) {
+//            robot.lift.setPower(-1);
+//            telemetry.addData("Encoder Ticks", robot.lift.getCurrentPosition());
+//            telemetry.update();
+//        } else if (!gamepad2.dpad_up && !gamepad2.dpad_down) {
+//            robot.lift.setPower(0);
+//        }
 
         /**
          Latch Release Control
           */
 
-        if (gamepad2.dpad_right && !gamepad2.dpad_left)        {
-
-            robot.latch.setPower(1);
-        } else if (gamepad2.dpad_left && !gamepad2.dpad_right) {
-            robot.latch.setPower(-1);
-        } else if (!gamepad2.dpad_left && !gamepad2.dpad_right) {
-            robot.latch.setPower(-.1);
-        }
+//        if (gamepad2.dpad_right && !gamepad2.dpad_left)        {
+//
+//            robot.latch.setPower(1);
+//        } else if (gamepad2.dpad_left && !gamepad2.dpad_right) {
+//            robot.latch.setPower(-1);
+//        } else if (!gamepad2.dpad_left && !gamepad2.dpad_right) {
+//            robot.latch.setPower(-.1);
+//        }
 
 
         /**
          *Intake Control
          */
-        if (gamepad2.right_bumper) {
-            robot.intake.setPower(1);
-        } else if (gamepad2.right_trigger > 0) {
-            robot.intake.setPower(-1);
-        } else
-            robot.intake.setPower(0);
+//        if (gamepad2.right_bumper) {
+//            robot.intake.setPower(1);
+//        } else if (gamepad2.right_trigger > 0) {
+//            robot.intake.setPower(-1);
+//        } else
+//            robot.intake.setPower(0);
 
         /**
          *Arm Control
          */
 
-        if (gamepad2.left_stick_y > 0) {
-            robot.arm.setPower(0.5);
-        } else if (gamepad2.left_stick_y < 0)
-            robot.arm.setPower(-1);
-        else if (gamepad2.left_stick_y == 0)
-            robot.arm.setPower(0);
+//        if (gamepad2.left_stick_y > 0) {
+//            robot.arm.setPower(0.5);
+//        } else if (gamepad2.left_stick_y < 0)
+//            robot.arm.setPower(-1);
+//        else if (gamepad2.left_stick_y == 0)
+//            robot.arm.setPower(0);
 
         /**
         Arm Extrusions
          */
 
-        if (gamepad2.right_stick_y > 0) {
-            robot.armExtrusion.setPower(0.3);
-        } else if (gamepad2.right_stick_y < 0)
-            robot.armExtrusion.setPower(-0.3);
-        else if (gamepad2.right_stick_y == 0)
-            robot.armExtrusion.setPower(0);
+//        if (gamepad2.right_stick_y > 0) {
+//            robot.armExtrusion.setPower(0.3);
+//        } else if (gamepad2.right_stick_y < 0)
+//            robot.armExtrusion.setPower(-0.3);
+//        else if (gamepad2.right_stick_y == 0)
+//            robot.armExtrusion.setPower(0);
 
 
 //        telemetry.addData("Commanded left motor power", left);
@@ -217,10 +215,10 @@ public class TeleOpProgram extends OpMode
     
     public void stop() {
 
-        robot.lift.setPower(0);
-        robot.arm.setPower(0);
-        robot.armExtrusion.setPower(0);
-        robot.intake.setPower(0);
-        robot.latch.setPower(-.1);
+//        robot.lift.setPower(0);
+//        robot.arm.setPower(0);
+//        robot.armExtrusion.setPower(0);
+//        robot.intake.setPower(0);
+//        robot.latch.setPower(-.1);
     }
 }
