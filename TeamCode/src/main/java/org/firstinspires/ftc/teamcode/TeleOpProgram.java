@@ -54,53 +54,23 @@ public class TeleOpProgram extends OpMode
     }
 
     public void loop() {
-        double left;
-        double right;
-        double drive;
-        double turn;
-        double max;
 
         /**
-         *POV Mecanum Wheel Control
+         *POV Mecanum Wheel Control With Strafing
          */
 
-        drive = -gamepad1.left_stick_y;
-        turn  =  gamepad1.right_stick_x;
+        double r = Math.hypot(-gamepad1.left_stick_x, gamepad1.left_stick_y);
+        double robotAngle = Math.atan2(gamepad1.left_stick_y, -gamepad1.left_stick_x) - Math.PI / 4;
+        double rightX = gamepad1.right_stick_x;
+        final double v1 = r * Math.cos(robotAngle) + rightX * direction * scaleFactor;
+        final double v2 = r * Math.sin(robotAngle) - rightX * direction * scaleFactor;
+        final double v3 = r * Math.sin(robotAngle) + rightX * direction * scaleFactor;
+        final double v4 = r * Math.cos(robotAngle) - rightX * direction * scaleFactor;
 
-        left  = drive - turn;
-        right = drive + turn;
-
-        max = Math.max(Math.abs(left), Math.abs(right));
-        if (max > 1.0)
-        {
-            left /= max;
-            right /= max;
-        }
-
-        left = left * scaleFactor * direction * craterSpeed;
-
-        right = right * scaleFactor * direction * craterSpeed;
-
-        robot.leftFront.setPower(left);
-        robot.leftBack.setPower(left);
-        robot.rightFront.setPower(right);
-        robot.rightBack.setPower(right);
-
-        /**
-         Strafing on left stick x axis
-         */
-
-        if (gamepad1.left_stick_x < 0) {
-            robot.leftFront.setPower(left);
-            robot.leftBack.setPower(-left);
-            robot.rightFront.setPower(-right);
-            robot.rightBack.setPower(right);
-        } else if (gamepad1.left_stick_x > 0) {
-            robot.leftFront.setPower(-left);
-            robot.leftBack.setPower(left);
-            robot.rightFront.setPower(right);
-            robot.rightBack.setPower(-right);
-        }
+        robot.leftFront.setPower(v1);
+        robot.rightFront.setPower(v2);
+        robot.leftBack.setPower(v3);
+        robot.rightBack.setPower(v4);
 
         /**
          *Invert Direction On Y Button
@@ -202,8 +172,6 @@ public class TeleOpProgram extends OpMode
 //            robot.armExtrusion.setPower(0);
 
 
-//        telemetry.addData("Commanded left motor power", left);
-//        telemetry.addData("Commanded right motor power", right);
         telemetry.addData("Scale Factor", scaleFactor);
         telemetry.addData("Direction", direction);
         telemetry.addData("left front power", robot.leftFront.getPower());

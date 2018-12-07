@@ -23,7 +23,7 @@ public class ColorSensorTest extends LinearOpMode {
 
 
         robot.color_Sensor.enableLed(true);
-        
+
         if (robot.color_Sensor.blue() < 20) {
             robot.latch.setPower(1);
         }
