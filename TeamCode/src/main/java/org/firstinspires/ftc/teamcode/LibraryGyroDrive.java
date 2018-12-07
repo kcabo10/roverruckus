@@ -15,7 +15,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 public class LibraryGyroDrive {
 
-    HardwareBeep robot = null;
+    HardwareBeep robot = new HardwareBeep();
 
     Telemetry telemetry;
     LibraryPIDController pidRotate, pidDrive;

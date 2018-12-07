@@ -5,16 +5,11 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+
 
 public class HardwareBeep {
     /* Public OpMode members. */
@@ -28,10 +23,11 @@ public class HardwareBeep {
     public DcMotor intake = null;
     public CRServo latch = null;
 
-    public BNO055IMU imu = null;
     public NormalizedColorSensor colorSensor = null;
+    public BNO055IMU imu = null;
+//    public NormalizedColorSensor colorSensor = null;
 
-
+    ColorSensor color_Sensor;
 
     /* local OpMode members. */
     HardwareMap hwMap = null;
@@ -66,6 +62,7 @@ public class HardwareBeep {
         arm.setDirection(DcMotor.Direction.FORWARD);
         armExtrusion.setDirection(DcMotor.Direction.FORWARD);
         intake.setDirection(DcMotor.Direction.FORWARD);
+        latch.setDirection(DcMotorSimple.Direction.REVERSE);
 
 
         // Set all motors to zero power
@@ -101,6 +98,7 @@ public class HardwareBeep {
         // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
         // and named "imu".
         imu = hwMap.get(BNO055IMU.class, "imu");
+        color_Sensor = hwMap.get(ColorSensor.class, "colorSensor");
         colorSensor = hwMap.get(NormalizedColorSensor.class, "colorSensor");
         imu.initialize(parameters);
 

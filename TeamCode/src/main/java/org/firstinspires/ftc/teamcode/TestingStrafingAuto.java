@@ -20,9 +20,10 @@ public class TestingStrafingAuto extends OpMode
     }
 
     public void init_loop() {
+
          }
 
-    public void loop() {
+   public void loop() {
 
         robot.rightBack.setPower(1);
         robot.rightFront.setPower(-1);
