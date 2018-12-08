@@ -6,7 +6,6 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
@@ -23,11 +22,9 @@ public class HardwareBeep {
     public DcMotor intake = null;
     public CRServo latch = null;
 
-    public NormalizedColorSensor colorSensor = null;
     public BNO055IMU imu = null;
-//    public NormalizedColorSensor colorSensor = null;
 
-    ColorSensor color_Sensor;
+    ColorSensor colorSensor;
 
     /* local OpMode members. */
     HardwareMap hwMap = null;
@@ -98,8 +95,7 @@ public class HardwareBeep {
         // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
         // and named "imu".
         imu = hwMap.get(BNO055IMU.class, "imu");
-        color_Sensor = hwMap.get(ColorSensor.class, "colorSensor");
-        colorSensor = hwMap.get(NormalizedColorSensor.class, "colorSensor");
+        colorSensor = hwMap.get(ColorSensor.class, "color_Sensor");
         imu.initialize(parameters);
 
 
