@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -24,7 +25,7 @@ public class HardwareBeep {
 
     public BNO055IMU imu = null;
 
-    ColorSensor colorSensor;
+    public ModernRoboticsI2cColorSensor colorSensor = null;
 
     /* local OpMode members. */
     HardwareMap hwMap = null;
@@ -95,7 +96,7 @@ public class HardwareBeep {
         // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
         // and named "imu".
         imu = hwMap.get(BNO055IMU.class, "imu");
-        colorSensor = hwMap.get(ColorSensor.class, "color_Sensor");
+        colorSensor = hwMap.get(ModernRoboticsI2cColorSensor.class, "color_Sensor");
         imu.initialize(parameters);
 
 

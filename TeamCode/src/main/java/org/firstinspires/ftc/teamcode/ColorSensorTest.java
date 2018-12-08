@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import android.graphics.Color;
 
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -26,18 +27,13 @@ public class ColorSensorTest extends LinearOpMode {
 
         waitForStart();
 
-        Color.RGBToHSV(robot.colorSensor.red() * 8, robot.colorSensor.green() * 8, robot.colorSensor.blue() * 8, hsvValues);
+//        Color.RGBToHSV(robot.colorSensor.red() * 8, robot.colorSensor.green() * 8, robot.colorSensor.blue() * 8, hsvValues);
 
         robot.colorSensor.enableLed(true);
-
-        telemetry.addData("Phase", "Hasn't entered do statement");
-        telemetry.update();
-
-        do {
-            telemetry.addData("Phase", "Do Statement");
+        while (opModeIsActive()) {
+            telemetry.addData("Color Number", robot.colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER));
             telemetry.update();
-            robot.latch.setPower(1);
-            } while (robot.colorSensor.blue() < robot.colorSensor.red());
+        }
 
         telemetry.addData("Phase", "While Loop complete");
         telemetry.addData("found blue Color", robot.colorSensor.blue());
