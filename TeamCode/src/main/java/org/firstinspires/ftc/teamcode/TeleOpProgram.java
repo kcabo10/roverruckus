@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 @TeleOp(name= "TeleOp Program", group= "TankDrive")
 public class TeleOpProgram extends OpMode
 {
-    private HardwareMapStrafingTest robot = new HardwareMapStrafingTest();
+    private HardwareBeep robot = new HardwareBeep();
 
     private int buttonYPressed;
     private int buttonAPressed;
@@ -49,7 +49,7 @@ public class TeleOpProgram extends OpMode
 //        robot.arm.setPower(0);
 //        robot.armExtrusion.setPower(0);
 //        robot.intake.setPower(0);
-//        robot.latch.setPower(-.1);
+        robot.latch.setPower(-.1);
 
     }
 
@@ -129,14 +129,13 @@ public class TeleOpProgram extends OpMode
          Latch Release Control
           */
 
-//        if (gamepad2.dpad_right && !gamepad2.dpad_left)        {
-//
-//            robot.latch.setPower(1);
-//        } else if (gamepad2.dpad_left && !gamepad2.dpad_right) {
-//            robot.latch.setPower(-1);
-//        } else if (!gamepad2.dpad_left && !gamepad2.dpad_right) {
-//            robot.latch.setPower(-.1);
-//        }
+        if (gamepad2.dpad_right && !gamepad2.dpad_left) {
+            robot.latch.setPower(1);
+        } else if (gamepad2.dpad_left && !gamepad2.dpad_right) {
+            robot.latch.setPower(-1);
+        } else if (!gamepad2.dpad_left && !gamepad2.dpad_right) {
+            robot.latch.setPower(-.1);
+        }
 
 
         /**
@@ -187,6 +186,6 @@ public class TeleOpProgram extends OpMode
 //        robot.arm.setPower(0);
 //        robot.armExtrusion.setPower(0);
 //        robot.intake.setPower(0);
-//        robot.latch.setPower(-.1);
+        robot.latch.setPower(-.1);
     }
 }

@@ -5,7 +5,6 @@ import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -60,7 +59,7 @@ public class HardwareBeep {
         arm.setDirection(DcMotor.Direction.FORWARD);
         armExtrusion.setDirection(DcMotor.Direction.FORWARD);
         intake.setDirection(DcMotor.Direction.FORWARD);
-        latch.setDirection(DcMotorSimple.Direction.REVERSE);
+        latch.setDirection(CRServo.Direction.REVERSE);
 
 
         // Set all motors to zero power
