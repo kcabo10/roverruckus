@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
 import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -25,6 +24,7 @@ public class HardwareBeep {
     public BNO055IMU imu = null;
 
     public ModernRoboticsI2cColorSensor colorSensor = null;
+
 
     /* local OpMode members. */
     HardwareMap hwMap = null;
@@ -59,7 +59,7 @@ public class HardwareBeep {
         arm.setDirection(DcMotor.Direction.FORWARD);
         armExtrusion.setDirection(DcMotor.Direction.FORWARD);
         intake.setDirection(DcMotor.Direction.FORWARD);
-        latch.setDirection(CRServo.Direction.REVERSE);
+        latch.setDirection(CRServo.Direction.FORWARD);
 
 
         // Set all motors to zero power
