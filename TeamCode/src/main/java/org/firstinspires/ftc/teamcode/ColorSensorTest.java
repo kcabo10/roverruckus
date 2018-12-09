@@ -22,13 +22,8 @@ public class ColorSensorTest extends LinearOpMode {
         telemetry.addData("Say", "Hello Driver");
         telemetry.update();
         robot.latch.setPower(0);
-
-        // hsvValues is an array that will hold the hue, saturation, and value information.
-        float hsvValues[] = {0F,0F,0F};
-
+        
         waitForStart();
-
-//        Color.RGBToHSV(robot.colorSensor.red() * 8, robot.colorSensor.green() * 8, robot.colorSensor.blue() * 8, hsvValues);
 
         robot.colorSensor.enableLed(true);
 
