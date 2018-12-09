@@ -21,9 +21,10 @@ public class ColorSensorTest extends LinearOpMode {
         robot.init(hardwareMap);
         telemetry.addData("Say", "Hello Driver");
         telemetry.update();
+        robot.latch.setPower(0);
 
         // hsvValues is an array that will hold the hue, saturation, and value information.
-//        float hsvValues[] = {0F,0F,0F};
+        float hsvValues[] = {0F,0F,0F};
 
         waitForStart();
 
@@ -31,24 +32,20 @@ public class ColorSensorTest extends LinearOpMode {
 
         robot.colorSensor.enableLed(true);
 
-        telemetry.addData("Phase", "Hasn't entered If statement");
-        telemetry.update();
-        sleep(3000);
+        robot.latch.setPower(-1);
+        while (robot.colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER) != 3) {
+            telemetry.addData("Color Number", robot.colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER));
+            telemetry.update();
+        }
 
-       if (robot.colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER) != 3) {
-           robot.latch.setPower(1);
-           telemetry.addData("Phase", "Entered If statement");
-           telemetry.update();
-           sleep(3000);
-       } else if (robot.colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER) == 3){
-           robot.latch.setPower(0);
-           telemetry.addData("Phase", "Entered Else statement");
-           telemetry.update();
-           sleep(3000);
-       }
-        telemetry.addData("Phase", "If/Else statement complete");
-        telemetry.addData("found blue Color", robot.colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER));
+        robot.latch.setPower(0);
+        telemetry.addData("Stopped Servo", telemetry);
         telemetry.update();
-        sleep(3000);
+        sleep(2000);
+
+        telemetry.addData("Phase", "While Loop complete");
+        telemetry.addData("found blue Color", robot.colorSensor.blue());
+        telemetry.update();
+        sleep(5000);
     }
 }
