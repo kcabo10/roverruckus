@@ -95,6 +95,11 @@ public class CraterProgram extends LinearOpMode {
         double[] RED_CRATER_CENTER = {1.5, 1.5};
 
 
+        double[] RED_CRATER_MARKER = {-1.8, 2.5};
+        double[] RED_CRATER_PARKING = {.8, 2.5};
+
+
+
         switch (goldPosition) {
 
             case "LEFT":
@@ -102,10 +107,14 @@ public class CraterProgram extends LinearOpMode {
                 printTelemetry(20);
 
                 if (goldPosition == "LEFT") {
-                    gridNavigation.driveToPosition(RED_CRATER_LEFT[X], RED_CRATER_LEFT[Y], .2);
+                    gridNavigation.driveToPosition(RED_CRATER_LEFT[X], RED_CRATER_LEFT[Y], .4);
                     telemetry.addData("Grid Nav Goto Pos X", RED_CRATER_LEFT[X]);
                     telemetry.addData("Grid Nav Goto Pos Y", RED_CRATER_LEFT[Y]);
-                    gridNavigation.driveToPosition(1.5,2.5, .2);
+                    gridNavigation.driveToPositionBackwards(.5,1.5,.4);
+                    gridNavigation.driveToPosition(.5,2.5,.4);
+                    gridNavigation.driveToPosition(RED_CRATER_MARKER[X],RED_CRATER_MARKER[Y],.4);
+                    gridNavigation.driveToPositionBackwards(RED_CRATER_PARKING[X],RED_CRATER_PARKING[Y],.4);
+
                 }
                 else {
                     telemetry.addData("Telemetry", "No Position Found");
@@ -119,10 +128,13 @@ public class CraterProgram extends LinearOpMode {
                 printTelemetry(40);
 
                 if (goldPosition == "RIGHT"){
-                    gridNavigation.driveToPosition(RED_CRATER_RIGHT[X], RED_CRATER_RIGHT[Y], .2);
+                    gridNavigation.driveToPosition(RED_CRATER_RIGHT[X], RED_CRATER_RIGHT[Y], .4);
                     telemetry.addData("Grid Nav Goto Pos X", RED_CRATER_RIGHT[X]);
                     telemetry.addData("Grid Nav Goto Pos Y", RED_CRATER_RIGHT[Y]);
-                    gridNavigation.driveToPosition(2.5, 1.5, .2);
+                    gridNavigation.driveToPositionBackwards(1.5,.5,.4);
+                    gridNavigation.driveToPosition(.5,2.5,.4);
+                    gridNavigation.driveToPosition(RED_CRATER_MARKER[X],RED_CRATER_MARKER[Y],.4);
+                    gridNavigation.driveToPositionBackwards(RED_CRATER_PARKING[X],RED_CRATER_PARKING[Y],.4);
                 }
                 else {
                     telemetry.addData("Telemetry", "No Position Found");
@@ -136,10 +148,13 @@ public class CraterProgram extends LinearOpMode {
                 printTelemetry(60);
 
                 if (goldPosition == "CENTER"){
-                    gridNavigation.driveToPosition(RED_CRATER_CENTER[X], RED_CRATER_CENTER[Y], .2);
+                    gridNavigation.driveToPosition(RED_CRATER_CENTER[X], RED_CRATER_CENTER[Y], .4);
                     telemetry.addData("Grid Nav Goto Pos X", RED_CRATER_CENTER[X]);
                     telemetry.addData("Grid Nav Goto Pos Y", RED_CRATER_CENTER[Y]);
-                    gridNavigation.driveToPosition(2,2,.2);
+                    gridNavigation.driveToPositionBackwards(1,1,.4);
+                    gridNavigation.driveToPosition(0,2.5,.4);
+                    gridNavigation.driveToPosition(RED_CRATER_MARKER[X],RED_CRATER_MARKER[Y],.4);
+                    gridNavigation.driveToPositionBackwards(RED_CRATER_PARKING[X],RED_CRATER_PARKING[Y],.4);
                 }
                 else {
                     telemetry.addData("Telemetry", "No Position Found");

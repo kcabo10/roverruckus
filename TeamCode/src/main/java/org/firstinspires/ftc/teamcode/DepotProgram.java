@@ -89,7 +89,7 @@ public class DepotProgram extends LinearOpMode {
 
         //telemetry.update();
 
-        gridNavigation.driveToPosition(.75, .75, .3);
+        gridNavigation.driveToPosition(.75, .75, .4);
 
         int X = 0;
         int Y = 1;
@@ -102,11 +102,11 @@ public class DepotProgram extends LinearOpMode {
         double[] RED_DEPOT_RIGHT = {2, 1};
         double[] RED_DEPOT_CENTER = {1.5, 1.5};
 
-//        Change values to park
+        double[] LEFT_RED_DEPOT_MARKER = {1.8,2.5};
+        double[] RIGHT_RED_DEPOT_MARKER = {2.5,1.8};
+        double[] CENTER_RED_DEPOT_MARKER = {2,2};
 
-        double[] RED_DEPOT_LEFT_PARKING = {0, 0};
-        double[] RED_DEPOT_RIGHT_PARKING = {2.5, 1};
-        double[] RED_DEPOT_CENTER_PARKING = {0, 0};
+        double[] RED_DEPOT_PARKING = {2.5, -.8};
 
         switch (goldPosition) {
 
@@ -114,12 +114,14 @@ public class DepotProgram extends LinearOpMode {
                 telemetry.addData("Telemetry", "Gold Pos = LEFT");
                 printTelemetry(20);
                 if (goldPosition == "LEFT") {
-                    gridNavigation.driveToPosition(RED_DEPOT_LEFT[X], RED_DEPOT_LEFT[Y], .3);
+                    gridNavigation.driveToPosition(RED_DEPOT_LEFT[X], RED_DEPOT_LEFT[Y], .4);
                     telemetry.addData("Grid Nav Goto Pos X", RED_DEPOT_LEFT[X]);
                     telemetry.addData("Grid Nav Goto Pos Y", RED_DEPOT_LEFT[Y]);
-                    gridNavigation.driveToPosition(2.1, 2.5, .4);
-                    gridNavigation.driveToPosition(2.8,0,.4);
-                    gridNavigation.driveToPosition(2.7,-2,.2);
+                    gridNavigation.driveToPosition(1.5, 2.5, .4);
+                    gridNavigation.driveToPosition(LEFT_RED_DEPOT_MARKER [X], LEFT_RED_DEPOT_MARKER [Y], .4);
+                    gridNavigation.driveToPosition(2.5, 1.5, .4);
+                    gridNavigation.driveToPositionBackwards(RED_DEPOT_PARKING [X], RED_DEPOT_PARKING [Y], .4);
+
 
                 }
                 else {
@@ -133,11 +135,13 @@ public class DepotProgram extends LinearOpMode {
                 telemetry.addData("Telemetry", "Gold Pos = RIGHT");
                 printTelemetry(40);
                 if (goldPosition == "RIGHT"){
-                    gridNavigation.driveToPosition(RED_DEPOT_RIGHT[X], RED_DEPOT_RIGHT[Y], .3);
+                    gridNavigation.driveToPosition(RED_DEPOT_RIGHT[X], RED_DEPOT_RIGHT[Y], .4);
                     telemetry.addData("Grid Nav Goto Pos X", RED_DEPOT_RIGHT[X]);
                     telemetry.addData("Grid Nav Goto Pos Y", RED_DEPOT_RIGHT[Y]);
-                    gridNavigation.driveToPosition(2.2,1,.3);
-                    gridNavigation.driveToPosition(2.7, -2, .2);
+                    gridNavigation.driveToPosition(2.5,1.5,.4);
+                    gridNavigation.driveToPosition(RIGHT_RED_DEPOT_MARKER [X], RIGHT_RED_DEPOT_MARKER [Y], .4);
+                    gridNavigation.driveToPositionBackwards(RED_DEPOT_PARKING [X], RED_DEPOT_PARKING [Y], .4);
+
                 }
                 else {
                     telemetry.addData("Telemetry", "No Position Found");
@@ -150,11 +154,12 @@ public class DepotProgram extends LinearOpMode {
                 telemetry.addData("Telemetry", "Gold Pos = CENTER");
                 printTelemetry(60);
                 if (goldPosition == "CENTER"){
-                    gridNavigation.driveToPosition(RED_DEPOT_CENTER[X], RED_DEPOT_CENTER[Y], .3);
+                    gridNavigation.driveToPosition(RED_DEPOT_CENTER[X], RED_DEPOT_CENTER[Y], .4);
                     telemetry.addData("Grid Nav Goto Pos X", RED_DEPOT_CENTER[X]);
                     telemetry.addData("Grid Nav Goto Pos Y", RED_DEPOT_CENTER[Y]);
-                    gridNavigation.driveToPosition(2.35,2,.3);
-                    gridNavigation.driveToPosition(2.7, -2,.2);
+                    gridNavigation.driveToPosition(CENTER_RED_DEPOT_MARKER[X], CENTER_RED_DEPOT_MARKER[Y],.4);
+                    gridNavigation.driveToPosition(2.5,1.5,.4);
+                    gridNavigation.driveToPositionBackwards(RED_DEPOT_PARKING [X], RED_DEPOT_PARKING [Y], .4);
                 }
                 else {
                     telemetry.addData("Telemetry", "No Position Found");
