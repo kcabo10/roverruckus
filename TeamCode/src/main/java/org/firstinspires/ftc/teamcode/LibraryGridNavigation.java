@@ -58,6 +58,12 @@ public class LibraryGridNavigation {
         System.out.println(yLeg);
         telemetry.addData("Y pos", yLeg);
         tanAngle = (float) Math.toDegrees(theta);
+        if(tanAngle > 180){
+            tanAngle = tanAngle - 360;
+        }
+        else if(tanAngle < -180){
+            tanAngle = tanAngle + 360;
+        }
         System.out.println("Start Angle is " + StartingAngle);
         telemetry.addData("Start Angle is ", StartingAngle);
         System.out.println("Tangent Angle is " + tanAngle);
@@ -184,9 +190,22 @@ public class LibraryGridNavigation {
         getDriveDistance(xDestination, yDestination);
         getTurnAngle(xDestination, yDestination);
 
+        if ((turnAngle - 180) < -180){
+            turnAngle = turnAngle + 180;
+        }
+        else{
+            turnAngle = turnAngle - 180;
+        }
+
         gyro.turnGyro(turnAngle - 180);
 
         StartingAngle = StartingAngle - 180;
+        if(StartingAngle > 180){
+            StartingAngle = StartingAngle - 360;
+        }
+        else if(StartingAngle < -180){
+            StartingAngle = StartingAngle + 360;
+        }
 
         robot.leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

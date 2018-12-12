@@ -105,7 +105,6 @@ public class CraterProgram extends LinearOpMode {
                     gridNavigation.driveToPosition(RED_CRATER_LEFT[X], RED_CRATER_LEFT[Y], .2);
                     telemetry.addData("Grid Nav Goto Pos X", RED_CRATER_LEFT[X]);
                     telemetry.addData("Grid Nav Goto Pos Y", RED_CRATER_LEFT[Y]);
-                    gridNavigation.driveToPosition(1.5,2.5, .2);
                 }
                 else {
                     telemetry.addData("Telemetry", "No Position Found");
@@ -122,7 +121,6 @@ public class CraterProgram extends LinearOpMode {
                     gridNavigation.driveToPosition(RED_CRATER_RIGHT[X], RED_CRATER_RIGHT[Y], .2);
                     telemetry.addData("Grid Nav Goto Pos X", RED_CRATER_RIGHT[X]);
                     telemetry.addData("Grid Nav Goto Pos Y", RED_CRATER_RIGHT[Y]);
-                    gridNavigation.driveToPosition(2.5, 1.5, .2);
                 }
                 else {
                     telemetry.addData("Telemetry", "No Position Found");
@@ -139,7 +137,6 @@ public class CraterProgram extends LinearOpMode {
                     gridNavigation.driveToPosition(RED_CRATER_CENTER[X], RED_CRATER_CENTER[Y], .2);
                     telemetry.addData("Grid Nav Goto Pos X", RED_CRATER_CENTER[X]);
                     telemetry.addData("Grid Nav Goto Pos Y", RED_CRATER_CENTER[Y]);
-                    gridNavigation.driveToPosition(2,2,.2);
                 }
                 else {
                     telemetry.addData("Telemetry", "No Position Found");

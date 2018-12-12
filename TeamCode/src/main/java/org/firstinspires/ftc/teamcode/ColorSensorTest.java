@@ -22,7 +22,7 @@ public class ColorSensorTest extends LinearOpMode {
         telemetry.addData("Say", "Hello Driver");
         telemetry.update();
         robot.latch.setPower(0);
-        
+
         waitForStart();
 
         robot.colorSensor.enableLed(true);
