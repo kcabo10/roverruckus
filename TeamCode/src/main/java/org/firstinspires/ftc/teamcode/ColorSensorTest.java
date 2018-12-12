@@ -22,30 +22,35 @@ public class ColorSensorTest extends LinearOpMode {
         telemetry.addData("Say", "Hello Driver");
         telemetry.update();
         robot.latch.setPower(0);
-
-        // hsvValues is an array that will hold the hue, saturation, and value information.
-        float hsvValues[] = {0F,0F,0F};
-
+        
         waitForStart();
-
-//        Color.RGBToHSV(robot.colorSensor.red() * 8, robot.colorSensor.green() * 8, robot.colorSensor.blue() * 8, hsvValues);
 
         robot.colorSensor.enableLed(true);
 
-        robot.latch.setPower(-1);
-        while (robot.colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER) != 3) {
-            telemetry.addData("Color Number", robot.colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER));
-            telemetry.update();
-        }
-
-        robot.latch.setPower(0);
-        telemetry.addData("Stopped Servo", telemetry);
+//        robot.latch.setPower(1);
+//        while (robot.colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER) != 3) {
+//            telemetry.addData("Color Number", robot.colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER));
+//            telemetry.update();
+//        }
+//
+//        robot.latch.setPower(0);
+//        telemetry.addData("Stopped Servo", "Servo is stopped");
+//        telemetry.update();
+//        sleep(2000);
+//
+//        robot.latch.setPower(-1);
+//        while (robot.colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER) != 16) {
+//            telemetry.addData("Color Number", robot.colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER));
+//            telemetry.update();
+//        }
+//            robot.latch.setPower(0);
+//            telemetry.addData("Stopped Servo", "Servo is stopped");
+//            telemetry.update();
+//            sleep(2000);
+//
+//
+        telemetry.addData("white color", robot.colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER));
         telemetry.update();
-        sleep(2000);
-
-        telemetry.addData("Phase", "While Loop complete");
-        telemetry.addData("found blue Color", robot.colorSensor.blue());
-        telemetry.update();
-        sleep(5000);
+        sleep(29000);
     }
 }
