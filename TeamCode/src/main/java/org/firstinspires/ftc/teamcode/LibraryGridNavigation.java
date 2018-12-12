@@ -189,23 +189,10 @@ public class LibraryGridNavigation {
     public void driveToPositionBackwards(double xDestination, double yDestination, double power){
         getDriveDistance(xDestination, yDestination);
         getTurnAngle(xDestination, yDestination);
-
-        if ((turnAngle - 180) < -180){
-            turnAngle = turnAngle + 180;
-        }
-        else{
-            turnAngle = turnAngle - 180;
-        }
-
+        
         gyro.turnGyro(turnAngle - 180);
 
         StartingAngle = StartingAngle - 180;
-        if(StartingAngle > 180){
-            StartingAngle = StartingAngle - 360;
-        }
-        else if(StartingAngle < -180){
-            StartingAngle = StartingAngle + 360;
-        }
 
         robot.leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
