@@ -112,18 +112,18 @@ public class TeleOpProgram extends OpMode
         /**
          *Lift Control
          */
-//        if (gamepad2.dpad_down && !gamepad2.dpad_up)        {
-//
-//            robot.lift.setPower(1);
-//            telemetry.addData("Encoder Ticks", robot.lift.getCurrentPosition());
-//            telemetry.update();
-//        } else if (gamepad2.dpad_up && !gamepad2.dpad_down) {
-//            robot.lift.setPower(-1);
-//            telemetry.addData("Encoder Ticks", robot.lift.getCurrentPosition());
-//            telemetry.update();
-//        } else if (!gamepad2.dpad_up && !gamepad2.dpad_down) {
-//            robot.lift.setPower(0);
-//        }
+        if (gamepad2.dpad_down && !gamepad2.dpad_up)        {
+
+            robot.lift.setPower(1);
+            telemetry.addData("Encoder Ticks", robot.lift.getCurrentPosition());
+            telemetry.update();
+        } else if (gamepad2.dpad_up && !gamepad2.dpad_down) {
+            robot.lift.setPower(-1);
+            telemetry.addData("Encoder Ticks", robot.lift.getCurrentPosition());
+            telemetry.update();
+        } else if (!gamepad2.dpad_up && !gamepad2.dpad_down) {
+            robot.lift.setPower(0);
+        }
 
         /**
          Latch Release Control
@@ -141,34 +141,34 @@ public class TeleOpProgram extends OpMode
         /**
          *Intake Control
          */
-//        if (gamepad2.right_bumper) {
-//            robot.intake.setPower(1);
-//        } else if (gamepad2.right_trigger > 0) {
-//            robot.intake.setPower(-1);
-//        } else
-//            robot.intake.setPower(0);
+        if (gamepad2.right_bumper) {
+            robot.intake.setPower(1);
+        } else if (gamepad2.right_trigger > 0) {
+            robot.intake.setPower(-1);
+        } else
+            robot.intake.setPower(0);
 
         /**
          *Arm Control
          */
 
-//        if (gamepad2.left_stick_y > 0) {
-//            robot.arm.setPower(0.5);
-//        } else if (gamepad2.left_stick_y < 0)
-//            robot.arm.setPower(-1);
-//        else if (gamepad2.left_stick_y == 0)
-//            robot.arm.setPower(0);
+        if (gamepad2.left_stick_y > 0) {
+            robot.arm.setPower(1);
+        } else if (gamepad2.left_stick_y < 0)
+            robot.arm.setPower(-1);
+        else if (gamepad2.left_stick_y == 0)
+            robot.arm.setPower(0);
 
         /**
         Arm Extrusions
          */
 
-//        if (gamepad2.right_stick_y > 0) {
-//            robot.armExtrusion.setPower(0.3);
-//        } else if (gamepad2.right_stick_y < 0)
-//            robot.armExtrusion.setPower(-0.3);
-//        else if (gamepad2.right_stick_y == 0)
-//            robot.armExtrusion.setPower(0);
+        if (gamepad2.right_stick_y > 0) {
+            robot.armExtrusion.setPower(1);
+        } else if (gamepad2.right_stick_y < 0)
+            robot.armExtrusion.setPower(-1);
+        else if (gamepad2.right_stick_y == 0)
+            robot.armExtrusion.setPower(0);
 
 
         telemetry.addData("Scale Factor", scaleFactor);
@@ -182,10 +182,10 @@ public class TeleOpProgram extends OpMode
     
     public void stop() {
 
-//        robot.lift.setPower(0);
-//        robot.arm.setPower(0);
-//        robot.armExtrusion.setPower(0);
-//        robot.intake.setPower(0);
+        robot.lift.setPower(0);
+        robot.arm.setPower(0);
+        robot.armExtrusion.setPower(0);
+        robot.intake.setPower(0);
         robot.latch.setPower(-.1);
     }
 }
