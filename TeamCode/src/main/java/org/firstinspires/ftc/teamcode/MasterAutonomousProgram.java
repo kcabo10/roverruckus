@@ -115,7 +115,7 @@ public class MasterAutonomousProgram extends LinearOpMode {
         double[] BLUE_CRATER_CENTER = {1.5, -1.5};
 
         double[] RED_DEPOT_LEFT = {2, 1};
-        double[] RED_DEPOT_RIGHT = {1, 2};
+        double[] RED_DEPOT_RIGHT = {1, 2} ;
         double[] RED_DEPOT_CENTER = {1.5, 1.5};
 
         double[] RED_CRATER_LEFT = {-1, 2};

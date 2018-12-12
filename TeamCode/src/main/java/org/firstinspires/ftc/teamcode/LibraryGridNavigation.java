@@ -192,6 +192,7 @@ public class LibraryGridNavigation {
         
         gyro.turnGyro(turnAngle - 180);
 
+
         StartingAngle = StartingAngle - 180;
 
         robot.leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
