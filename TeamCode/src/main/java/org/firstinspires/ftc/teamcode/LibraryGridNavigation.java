@@ -189,7 +189,7 @@ public class LibraryGridNavigation {
     public void driveToPositionBackwards(double xDestination, double yDestination, double power){
         getDriveDistance(xDestination, yDestination);
         getTurnAngle(xDestination, yDestination);
-        
+
         gyro.turnGyro(turnAngle - 180);
 
         StartingAngle = StartingAngle - 180;
