@@ -50,11 +50,12 @@ public class HardwareBeep {
         arm = hwMap.get(DcMotor.class, "arm");
         armExtrusion = hwMap.get(DcMotor.class, "arm_extrusion");
         intake = hwMap.get(DcMotor.class, "intake");
+        colorSensor = hwMap.get(ModernRoboticsI2cColorSensor.class, "color_Sensor");
 
-        leftFront.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
-        leftBack.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
-        rightFront.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
-        rightBack.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
+        leftFront.setDirection(DcMotor.Direction.FORWARD);
+        leftBack.setDirection(DcMotor.Direction.FORWARD);
+        rightFront.setDirection(DcMotor.Direction.REVERSE);
+        rightBack.setDirection(DcMotor.Direction.REVERSE);
         lift.setDirection(DcMotor.Direction.FORWARD);
         arm.setDirection(DcMotor.Direction.FORWARD);
         armExtrusion.setDirection(DcMotor.Direction.FORWARD);
@@ -95,7 +96,6 @@ public class HardwareBeep {
         // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
         // and named "imu".
         imu = hwMap.get(BNO055IMU.class, "imu");
-        colorSensor = hwMap.get(ModernRoboticsI2cColorSensor.class, "color_Sensor");
         imu.initialize(parameters);
 
 

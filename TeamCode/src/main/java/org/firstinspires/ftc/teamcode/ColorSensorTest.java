@@ -1,11 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
-import android.graphics.Color;
-
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 
 /**
  * Created by kyliestruth 10/27/18.
@@ -27,30 +24,25 @@ public class ColorSensorTest extends LinearOpMode {
 
         robot.colorSensor.enableLed(true);
 
-//        robot.latch.setPower(1);
-//        while (robot.colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER) != 3) {
-//            telemetry.addData("Color Number", robot.colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER));
-//            telemetry.update();
-//        }
-//
-//        robot.latch.setPower(0);
-//        telemetry.addData("Stopped Servo", "Servo is stopped");
-//        telemetry.update();
-//        sleep(2000);
-//
-//        robot.latch.setPower(-1);
-//        while (robot.colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER) != 16) {
-//            telemetry.addData("Color Number", robot.colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER));
-//            telemetry.update();
-//        }
-//            robot.latch.setPower(0);
-//            telemetry.addData("Stopped Servo", "Servo is stopped");
-//            telemetry.update();
-//            sleep(2000);
-//
-//
-        telemetry.addData("white color", robot.colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER));
+        robot.latch.setPower(1);
+        while (robot.colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER) != 3) {
+            telemetry.addData("Color Number", robot.colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER));
+            telemetry.update();
+        }
+
+        robot.latch.setPower(0);
+        telemetry.addData("Stopped Servo", "Servo is stopped");
         telemetry.update();
-        sleep(29000);
+        sleep(2000);
+
+        robot.latch.setPower(-1);
+        while (robot.colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER) != 6) {
+            telemetry.addData("Color Number", robot.colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER));
+            telemetry.update();
+        }
+            robot.latch.setPower(0);
+            telemetry.addData("Stopped Servo", "Servo is stopped");
+            telemetry.update();
+            sleep(2000);
     }
 }

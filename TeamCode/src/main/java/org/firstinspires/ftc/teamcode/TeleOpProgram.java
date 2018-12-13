@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -15,24 +16,23 @@ public class TeleOpProgram extends OpMode
 
     private int buttonYPressed;
     private int buttonAPressed;
+    private int servoParameters;
     private int direction = 1;
-    private double scaleFactor = 1;
-    private double craterSpeed = 1;
-
+    private double scaleFactor = -1;
 
     public void reverseDirection() {
-        if (direction == 1) {
-            direction = -1;
-        } else if (direction == -1) {
+        if (direction == -1) {
             direction = 1;
+        } else if (direction == 1) {
+            direction = -1;
         }
     }
 
     public void scaleFactor(){
-        if (scaleFactor == 1) {
-            scaleFactor = 0.5;
-        } else if (scaleFactor == 0.5) {
-            scaleFactor = 1;
+        if (scaleFactor == -1) {
+            scaleFactor = -0.5;
+        } else if (scaleFactor == -0.5) {
+            scaleFactor = -1;
         }
     }
 
@@ -45,32 +45,35 @@ public class TeleOpProgram extends OpMode
     public void init_loop() {
 
         buttonYPressed = 0;
+        buttonAPressed = 0;
 //        robot.lift.setPower(0);
 //        robot.arm.setPower(0);
 //        robot.armExtrusion.setPower(0);
 //        robot.intake.setPower(0);
-        robot.latch.setPower(-.1);
+        robot.latch.setPower(0);
 
     }
 
     public void loop() {
 
+        robot.colorSensor.enableLed(true);
+
         /**
          *POV Mecanum Wheel Control With Strafing
          */
 
-        double r = Math.hypot(-gamepad1.left_stick_x, gamepad1.left_stick_y);
-        double robotAngle = Math.atan2(gamepad1.left_stick_y, -gamepad1.left_stick_x) - Math.PI / 4;
+        double r = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
+        double robotAngle = Math.atan2(gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4;
         double rightX = gamepad1.right_stick_x;
-        final double v1 = r * Math.cos(robotAngle) + rightX * direction * scaleFactor;
-        final double v2 = r * Math.sin(robotAngle) - rightX * direction * scaleFactor;
-        final double v3 = r * Math.sin(robotAngle) + rightX * direction * scaleFactor;
-        final double v4 = r * Math.cos(robotAngle) - rightX * direction * scaleFactor;
+        final double v1 = r * Math.cos(robotAngle) + rightX;
+        final double v2 = r * Math.sin(robotAngle) - rightX;
+        final double v3 = r * Math.sin(robotAngle) + rightX;
+        final double v4 = r * Math.cos(robotAngle) - rightX;
 
-        robot.leftFront.setPower(v1);
-        robot.rightFront.setPower(v2);
-        robot.leftBack.setPower(v3);
-        robot.rightBack.setPower(v4);
+        robot.leftFront.setPower(-v1 * direction * scaleFactor);
+        robot.rightFront.setPower(-v2 * direction * scaleFactor);
+        robot.leftBack.setPower(-v3 * direction * scaleFactor);
+        robot.rightBack.setPower(-v4 * direction * scaleFactor);
 
         /**
          *Invert Direction On Y Button
@@ -97,16 +100,31 @@ public class TeleOpProgram extends OpMode
 
         switch (buttonAPressed) {
             case(0):
-                if (gamepad1.a)  {
-                    buttonAPressed = 1;
-                }
-                break;
+             if (gamepad1.a)  {
+                 buttonAPressed = 1;
+             }
+            break;
             case(1):
                 if (!gamepad1.a) {
                     buttonAPressed = 0;
                     scaleFactor();
                 }
-                break;
+            break;
+        }
+
+        /**
+         * Servo Parameters Latch
+         */
+
+        switch (servoParameters) {
+            case(0):
+                while (robot.colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER) == 6) {
+                    robot.latch.setPower(1);
+            }
+            case(1):
+                while (robot.colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER) == 3) {
+                    robot.latch.setPower(-1);
+                }
         }
 
         /**
@@ -130,13 +148,12 @@ public class TeleOpProgram extends OpMode
           */
 
         if (gamepad2.dpad_right && !gamepad2.dpad_left) {
-            robot.latch.setPower(1);
-        } else if (gamepad2.dpad_left && !gamepad2.dpad_right) {
             robot.latch.setPower(-1);
+        } else if (gamepad2.dpad_left && !gamepad2.dpad_right) {
+            robot.latch.setPower(1);
         } else if (!gamepad2.dpad_left && !gamepad2.dpad_right) {
-            robot.latch.setPower(-.1);
+            robot.latch.setPower(0);
         }
-
 
         /**
          *Intake Control
@@ -173,6 +190,7 @@ public class TeleOpProgram extends OpMode
 
         telemetry.addData("Scale Factor", scaleFactor);
         telemetry.addData("Direction", direction);
+        telemetry.addData("Color Number", robot.colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER));
         telemetry.addData("left front power", robot.leftFront.getPower());
         telemetry.addData("left back power", robot.leftBack.getPower());
         telemetry.addData("right front power", robot.rightFront.getPower());
@@ -186,6 +204,6 @@ public class TeleOpProgram extends OpMode
         robot.arm.setPower(0);
         robot.armExtrusion.setPower(0);
         robot.intake.setPower(0);
-        robot.latch.setPower(-.1);
+        robot.latch.setPower(0);
     }
 }
