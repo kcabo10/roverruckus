@@ -57,7 +57,7 @@ public class CraterProgram extends LinearOpMode {
 //            getMineralPosition();
 //            telemetry.addData("Lift Encoder Ticks", robot.lift.getCurrentPosition());
 //            telemetry.update();
-//        }
+////        }
 //
 //        robot.lift.setPower(0);
 //
@@ -70,12 +70,22 @@ public class CraterProgram extends LinearOpMode {
 //        }
 //        robot.latch.setPower(-.1);
 
+        robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.lift.setTargetPosition(17000);
+        robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.lift.setPower(1);
+
+        while (opModeIsActive() &&
+                robot.lift.isBusy()){
+            getMineralPosition();
+            telemetry.addData("Lift Encoder Ticks", robot.lift.getCurrentPosition());
+            telemetry.update();
+        }
+
         gridNavigation.setGridPosition(.5417, .5417, 45);
 
         printTelemetry(0);
         telemetry.update();
-
-        getMineralPosition();
 
         //goldPosition = "RIGHT";
         printTelemetry(10);
