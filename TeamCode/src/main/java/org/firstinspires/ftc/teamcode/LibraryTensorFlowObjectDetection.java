@@ -61,29 +61,19 @@ public class LibraryTensorFlowObjectDetection {
     private static final String LABEL_GOLD_MINERAL = "Gold Mineral";
     private static final String LABEL_SILVER_MINERAL = "Silver Mineral";
 
-    /*
-     * IMPORTANT: You need to obtain your own license key to use Vuforia. The string below with which
-     * 'parameters.vuforiaLicenseKey' is initialized is for illustration only, and will not function.
-     * A Vuforia 'Development' license key, can be obtained free of charge from the Vuforia developer
-     * web site at https://developer.vuforia.com/license-manager.
-     *
-     * Vuforia license keys are always 380 characters long, and look as if they contain mostly
-     * random data. As an example, here is a example of a fragment of a valid key:
-     *      ... yIgIzTqZ4mWjk9wd3cZO9T1axEqzuhxoGlfOOI2dRzKS4T0hQ8kT ...
-     * Once you've obtained a license key, copy the string from the Vuforia web site
-     * and paste it in to your code on the next line, between the double quotes.
+
+    /**
+     * Set Vuforia Key so it knows what phone it is connecting to
      */
     private static final String VUFORIA_KEY = "AehWUEP/////AAAAGdLM1Ir3CEUunWFOGlSVegZ02oYjauBrfpYGcP/MNvZGEWO15KaOdjuIx0XAGISDJtiT9pfALwG5bGHfY2d5LVLV3jBq+2vLfcYh7zxUbHOcJpPfbzpUDVkGI5WHZlZ6IaqoCAEPznkxcZ5uyMwfZr1qyZp9LVTTAFhYwjRgSuF4/mcjzI3/ujUOZEKUzIOQbSlAPyNkiNMnRA0RHlzK7djpkXvghYsX7LYJDnJc5Fvpi6mqZqI+lyco0jnUHhMh4l7HczZ1HbKTAwuJFqc3aQab8bnjw9QegJb62vURA/ljwEIEUhT6mEGx+XJSOUA+KCwi/WDnKcZwOZr43VqmHPgLCvJmTFpVeOdBY4ozX5/J";
 
     /**
-     * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
-     * localization engine.
+     * Set Vuforia as a Localizer
      */
     private VuforiaLocalizer vuforia;
 
     /**
-     * {@link #tfod} is the variable we will use to store our instance of the Tensor Flow Object
-     * Detection engine.
+     * Set tfod to the TensorFlowObjectDetector
      */
     private TFObjectDetector tfod;
     HardwareBeep robot;
@@ -102,6 +92,9 @@ public class LibraryTensorFlowObjectDetection {
         // first.
         initVuforia();
 
+        /**
+         * Turn on the light on phone to make mineral visible
+         */
         phoneLight(true);
 
         if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
@@ -110,14 +103,6 @@ public class LibraryTensorFlowObjectDetection {
             telemetry.addData("Sorry!", "This device is not compatible with TFOD");
         }
 
-
-//        /** Wait for the game to begin */
-//        telemetry.addData(">", "Press Play to start tracking");
-//        telemetry.update();
-//        waitForStart();
-
-        //if (opModeIsActive()) {
-//            }
         /** Activate Tensor Flow Object Detection. */
         if (tfod != null) {
             tfod.activate();
