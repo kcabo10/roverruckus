@@ -42,6 +42,8 @@ public class DepotProgram extends LinearOpMode {
         telemetry.addData("Telemetry", "run opMode start");
         telemetry.update();
 
+        robot.latch.setPower(0);
+
 
         /**
         Wait for start button.
@@ -103,7 +105,7 @@ public class DepotProgram extends LinearOpMode {
         double[] RED_DEPOT_CENTER = {1.5, 1.5};
 
         double[] LEFT_RED_DEPOT_MARKER = {1.8,2.5};
-        double[] RIGHT_RED_DEPOT_MARKER = {2.5,1.8};
+        double[] RIGHT_RED_DEPOT_MARKER = {2.6,1.8};
         double[] CENTER_RED_DEPOT_MARKER = {2,2};
 
         double[] RED_DEPOT_PARKING = {2.5, -.8};
@@ -138,7 +140,7 @@ public class DepotProgram extends LinearOpMode {
                     gridNavigation.driveToPosition(RED_DEPOT_RIGHT[X], RED_DEPOT_RIGHT[Y], .4);
                     telemetry.addData("Grid Nav Goto Pos X", RED_DEPOT_RIGHT[X]);
                     telemetry.addData("Grid Nav Goto Pos Y", RED_DEPOT_RIGHT[Y]);
-                    gridNavigation.driveToPosition(2.5,1.5,.4);
+                    gridNavigation.driveToPosition(2.6,1.5,.4);
                     gridNavigation.driveToPosition(RIGHT_RED_DEPOT_MARKER [X], RIGHT_RED_DEPOT_MARKER [Y], .4);
                     gridNavigation.driveToPosition(RED_DEPOT_PARKING [X], RED_DEPOT_PARKING [Y], .4);
                 }

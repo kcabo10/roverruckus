@@ -29,7 +29,6 @@
 
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -46,8 +45,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
-@TeleOp(name = "Concept: Ramp Motor Speed", group = "Concept")
-@Disabled
+@TeleOp(name = "Ramp Motor Speed", group = "Concept")
 public class RampMotorSpeed extends LinearOpMode {
 
     static final double INCREMENT   = 0.01;     // amount to ramp motor each CYCLE_MS cycle
@@ -56,7 +54,7 @@ public class RampMotorSpeed extends LinearOpMode {
     static final double MAX_REV     = -1.0;     // Maximum REV power applied to motor
 
     // Define class members
-    DcMotor motor;
+    HardwareBeep robot = new HardwareBeep();
     double  power   = 0;
     boolean rampUp  = true;
 
@@ -66,7 +64,6 @@ public class RampMotorSpeed extends LinearOpMode {
 
         // Connect to motor (Assume standard left wheel)
         // Change the text in quotes to match any motor name on your robot.
-        motor = hardwareMap.get(DcMotor.class, "left_drive");
 
         // Wait for the start button
         telemetry.addData(">", "Press Start to run Motors." );
@@ -100,13 +97,19 @@ public class RampMotorSpeed extends LinearOpMode {
             telemetry.update();
 
             // Set the motor to the new power and pause;
-            motor.setPower(power);
+            robot.rightFront.setPower(power);
+            robot.rightBack.setPower(power);
+            robot.leftBack.setPower(power);
+            robot.leftFront.setPower(power);
             sleep(CYCLE_MS);
             idle();
         }
 
         // Turn off motor and signal done;
-        motor.setPower(0);
+        robot.rightFront.setPower(0);
+        robot.rightBack.setPower(0);
+        robot.leftBack.setPower(0);
+        robot.leftFront.setPower(0);
         telemetry.addData(">", "Done");
         telemetry.update();
 
