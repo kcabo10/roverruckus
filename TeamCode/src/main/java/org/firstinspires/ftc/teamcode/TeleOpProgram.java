@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -16,9 +15,8 @@ public class TeleOpProgram extends OpMode
 
     private int buttonYPressed;
     private int buttonAPressed;
-    private int servoParameters;
     private int direction = 1;
-    private double scaleFactor = -1;
+    private double scaleFactor = 1;
 
     public void reverseDirection() {
         if (direction == -1) {
@@ -29,10 +27,10 @@ public class TeleOpProgram extends OpMode
     }
 
     public void scaleFactor(){
-        if (scaleFactor == -1) {
-            scaleFactor = -0.5;
-        } else if (scaleFactor == -0.5) {
-            scaleFactor = -1;
+        if (scaleFactor == 0.5) {
+            scaleFactor = 1;
+        } else if (scaleFactor == 1) {
+            scaleFactor = 0.5;
         }
     }
 
@@ -46,17 +44,17 @@ public class TeleOpProgram extends OpMode
 
         buttonYPressed = 0;
         buttonAPressed = 0;
-//        robot.lift.setPower(0);
-//        robot.arm.setPower(0);
-//        robot.armExtrusion.setPower(0);
-//        robot.intake.setPower(0);
+        robot.lift.setPower(0);
         robot.latch.setPower(0);
+        robot.intake.setPower(0);
+        robot.arm.setPower(0);
+        robot.armExtrusion.setPower(0);
+        robot.basket.setPower(0);
+
 
     }
 
     public void loop() {
-
-        robot.colorSensor.enableLed(true);
 
         /**
          *POV Mecanum Wheel Control With Strafing
@@ -65,15 +63,15 @@ public class TeleOpProgram extends OpMode
         double r = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
         double robotAngle = Math.atan2(gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4;
         double rightX = gamepad1.right_stick_x;
-        final double v1 = r * Math.cos(robotAngle) + rightX;
-        final double v2 = r * Math.sin(robotAngle) - rightX;
-        final double v3 = r * Math.sin(robotAngle) + rightX;
-        final double v4 = r * Math.cos(robotAngle) - rightX;
+        final double v1 = r * Math.cos(robotAngle) + rightX * scaleFactor * direction;
+        final double v2 = r * Math.sin(robotAngle) - rightX * scaleFactor * direction;
+        final double v3 = r * Math.sin(robotAngle) + rightX * scaleFactor * direction;
+        final double v4 = r * Math.cos(robotAngle) - rightX * scaleFactor * direction;
 
-        robot.leftFront.setPower(-v1 * direction * scaleFactor);
-        robot.rightFront.setPower(-v2 * direction * scaleFactor);
-        robot.leftBack.setPower(-v3 * direction * scaleFactor);
-        robot.rightBack.setPower(-v4 * direction * scaleFactor);
+        robot.leftFront.setPower(-v1);
+        robot.rightFront.setPower(-v2);
+        robot.leftBack.setPower(-v3);
+        robot.rightBack.setPower(-v4);
 
         /**
          *Invert Direction On Y Button
@@ -113,35 +111,19 @@ public class TeleOpProgram extends OpMode
         }
 
         /**
-         * Servo Parameters Latch
-         */
-
-        switch (servoParameters) {
-            case(0):
-                while (robot.colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER) == 6) {
-                    robot.latch.setPower(1);
-            }
-            case(1):
-                while (robot.colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER) == 3) {
-                    robot.latch.setPower(-1);
-                }
-        }
-
-        /**
          *Lift Control
          */
-        if (gamepad2.dpad_down && !gamepad2.dpad_up)        {
 
+        if (gamepad2.dpad_down && !gamepad2.dpad_up)        {
             robot.lift.setPower(1);
-            telemetry.addData("Encoder Ticks", robot.lift.getCurrentPosition());
-            telemetry.update();
-        } else if (gamepad2.dpad_up && !gamepad2.dpad_down) {
+        }
+        else if (gamepad2.dpad_up && !gamepad2.dpad_down) {
             robot.lift.setPower(-1);
-            telemetry.addData("Encoder Ticks", robot.lift.getCurrentPosition());
-            telemetry.update();
-        } else if (!gamepad2.dpad_up && !gamepad2.dpad_down) {
+        }
+        else {
             robot.lift.setPower(0);
         }
+
 
         /**
          Latch Release Control
@@ -149,32 +131,40 @@ public class TeleOpProgram extends OpMode
 
         if (gamepad2.dpad_right && !gamepad2.dpad_left) {
             robot.latch.setPower(-1);
-        } else if (gamepad2.dpad_left && !gamepad2.dpad_right) {
+        }
+        else if (gamepad2.dpad_left && !gamepad2.dpad_right) {
             robot.latch.setPower(1);
-        } else if (!gamepad2.dpad_left && !gamepad2.dpad_right) {
+        }
+        else {
             robot.latch.setPower(0);
         }
 
         /**
          *Intake Control
          */
-        if (gamepad2.right_bumper) {
-            robot.intake.setPower(1);
-        } else if (gamepad2.right_trigger > 0) {
-            robot.intake.setPower(-1);
-        } else
+        if (gamepad2.left_trigger > 0) {
+            robot.intake.setPower(0.70);
+        }
+        else if (gamepad2.left_bumper) {
+            robot.intake.setPower(-0.70);
+        }
+        else {
             robot.intake.setPower(0);
+        }
 
         /**
          *Arm Control
          */
 
-        if (gamepad2.left_stick_y > 0) {
+        if (gamepad2.right_bumper) {
             robot.arm.setPower(1);
-        } else if (gamepad2.left_stick_y < 0)
+        }
+        else if (gamepad2.right_trigger > 0) {
             robot.arm.setPower(-1);
-        else if (gamepad2.left_stick_y == 0)
+        }
+        else {
             robot.arm.setPower(0);
+        }
 
         /**
         Arm Extrusions
@@ -182,28 +172,51 @@ public class TeleOpProgram extends OpMode
 
         if (gamepad2.right_stick_y > 0) {
             robot.armExtrusion.setPower(1);
-        } else if (gamepad2.right_stick_y < 0)
+        }
+        else if (gamepad2.right_stick_y < 0) {
             robot.armExtrusion.setPower(-1);
-        else if (gamepad2.right_stick_y == 0)
+        }
+        else {
             robot.armExtrusion.setPower(0);
+        }
 
+        /**
+         * Basket
+         */
 
+        if (gamepad2.left_stick_y > 0) {
+            robot.basket.setPower(0.5);
+        }
+        else if (gamepad2.left_stick_y < 0) {
+            robot.basket.setPower(-0.5);
+        }
+        else {
+            robot.basket.setPower(0);
+        }
+
+        /**
+        * Telemetry
+        */
         telemetry.addData("Scale Factor", scaleFactor);
         telemetry.addData("Direction", direction);
-        telemetry.addData("Color Number", robot.colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER));
         telemetry.addData("left front power", robot.leftFront.getPower());
         telemetry.addData("left back power", robot.leftBack.getPower());
         telemetry.addData("right front power", robot.rightFront.getPower());
         telemetry.addData("right back power", robot.rightBack.getPower());
+        telemetry.addData("Arm Encoder Ticks", robot.arm.getCurrentPosition());
+        telemetry.addData("Lift Encoder Ticks", robot.lift.getCurrentPosition());
         telemetry.update();
     }
-    
+
     public void stop() {
 
+        buttonYPressed = 0;
+        buttonAPressed = 0;
         robot.lift.setPower(0);
+        robot.latch.setPower(0);
+        robot.intake.setPower(0);
         robot.arm.setPower(0);
         robot.armExtrusion.setPower(0);
-        robot.intake.setPower(0);
-        robot.latch.setPower(0);
+        robot.basket.setPower(0);
     }
 }

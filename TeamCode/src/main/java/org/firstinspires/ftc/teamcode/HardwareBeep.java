@@ -31,7 +31,8 @@ public class HardwareBeep {
     public DcMotor armExtrusion = null;
     public DcMotor intake = null;
     public CRServo latch = null;
-    public Servo basket = null;
+    public CRServo basket = null;
+//    public Servo marker = null;
 
     public BNO055IMU imu = null;
 
@@ -73,7 +74,8 @@ public class HardwareBeep {
         arm = hwMap.get(DcMotor.class, "arm");
         armExtrusion = hwMap.get(DcMotor.class, "arm_extrusion");
         intake = hwMap.get(DcMotor.class, "intake");
-        basket = hwMap.get(Servo.class, "basket");
+        basket = hwMap.get(CRServo.class, "basket");
+//        marker = hwMap.get(Servo.class, "marker");
         imu = hwMap.get(BNO055IMU.class, "imu");
         colorSensor = hwMap.get(ModernRoboticsI2cColorSensor.class, "color_Sensor");
 
@@ -101,13 +103,13 @@ public class HardwareBeep {
         arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         armExtrusion.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        latch.setPower(0);
 
         /**
          * Set Servos to Zero Power
          */
         latch.setPower(0);
-        basket.setPosition(0);
+        basket.setPower(0);
+//        marker.setPosition(0);
 
         /**
          * Set Motors to Run Without Encoders
@@ -116,8 +118,12 @@ public class HardwareBeep {
         leftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        /**
+         * Set Motors to Run Using Encoders
+         */
+        arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
         /**
