@@ -65,7 +65,10 @@ public class LibraryTensorFlowObjectDetection {
     /**
      * Set Vuforia Key so it knows what phone it is connecting to
      */
-    private static final String VUFORIA_KEY = "AehWUEP/////AAAAGdLM1Ir3CEUunWFOGlSVegZ02oYjauBrfpYGcP/MNvZGEWO15KaOdjuIx0XAGISDJtiT9pfALwG5bGHfY2d5LVLV3jBq+2vLfcYh7zxUbHOcJpPfbzpUDVkGI5WHZlZ6IaqoCAEPznkxcZ5uyMwfZr1qyZp9LVTTAFhYwjRgSuF4/mcjzI3/ujUOZEKUzIOQbSlAPyNkiNMnRA0RHlzK7djpkXvghYsX7LYJDnJc5Fvpi6mqZqI+lyco0jnUHhMh4l7HczZ1HbKTAwuJFqc3aQab8bnjw9QegJb62vURA/ljwEIEUhT6mEGx+XJSOUA+KCwi/WDnKcZwOZr43VqmHPgLCvJmTFpVeOdBY4ozX5/J";
+    //private static final String VUFORIA_KEY = "AehWUEP/////AAAAGdLM1Ir3CEUunWFOGlSVegZ02oYjauBrfpYGcP/MNvZGEWO15KaOdjuIx0XAGISDJtiT9pfALwG5bGHfY2d5LVLV3jBq+2vLfcYh7zxUbHOcJpPfbzpUDVkGI5WHZlZ6IaqoCAEPznkxcZ5uyMwfZr1qyZp9LVTTAFhYwjRgSuF4/mcjzI3/ujUOZEKUzIOQbSlAPyNkiNMnRA0RHlzK7djpkXvghYsX7LYJDnJc5Fvpi6mqZqI+lyco0jnUHhMh4l7HczZ1HbKTAwuJFqc3aQab8bnjw9QegJb62vURA/ljwEIEUhT6mEGx+XJSOUA+KCwi/WDnKcZwOZr43VqmHPgLCvJmTFpVeOdBY4ozX5/J";
+    //private static final String VUFORIA_KEY = "AS9xNSf/////AAABmZ2AubQkTEFHuWxboHr/qgcSu4jWVAzmohkEVAicGMw66GcX1uY55PbVhytIM4mQxb4WUjuz3eIg3QzfmZ1a9jPPREvj90fYcxhBmk6+444WAselalZu6Kw/xDM7ibuO3Md5STFLGzKUsZDLajzqjeZT67DuCxWJDCUutKZoVbmOS7kgNEbuHNO9LJuq80OTL7aiNsAjqLtAdduHT8nqSCz4wjQ1pbsZ1Ds809JN0PHu3nHC+dbWj8qqKUiFkEo0Z38g1tanehxI8vvJ+Rj/ezymKCsUeXhkgZ7CDq/uwAitEi75qpQZv1fs4ctcLoZVvpn4oGrmpv1QItYOsPa7E79ed5izdd021d5Z1RUya4bh";
+
+    private static final String VUFORIA_KEY = "Aa4mtdP/////AAABmSRcR7UP9kS4nIeX1am8Tf5TlWuaSoXF9p9tlyFSx0zDxT39pe+kg1dseqSvlAQBMws92KngQN7wl3RHkCgjre8b+A9RXXtGx0mlQ1PWbMIf4AlDdHncv6ERajxzi+HwOgFkMt44eQ9gVLBLUvxzDepzfZaMSfalcWz3qtbhq8hH2R3npGb+p2x6XVY6IWZSwkKpnCFVddAhsyuToQ/S5ndIkeB2O4mquvWESjFDc6ALl/SU7Rcg5Qb/chtv2dK+EWkcaf+XSjzn7KvOsaykUeOk2ChCIEQizneBH0ILH28lPMGjxTky7qnTf+5Jb/IHpd64ZtTZN9Q2Nyrlce1750yUVtnqSxRdUPPaJTiBQrKo";
 
     /**
      * Set Vuforia as a Localizer
@@ -111,26 +114,28 @@ public class LibraryTensorFlowObjectDetection {
         String previousPosition = "";
         String goldPosition = "";
 
+        /**
+         * Sets the TensorFlow to read the mineral for at least 3 seconds to verify that it is the correct mineral
+         */
 
-            startTime = System.currentTimeMillis();
+        startTime = System.currentTimeMillis();
 
 
-            while (System.currentTimeMillis() < (startTime + 3000)) {
+        while (System.currentTimeMillis() < (startTime + 3000)) {
 
-                 goldPosition = readMineral();
+            goldPosition = readMineral();
 
-                if (goldPosition == previousPosition) {
-                }
-                else {
-                    previousPosition = goldPosition;
-                    startTime = System.currentTimeMillis();
+            if (goldPosition == previousPosition) {
+            } else {
+                previousPosition = goldPosition;
+                startTime = System.currentTimeMillis();
 
-                }
-                telemetry.addData("StartTime: ", startTime);
-                telemetry.addData("CurrentTime: ", System.currentTimeMillis());
-                telemetry.addData("Prev Position:  ", previousPosition);
-                telemetry.addData("Gold Position:  ", goldPosition);
-                telemetry.update();
+            }
+            telemetry.addData("StartTime: ", startTime);
+            telemetry.addData("CurrentTime: ", System.currentTimeMillis());
+            telemetry.addData("Prev Position:  ", previousPosition);
+            telemetry.addData("Gold Position:  ", goldPosition);
+            telemetry.update();
         }
 
         if (tfod != null) {
@@ -143,7 +148,7 @@ public class LibraryTensorFlowObjectDetection {
     }
 
     /**
-     * Initialize the Vuforia localization engine.
+     * Begin reading the mineral
      */
     public String readMineral() {
         String currentPos = "";
@@ -163,14 +168,9 @@ public class LibraryTensorFlowObjectDetection {
                         for (Recognition recognition : updatedRecognitions) {
                             telemetry.addData("Iterate over updatedRecognitions", updatedRecognitions.indexOf(recognition));
                             telemetry.update();
-                            //sleep(2000);
-                            /* FOR TESTING
-                            telemetry.addData("rec label", recognition.getLabel());
-                            telemetry.addData("rec angle", recognition.estimateAngleToObject(AngleUnit.DEGREES));
-                            telemetry.addData("rec bottm", recognition.getBottom());
-                            telemetry.addData("rec confd", recognition.getConfidence());
-                            telemetry.addData("rec heigt", recognition.getImageHeight());
-                            */
+                            /**
+                             * Set the camera to read two minerals and decide what position gold is in
+                             */
 
                             if ((recognitionLinkedList.isEmpty()) ||
                                     (recognition.getBottom() > recognitionLinkedList.getFirst().getBottom())) {
@@ -195,7 +195,9 @@ public class LibraryTensorFlowObjectDetection {
                                 silverMineral2X = (int) recognition.getLeft();
                             }
                         }
-
+                        /**
+                         * Choose which position is correct
+                         */
                         if (goldMineralX == -1 && silverMineral1X != -1 && silverMineral2X != -1) {
                             telemetry.addData("Gold Mineral Position", "Left");
                             currentPos = "LEFT";
@@ -215,6 +217,7 @@ public class LibraryTensorFlowObjectDetection {
         }
         return currentPos;
     }
+
     private void initVuforia() {
         /*
          * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
@@ -230,9 +233,9 @@ public class LibraryTensorFlowObjectDetection {
         // Loading trackables is not necessary for the Tensor Flow Object Detection engine.
     }
 
-    private void phoneLight(boolean on){
+    private void phoneLight(boolean on) {
 
-            com.vuforia.CameraDevice.getInstance().setFlashTorchMode(on);
+        com.vuforia.CameraDevice.getInstance().setFlashTorchMode(on);
 
     }
 
@@ -241,9 +244,10 @@ public class LibraryTensorFlowObjectDetection {
      */
     private void initTfod() {
         int tfodMonitorViewId = robot.hwMap.appContext.getResources().getIdentifier(
-            "tfodMonitorViewId", "id", robot.hwMap.appContext.getPackageName());
+                "tfodMonitorViewId", "id", robot.hwMap.appContext.getPackageName());
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_GOLD_MINERAL, LABEL_SILVER_MINERAL);
     }
 }
+// Quinn was here

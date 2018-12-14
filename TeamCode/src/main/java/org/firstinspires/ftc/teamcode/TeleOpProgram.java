@@ -50,6 +50,7 @@ public class TeleOpProgram extends OpMode
         robot.arm.setPower(0);
         robot.armExtrusion.setPower(0);
         robot.basket.setPower(0);
+        robot.marker.setPosition(0);
 
 
     }
@@ -218,5 +219,7 @@ public class TeleOpProgram extends OpMode
         robot.arm.setPower(0);
         robot.armExtrusion.setPower(0);
         robot.basket.setPower(0);
+        robot.marker.setPosition(0);
+
     }
 }

@@ -58,12 +58,12 @@ public class LibraryGridNavigation {
         System.out.println(yLeg);
         telemetry.addData("Y pos", yLeg);
         tanAngle = (float) Math.toDegrees(theta);
-        if(tanAngle > 180){
-            tanAngle = tanAngle - 360;
-        }
-        else if(tanAngle < -180){
-            tanAngle = tanAngle + 360;
-        }
+//        if(tanAngle > 180){
+//            tanAngle = tanAngle - 360;
+//        }
+//        else if(tanAngle < -180){
+//            tanAngle = tanAngle + 360;
+//        }
         System.out.println("Start Angle is " + StartingAngle);
         telemetry.addData("Start Angle is ", StartingAngle);
         System.out.println("Tangent Angle is " + tanAngle);
@@ -72,6 +72,15 @@ public class LibraryGridNavigation {
         yOrigin = yDestination;
 
         turnAngle = tanAngle - StartingAngle;
+//            if(180 > turnAngle){
+//                turnAngle = turnAngle - 360;
+//            }
+//            else if(turnAngle < -180){
+//                turnAngle = turnAngle + 360;
+//            }
+//            else{
+//
+//            }
         System.out.println("Turn angle " + turnAngle);
         StartingAngle = tanAngle;
         telemetry.update();
@@ -119,6 +128,41 @@ public class LibraryGridNavigation {
         gyro.turnGyro(turnAngle);
 
         gyroDrive.driveGyro(power, (int)(Distance));
+    }
+
+    //The grid is set such as that the origin (0, 0) is at the center and each grid point is 2 feet from the next point
+    public void driveToPositionNonBlocking(double xDestination, double yDestination, double power){
+
+        getDriveDistance(xDestination, yDestination);
+        getTurnAngle(xDestination, yDestination);
+
+        gyro.turnGyro(turnAngle);
+
+        robot.leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        robot.leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.rightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        robot.leftFront.setTargetPosition((int)(Distance));
+        robot.leftBack.setTargetPosition((int)(Distance));
+        robot.rightFront.setTargetPosition((int)(Distance));
+        robot.rightBack.setTargetPosition((int)(Distance));
+
+        robot.leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.leftBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.rightBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        robot.leftFront.setPower(power);
+        robot.leftBack.setPower(power);
+        robot.rightFront.setPower(power);
+        robot.rightBack.setPower(power);
+
     }
 
     //The grid is set such as that the origin (0, 0) is at the center and each grid point is 2 feet from the next point
