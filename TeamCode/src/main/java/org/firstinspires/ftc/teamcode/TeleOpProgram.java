@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 
 /**
@@ -15,6 +16,7 @@ public class TeleOpProgram extends OpMode
 
     private int buttonYPressed;
     private int buttonAPressed;
+    private int buttonAPressedG2;
     private int direction = -1;
     private double scaleFactor = 1;
 
@@ -44,6 +46,7 @@ public class TeleOpProgram extends OpMode
 
         buttonYPressed = 0;
         buttonAPressed = 0;
+        buttonAPressedG2 = 0;
         robot.lift.setPower(0);
         robot.latch.setPower(0);
         robot.intake.setPower(0);
@@ -170,15 +173,25 @@ public class TeleOpProgram extends OpMode
         Arm Extrusions
          */
 
-        if (gamepad2.right_stick_y > 0) {
-            robot.armExtrusion.setPower(1);
-        }
-        else if (gamepad2.right_stick_y < 0) {
-            robot.armExtrusion.setPower(-1);
-        }
-        else {
-            robot.armExtrusion.setPower(0);
-        }
+       switch (buttonAPressedG2) {
+           case(0):
+               if (gamepad2.a){
+                   buttonAPressedG2 = 1;
+                   robot.armExtrusion.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                   robot.armExtrusion.setTargetPosition(-5696);
+                   robot.armExtrusion.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                   robot.armExtrusion.setPower(1);
+               }
+               break;
+           case(1):
+                if (gamepad2.a) {
+                    buttonAPressedG2 = 0;
+                    robot.armExtrusion.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    robot.armExtrusion.setTargetPosition(5696);
+                    robot.armExtrusion.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    robot.armExtrusion.setPower(1);
+                }
+       }
 
         /**
          * Basket
