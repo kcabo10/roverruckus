@@ -135,6 +135,9 @@ public class LibraryGyro {
         double currentHeading, headingError, driveSteering, leftPower, rightPower, oldCurrentHeading = 0.0;
         long startTime = 0;
 //        imu = (BNO055IMU) hardwareMap.gyroSensor.get("imu");
+        double polarity = 1;
+        polarity = targetHeading > 0 ? 1 : -1;
+
         resetAngle();
         robot.leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -158,6 +161,8 @@ public class LibraryGyro {
         //        sleep(5000);
 
         //Input = currentHeading;
+
+        Output *= polarity;
 
         do {
 

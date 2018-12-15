@@ -41,6 +41,48 @@ public class LibraryGridNavigation {
         xOrigin = xPosition;
         yOrigin = yPosition;
         StartingAngle = angle;
+        System.out.println("setGridPos to (" + xPosition + ", " + yPosition + ") angle " + angle);
+    }
+
+    public float getTurnAngleValuesOnly(double xDestination, double yDestination) {
+
+        float tanAngle = 0; // comment
+
+        double xLeg = xDestination - xOrigin;
+
+        double yLeg = yDestination - yOrigin;
+
+        double theta = Math.atan2(yLeg, xLeg);
+        //atan2 automatically corrects for the limited domain of the inverse tangent function
+        System.out.println("xLeg is " + xLeg);
+        System.out.println("yLeg is " + yLeg);
+        tanAngle = (float) Math.toDegrees(theta);
+//        if(tanAngle > 180){
+//            tanAngle = tanAngle - 360;
+//        }
+//        else if(tanAngle < -180){
+//            tanAngle = tanAngle + 360;
+//        }
+        System.out.println("Start Angle is " + StartingAngle);
+        System.out.println("Tangent Angle is " + tanAngle);
+        xOrigin = xDestination;
+        yOrigin = yDestination;
+
+        turnAngle = tanAngle - StartingAngle;
+//            if(180 > turnAngle){
+//                turnAngle = turnAngle - 360;
+//            }
+//            else if(turnAngle < -180){
+//                turnAngle = turnAngle + 360;
+//            }
+//            else{
+//
+//            }
+        System.out.println("Turn angle " + turnAngle);
+        StartingAngle = tanAngle;
+
+        return turnAngle;
+
     }
 
     public float getTurnAngle(double xDestination, double yDestination) {
@@ -166,6 +208,15 @@ public class LibraryGridNavigation {
     }
 
     //The grid is set such as that the origin (0, 0) is at the center and each grid point is 2 feet from the next point
+    public void driveToPositionValuesOnly(double xDestination, double yDestination, double power) {
+
+        System.out.println("%n%ndriveToPosValuesOnly to (" + xDestination + ", " + yDestination + ")");
+
+        getDriveDistance(xDestination, yDestination);
+        getTurnAngleValuesOnly(xDestination, yDestination);
+    }
+
+    //The grid is set such as that the origin (0, 0) is at the center and each grid point is 2 feet from the next point
     public void driveToPosition(double xDestination, double yDestination, double power){
 
         getDriveDistance(xDestination, yDestination);
@@ -286,6 +337,18 @@ public class LibraryGridNavigation {
         robot.leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+    }
+
+    public void driveToPositionBackwardsValuesOnly(double xDestination, double yDestination, double power){
+        getDriveDistance(xDestination, yDestination);
+        getTurnAngleValuesOnly(xDestination, yDestination);
+
+        turnAngle = (turnAngle - 180);
+        StartingAngle = (StartingAngle - 180);
+
+
+        System.out.println("driveToPositionBackwardsValueOnly to with turn angle " + turnAngle + " and Starting Angle " + StartingAngle);
 
     }
 

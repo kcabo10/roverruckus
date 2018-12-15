@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.test;
 
+import org.firstinspires.ftc.teamcode.LibraryGridNavigation;
 import org.firstinspires.ftc.teamcode.MichaelGyroTurnTest;
 import org.firstinspires.ftc.teamcode.MichaelGyroTurnTest2;
 import org.firstinspires.ftc.teamcode.MichaelGyroTurnTest3;
@@ -44,6 +45,8 @@ public class MichaelGyroTurnTest_Test {
     MichaelGyroTurnTest3 michaelGyroTurnTest3 = new MichaelGyroTurnTest3();
     MichaelRandomTesting michaelRandomTesting = new MichaelRandomTesting();
 
+    LibraryGridNavigation testGridNav = new LibraryGridNavigation();
+
     public static void main(String[] args) {
 
         try {
@@ -59,14 +62,48 @@ public class MichaelGyroTurnTest_Test {
 
     private void run(String[] args) throws Exception {
 
-        michaelGyroTurnTest();
-        michaelGyroTurnTest2();
-        michaelGyroTurnTest3();
-        michaelRandomTesting();
+        //michaelGyroTurnTest();
+        //michaelGyroTurnTest2();
+        //michaelGyroTurnTest3();
+
+        double[] RED_CRATER_LEFT = {.9, 1.8};
+        double[] RED_CRATER_RIGHT = {1.8, .9};
+        double[] RED_CRATER_CENTER = {1.35, 1.35};
+
+
+        double[] RED_CRATER_MARKER = {-1.5, 2.5};
+        double[] RED_CRATER_PARKING = {.4, 2.5};
+
+        //Initial touchdown
+        testGridNav.setGridPosition(.5417, .5417, 45);
+        testGridNav.driveToPositionValuesOnly(.75, .75, .2);
+        //Right mineral
+        testGridNav.setGridPosition(.75, .75, 45);
+        testGridNav.driveToPositionValuesOnly(1.8, .9, .2);
+        //Drive closer to lander
+        testGridNav.setGridPosition(1.8, .9, 8);
+        testGridNav.driveToPositionBackwardsValuesOnly(.9, .9, .2);
+
+        testGridNav.setGridPosition(.9, .9, 180);
+        testGridNav.driveToPositionValuesOnly(.1, 2.3, .7);
+
+        testGridNav.setGridPosition(.1, 2.3, 119);
+        testGridNav.driveToPositionValuesOnly(RED_CRATER_MARKER[0], RED_CRATER_MARKER[1], .7);
+
+
+//        gridNavigation.driveToPosition(RED_CRATER_MARKER[X], RED_CRATER_MARKER[Y], .7);
+//
+//        robot.marker.setPosition(90);
+//        robot.marker.setPosition(0);
+//        gridNavigation.driveToPositionBackwards(RED_CRATER_PARKING[X], RED_CRATER_PARKING[Y], .7);
+
+
+
     }
 
     private void michaelGyroTurnTest() throws Exception {
         michaelGyroTurnTest.runOpMode();
+
     }
 
     private void michaelGyroTurnTest2() throws Exception {
