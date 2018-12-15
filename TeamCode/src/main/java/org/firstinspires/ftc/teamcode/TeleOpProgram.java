@@ -157,42 +157,26 @@ public class TeleOpProgram extends OpMode
         }
 
         /**
-         *Arm Control
+         *Arm Extrusion
          */
 
         if (gamepad2.right_bumper) {
-            robot.arm.setPower(1);
+            robot.armExtrusion.setPower(1);
         }
         else if (gamepad2.right_trigger > 0) {
-            robot.arm.setPower(-1);
+            robot.armExtrusion.setPower(-1);
         }
         else {
-            robot.arm.setPower(0);
+            robot.armExtrusion.setPower(0);
         }
 
         /**
-        Arm Extrusions
+        Arm Control
          */
 
-       switch (buttonAPressedG2) {
-           case(0):
-               if (gamepad2.a){
-                   buttonAPressedG2 = 1;
-                   robot.armExtrusion.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                   robot.armExtrusion.setTargetPosition(-5696);
-                   robot.armExtrusion.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                   robot.armExtrusion.setPower(1);
-               }
-               break;
-           case(1):
-                if (gamepad2.a) {
-                    buttonAPressedG2 = 0;
-                    robot.armExtrusion.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    robot.armExtrusion.setTargetPosition(5696);
-                    robot.armExtrusion.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    robot.armExtrusion.setPower(1);
-                }
-       }
+        robot.arm.setPower(gamepad2.right_stick_y * .5);
+
+
 
         /**
          * Basket
