@@ -2,27 +2,29 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 
 /**
  * Created by kyliestruth 10/5/17.
  */
 
-@TeleOp(name= "TeleOp Program", group= "TankDrive")
+@TeleOp(name= "TeleOp Program", group= "TankDrive" )
 public class TeleOpProgram extends OpMode
 {
     private HardwareBeep robot = new HardwareBeep();
 
     private int buttonYPressed;
     private int buttonAPressed;
-    private int direction = 1;
+    private int buttonAPressedG2;
+    private int direction = -1;
     private double scaleFactor = 1;
 
     public void reverseDirection() {
-        if (direction == -1) {
-            direction = 1;
-        } else if (direction == 1) {
+        if (direction == 1) {
             direction = -1;
+        } else if (direction == -1) {
+            direction = 1;
         }
     }
 
@@ -44,6 +46,7 @@ public class TeleOpProgram extends OpMode
 
         buttonYPressed = 0;
         buttonAPressed = 0;
+        buttonAPressedG2 = 0;
         robot.lift.setPower(0);
         robot.latch.setPower(0);
         robot.intake.setPower(0);
@@ -64,15 +67,15 @@ public class TeleOpProgram extends OpMode
         double r = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
         double robotAngle = Math.atan2(gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4;
         double rightX = gamepad1.right_stick_x;
-        final double v1 = r * Math.cos(robotAngle) + rightX * scaleFactor * direction;
-        final double v2 = r * Math.sin(robotAngle) - rightX * scaleFactor * direction;
-        final double v3 = r * Math.sin(robotAngle) + rightX * scaleFactor * direction;
-        final double v4 = r * Math.cos(robotAngle) - rightX * scaleFactor * direction;
+        final double v1 = (r * Math.cos(robotAngle) + rightX) * scaleFactor * direction;
+        final double v2 = (r * Math.sin(robotAngle) - rightX) * scaleFactor * direction;
+        final double v3 = (r * Math.sin(robotAngle) + rightX) * scaleFactor * direction;
+        final double v4 = (r * Math.cos(robotAngle) - rightX) * scaleFactor * direction;
 
-        robot.leftFront.setPower(-v1);
-        robot.rightFront.setPower(-v2);
-        robot.leftBack.setPower(-v3);
-        robot.rightBack.setPower(-v4);
+        robot.leftFront.setPower(v1);
+        robot.rightFront.setPower(v2);
+        robot.leftBack.setPower(v3);
+        robot.rightBack.setPower(v4);
 
         /**
          *Invert Direction On Y Button
@@ -171,15 +174,25 @@ public class TeleOpProgram extends OpMode
         Arm Extrusions
          */
 
-        if (gamepad2.right_stick_y > 0) {
-            robot.armExtrusion.setPower(1);
-        }
-        else if (gamepad2.right_stick_y < 0) {
-            robot.armExtrusion.setPower(-1);
-        }
-        else {
-            robot.armExtrusion.setPower(0);
-        }
+       switch (buttonAPressedG2) {
+           case(0):
+               if (gamepad2.a){
+                   buttonAPressedG2 = 1;
+                   robot.armExtrusion.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                   robot.armExtrusion.setTargetPosition(-5696);
+                   robot.armExtrusion.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                   robot.armExtrusion.setPower(1);
+               }
+               break;
+           case(1):
+                if (gamepad2.a) {
+                    buttonAPressedG2 = 0;
+                    robot.armExtrusion.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    robot.armExtrusion.setTargetPosition(5696);
+                    robot.armExtrusion.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    robot.armExtrusion.setPower(1);
+                }
+       }
 
         /**
          * Basket
