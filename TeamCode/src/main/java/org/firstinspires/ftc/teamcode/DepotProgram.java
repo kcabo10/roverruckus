@@ -20,10 +20,9 @@ public class DepotProgram extends LinearOpMode {
 
     String goldPosition = "";
     public ElapsedTime runtime = new ElapsedTime();
-
-
-
     public String foundTargetName = "";
+    int armExtrusionPos, liftPos;
+
 
     /**
     Called when init button is  pressed.
@@ -43,7 +42,8 @@ public class DepotProgram extends LinearOpMode {
         telemetry.update();
 
         robot.latch.setPower(0);
-
+        robot.marker.setPosition(0);
+        robot.basket.setPower(0);
 
         /**
         Wait for start button.
@@ -56,34 +56,37 @@ public class DepotProgram extends LinearOpMode {
 
 //        // landing our robot
 //
-//        robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        robot.lift.setTargetPosition(-17000);
-//        robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//        robot.lift.setPower(1);
-//
-//        while (opModeIsActive() &&
-//                robot.lift.isBusy()){
+        robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.lift.setTargetPosition(17000);
+        liftPos = robot.lift.getCurrentPosition();
+        robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        while (liftPos < 17000) {
+            robot.lift.setPower(1);
+        }
+
+//        do {
 //            telemetry.addData("Lift Encoder Ticks", robot.lift.getCurrentPosition());
 //            telemetry.update();
-//
 //        }
-//
-//        robot.lift.setPower(0);
-//
-//        runtime.reset();
-//
-//        robot.latch.setPower(-1);
-//
-//        while (runtime.seconds() <1.15){
-//
-//        }
-//        robot.latch.setPower(-.1);
+//        while (opModeIsActive() &&
+//                robot.lift.isBusy());
+
+        getMineralPosition();
+
+        //robot.lift.setPower(0);
+
+        runtime.reset();
+
+        robot.latch.setPower(-1);
+
+        while (runtime.seconds() <1.15){
+
+        }
+        robot.latch.setPower(0);
 
         gridNavigation.setGridPosition(.5417, .5417, 45);
 
         int codePos = 0;
-
-        getMineralPosition();
 
         //goldPosition = "RIGHT";
         printTelemetry(10);
@@ -108,7 +111,7 @@ public class DepotProgram extends LinearOpMode {
         double[] RIGHT_RED_DEPOT_MARKER = {2.6,1.8};
         double[] CENTER_RED_DEPOT_MARKER = {2,2};
 
-        double[] RED_DEPOT_PARKING = {2.5, -.8};
+        double[] RED_DEPOT_PARKING = {2.5, 0};
 
         switch (goldPosition) {
 
@@ -116,15 +119,48 @@ public class DepotProgram extends LinearOpMode {
                 telemetry.addData("Telemetry", "Gold Pos = LEFT");
                 printTelemetry(20);
                 if (goldPosition == "LEFT") {
-                    gridNavigation.driveToPosition(RED_DEPOT_LEFT[X], RED_DEPOT_LEFT[Y], .4);
+                    gridNavigation.driveToPosition(RED_DEPOT_LEFT[X], RED_DEPOT_LEFT[Y], .7);
                     telemetry.addData("Grid Nav Goto Pos X", RED_DEPOT_LEFT[X]);
                     telemetry.addData("Grid Nav Goto Pos Y", RED_DEPOT_LEFT[Y]);
-                    gridNavigation.driveToPosition(1.5, 2.5, .4);
-                    gridNavigation.driveToPosition(LEFT_RED_DEPOT_MARKER [X], LEFT_RED_DEPOT_MARKER [Y], .4);
-                    gridNavigation.driveToPosition(2.5, 1.5, .4);
-                    gridNavigation.driveToPosition(RED_DEPOT_PARKING [X], RED_DEPOT_PARKING [Y], .4);
-
-
+                    robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    robot.lift.setTargetPosition(-17000);
+                    liftPos = robot.lift.getCurrentPosition();
+                    robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    while (liftPos < -17000) {
+                        robot.lift.setPower(1);
+                    }
+                    gridNavigation.driveToPositionNonBlocking(1.5, 2.5, .7);
+                    runtime.reset();
+                    robot.latch.setPower(1);
+                    while (runtime.seconds() <1.15){
+                    }
+                    robot.latch.setPower(0);
+                    while (robot.rightFront.isBusy()) {
+                    }
+                    gridNavigation.driveToPosition(LEFT_RED_DEPOT_MARKER [X], LEFT_RED_DEPOT_MARKER [Y], .7);
+                    sleep(400);
+                    robot.marker.setPosition(90);
+                    sleep(400);
+                    robot.marker.setPosition(0);
+                    sleep(400);
+                    gridNavigation.driveToPosition(2.5, 1.5, .7);
+                    gridNavigation.driveToPosition(RED_DEPOT_PARKING [X], RED_DEPOT_PARKING [Y], .7);
+                    robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    robot.arm.setTargetPosition(720);
+                    robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    robot.arm.setPower(1);
+                    runtime.reset();
+                    robot.basket.setPower(-1);
+                    while (runtime.seconds() <.7){
+                    }
+                    robot.basket.setPower(0);
+                    robot.armExtrusion.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    robot.armExtrusion.setTargetPosition(13440);
+                    armExtrusionPos = robot.armExtrusion.getCurrentPosition();
+                    robot.armExtrusion.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    while (armExtrusionPos < 13440) {
+                        robot.armExtrusion.setPower(1);
+                    }
                 }
                 else {
                     telemetry.addData("Telemetry", "No Position Found");
@@ -137,12 +173,47 @@ public class DepotProgram extends LinearOpMode {
                 telemetry.addData("Telemetry", "Gold Pos = RIGHT");
                 printTelemetry(40);
                 if (goldPosition == "RIGHT"){
-                    gridNavigation.driveToPosition(RED_DEPOT_RIGHT[X], RED_DEPOT_RIGHT[Y], .4);
+                    gridNavigation.driveToPosition(RED_DEPOT_RIGHT[X], RED_DEPOT_RIGHT[Y], .7);
                     telemetry.addData("Grid Nav Goto Pos X", RED_DEPOT_RIGHT[X]);
                     telemetry.addData("Grid Nav Goto Pos Y", RED_DEPOT_RIGHT[Y]);
-                    gridNavigation.driveToPosition(2.6,1.5,.4);
-                    gridNavigation.driveToPosition(RIGHT_RED_DEPOT_MARKER [X], RIGHT_RED_DEPOT_MARKER [Y], .4);
-                    gridNavigation.driveToPosition(RED_DEPOT_PARKING [X], RED_DEPOT_PARKING [Y], .4);
+                    robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    robot.lift.setTargetPosition(-17000);
+                    liftPos = robot.lift.getCurrentPosition();
+                    robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    while (liftPos < -17000) {
+                        robot.lift.setPower(1);
+                    }
+                    gridNavigation.driveToPositionNonBlocking(2.6,1.5,.7);
+                    runtime.reset();
+                    robot.latch.setPower(1);
+                    while (runtime.seconds() <1.15){
+                    }
+                    robot.latch.setPower(0);
+                    while (robot.rightFront.isBusy()) {
+                    }
+                    gridNavigation.driveToPosition(RIGHT_RED_DEPOT_MARKER [X], RIGHT_RED_DEPOT_MARKER [Y], .7);
+                    sleep(400);
+                    robot.marker.setPosition(90);
+                    sleep(400);
+                    robot.marker.setPosition(0);
+                    sleep(400);
+                    gridNavigation.driveToPosition(RED_DEPOT_PARKING [X], RED_DEPOT_PARKING [Y], .7);
+                    robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    robot.arm.setTargetPosition(720);
+                    robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    robot.arm.setPower(1);
+                    runtime.reset();
+                    robot.basket.setPower(-1);
+                    while (runtime.seconds() <.7){
+                    }
+                    robot.basket.setPower(0);
+                    robot.armExtrusion.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    robot.armExtrusion.setTargetPosition(13440);
+                    armExtrusionPos = robot.armExtrusion.getCurrentPosition();
+                    robot.armExtrusion.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    while (armExtrusionPos < 13440) {
+                        robot.armExtrusion.setPower(1);
+                    }
                 }
                 else {
                     telemetry.addData("Telemetry", "No Position Found");
@@ -155,12 +226,47 @@ public class DepotProgram extends LinearOpMode {
                 telemetry.addData("Telemetry", "Gold Pos = CENTER");
                 printTelemetry(60);
                 if (goldPosition == "CENTER"){
-                    gridNavigation.driveToPosition(RED_DEPOT_CENTER[X], RED_DEPOT_CENTER[Y], .4);
+                    gridNavigation.driveToPosition(RED_DEPOT_CENTER[X], RED_DEPOT_CENTER[Y], .7);
                     telemetry.addData("Grid Nav Goto Pos X", RED_DEPOT_CENTER[X]);
                     telemetry.addData("Grid Nav Goto Pos Y", RED_DEPOT_CENTER[Y]);
-                    gridNavigation.driveToPosition(CENTER_RED_DEPOT_MARKER[X], CENTER_RED_DEPOT_MARKER[Y],.4);
-                    gridNavigation.driveToPosition(2.5,1.5,.4);
-                    gridNavigation.driveToPosition(RED_DEPOT_PARKING [X], RED_DEPOT_PARKING [Y], .4);
+                    robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    robot.lift.setTargetPosition(-17000);
+                    liftPos = robot.lift.getCurrentPosition();
+                    robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    while (liftPos < -17000) {
+                        robot.lift.setPower(1);
+                    }
+                    gridNavigation.driveToPositionNonBlocking(CENTER_RED_DEPOT_MARKER[X], CENTER_RED_DEPOT_MARKER[Y],.7);
+                    runtime.reset();
+                    robot.latch.setPower(1);
+                    while (runtime.seconds() <1.15){
+                    }
+                    robot.latch.setPower(0);
+                    while (robot.rightFront.isBusy()) {
+                    }
+                    gridNavigation.driveToPosition(2.5,1.5,.7);
+                    sleep(400);
+                    robot.marker.setPosition(90);
+                    sleep(400);
+                    robot.marker.setPosition(0);
+                    sleep(400);
+                    gridNavigation.driveToPosition(RED_DEPOT_PARKING [X], RED_DEPOT_PARKING [Y], .7);
+                    robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    robot.arm.setTargetPosition(720);
+                    robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    robot.arm.setPower(1);
+                    runtime.reset();
+                    robot.basket.setPower(-1);
+                    while (runtime.seconds() <.7){
+                    }
+                    robot.basket.setPower(0);
+                    robot.armExtrusion.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    robot.armExtrusion.setTargetPosition(13440);
+                    armExtrusionPos = robot.armExtrusion.getCurrentPosition();
+                    robot.armExtrusion.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    while (armExtrusionPos < 13440) {
+                        robot.armExtrusion.setPower(1);
+                    }
                 }
                 else {
                     telemetry.addData("Telemetry", "No Position Found");

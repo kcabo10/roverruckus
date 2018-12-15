@@ -53,6 +53,7 @@ public class TeleOpProgram extends OpMode
         robot.arm.setPower(0);
         robot.armExtrusion.setPower(0);
         robot.basket.setPower(0);
+        robot.marker.setPosition(0);
 
 
     }
@@ -218,6 +219,7 @@ public class TeleOpProgram extends OpMode
         telemetry.addData("right back power", robot.rightBack.getPower());
         telemetry.addData("Arm Encoder Ticks", robot.arm.getCurrentPosition());
         telemetry.addData("Lift Encoder Ticks", robot.lift.getCurrentPosition());
+        telemetry.addData("Arm Extrusion Encoder Ticks", robot.armExtrusion.getCurrentPosition());
         telemetry.update();
     }
 
@@ -231,5 +233,7 @@ public class TeleOpProgram extends OpMode
         robot.arm.setPower(0);
         robot.armExtrusion.setPower(0);
         robot.basket.setPower(0);
+        robot.marker.setPosition(0);
+
     }
 }

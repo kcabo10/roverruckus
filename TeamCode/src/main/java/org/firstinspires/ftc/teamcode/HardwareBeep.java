@@ -32,7 +32,7 @@ public class HardwareBeep {
     public DcMotor intake = null;
     public CRServo latch = null;
     public CRServo basket = null;
-//    public Servo marker = null;
+    public Servo marker = null;
 
     public BNO055IMU imu = null;
 
@@ -75,7 +75,7 @@ public class HardwareBeep {
         armExtrusion = hwMap.get(DcMotor.class, "arm_extrusion");
         intake = hwMap.get(DcMotor.class, "intake");
         basket = hwMap.get(CRServo.class, "basket");
-//        marker = hwMap.get(Servo.class, "marker");
+        marker = hwMap.get(Servo.class, "marker");
         imu = hwMap.get(BNO055IMU.class, "imu");
         colorSensor = hwMap.get(ModernRoboticsI2cColorSensor.class, "color_Sensor");
 
@@ -91,6 +91,7 @@ public class HardwareBeep {
         armExtrusion.setDirection(DcMotor.Direction.FORWARD);
         intake.setDirection(DcMotor.Direction.FORWARD);
         latch.setDirection(CRServo.Direction.FORWARD);
+        marker.setDirection(Servo.Direction.REVERSE);
 
         /**
          * Set Motor to Zero Power Behavior
@@ -109,7 +110,7 @@ public class HardwareBeep {
          */
         latch.setPower(0);
         basket.setPower(0);
-//        marker.setPosition(0);
+        marker.setPosition(0);
 
         /**
          * Set Motors to Run Without Encoders
@@ -124,6 +125,9 @@ public class HardwareBeep {
          */
         arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        armExtrusion.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+
 
 
         /**
