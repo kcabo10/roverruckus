@@ -22,6 +22,7 @@ public class CraterProgram extends LinearOpMode {
     String goldPosition = "";
     public ElapsedTime runtime = new ElapsedTime();
     public String foundTargetName = "";
+    int armExtrusionPos, liftPos;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -45,8 +46,6 @@ public class CraterProgram extends LinearOpMode {
         Wait for start button.
          */
 
-
-
         waitForStart();
 
 
@@ -56,13 +55,6 @@ public class CraterProgram extends LinearOpMode {
         robot.lift.setTargetPosition(-17000);
         robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.lift.setPower(1);
-
-//        do {
-//            telemetry.addData("Lift Encoder Ticks", robot.lift.getCurrentPosition());
-//            telemetry.update();
-//        }
-//        while (opModeIsActive() &&
-//                robot.lift.isBusy());
 
         getMineralPosition();
 
@@ -101,8 +93,8 @@ public class CraterProgram extends LinearOpMode {
         double[] RED_CRATER_CENTER = {1.35, 1.35};
 
 
-        double[] RED_CRATER_MARKER = {-1.3, 2.5};
-        double[] RED_CRATER_PARKING = {0, 2.5};
+        double[] RED_CRATER_MARKER = {-1.5, 2.45};
+        double[] RED_CRATER_PARKING = {.3, 2.5};
 
         switch (goldPosition) {
 
@@ -111,28 +103,60 @@ public class CraterProgram extends LinearOpMode {
                 printTelemetry(20);
 
                 if (goldPosition == "LEFT") {
-                    gridNavigation.driveToPosition(RED_CRATER_LEFT[X], RED_CRATER_LEFT[Y], .4);
+                    gridNavigation.driveToPosition(RED_CRATER_LEFT[X], RED_CRATER_LEFT[Y], .8);
                     telemetry.addData("Grid Nav Goto Pos X", RED_CRATER_LEFT[X]);
                     telemetry.addData("Grid Nav Goto Pos Y", RED_CRATER_LEFT[Y]);
                     printTelemetry(20);
-                    gridNavigation.driveToPosition(.35,2,.4);
-                    gridNavigation.driveToPosition(RED_CRATER_MARKER[X],RED_CRATER_MARKER[Y],.4);
-                    gridNavigation.driveToPosition(RED_CRATER_PARKING[X],RED_CRATER_PARKING[Y],.4);
+                    robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    robot.lift.setTargetPosition(17000);
+                    robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    robot.lift.setPower(1);
+                    gridNavigation.driveToPositionNonBlocking(.35, 2.4, .8);
+                    runtime.reset();
+                    robot.latch.setPower(1);
+                    while (runtime.seconds() < 1.15) {
+                    }
+                    robot.latch.setPower(0);
+                    while (robot.rightFront.isBusy()) {
+                    }
+                    gridNavigation.driveToPosition(RED_CRATER_MARKER[X], RED_CRATER_MARKER[Y], .7);
+//                    sleep(400);
+                    robot.marker.setPosition(90);
+//                    sleep(400);
+                    robot.marker.setPosition(0);
+//                    sleep(400);
+                    gridNavigation.driveToPosition(.3, 2.5, .7);
+                    gridNavigation.driveToPosition(RED_CRATER_PARKING[X], RED_CRATER_PARKING[Y], .7);
+                    robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    robot.arm.setTargetPosition(720);
+                    robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    robot.arm.setPower(1);
+                    runtime.reset();
+                    robot.basket.setPower(-1);
+                    while (runtime.seconds() < .7) {
+                    }
+                    robot.basket.setPower(0);
+                    robot.armExtrusion.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    robot.armExtrusion.setTargetPosition(-5696);
+                    armExtrusionPos = robot.armExtrusion.getCurrentPosition();
+                    robot.armExtrusion.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    while (armExtrusionPos < 5696) {
+                        robot.armExtrusion.setPower(1);
+                    }
+                    robot.armExtrusion.setPower(0);
 
-                }
-                else {
+                } else {
                     telemetry.addData("Telemetry", "No Position Found");
                     printTelemetry(30);
                 }
-
-
+            break;
 
             case "RIGHT":
                 telemetry.addData("Telemetry", "Gold Pos = RIGHT");
                 printTelemetry(40);
 
-                if (goldPosition == "RIGHT"){
-                    gridNavigation.driveToPosition(RED_CRATER_RIGHT[X], RED_CRATER_RIGHT[Y], .4);
+                if (goldPosition == "RIGHT") {
+                    gridNavigation.driveToPosition(RED_CRATER_RIGHT[X], RED_CRATER_RIGHT[Y], .8);
                     telemetry.addData("Grid Nav Goto Pos X", RED_CRATER_RIGHT[X]);
                     telemetry.addData("Grid Nav Goto Pos Y", RED_CRATER_RIGHT[Y]);
                     printTelemetry(40);
@@ -140,7 +164,61 @@ public class CraterProgram extends LinearOpMode {
                     robot.lift.setTargetPosition(17000);
                     robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     robot.lift.setPower(1);
-                    gridNavigation.driveToPositionNonBlocking(.9,.9,.4);
+                    gridNavigation.driveToPositionNonBlocking(.9, .9, .8);
+                    runtime.reset();
+                    robot.latch.setPower(1);
+                    while (runtime.seconds() < 1.15) {
+                    }
+                    robot.latch.setPower(0);
+                    while (robot.rightFront.isBusy()) {
+                    }
+                    gridNavigation.driveToPosition(.1, 2.3, .7);
+                    //gridNavigation.driveToPosition(-1,2.5, .4);
+                    gridNavigation.driveToPosition(RED_CRATER_MARKER[X], RED_CRATER_MARKER[Y], .7);
+//                    sleep(400);
+                    robot.marker.setPosition(90);
+//                    sleep(400);
+                    robot.marker.setPosition(0);
+//                    sleep(400);
+                    gridNavigation.driveToPosition(.3, 2.5, .7);
+                    gridNavigation.driveToPosition(RED_CRATER_PARKING[X], RED_CRATER_PARKING[Y], .7);
+                    robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    robot.arm.setTargetPosition(720);
+                    robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    robot.arm.setPower(1);
+                    runtime.reset();
+                    robot.basket.setPower(-1);
+                    while (runtime.seconds() < .7) {
+                    }
+                    robot.basket.setPower(0);
+                    robot.armExtrusion.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    robot.armExtrusion.setTargetPosition(-5696);
+                    armExtrusionPos = robot.armExtrusion.getCurrentPosition();
+                    robot.armExtrusion.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    while (armExtrusionPos < 5696) {
+                        robot.armExtrusion.setPower(1);
+                    }
+                    robot.armExtrusion.setPower(0);
+                } else {
+                    telemetry.addData("Telemetry", "No Position Found");
+                    printTelemetry(50);
+                }
+            break;
+
+            case "CENTER":
+                telemetry.addData("Telemetry", "Gold Pos = CENTER");
+                printTelemetry(60);
+
+                if (goldPosition == "CENTER"){
+                    gridNavigation.driveToPosition(RED_CRATER_CENTER[X], RED_CRATER_CENTER[Y], .8);
+                    telemetry.addData("Grid Nav Goto Pos X", RED_CRATER_CENTER[X]);
+                    telemetry.addData("Grid Nav Goto Pos Y", RED_CRATER_CENTER[Y]);
+                    printTelemetry(60);
+                    robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    robot.lift.setTargetPosition(17000);
+                    robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    robot.lift.setPower(1);
+                    gridNavigation.driveToPositionNonBlocking(1,1,.8);
                     runtime.reset();
                     robot.latch.setPower(1);
                     while (runtime.seconds() <1.15){
@@ -148,14 +226,15 @@ public class CraterProgram extends LinearOpMode {
                     robot.latch.setPower(0);
                     while (robot.rightFront.isBusy()) {
                     }
-                    gridNavigation.driveToPosition(.35,2.3,.4);
-                    //gridNavigation.driveToPosition(-1,2.5, .4);
-                    gridNavigation.driveToPosition(RED_CRATER_MARKER[X],RED_CRATER_MARKER[Y],.4);
-                    robot.marker.setPosition(180);
+                    gridNavigation.driveToPosition(.35,2.4,.7);
+                    gridNavigation.driveToPosition(-1.3, 2.75,.7);
+//                    sleep(400);
+                    robot.marker.setPosition(90);
+//                    sleep(400);
                     robot.marker.setPosition(0);
-                    runtime.reset();
-                    gridNavigation.driveToPosition(.5,2.5,.4);
-                    gridNavigation.driveToPosition(RED_CRATER_PARKING[X],RED_CRATER_PARKING[Y],.4);
+//                    sleep(400);
+                    gridNavigation.driveToPosition(.2,2.5,.7);
+                    gridNavigation.driveToPosition(RED_CRATER_PARKING[X],RED_CRATER_PARKING[Y],.7);
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.arm.setTargetPosition(720);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -166,29 +245,13 @@ public class CraterProgram extends LinearOpMode {
                     }
                     robot.basket.setPower(0);
                     robot.armExtrusion.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    robot.armExtrusion.setTargetPosition(13440);
+                    robot.armExtrusion.setTargetPosition(-5696);
+                    armExtrusionPos = robot.armExtrusion.getCurrentPosition();
                     robot.armExtrusion.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    robot.armExtrusion.setPower(1);                }
-                else {
-                    telemetry.addData("Telemetry", "No Position Found");
-                    printTelemetry(50);
-                }
-
-
-
-            case "CENTER":
-                telemetry.addData("Telemetry", "Gold Pos = CENTER");
-                printTelemetry(60);
-
-                if (goldPosition == "CENTER"){
-                    gridNavigation.driveToPosition(RED_CRATER_CENTER[X], RED_CRATER_CENTER[Y], .4);
-                    telemetry.addData("Grid Nav Goto Pos X", RED_CRATER_CENTER[X]);
-                    telemetry.addData("Grid Nav Goto Pos Y", RED_CRATER_CENTER[Y]);
-                    printTelemetry(60);
-                    gridNavigation.driveToPosition(1,1,.4);
-                    gridNavigation.driveToPosition(0,2,.4);
-                    gridNavigation.driveToPosition(RED_CRATER_MARKER[X],RED_CRATER_MARKER[Y],.4);
-                    gridNavigation.driveToPosition(RED_CRATER_PARKING[X],RED_CRATER_PARKING[Y],.4);
+                    while (armExtrusionPos < 5696) {
+                        robot.armExtrusion.setPower(1);
+                    }
+                    robot.armExtrusion.setPower(0);
                 }
                 else {
                     telemetry.addData("Telemetry", "No Position Found");
@@ -199,19 +262,15 @@ public class CraterProgram extends LinearOpMode {
                 telemetry.addData("Grid Nav Goto Pos Y", RED_CRATER_LEFT[Y]);
 
                 telemetry.update();
-                break;
-
+            break;
 
             default:
                 telemetry.addData("Telemetry", "Didn't see gold pos");
                 telemetry.update();
+            break;
 
         }
-        //foundTargetName, mineral postion,
-        //code pos
-
-        //telemetry.update();
-
+        stop();
 
     }
 
@@ -299,6 +358,5 @@ public class CraterProgram extends LinearOpMode {
             telemetry.update();
         }
 //        detector.disable();
-
-    }
+}
 //}
