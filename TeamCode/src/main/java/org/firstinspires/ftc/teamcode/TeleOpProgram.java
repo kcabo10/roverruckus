@@ -206,6 +206,7 @@ public class TeleOpProgram extends OpMode
         telemetry.addData("right back power", robot.rightBack.getPower());
         telemetry.addData("Arm Encoder Ticks", robot.arm.getCurrentPosition());
         telemetry.addData("Lift Encoder Ticks", robot.lift.getCurrentPosition());
+        telemetry.addData("Arm Extrusion Encoder Ticks", robot.armExtrusion.getCurrentPosition());
         telemetry.update();
     }
 
