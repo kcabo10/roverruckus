@@ -165,11 +165,11 @@ public class TeleOpProgram extends OpMode
 //            robot.armExtrusion.setTargetPosition(-5696);
 //            robot.armExtrusion.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 //            robot.armExtrusion.setPower(1);
-            runtime.reset();
-            robot.basket.setPower(-1);
-            while (runtime.seconds() < .7) {
-            }
-            robot.basket.setPower(0);
+//            runtime.reset();
+//            robot.basket.setPower(-1);
+//            while (runtime.seconds() < .7) {
+//            }
+//            robot.basket.setPower(0);
         }
         else if (gamepad2.right_trigger > 0) {
             robot.armExtrusion.setPower(1);

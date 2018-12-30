@@ -38,6 +38,14 @@ public class LibraryGyro {
     public void init(HardwareBeep myRobot, Telemetry myTelemetry){
         robot = myRobot;
         telemetry = myTelemetry;
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+
+        parameters.mode = BNO055IMU.SensorMode.IMU;
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.loggingEnabled = false;
+
+        robot.imu.initialize(parameters);
     }
 
     /**
@@ -54,7 +62,7 @@ public class LibraryGyro {
      *
      * @return Angle in degrees. + = left, - = right.
      */
-    private double getAngle() {
+    public double getAngle() {
         // We experimentally determined the Z axis is the axis we want to use for heading angle.
         // We have to process the angle because the imu works in euler angles so the Z axis is
         // returned as 0 to +180 or 0 to -180 rolling back to -179 or +179 when rotation passes

@@ -57,7 +57,7 @@ public class DepotProgram extends LinearOpMode {
 //        // landing our robot
 //
         robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.lift.setTargetPosition(17000);
+        robot.lift.setTargetPosition(-17000);
         //liftPos = robot.lift.getCurrentPosition();
         robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         //while (liftPos < 17000) {

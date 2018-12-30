@@ -109,8 +109,8 @@ public class LibraryGyroDrive {
             robot.leftFront.setPower(-power + correction);
             robot.leftBack.setPower(-power + correction);
 
-            robot.rightFront.setPower(-power);
-            robot.rightBack.setPower(-power);
+            robot.rightFront.setPower(-power - correction);
+            robot.rightBack.setPower(-power - correction);
 
             // We record the sensor values because we will test them in more than
             // one place with time passing between those places. See the lesson on
