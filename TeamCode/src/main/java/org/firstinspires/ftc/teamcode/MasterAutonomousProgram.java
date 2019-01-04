@@ -79,7 +79,7 @@ public class MasterAutonomousProgram extends LinearOpMode {
         telemetry.update();
 
         gyroTurn.turnGyro(45);
-        gyroDrive.driveGyro(.3, -400);//1611);
+        gyroDrive.gyroDrive(.3, -400,0);//1611);
 
         printTelemetry(20);
 

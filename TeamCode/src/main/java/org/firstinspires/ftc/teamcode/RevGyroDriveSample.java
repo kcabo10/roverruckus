@@ -32,6 +32,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -40,6 +41,7 @@ import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 
 @Autonomous(name="Rev Gyro Drive Sample", group="Pushbot")
+@Disabled
 public class RevGyroDriveSample extends LinearOpMode {
 
     /* Declare OpMode members. */
@@ -61,7 +63,7 @@ public class RevGyroDriveSample extends LinearOpMode {
 
     static final double     HEADING_THRESHOLD       = 1 ;      // As tight as we can make it with an integer gyro
     static final double     P_TURN_COEFF            = 0.1;     // Larger is more responsive, but also less stable
-    static final double     P_DRIVE_COEFF           = 0.05;     // Larger is more responsive, but also less stable
+    static final double     P_DRIVE_COEFF           = 0.5;     // Larger is more responsive, but also less stable
 
 
     @Override

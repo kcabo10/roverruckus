@@ -2,13 +2,8 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 @Autonomous(name="GyroDriveTesting", group="Exercises")
 public class GyroDriveTesting extends LinearOpMode {
@@ -27,7 +22,7 @@ public class GyroDriveTesting extends LinearOpMode {
 
         robot.init(hardwareMap);
         gyro.init(robot, telemetry);
-        gyroDrive.init(robot, telemetry, robot.leftFront);
+        gyroDrive.init(robot, telemetry, robot.rightBack);
 
         telemetry.addData("Mode", "calibrating...");
         telemetry.update();
@@ -46,7 +41,7 @@ public class GyroDriveTesting extends LinearOpMode {
 
         waitForStart();
 
-        gyroDrive.driveGyro(.3, 10000);
+        gyroDrive.gyroDrive(.3, 10000, 0);
         sleep(3000);
 
     }

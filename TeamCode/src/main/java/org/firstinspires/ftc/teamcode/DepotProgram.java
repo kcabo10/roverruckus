@@ -56,12 +56,12 @@ public class DepotProgram extends LinearOpMode {
 
 //        // landing our robot
 //
-        robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.lift.setTargetPosition(-17000);
-        //liftPos = robot.lift.getCurrentPosition();
-        robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        //while (liftPos < 17000) {
-        robot.lift.setPower(1);
+//        robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        robot.lift.setTargetPosition(-17000);
+//        //liftPos = robot.lift.getCurrentPosition();
+//        robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        //while (liftPos < 17000) {
+//        robot.lift.setPower(1);
         //}
 
 //        do {
@@ -75,14 +75,14 @@ public class DepotProgram extends LinearOpMode {
 
         //robot.lift.setPower(0);
 
-        runtime.reset();
-
-        robot.latch.setPower(-1);
-
-        while (runtime.seconds() <1.15){
-
-        }
-        robot.latch.setPower(0);
+//        runtime.reset();
+//
+//        robot.latch.setPower(-1);
+//
+//        while (runtime.seconds() <1.15){
+//
+//        }
+//        robot.latch.setPower(0);
 
         gridNavigation.setGridPosition(.5417, .5417, 45);
 
@@ -123,16 +123,16 @@ public class DepotProgram extends LinearOpMode {
                     telemetry.addData("Grid Nav Goto Pos X", RED_DEPOT_LEFT[X]);
                     telemetry.addData("Grid Nav Goto Pos Y", RED_DEPOT_LEFT[Y]);
 
-                    robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    robot.lift.setTargetPosition(15000);
-                    robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    robot.lift.setPower(1);
-
-                    runtime.reset();
-                    robot.latch.setPower(1);
-                    while (runtime.seconds() < 1.15) {
-                    }
-                    robot.latch.setPower(0);
+//                    robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//                    robot.lift.setTargetPosition(15000);
+//                    robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                    robot.lift.setPower(1);
+//
+//                    runtime.reset();
+//                    robot.latch.setPower(1);
+//                    while (runtime.seconds() < 1.15) {
+//                    }
+//                    robot.latch.setPower(0);
 
                     gridNavigation.driveToPosition(1.8, 2.3, .2);
 

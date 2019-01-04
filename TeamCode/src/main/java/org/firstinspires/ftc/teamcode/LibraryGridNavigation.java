@@ -162,17 +162,6 @@ public class LibraryGridNavigation {
     }
 
     //The grid is set such as that the origin (0, 0) is at the center and each grid point is 2 feet from the next point
-    public void driveToPositionGyro(double xDestination, double yDestination, double power){
-        // NEEDS ADDL TESTING
-        getDriveDistance(xDestination, yDestination);
-        getTurnAngle(xDestination, yDestination);
-
-        gyro.turnGyro(turnAngle);
-
-        gyroDrive.driveGyro(power, (int)(Distance));
-    }
-
-    //The grid is set such as that the origin (0, 0) is at the center and each grid point is 2 feet from the next point
     public void driveToPositionNonBlocking(double xDestination, double yDestination, double power){
 
         getDriveDistance(xDestination, yDestination);
@@ -224,53 +213,8 @@ public class LibraryGridNavigation {
 
         gyro.turnGyro(turnAngle);
 
-        robot.leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        gyroDrive.gyroDrive(power, (int)Distance, 0.0);
 
-        robot.leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.rightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        robot.leftFront.setTargetPosition((int)(Distance));
-        robot.leftBack.setTargetPosition((int)(Distance));
-        robot.rightFront.setTargetPosition((int)(Distance));
-        robot.rightBack.setTargetPosition((int)(Distance));
-
-        robot.leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.leftBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.rightBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        robot.leftFront.setPower(power);
-        robot.leftBack.setPower(power);
-        robot.rightFront.setPower(power);
-        robot.rightBack.setPower(power);
-
-        runtime.reset();
-
-        while((robot.rightFront.isBusy() && robot.leftFront.isBusy())){
-
-            // Display it for the driver.
-            telemetry.addData("Path1",  "Running to ", Distance);
-            telemetry.addData("Left side",  "Current position",
-                    robot.leftFront.getCurrentPosition());
-            telemetry.addData("Right Drive Current Position", robot.rightFront.getCurrentPosition());
-            telemetry.addData("Speed", power);
-            telemetry.update();
-        }
-
-        robot.leftFront.setPower(0);
-        robot.leftBack.setPower(0);
-        robot.rightFront.setPower(0);
-        robot.rightBack.setPower(0);
-
-        robot.leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
     }
 
