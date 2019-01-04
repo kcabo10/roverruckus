@@ -19,7 +19,7 @@ public class AutoDriveByGyro extends LinearOpMode {
 
         waitForStart();
 
-        gyroDrive.driveGyro(.5, 4000);
+        gyroDrive.gyroDrive(.5, 4000, 0);
 
     }
 }
