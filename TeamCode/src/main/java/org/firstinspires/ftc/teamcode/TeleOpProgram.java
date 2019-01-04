@@ -179,7 +179,7 @@ public class TeleOpProgram extends OpMode
                if (gamepad2.a){
                    buttonAPressedG2 = 1;
                    robot.armExtrusion.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                   robot.armExtrusion.setTargetPosition(-5696);
+                   robot.armExtrusion.setTargetPosition(-6204);
                    robot.armExtrusion.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                    robot.armExtrusion.setPower(1);
                }
@@ -188,7 +188,7 @@ public class TeleOpProgram extends OpMode
                 if (gamepad2.a) {
                     buttonAPressedG2 = 0;
                     robot.armExtrusion.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    robot.armExtrusion.setTargetPosition(5696);
+                    robot.armExtrusion.setTargetPosition(6204);
                     robot.armExtrusion.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     robot.armExtrusion.setPower(1);
                 }
@@ -227,6 +227,7 @@ public class TeleOpProgram extends OpMode
 
         buttonYPressed = 0;
         buttonAPressed = 0;
+        buttonAPressedG2 = 0;
         robot.lift.setPower(0);
         robot.latch.setPower(0);
         robot.intake.setPower(0);
