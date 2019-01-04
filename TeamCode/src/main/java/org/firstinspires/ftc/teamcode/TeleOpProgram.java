@@ -146,53 +146,48 @@ public class TeleOpProgram extends OpMode
         /**
          *Intake Control
          */
-        if (gamepad2.left_trigger > 0) {
-            robot.intake.setPower(0.70);
-        }
-        else if (gamepad2.left_bumper) {
+        if (gamepad1.right_trigger > 0) {
             robot.intake.setPower(-0.70);
+        }
+        else if (gamepad1.right_bumper) {
+            robot.intake.setPower(0.70);
         }
         else {
             robot.intake.setPower(0);
         }
 
         /**
-         *Arm Control
+         *Arm Extrusion
          */
 
         if (gamepad2.right_bumper) {
-            robot.arm.setPower(1);
+            robot.armExtrusion.setPower(-1);
+//            robot.armExtrusion.setTargetPosition(-5696);
+//            robot.armExtrusion.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//            robot.armExtrusion.setPower(1);
+//            runtime.reset();
+//            robot.basket.setPower(-1);
+//            while (runtime.seconds() < .7) {
+//            }
+//            robot.basket.setPower(0);
         }
         else if (gamepad2.right_trigger > 0) {
-            robot.arm.setPower(-1);
+            robot.armExtrusion.setPower(1);
+//            robot.armExtrusion.setTargetPosition(5696);
+//            robot.armExtrusion.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//            robot.armExtrusion.setPower(1);
         }
         else {
-            robot.arm.setPower(0);
+            robot.armExtrusion.setPower(0);
         }
 
         /**
-        Arm Extrusions
+        Arm Control
          */
 
-       switch (buttonAPressedG2) {
-           case(0):
-               if (gamepad2.a){
-                   buttonAPressedG2 = 1;
-                   robot.armExtrusion.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                   robot.armExtrusion.setTargetPosition(-6204);
-                   robot.armExtrusion.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                   robot.armExtrusion.setPower(1);
-               }
-               break;
-           case(1):
-                if (gamepad2.a) {
-                    buttonAPressedG2 = 0;
-                    robot.armExtrusion.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    robot.armExtrusion.setTargetPosition(6204);
-                    robot.armExtrusion.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    robot.armExtrusion.setPower(1);
-                }
-       }
+        robot.arm.setPower(gamepad2.right_stick_y * -.5);
+
+
 
         /**
          * Basket
@@ -227,7 +222,6 @@ public class TeleOpProgram extends OpMode
 
         buttonYPressed = 0;
         buttonAPressed = 0;
-        buttonAPressedG2 = 0;
         robot.lift.setPower(0);
         robot.latch.setPower(0);
         robot.intake.setPower(0);
