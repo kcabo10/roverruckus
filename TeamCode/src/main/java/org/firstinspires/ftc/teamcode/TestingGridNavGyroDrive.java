@@ -85,17 +85,19 @@ public class TestingGridNavGyroDrive extends LinearOpMode {
 
         waitForStart();
 
-        telemetry.addData(">", "Robot Ready.");
+        telemetry.addData("Set starting pos", "");
         telemetry.update();
-        sleep(2000);
 
         gridNavigation.setGridPosition(0,0,0);
 
-        telemetry.addData("Set starting pos", "");
-        telemetry.update();
-        sleep(2000);
+        gridNavigation.driveToPosition(1,0,.5);
 
-        gridNavigation.driveToPosition(1,1,0);
+        gridNavigation.driveToPositionBackwards(0,0,.5);
+
+        sleep(5000);
+
+        gridNavigation.driveToPosition(2,0,.5);
+        gridNavigation.driveToPositionBackwards(0,0,.5);
 
         telemetry.addData("Path", "Complete");
         telemetry.update();

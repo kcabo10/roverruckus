@@ -79,10 +79,10 @@ public class MichaelGyroTurnTest_Test {
         testGridNav.driveToPositionValuesOnly(.75, .75, .2);
         //Right mineral
         testGridNav.setGridPosition(.75, .75, 45);
-        testGridNav.driveToPositionValuesOnly(1.8, .9, .2);
-        //Drive closer to lander
-        testGridNav.setGridPosition(1.8, .9, 8);
-        testGridNav.driveToPositionBackwardsValuesOnly(1.4, 1.35, .2);
+        testGridNav.driveToPositionReverseValuesOnly(.5417, .5417, .2);
+//        //Drive closer to lander
+//        testGridNav.setGridPosition(1.8, .9, 8);
+//        testGridNav.driveToPositionBackwardsValuesOnly(1.4, 1.35, .2);
 //
 //        testGridNav.setGridPosition(.9, .9, 180);
 //        testGridNav.driveToPositionValuesOnly(.1, 2.3, .7);
