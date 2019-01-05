@@ -215,7 +215,6 @@ public class LibraryGridNavigation {
 
         gyroDrive.gyroDrive(power, (int)Distance, 0.0);
 
-
     }
 
     public void init(HardwareBeep myRobot, LibraryGyro myGyro, Telemetry myTelemetry){
@@ -234,30 +233,7 @@ public class LibraryGridNavigation {
 
         gyro.turnGyro(turnAngle);
 
-        robot.leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        robot.leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.rightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        robot.leftFront.setTargetPosition(-(int)(Distance));
-        robot.leftBack.setTargetPosition(-(int)(Distance));
-        robot.rightFront.setTargetPosition(-(int)(Distance));
-        robot.rightBack.setTargetPosition(-(int)(Distance));
-
-        robot.leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.leftBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.rightBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        robot.leftFront.setPower(-power);
-        robot.leftBack.setPower(-power);
-        robot.rightFront.setPower(-power);
-        robot.rightBack.setPower(-power);
+        gyroDrive.gyroDrive(-power, -(int)Distance, 0.0);
 
         runtime.reset();
 
@@ -270,7 +246,7 @@ public class LibraryGridNavigation {
             telemetry.addData("Right Drive Current Position", robot.rightFront.getCurrentPosition());
             telemetry.addData("Speed", power);
             telemetry.update();
-        }
+    }
 
         robot.leftFront.setPower(0);
         robot.leftBack.setPower(0);
@@ -283,43 +259,6 @@ public class LibraryGridNavigation {
         robot.rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
     }
-
-    public void driveToPositionBackwardsNonBlocking(double xDestination, double yDestination, double power){
-        getDriveDistance(xDestination, yDestination);
-        getTurnAngle(xDestination, yDestination);
-
-        turnAngle = (turnAngle - 180);
-        StartingAngle = (StartingAngle - 180);
-
-        gyro.turnGyro(turnAngle);
-
-        robot.leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        robot.leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.rightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        robot.leftFront.setTargetPosition(-(int)(Distance));
-        robot.leftBack.setTargetPosition(-(int)(Distance));
-        robot.rightFront.setTargetPosition(-(int)(Distance));
-        robot.rightBack.setTargetPosition(-(int)(Distance));
-
-        robot.leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.leftBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.rightBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        robot.leftFront.setPower(-power);
-        robot.leftBack.setPower(-power);
-        robot.rightFront.setPower(-power);
-        robot.rightBack.setPower(-power);
-
-    }
-
 
     public void driveToPositionBackwardsValuesOnly(double xDestination, double yDestination, double power){
         getDriveDistance(xDestination, yDestination);
