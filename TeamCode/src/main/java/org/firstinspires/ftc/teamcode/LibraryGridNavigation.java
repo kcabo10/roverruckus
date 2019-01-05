@@ -235,29 +235,6 @@ public class LibraryGridNavigation {
 
         gyroDrive.gyroDrive(-power, -(int)Distance, 0.0);
 
-        runtime.reset();
-
-        while((robot.rightFront.isBusy() && robot.leftFront.isBusy())){
-
-            // Display it for the driver.
-            telemetry.addData("Path1",  "Running to ", Distance);
-            telemetry.addData("Left side",  "Current position",
-                    robot.leftFront.getCurrentPosition());
-            telemetry.addData("Right Drive Current Position", robot.rightFront.getCurrentPosition());
-            telemetry.addData("Speed", power);
-            telemetry.update();
-    }
-
-        robot.leftFront.setPower(0);
-        robot.leftBack.setPower(0);
-        robot.rightFront.setPower(0);
-        robot.rightBack.setPower(0);
-
-        robot.leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
     }
 
     public void driveToPositionBackwardsValuesOnly(double xDestination, double yDestination, double power){

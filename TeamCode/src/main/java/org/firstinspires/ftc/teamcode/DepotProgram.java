@@ -103,13 +103,13 @@ public class DepotProgram extends LinearOpMode {
         Change values to grab mineral
         */
 
-        double[] RED_DEPOT_LEFT = {1, 2};
-        double[] RED_DEPOT_RIGHT = {2, 1};
+        double[] RED_DEPOT_LEFT = {.8, 1.8};
+        double[] RED_DEPOT_RIGHT = {1.8, 1};
         double[] RED_DEPOT_CENTER = {1.5, 1.5};
 
-        double[] LEFT_RED_DEPOT_MARKER = {2,2.5};
-        double[] RIGHT_RED_DEPOT_MARKER = {2.5,2};
-        double[] CENTER_RED_DEPOT_MARKER = {2,2};
+        double[] LEFT_RED_DEPOT_MARKER = {2.3,2.5};
+        double[] RIGHT_RED_DEPOT_MARKER = {2.5,2.3};
+        double[] CENTER_RED_DEPOT_MARKER = {2.2,2.2};
 
         double[] RED_DEPOT_PARKING = {2.8, 0};
 
@@ -130,7 +130,7 @@ public class DepotProgram extends LinearOpMode {
                         robot.lift.setPower(1);
                     }
                     gridNavigation.driveToPosition(1.5, 2.5, .7);
-                    runtime.reset();
+//                    runtime.reset();
 //                    robot.latch.setPower(1);
 //                    while (runtime.seconds() <1.15){
 //                    }
@@ -144,7 +144,13 @@ public class DepotProgram extends LinearOpMode {
                     robot.marker.setPosition(0);
                     sleep(400);
                     gridNavigation.driveToPositionBackwards(2.8, 1.5, .7);
-                    gridNavigation.driveToPositionBackwards(RED_DEPOT_PARKING [X], RED_DEPOT_PARKING [Y], .7);
+                    telemetry.addData("Path1",  "Running to ", gridNavigation.Distance);
+                    telemetry.addData("Left side",  "Current position", robot.leftFront.getCurrentPosition());
+                    telemetry.addData("Right Drive Current Position", robot.rightFront.getCurrentPosition());
+                    telemetry.addData("Speed", gyroTurn.power);
+                    telemetry.update();
+                    sleep(2000);
+                    gridNavigation.driveToPositionBackwards(RED_DEPOT_PARKING[X], RED_DEPOT_PARKING[Y], .7);
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.arm.setTargetPosition(720);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -183,13 +189,13 @@ public class DepotProgram extends LinearOpMode {
 //                    while (liftPos < -17000) {
 //                    robot.lift.setPower(1);
 //                    }
-                    runtime.reset();
-                    robot.latch.setPower(1);
-                    while (runtime.seconds() < 1.15) {
-                    }
-                    robot.latch.setPower(0);
-                    while (robot.rightFront.isBusy()) {
-                    }
+//                    runtime.reset();
+//                    robot.latch.setPower(1);
+//                    while (runtime.seconds() < 1.15) {
+//                    }
+//                    robot.latch.setPower(0);
+//                    while (robot.rightFront.isBusy()) {
+//                    }
                     gridNavigation.driveToPosition(RIGHT_RED_DEPOT_MARKER [X], RIGHT_RED_DEPOT_MARKER [Y], .7);
                     sleep(400);
                     robot.marker.setPosition(90);
@@ -247,7 +253,7 @@ public class DepotProgram extends LinearOpMode {
                     robot.arm.setTargetPosition(720);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     robot.arm.setPower(1);
-                    gridNavigation.driveToPositionBackwards(2.5,1.5,.7);
+                    gridNavigation.driveToPositionBackwards(2.7,1.5,.7);
                     gridNavigation.driveToPositionBackwards(RED_DEPOT_PARKING [X], RED_DEPOT_PARKING [Y], .7);
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.arm.setTargetPosition(720);
