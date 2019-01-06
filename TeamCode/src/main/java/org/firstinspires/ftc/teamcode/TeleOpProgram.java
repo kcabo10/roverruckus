@@ -147,10 +147,10 @@ public class TeleOpProgram extends OpMode
          *Intake Control
          */
         if (gamepad1.right_trigger > 0) {
-            robot.intake.setPower(-0.70);
+            robot.intake.setPower(-0.50);
         }
         else if (gamepad1.right_bumper) {
-            robot.intake.setPower(0.70);
+            robot.intake.setPower(0.50);
         }
         else {
             robot.intake.setPower(0);
@@ -162,20 +162,9 @@ public class TeleOpProgram extends OpMode
 
         if (gamepad2.right_bumper) {
             robot.armExtrusion.setPower(-1);
-//            robot.armExtrusion.setTargetPosition(-5696);
-//            robot.armExtrusion.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//            robot.armExtrusion.setPower(1);
-//            runtime.reset();
-//            robot.basket.setPower(-1);
-//            while (runtime.seconds() < .7) {
-//            }
-//            robot.basket.setPower(0);
         }
         else if (gamepad2.right_trigger > 0) {
             robot.armExtrusion.setPower(1);
-//            robot.armExtrusion.setTargetPosition(5696);
-//            robot.armExtrusion.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//            robot.armExtrusion.setPower(1);
         }
         else {
             robot.armExtrusion.setPower(0);
@@ -185,7 +174,27 @@ public class TeleOpProgram extends OpMode
         Arm Control
          */
 
-        robot.arm.setPower(gamepad2.right_stick_y * -.5);
+        if (gamepad2.dpad_down && !gamepad2.dpad_up)        {
+            robot.lift.setPower(1);
+        }
+        else if (gamepad2.dpad_up && !gamepad2.dpad_down) {
+            robot.lift.setPower(-1);
+        }
+        else {
+            robot.lift.setPower(0);
+        }
+
+//        if (gamepad1.left_bumper) {
+//            robot.arm.setPower(-1);
+//        }
+//        else if (gamepad1.left_trigger > 0) {
+//            robot.arm.setPower(1);
+//        }
+//        else {
+//            robot.arm.setPower(0);
+//        }
+
+        robot.arm.setPower(gamepad2.right_stick_y * -.75);
 
 
 
