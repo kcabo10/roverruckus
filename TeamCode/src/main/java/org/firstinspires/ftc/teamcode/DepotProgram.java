@@ -180,9 +180,8 @@ public class DepotProgram extends LinearOpMode {
                     robot.arm.setTargetPosition(720);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     robot.arm.setPower(1);
-                    gridNavigation.driveToPosition(2.7, 1.6, .7);
-                    sleep(3000);
-                    gridNavigation.setGridPosition(2.5, 1.6, -75);
+                    gridNavigation.driveToPosition(2.6, 1.6, .7);
+                    gridNavigation.setGridPosition(2.8,1.6,-75);
                     gridNavigation.driveToPosition(RED_DEPOT_PARKING [X], RED_DEPOT_PARKING [Y], .7);
                 }
                 else {
