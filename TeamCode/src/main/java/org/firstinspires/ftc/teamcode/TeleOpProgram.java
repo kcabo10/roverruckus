@@ -174,25 +174,15 @@ public class TeleOpProgram extends OpMode
         Arm Control
          */
 
-        if (gamepad2.dpad_down && !gamepad2.dpad_up)        {
-            robot.lift.setPower(1);
+        if (gamepad1.left_bumper) {
+            robot.arm.setPower(-1);
         }
-        else if (gamepad2.dpad_up && !gamepad2.dpad_down) {
-            robot.lift.setPower(-1);
+        else if (gamepad1.left_trigger > 0) {
+            robot.arm.setPower(1);
         }
         else {
-            robot.lift.setPower(0);
+            robot.arm.setPower(0);
         }
-
-//        if (gamepad1.left_bumper) {
-//            robot.arm.setPower(-1);
-//        }
-//        else if (gamepad1.left_trigger > 0) {
-//            robot.arm.setPower(1);
-//        }
-//        else {
-//            robot.arm.setPower(0);
-//        }
 
         robot.arm.setPower(gamepad2.right_stick_y * -.75);
 
