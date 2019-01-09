@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-@Autonomous(name="Crater Program", group="Beep")
+@Autonomous(name="Crater Program With Marker", group="Beep")
 public class CraterProgramWithMarker extends LinearOpMode {
 
     HardwareBeep robot = new HardwareBeep();
@@ -32,11 +32,9 @@ public class CraterProgramWithMarker extends LinearOpMode {
         gyroDrive.init(robot, telemetry, robot.rightBack);
         telemetry.addData("Telemetry", "run opMode start");
         telemetry.update();
-
         robot.latch.setPower(0);
         robot.marker.setPosition(0);
         robot.basket.setPower(0);
-
 
         /**
         Wait for start button.
@@ -53,29 +51,22 @@ public class CraterProgramWithMarker extends LinearOpMode {
         robot.lift.setPower(1);
 
         getMineralPosition();
-//
+
         robot.lift.setPower(0);
-
         runtime.reset();
-
         robot.latch.setPower(-1);
 
         while (runtime.seconds() <1.15){
 
         }
         robot.latch.setPower(0);
+        robot.lift.setPower(0);
+        runtime.reset();
 
-
-        gridNavigation.setGridPosition(.5417, .5417, 45);
-
-        printTelemetry(0);
-        telemetry.update();
-
-        //goldPosition = "RIGHT";
+        gridNavigation.setGridPosition(.8281, .8281, 45);
         printTelemetry(10);
         telemetry.update();
-
-        gridNavigation.driveToPosition(.75, .75, .2);
+        gridNavigation.driveToPosition(1, 1, .4);
 
         int X = 0;
         int Y = 1;
@@ -99,7 +90,7 @@ public class CraterProgramWithMarker extends LinearOpMode {
                 printTelemetry(20);
 
                 if (goldPosition == "LEFT") {
-                    gridNavigation.driveToPosition(RED_CRATER_LEFT[X], RED_CRATER_LEFT[Y], .8);
+                    gridNavigation.driveToPosition(RED_CRATER_LEFT[X], RED_CRATER_LEFT[Y], .7);
                     telemetry.addData("Grid Nav Goto Pos X", RED_CRATER_LEFT[X]);
                     telemetry.addData("Grid Nav Goto Pos Y", RED_CRATER_LEFT[Y]);
                     printTelemetry(20);
@@ -114,13 +105,35 @@ public class CraterProgramWithMarker extends LinearOpMode {
                     }
                     robot.latch.setPower(0);
 
-                    robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    robot.arm.setTargetPosition(-720);
-                    robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    robot.arm.setPower(1);
-                    while (robot.arm.isBusy()) {
-                    }
-                    robot.arm.setPower(0);
+                    gridNavigation.driveToPositionBackwards(.5,.5,.7);
+//                    gridNavigation.driveToPosition(.1, 2.3, .7);
+//                    gridNavigation.driveToPosition(RED_CRATER_MARKER[X], RED_CRATER_MARKER[Y], .7);
+//                    sleep(500);
+//                    robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//                    robot.arm.setTargetPosition(-720);
+//                    robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                    robot.arm.setPower(1);
+//                    while (robot.arm.isBusy()) {
+//                    }
+//                    robot.arm.setPower(0);
+//
+//                    robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//                    robot.arm.setTargetPosition(720);
+//                    robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                    robot.arm.setPower(1);
+//                    while (robot.arm.isBusy()) {
+//                    }
+//                    robot.arm.setPower(0);
+//
+//                    gridNavigation.driveToPosition(RED_CRATER_PARKING[X], RED_CRATER_PARKING[Y], .7);
+//
+//                    robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//                    robot.arm.setTargetPosition(-720);
+//                    robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                    robot.arm.setPower(1);
+//                    while (robot.arm.isBusy()) {
+//                    }
+//                    robot.arm.setPower(0);
 
                 } else {
                     telemetry.addData("Telemetry", "No Position Found");
@@ -133,7 +146,7 @@ public class CraterProgramWithMarker extends LinearOpMode {
                 printTelemetry(40);
 
                 if (goldPosition == "RIGHT") {
-                    gridNavigation.driveToPosition(RED_CRATER_RIGHT[X], RED_CRATER_RIGHT[Y], .8);
+                    gridNavigation.driveToPosition(RED_CRATER_RIGHT[X], RED_CRATER_RIGHT[Y], .7);
                     telemetry.addData("Grid Nav Goto Pos X", RED_CRATER_RIGHT[X]);
                     telemetry.addData("Grid Nav Goto Pos Y", RED_CRATER_RIGHT[Y]);
                     printTelemetry(40);
@@ -141,52 +154,51 @@ public class CraterProgramWithMarker extends LinearOpMode {
                     robot.lift.setTargetPosition(16000);
                     robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     robot.lift.setPower(1);
-                    gridNavigation.driveToPositionBackwards(.9, .9, .6);
-                    runtime.reset();
-                    robot.latch.setPower(1);
-                    while (runtime.seconds() < 1.15) {
-                    }
-                    robot.latch.setPower(0);
-                    while (robot.rightFront.isBusy()) {
-                        printTelemetry(45);
-                    }
-                    printTelemetry(46);
-                    gridNavigation.driveToPosition(.1, 2.3, .7);
-                    //gridNavigation.driveToPosition(-1,2.5, .4);
-                    gridNavigation.driveToPosition(RED_CRATER_MARKER[X], RED_CRATER_MARKER[Y], .7);
-                    sleep(500);
-                    runtime.reset();
-                    robot.arm.setPower(-1);
-                    while (runtime.seconds() <= .4) {
-                    }
-                    robot.arm.setPower(0);
-
-                    runtime.reset();
-                    robot.arm.setPower(1);
-                    while (runtime.seconds() <= .4) {
-                    }
-                    robot.arm.setPower(0);
-                    gridNavigation.driveToPosition(RED_CRATER_PARKING[X], RED_CRATER_PARKING[Y], .7);
-
-                    runtime.reset();
-                    robot.arm.setPower(-1);
-                    while (runtime.seconds() <= .4) {
-                    }
-                    robot.arm.setPower(0);
-
-                    runtime.reset();
-                    robot.basket.setPower(-1);
-                    while (runtime.seconds() < .7) {
-                    }
-                    robot.basket.setPower(0);
-                    robot.armExtrusion.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    robot.armExtrusion.setTargetPosition(-5696);
-                    //armExtrusionPos = robot.armExtrusion.getCurrentPosition();
-                    robot.armExtrusion.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    //while (armExtrusionPos < 5696) {
-                    robot.armExtrusion.setPower(1);
-                    //}
-                    //robot.armExtrusion.setPower(0);
+                    gridNavigation.driveToPositionBackwards(.9, .9, .7);
+//                    runtime.reset();
+//                    robot.latch.setPower(1);
+//                    while (runtime.seconds() < 1.15) {
+//                    }
+//                    robot.latch.setPower(0);
+//                    while (robot.rightFront.isBusy()) {
+//                        printTelemetry(45);
+//                    }
+//                    printTelemetry(46);
+//                    gridNavigation.driveToPosition(.1, 2.3, .7);
+//                    gridNavigation.driveToPosition(RED_CRATER_MARKER[X], RED_CRATER_MARKER[Y], .7);
+//                    sleep(500);
+//                    runtime.reset();
+//                    robot.arm.setPower(-1);
+//                    while (runtime.seconds() <= .4) {
+//                    }
+//                    robot.arm.setPower(0);
+//
+//                    runtime.reset();
+//                    robot.arm.setPower(1);
+//                    while (runtime.seconds() <= .4) {
+//                    }
+//                    robot.arm.setPower(0);
+//                    gridNavigation.driveToPosition(RED_CRATER_PARKING[X], RED_CRATER_PARKING[Y], .7);
+//
+//                    runtime.reset();
+//                    robot.arm.setPower(-1);
+//                    while (runtime.seconds() <= .4) {
+//                    }
+//                    robot.arm.setPower(0);
+//
+//                    runtime.reset();
+//                    robot.basket.setPower(-1);
+//                    while (runtime.seconds() < .7) {
+//                    }
+//                    robot.basket.setPower(0);
+//                    robot.armExtrusion.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//                    robot.armExtrusion.setTargetPosition(-5696);
+//                    //armExtrusionPos = robot.armExtrusion.getCurrentPosition();
+//                    robot.armExtrusion.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                    //while (armExtrusionPos < 5696) {
+//                    robot.armExtrusion.setPower(1);
+//                    //}
+//                    //robot.armExtrusion.setPower(0);
                 } else {
                     telemetry.addData("Telemetry", "No Position Found");
                     printTelemetry(50);
@@ -198,7 +210,7 @@ public class CraterProgramWithMarker extends LinearOpMode {
                 printTelemetry(60);
 
                 if (goldPosition == "CENTER"){
-                    gridNavigation.driveToPosition(RED_CRATER_CENTER[X], RED_CRATER_CENTER[Y], .2);
+                    gridNavigation.driveToPosition(RED_CRATER_CENTER[X], RED_CRATER_CENTER[Y], .7);
                     telemetry.addData("Grid Nav Goto Pos X", RED_CRATER_CENTER[X]);
                     telemetry.addData("Grid Nav Goto Pos Y", RED_CRATER_CENTER[Y]);
                     printTelemetry(60);
@@ -213,6 +225,10 @@ public class CraterProgramWithMarker extends LinearOpMode {
                     }
                     robot.latch.setPower(0);
 
+                    gridNavigation.driveToPositionBackwards(.5,.5,.7);
+                    gridNavigation.driveToPosition(.1, 2.3, .7);
+                    gridNavigation.driveToPosition(RED_CRATER_MARKER[X], RED_CRATER_MARKER[Y], .7);
+                    sleep(500);
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.arm.setTargetPosition(-720);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -220,11 +236,26 @@ public class CraterProgramWithMarker extends LinearOpMode {
                     while (robot.arm.isBusy()) {
                     }
                     robot.arm.setPower(0);
-                } else {
-                    telemetry.addData("Telemetry", "No Position Found");
-                    printTelemetry(50);
-                }
-                break;
+
+                    robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    robot.arm.setTargetPosition(720);
+                    robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    robot.arm.setPower(1);
+                    while (robot.arm.isBusy()) {
+                    }
+                    robot.arm.setPower(0);
+
+                    gridNavigation.driveToPosition(RED_CRATER_PARKING[X], RED_CRATER_PARKING[Y], .7);
+
+                    robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    robot.arm.setTargetPosition(-720);
+                    robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    robot.arm.setPower(1);
+                    while (robot.arm.isBusy()) {
+                    }
+                    robot.arm.setPower(0);
+                    }
+                    robot.arm.setPower(0);
 
             default:
                 telemetry.addData("Telemetry", "Didn't see gold pos");
