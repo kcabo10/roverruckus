@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-@Autonomous(name="Crater Program", group="Beep")
+@Autonomous(name="Crater Program Just Parking", group="Beep")
 public class CraterProgramJustParking extends LinearOpMode {
 
     HardwareBeep robot = new HardwareBeep();
@@ -51,35 +51,28 @@ public class CraterProgramJustParking extends LinearOpMode {
 
 // landing our robot
 
-        robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.lift.setTargetPosition(-17000);
-        robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.lift.setPower(1);
+//        robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        robot.lift.setTargetPosition(-17000);
+//        robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        robot.lift.setPower(1);
 
         getMineralPosition();
+
+//        robot.lift.setPower(0);
+//        runtime.reset();
+//        robot.latch.setPower(-1);
 //
-        robot.lift.setPower(0);
+//        while (runtime.seconds() <1.15){
+//
+//        }
+//        robot.latch.setPower(0);
+//        robot.lift.setPower(0);
+//        runtime.reset();
 
-        runtime.reset();
-
-        robot.latch.setPower(-1);
-
-        while (runtime.seconds() <1.15){
-
-        }
-        robot.latch.setPower(0);
-
-
-        gridNavigation.setGridPosition(.5417, .5417, 45);
-
-        printTelemetry(0);
-        telemetry.update();
-
-        //goldPosition = "RIGHT";
+        gridNavigation.setGridPosition(.8281, .8281, 45);
         printTelemetry(10);
         telemetry.update();
-
-        gridNavigation.driveToPosition(.75, .75, .2);
+        gridNavigation.driveToPosition(1, 1, .7);
 
         int X = 0;
         int Y = 1;
@@ -88,13 +81,9 @@ public class CraterProgramJustParking extends LinearOpMode {
         Change values to grab mineral
         */
 
-        double[] RED_CRATER_LEFT = {.9, 1.8};
-        double[] RED_CRATER_RIGHT = {1.7, .9};
-        double[] RED_CRATER_CENTER = {1.4, 1.35};
-
-
-        double[] RED_CRATER_MARKER = {-1.5, 2.4};
-        double[] RED_CRATER_PARKING = {.4, 2.5};
+        double[] RED_CRATER_LEFT = {1.3, 2.6};
+        double[] RED_CRATER_RIGHT = {2.6, 1.3};
+        double[] RED_CRATER_CENTER = {1.5, 1.5};
 
         switch (goldPosition) {
 
@@ -103,22 +92,22 @@ public class CraterProgramJustParking extends LinearOpMode {
                 printTelemetry(20);
 
                 if (goldPosition == "LEFT") {
-                    gridNavigation.driveToPosition(RED_CRATER_LEFT[X], RED_CRATER_LEFT[Y], .8);
+                    gridNavigation.driveToPosition(RED_CRATER_LEFT[X], RED_CRATER_LEFT[Y], .7);
                     telemetry.addData("Grid Nav Goto Pos X", RED_CRATER_LEFT[X]);
                     telemetry.addData("Grid Nav Goto Pos Y", RED_CRATER_LEFT[Y]);
                     printTelemetry(20);
-                    robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    robot.lift.setTargetPosition(16000);
-                    robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    robot.lift.setPower(1);
+//                    robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//                    robot.lift.setTargetPosition(16000);
+//                    robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                    robot.lift.setPower(1);
+//
+//                    runtime.reset();
+//                    robot.latch.setPower(1);
+//                    while (runtime.seconds() < 1.15) {
+//                    }
+//                    robot.latch.setPower(0);
 
-                    runtime.reset();
-                    robot.latch.setPower(1);
-                    while (runtime.seconds() < 1.15) {
-                    }
-                    robot.latch.setPower(0);
-
-                    telemetry.addData("robot angle", gridNavigation.turnAngle);
+                    gyroTurn.turnGyro(-45);
 
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.arm.setTargetPosition(-720);
@@ -139,20 +128,22 @@ public class CraterProgramJustParking extends LinearOpMode {
                 printTelemetry(40);
 
                 if (goldPosition == "RIGHT") {
-                    gridNavigation.driveToPosition(RED_CRATER_RIGHT[X], RED_CRATER_RIGHT[Y], .8);
+                    gridNavigation.driveToPosition(RED_CRATER_RIGHT[X], RED_CRATER_RIGHT[Y], .7);
                     telemetry.addData("Grid Nav Goto Pos X", RED_CRATER_RIGHT[X]);
                     telemetry.addData("Grid Nav Goto Pos Y", RED_CRATER_RIGHT[Y]);
                     printTelemetry(40);
-                    robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    robot.lift.setTargetPosition(16000);
-                    robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    robot.lift.setPower(1);
+//                    robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//                    robot.lift.setTargetPosition(16000);
+//                    robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                    robot.lift.setPower(1);
+//
+//                    runtime.reset();
+//                    robot.latch.setPower(1);
+//                    while (runtime.seconds() < 1.15) {
+//                    }
+//                    robot.latch.setPower(0);
 
-                    runtime.reset();
-                    robot.latch.setPower(1);
-                    while (runtime.seconds() < 1.15) {
-                    }
-                    robot.latch.setPower(0);
+                    gyroTurn.turnGyro(-45);
 
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.arm.setTargetPosition(-720);
@@ -173,7 +164,7 @@ public class CraterProgramJustParking extends LinearOpMode {
                 printTelemetry(60);
 
                 if (goldPosition == "CENTER"){
-                    gridNavigation.driveToPosition(RED_CRATER_CENTER[X], RED_CRATER_CENTER[Y], .2);
+                    gridNavigation.driveToPosition(RED_CRATER_CENTER[X], RED_CRATER_CENTER[Y], .7);
                     telemetry.addData("Grid Nav Goto Pos X", RED_CRATER_CENTER[X]);
                     telemetry.addData("Grid Nav Goto Pos Y", RED_CRATER_CENTER[Y]);
                     printTelemetry(60);

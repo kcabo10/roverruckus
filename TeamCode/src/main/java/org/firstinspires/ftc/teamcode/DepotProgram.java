@@ -86,11 +86,11 @@ public class DepotProgram extends LinearOpMode {
         double[] RED_DEPOT_RIGHT = {2.6, 1.3};
         double[] RED_DEPOT_CENTER = {1.5, 1.5};
 
-        double[] LEFT_RED_DEPOT_MARKER = {2.3,2.5};
+        double[] LEFT_RED_DEPOT_MARKER = {2.3,2.7};
         double[] RIGHT_RED_DEPOT_MARKER = {2.6,2.3};
         double[] CENTER_RED_DEPOT_MARKER = {2.2,2.2};
 
-        double[] RED_DEPOT_PARKING = {2.6, -1};
+        double[] RED_DEPOT_PARKING = {2.6, -.5};
 
         switch (goldPosition) {
 
@@ -123,6 +123,13 @@ public class DepotProgram extends LinearOpMode {
                     gridNavigation.driveToPosition(2.8, 1.6, .7);
                     gridNavigation.setGridPosition(2.8,1.6,-75);
                     gridNavigation.driveToPosition(RED_DEPOT_PARKING[X], RED_DEPOT_PARKING[Y], .7);
+                    robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    robot.arm.setTargetPosition(-720);
+                    robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    robot.arm.setPower(1);
+                    while (robot.arm.isBusy()) {
+                    }
+                    robot.arm.setPower(0);
                 }
                 else {
                     telemetry.addData("Telemetry", "No Position Found");
@@ -158,6 +165,13 @@ public class DepotProgram extends LinearOpMode {
                     gridNavigation.driveToPosition(2.6, 1.6, .7);
                     gridNavigation.setGridPosition(2.6,1.6,-80);
                     gridNavigation.driveToPosition(RED_DEPOT_PARKING[X], RED_DEPOT_PARKING[Y], .7);
+                    robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    robot.arm.setTargetPosition(-720);
+                    robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    robot.arm.setPower(1);
+                    while (robot.arm.isBusy()) {
+                    }
+                    robot.arm.setPower(0);
                 }
                 else {
                     telemetry.addData("Telemetry", "No Position Found");
@@ -206,6 +220,13 @@ public class DepotProgram extends LinearOpMode {
                     gridNavigation.driveToPosition(2.6, 1.6, .7);
                     gridNavigation.setGridPosition(2.6,1.6,-60);
                     gridNavigation.driveToPosition(RED_DEPOT_PARKING[X], RED_DEPOT_PARKING[Y], .7);
+                    robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    robot.arm.setTargetPosition(-720);
+                    robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    robot.arm.setPower(1);
+                    while (robot.arm.isBusy()) {
+                    }
+                    robot.arm.setPower(0);
                 }
                 else {
                     telemetry.addData("Telemetry", "No Position Found");
