@@ -81,8 +81,8 @@ public class CraterProgramJustParking extends LinearOpMode {
         Change values to grab mineral
         */
 
-        double[] RED_CRATER_LEFT = {1.3, 2.6};
-        double[] RED_CRATER_RIGHT = {2.6, 1.3};
+        double[] RED_CRATER_LEFT = {1.2, 1.8};
+        double[] RED_CRATER_RIGHT = {1.8, 1.2};
         double[] RED_CRATER_CENTER = {1.5, 1.5};
 
         switch (goldPosition) {
@@ -107,7 +107,7 @@ public class CraterProgramJustParking extends LinearOpMode {
 //                    }
 //                    robot.latch.setPower(0);
 
-                    gyroTurn.turnGyro(-45);
+                    gyroTurn.turnGyro(-60);
 
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.arm.setTargetPosition(-720);
