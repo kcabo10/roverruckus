@@ -36,6 +36,8 @@ public class TeleOpProgram extends OpMode
         }
     }
 
+
+
     public void init() {
         robot.init(hardwareMap);
         telemetry.addData("Say", "Hello Driver");
@@ -175,21 +177,26 @@ public class TeleOpProgram extends OpMode
          */
 
         if (gamepad1.left_bumper) {
-            robot.arm.setPower(-1);
+            robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.arm.setTargetPosition(720);
+            robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.arm.setPower(.5);
         }
-        else if (gamepad1.left_trigger > 0) {
-            robot.arm.setPower(1);
+        if (gamepad1.left_trigger > 0) {
+            robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.arm.setTargetPosition(720);
+            robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.arm.setPower(-.5);
+        }
+        if (!gamepad1.left_bumper && gamepad1.left_trigger == 0) {
+            robot.arm.setPower(gamepad2.right_stick_y * -.75);
         }
         else {
             robot.arm.setPower(0);
         }
 
-        robot.arm.setPower(gamepad2.right_stick_y * -.75);
-
-
-
         /**
-         * Basket
+         Basket
          */
 
         if (gamepad2.left_stick_y > 0) {

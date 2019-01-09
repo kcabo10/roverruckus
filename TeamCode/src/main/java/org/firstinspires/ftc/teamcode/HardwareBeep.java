@@ -123,7 +123,7 @@ public class HardwareBeep {
         /**
          * Set Motors to Run Using Encoders
          */
-        arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         armExtrusion.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
