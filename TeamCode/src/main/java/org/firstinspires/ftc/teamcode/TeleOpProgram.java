@@ -233,6 +233,8 @@ public class TeleOpProgram extends OpMode
         /**
         * Telemetry
         */
+
+        telemetry.addData("arm_state", arm_state);
         telemetry.addData("Scale Factor", scaleFactor);
         telemetry.addData("Direction", direction);
         telemetry.addData("left front power", robot.leftFront.getPower());
