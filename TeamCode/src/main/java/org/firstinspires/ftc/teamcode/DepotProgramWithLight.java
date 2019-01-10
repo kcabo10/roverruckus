@@ -1,22 +1,20 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.disnodeteam.dogecv.CameraViewDisplay;
-import com.disnodeteam.dogecv.DogeCV;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-@Autonomous(name="Depot Program", group="Beep")
-public class DepotProgram extends LinearOpMode {
+@Autonomous(name="Depot Program With Light", group="Beep")
+public class DepotProgramWithLight extends LinearOpMode {
 
     HardwareBeep robot = new HardwareBeep();
     LibraryGyro gyroTurn = new LibraryGyro();
     LibraryGyroDrive gyroDrive = new LibraryGyroDrive();
     LibraryDogeforia dogeforia = new LibraryDogeforia(robot, telemetry);
     LibraryGridNavigation gridNavigation = new LibraryGridNavigation();
-    LibraryTensorFlowObjectDetection tensorFlow = new LibraryTensorFlowObjectDetection(robot, telemetry);
+    LibraryTensorFlowObjectDetectionWithLight tensorFlow = new LibraryTensorFlowObjectDetectionWithLight(robot, telemetry);
 
     String goldPosition = "";
     public ElapsedTime runtime = new ElapsedTime();
@@ -52,24 +50,24 @@ public class DepotProgram extends LinearOpMode {
 
         // landing our robot
 
-        robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.lift.setTargetPosition(-17000);
-        robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.lift.setPower(1);
+//        robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        robot.lift.setTargetPosition(-17000);
+//        robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        robot.lift.setPower(1);
 
         getMineralPosition();
 
-        robot.lift.setPower(0);
-        runtime.reset();
-        robot.latch.setPower(-1);
-
-        while (runtime.seconds() <1.15){
-
-        }
-        robot.latch.setPower(0);
-        robot.lift.setPower(0);
-        runtime.reset();
-
+//        robot.lift.setPower(0);
+//        runtime.reset();
+//        robot.latch.setPower(-1);
+//
+//        while (runtime.seconds() <1.15){
+//
+//        }
+//        robot.latch.setPower(0);
+//        robot.lift.setPower(0);
+//        runtime.reset();
+//
         gridNavigation.setGridPosition(.8281, .8281, 45);
         printTelemetry(10);
         telemetry.update();
@@ -121,7 +119,7 @@ public class DepotProgram extends LinearOpMode {
                     robot.arm.setPower(0);
 
                     gridNavigation.driveToPosition(2.8, 1.6, .7);
-                    gridNavigation.setGridPosition(2.8,1.6,-75);
+                    gridNavigation.setGridPosition(2.6,1.6,-75);
                     gridNavigation.driveToPosition(RED_DEPOT_PARKING[X], RED_DEPOT_PARKING[Y], .7);
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.arm.setTargetPosition(-720);
@@ -163,7 +161,7 @@ public class DepotProgram extends LinearOpMode {
 
                     robot.arm.setPower(0);
                     gridNavigation.driveToPosition(2.6, 1.6, .7);
-                    gridNavigation.setGridPosition(2.6,1.6,-80);
+                    gridNavigation.setGridPosition(2.6,1.6,-90 );
                     gridNavigation.driveToPosition(RED_DEPOT_PARKING[X], RED_DEPOT_PARKING[Y], .7);
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.arm.setTargetPosition(-720);
@@ -217,7 +215,7 @@ public class DepotProgram extends LinearOpMode {
                     }
 
                     robot.arm.setPower(0);
-                    gridNavigation.driveToPosition(2.6, 1.6, .7);
+                    gridNavigation.driveToPosition(2.7, 1.6, .7);
                     gridNavigation.setGridPosition(2.6,1.6,-60);
                     gridNavigation.driveToPosition(RED_DEPOT_PARKING[X], RED_DEPOT_PARKING[Y], .7);
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

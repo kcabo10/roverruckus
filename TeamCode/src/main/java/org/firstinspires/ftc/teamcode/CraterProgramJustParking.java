@@ -1,12 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
-import android.graphics.Color;
-
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
@@ -17,7 +13,7 @@ public class CraterProgramJustParking extends LinearOpMode {
     LibraryGyro gyroTurn = new LibraryGyro();
     LibraryGyroDrive gyroDrive = new LibraryGyroDrive();
     LibraryGridNavigation gridNavigation = new LibraryGridNavigation();
-    LibraryTensorFlowObjectDetection tensorFlow = new LibraryTensorFlowObjectDetection(robot, telemetry);
+    LibraryTensorFlowObjectDetectionWithLight tensorFlow = new LibraryTensorFlowObjectDetectionWithLight(robot, telemetry);
 
     String goldPosition = "";
     public ElapsedTime runtime = new ElapsedTime();
@@ -81,8 +77,8 @@ public class CraterProgramJustParking extends LinearOpMode {
         Change values to grab mineral
         */
 
-        double[] RED_CRATER_LEFT = {1.2, 1.8};
-        double[] RED_CRATER_RIGHT = {1.8, 1.2};
+        double[] RED_CRATER_LEFT = {1.2, 2.2};
+        double[] RED_CRATER_RIGHT = {2.2, 1.2};
         double[] RED_CRATER_CENTER = {1.5, 1.5};
 
         switch (goldPosition) {
@@ -107,7 +103,7 @@ public class CraterProgramJustParking extends LinearOpMode {
 //                    }
 //                    robot.latch.setPower(0);
 
-                    gyroTurn.turnGyro(-60);
+                    gyroTurn.turnGyro(-40);
 
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.arm.setTargetPosition(-720);
@@ -143,7 +139,7 @@ public class CraterProgramJustParking extends LinearOpMode {
 //                    }
 //                    robot.latch.setPower(0);
 
-                    gyroTurn.turnGyro(-45);
+                    gyroTurn.turnGyro(40);
 
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.arm.setTargetPosition(-720);
