@@ -6,8 +6,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-@Autonomous(name="Crater Program Just Parking", group="Beep")
-public class CraterProgramJustParking extends LinearOpMode {
+@Autonomous(name="Crater Program With Light", group="Beep")
+public class CraterProgramJustParkingWithLight extends LinearOpMode {
 
     HardwareBeep robot = new HardwareBeep();
     LibraryGyro gyroTurn = new LibraryGyro();
@@ -47,23 +47,23 @@ public class CraterProgramJustParking extends LinearOpMode {
 
 // landing our robot
 
-//        robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        robot.lift.setTargetPosition(-17000);
-//        robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//        robot.lift.setPower(1);
+        robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.lift.setTargetPosition(-17000);
+        robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.lift.setPower(1);
 
         getMineralPosition();
 
-//        robot.lift.setPower(0);
-//        runtime.reset();
-//        robot.latch.setPower(-1);
-//
-//        while (runtime.seconds() <1.15){
-//
-//        }
-//        robot.latch.setPower(0);
-//        robot.lift.setPower(0);
-//        runtime.reset();
+        robot.lift.setPower(0);
+        runtime.reset();
+        robot.latch.setPower(-1);
+
+        while (runtime.seconds() <1.15){
+
+        }
+        robot.latch.setPower(0);
+        robot.lift.setPower(0);
+        runtime.reset();
 
         gridNavigation.setGridPosition(.8281, .8281, 45);
         printTelemetry(10);
@@ -92,16 +92,16 @@ public class CraterProgramJustParking extends LinearOpMode {
                     telemetry.addData("Grid Nav Goto Pos X", RED_CRATER_LEFT[X]);
                     telemetry.addData("Grid Nav Goto Pos Y", RED_CRATER_LEFT[Y]);
                     printTelemetry(20);
-//                    robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//                    robot.lift.setTargetPosition(16000);
-//                    robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//                    robot.lift.setPower(1);
-//
-//                    runtime.reset();
-//                    robot.latch.setPower(1);
-//                    while (runtime.seconds() < 1.15) {
-//                    }
-//                    robot.latch.setPower(0);
+                    robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    robot.lift.setTargetPosition(16000);
+                    robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    robot.lift.setPower(1);
+
+                    runtime.reset();
+                    robot.latch.setPower(1);
+                    while (runtime.seconds() < 1.15) {
+                    }
+                    robot.latch.setPower(0);
 
                     gyroTurn.turnGyro(-40);
 
@@ -128,16 +128,16 @@ public class CraterProgramJustParking extends LinearOpMode {
                     telemetry.addData("Grid Nav Goto Pos X", RED_CRATER_RIGHT[X]);
                     telemetry.addData("Grid Nav Goto Pos Y", RED_CRATER_RIGHT[Y]);
                     printTelemetry(40);
-//                    robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//                    robot.lift.setTargetPosition(16000);
-//                    robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//                    robot.lift.setPower(1);
-//
-//                    runtime.reset();
-//                    robot.latch.setPower(1);
-//                    while (runtime.seconds() < 1.15) {
-//                    }
-//                    robot.latch.setPower(0);
+                    robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    robot.lift.setTargetPosition(16000);
+                    robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    robot.lift.setPower(1);
+
+                    runtime.reset();
+                    robot.latch.setPower(1);
+                    while (runtime.seconds() < 1.15) {
+                    }
+                    robot.latch.setPower(0);
 
                     gyroTurn.turnGyro(40);
 
