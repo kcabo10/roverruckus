@@ -168,7 +168,7 @@ public class DepotProgramNoLight extends LinearOpMode {
 
                     robot.arm.setPower(0);
                     gridNavigation.driveToPosition(2.6, 1.6, .7);
-                    gridNavigation.setGridPosition(2.6,1.6,-80);
+                    gridNavigation.setGridPosition(2.6,1.6,-90 );
                     gridNavigation.driveToPosition(RED_DEPOT_PARKING[X], RED_DEPOT_PARKING[Y], .7);
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.arm.setTargetPosition(-720);
