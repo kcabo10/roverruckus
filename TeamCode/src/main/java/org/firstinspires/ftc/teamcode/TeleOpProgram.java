@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.MovingStatistics;
 
 import org.firstinspires.ftc.robotcore.external.StateMachine;
@@ -23,7 +24,9 @@ public class TeleOpProgram extends OpMode
     private int leftTriggerPressed;
     private int direction = -1;
     private double scaleFactor = 1;
-    int arm_state;
+    int arm_state = 0;
+    public ElapsedTime runtime = new ElapsedTime();
+
     // 0 = waiting, 1 = arm up commanded, 2 = arm down commanded
 
     public void reverseDirection() {
@@ -185,34 +188,54 @@ public class TeleOpProgram extends OpMode
          */
 
         //int arm_state;
-        // 0 = waiting, 1 = arm up commanded, 2 = arm down commanded, wait for
+        // 0 = waiting for command, 1 = commanded, 2 = waiting for arm.isbusy==false
+        switch (arm_state)
+        {
+            case 0:
+                // This state is the constant state that waits for the trigger/bumper/slide to be pressed/pushed
 
+                robot.arm.setPower(gamepad2.right_stick_y * -.75);
 
-        if (gamepad1.left_bumper && arm_state == 0) {
-            robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.arm.setTargetPosition(820);
-            robot.arm.setPower(.5);
-            arm_state = 1;
-        }
-        else if (gamepad1.left_trigger > 0 && arm_state == 0) {
-            robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.arm.setTargetPosition(-220);
-            robot.arm.setPower(-.5);
-            arm_state = 2;
-        }
-        else {
-            robot.arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            robot.arm.setPower(gamepad2.right_stick_y * -.75);
-        }
+                if (gamepad1.left_bumper) {
+                    // Moving arm down
+                    robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    robot.arm.setTargetPosition(580);
+                    robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        if (arm_state == 1 ||arm_state == 2) {
-                if (robot.arm.isBusy()){
-                    arm_state = 4; //moving
+                    robot.arm.setPower(.75);
+                    arm_state = 1;
                 }
+                else if (gamepad1.left_trigger > 0) {
+                    // Moving arm up
+                    robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    robot.arm.setTargetPosition(-580);
+                    robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                    robot.arm.setPower(1);
+                    arm_state = 1;
+                }
+                break;
+            case 1:
+                // Once it recognizes that the controller has been moved, and the power is set, then it initializes this next state.
+                runtime.reset();
+                if (robot.arm.isBusy()){
+                    arm_state = 2; //moving
+                }
+                break;
+            case 2:
+                // Last state before it goes back to state 0. This state has a timer to ensure that the motor stops at 2 seconds.
+                if (!robot.arm.isBusy() || runtime.seconds() >= 2) {
+                    arm_state = 0;
+                    robot.arm.setPower(0);
+                }
+                break;
+
         }
-        if (!robot.arm.isBusy() && arm_state==4) {
+
+        // MANUAL OVERRIDE
+        if ((gamepad2.right_stick_y > .05 && gamepad2.right_stick_y <= 1) ||
+                (gamepad2.right_stick_y < -.05 && gamepad2.right_stick_y >= -1)){
+            robot.arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             arm_state = 0;
         }
 
