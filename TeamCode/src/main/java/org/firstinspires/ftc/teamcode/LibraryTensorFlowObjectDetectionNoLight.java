@@ -29,13 +29,6 @@
 
 package org.firstinspires.ftc.teamcode;
 
-import android.hardware.camera2.CameraDevice;
-
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.vuforia.Vuforia;
-
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
@@ -56,7 +49,7 @@ import java.util.List;
  * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
  * is explained below.
  */
-public class LibraryTensorFlowObjectDetection {
+public class LibraryTensorFlowObjectDetectionNoLight {
     private static final String TFOD_MODEL_ASSET = "RoverRuckus.tflite";
     private static final String LABEL_GOLD_MINERAL = "Gold Mineral";
     private static final String LABEL_SILVER_MINERAL = "Silver Mineral";
@@ -82,7 +75,7 @@ public class LibraryTensorFlowObjectDetection {
     HardwareBeep robot;
     Telemetry telemetry;
 
-    public LibraryTensorFlowObjectDetection(HardwareBeep newHardwareBeep, Telemetry newTelemetry) {
+    public LibraryTensorFlowObjectDetectionNoLight(HardwareBeep newHardwareBeep, Telemetry newTelemetry) {
 
         robot = newHardwareBeep;
 
@@ -98,7 +91,7 @@ public class LibraryTensorFlowObjectDetection {
         /**
          * Turn on the light on phone to make mineral visible
          */
-        phoneLight(true);
+        phoneLight(false);
 
         if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
             initTfod();

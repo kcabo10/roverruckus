@@ -1,19 +1,21 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-
+@Disabled
 @Autonomous(name="Crater Program With Marker", group="Beep")
 public class CraterProgramWithMarker extends LinearOpMode {
+
 
     HardwareBeep robot = new HardwareBeep();
     LibraryGyro gyroTurn = new LibraryGyro();
     LibraryGyroDrive gyroDrive = new LibraryGyroDrive();
     LibraryGridNavigation gridNavigation = new LibraryGridNavigation();
-    LibraryTensorFlowObjectDetection tensorFlow = new LibraryTensorFlowObjectDetection(robot, telemetry);
+    LibraryTensorFlowObjectDetectionWithLight tensorFlow = new LibraryTensorFlowObjectDetectionWithLight(robot, telemetry);
 
     String goldPosition = "";
     public ElapsedTime runtime = new ElapsedTime();
@@ -75,10 +77,9 @@ public class CraterProgramWithMarker extends LinearOpMode {
         Change values to grab mineral
         */
 
-        double[] RED_CRATER_LEFT = {.9, 1.8};
-        double[] RED_CRATER_RIGHT = {1.7, .9};
-        double[] RED_CRATER_CENTER = {1.4, 1.35};
-
+        double[] RED_CRATER_LEFT = {1.2, 2.2};
+        double[] RED_CRATER_RIGHT = {2.2, 1.2};
+        double[] RED_CRATER_CENTER = {1.5, 1.5};
 
         double[] RED_CRATER_MARKER = {-1.5, 2.4};
         double[] RED_CRATER_PARKING = {.4, 2.5};
@@ -104,7 +105,6 @@ public class CraterProgramWithMarker extends LinearOpMode {
                     while (runtime.seconds() < 1.15) {
                     }
                     robot.latch.setPower(0);
-
                     gridNavigation.driveToPositionBackwards(.5,.5,.7);
 //                    gridNavigation.driveToPosition(.1, 2.3, .7);
 //                    gridNavigation.driveToPosition(RED_CRATER_MARKER[X], RED_CRATER_MARKER[Y], .7);
