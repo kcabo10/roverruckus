@@ -3,6 +3,9 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.MovingStatistics;
+
+import org.firstinspires.ftc.robotcore.external.StateMachine;
 
 
 /**
@@ -16,9 +19,12 @@ public class TeleOpProgram extends OpMode
 
     private int buttonYPressed;
     private int buttonAPressed;
-    private int buttonAPressedG2;
+    private int leftBumperPressed;
+    private int leftTriggerPressed;
     private int direction = -1;
     private double scaleFactor = 1;
+    int arm_state;
+    // 0 = waiting, 1 = arm up commanded, 2 = arm down commanded
 
     public void reverseDirection() {
         if (direction == 1) {
@@ -38,6 +44,7 @@ public class TeleOpProgram extends OpMode
 
 
 
+
     public void init() {
         robot.init(hardwareMap);
         telemetry.addData("Say", "Hello Driver");
@@ -48,7 +55,8 @@ public class TeleOpProgram extends OpMode
 
         buttonYPressed = 0;
         buttonAPressed = 0;
-        buttonAPressedG2 = 0;
+        leftBumperPressed = 0;
+        leftTriggerPressed = 0;
         robot.lift.setPower(0);
         robot.latch.setPower(0);
         robot.intake.setPower(0);
@@ -176,23 +184,36 @@ public class TeleOpProgram extends OpMode
         Arm Control
          */
 
-        if (gamepad1.left_bumper) {
+        //int arm_state;
+        // 0 = waiting, 1 = arm up commanded, 2 = arm down commanded, wait for
+
+
+        if (gamepad1.left_bumper && arm_state == 0) {
             robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            robot.arm.setTargetPosition(520);
-            robot.arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.arm.setTargetPosition(820);
             robot.arm.setPower(.5);
+            arm_state = 1;
         }
-        if (gamepad1.left_trigger > 0) {
+        else if (gamepad1.left_trigger > 0 && arm_state == 0) {
             robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            robot.arm.setTargetPosition(-720);
-            robot.arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.arm.setTargetPosition(-220);
             robot.arm.setPower(-.5);
-        }
-        if (!gamepad1.left_bumper && gamepad1.left_trigger == 0) {
-            robot.arm.setPower(gamepad2.right_stick_y * -.75);
+            arm_state = 2;
         }
         else {
-            robot.arm.setPower(0);
+            robot.arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            robot.arm.setPower(gamepad2.right_stick_y * -.75);
+        }
+
+        if (arm_state == 1 ||arm_state == 2) {
+                if (robot.arm.isBusy()){
+                    arm_state = 4; //moving
+                }
+        }
+        if (!robot.arm.isBusy() && arm_state==4) {
+            arm_state = 0;
         }
 
         /**
