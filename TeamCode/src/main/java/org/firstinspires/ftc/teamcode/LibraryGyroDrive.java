@@ -78,7 +78,7 @@ public class LibraryGyroDrive {
 //            sleep(2000);
 
             // start motion.
-            speed = Range.clip(Math.abs(speed), 0.0, .3);
+            speed = Range.clip(Math.abs(speed), 0.0, .4);
             robot.leftFront.setPower(speed);
             robot.leftBack.setPower(speed);
             robot.rightFront.setPower(speed);

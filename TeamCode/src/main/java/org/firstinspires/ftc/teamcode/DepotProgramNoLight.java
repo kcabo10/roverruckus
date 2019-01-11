@@ -58,7 +58,7 @@ public class DepotProgramNoLight extends LinearOpMode {
         gridNavigation.setGridPosition(.8281, .8281, 45);
         printTelemetry(10);
         telemetry.update();
-        gridNavigation.driveToPosition(.9, .9, .4);
+        gridNavigation.driveToPosition(.9, .9, .8);
 
             getMineralPosition();
 
@@ -78,7 +78,7 @@ public class DepotProgramNoLight extends LinearOpMode {
         gridNavigation.setGridPosition(.8281, .8281, 45);
         printTelemetry(10);
         telemetry.update();
-        gridNavigation.driveToPosition(1, 1, .4);
+        gridNavigation.driveToPosition(1, 1, .8);
 
         int X = 0;
         int Y = 1;
@@ -110,7 +110,7 @@ public class DepotProgramNoLight extends LinearOpMode {
                     gridNavigation.driveToPositionBackwards(1, 2, .7);
                     gridNavigation.driveToPosition(LEFT_RED_DEPOT_MARKER [X], LEFT_RED_DEPOT_MARKER [Y], .7);
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    robot.arm.setTargetPosition(-720);
+                    robot.arm.setTargetPosition(500);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     robot.arm.setPower(1);
                     while (robot.arm.isBusy()) {
@@ -118,7 +118,7 @@ public class DepotProgramNoLight extends LinearOpMode {
                     robot.arm.setPower(0);
 
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    robot.arm.setTargetPosition(720);
+                    robot.arm.setTargetPosition(-500);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     robot.arm.setPower(1);
                     while (robot.arm.isBusy()) {
@@ -152,7 +152,7 @@ public class DepotProgramNoLight extends LinearOpMode {
                     telemetry.addData("Grid Nav Goto Pos Y", RED_DEPOT_RIGHT[Y]);
                     gridNavigation.driveToPosition(RIGHT_RED_DEPOT_MARKER [X], RIGHT_RED_DEPOT_MARKER [Y], .7);
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    robot.arm.setTargetPosition(-720);
+                    robot.arm.setTargetPosition(500);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     robot.arm.setPower(1);
                     while (robot.arm.isBusy()) {
@@ -160,7 +160,7 @@ public class DepotProgramNoLight extends LinearOpMode {
                     robot.arm.setPower(0);
 
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    robot.arm.setTargetPosition(720);
+                    robot.arm.setTargetPosition(-500);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     robot.arm.setPower(1);
                     while (robot.arm.isBusy()) {
@@ -207,7 +207,7 @@ public class DepotProgramNoLight extends LinearOpMode {
 //                    while (robot.rightFront.isBusy()) {
 //                    }
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    robot.arm.setTargetPosition(-720);
+                    robot.arm.setTargetPosition(500);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     robot.arm.setPower(1);
                     while (robot.arm.isBusy()) {
@@ -215,7 +215,7 @@ public class DepotProgramNoLight extends LinearOpMode {
                     robot.arm.setPower(0);
 
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    robot.arm.setTargetPosition(720);
+                    robot.arm.setTargetPosition(-500);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     robot.arm.setPower(1);
                     while (robot.arm.isBusy()) {
