@@ -199,7 +199,7 @@ public class TeleOpProgram extends OpMode
                 if (gamepad1.left_bumper) {
                     // Moving arm down
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    robot.arm.setTargetPosition(580);
+                    robot.arm.setTargetPosition(500);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
                     robot.arm.setPower(.75);
