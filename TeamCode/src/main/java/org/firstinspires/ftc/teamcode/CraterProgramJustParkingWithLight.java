@@ -106,7 +106,8 @@ public class CraterProgramJustParkingWithLight extends LinearOpMode {
                     gyroTurn.turnGyro(-40);
 
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    robot.arm.setTargetPosition(-720);
+                    robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    robot.arm.setTargetPosition(500);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     robot.arm.setPower(1);
                     while (robot.arm.isBusy()) {
@@ -142,7 +143,7 @@ public class CraterProgramJustParkingWithLight extends LinearOpMode {
                     gyroTurn.turnGyro(40);
 
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    robot.arm.setTargetPosition(-720);
+                    robot.arm.setTargetPosition(500);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     robot.arm.setPower(1);
                     while (robot.arm.isBusy()) {
@@ -174,9 +175,8 @@ public class CraterProgramJustParkingWithLight extends LinearOpMode {
                     while (runtime.seconds() < 1.15) {
                     }
                     robot.latch.setPower(0);
-
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    robot.arm.setTargetPosition(-720);
+                    robot.arm.setTargetPosition(500);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     robot.arm.setPower(1);
                     while (robot.arm.isBusy()) {
