@@ -194,7 +194,7 @@ public class TeleOpProgram extends OpMode
             case 0:
                 // This state is the constant state that waits for the trigger/bumper/slide to be pressed/pushed
 
-                robot.arm.setPower(gamepad2.right_stick_y * -.75);
+                robot.arm.setPower(gamepad2.right_stick_y * .75);
 
                 if (gamepad1.left_bumper) {
                     // Moving arm down
