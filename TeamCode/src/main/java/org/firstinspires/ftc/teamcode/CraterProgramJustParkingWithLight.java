@@ -45,7 +45,9 @@ public class CraterProgramJustParkingWithLight extends LinearOpMode {
         waitForStart();
 
 
-// landing our robot
+        /**
+        landing our robot
+         */
 
         robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.lift.setTargetPosition(-17000);
@@ -65,6 +67,10 @@ public class CraterProgramJustParkingWithLight extends LinearOpMode {
         robot.lift.setPower(0);
         runtime.reset();
 
+        /**
+         * Setting initial grid position
+         */
+
         gridNavigation.setGridPosition(.8281, .8281, 45);
         printTelemetry(10);
         telemetry.update();
@@ -74,12 +80,17 @@ public class CraterProgramJustParkingWithLight extends LinearOpMode {
         int Y = 1;
 
        /**
-        Change values to grab mineral
+        Gid position values to hit off mineral
         */
 
         double[] RED_CRATER_LEFT = {1.2, 2.2};
         double[] RED_CRATER_RIGHT = {2.2, 1.2};
         double[] RED_CRATER_CENTER = {1.5, 1.5};
+
+        /**
+         * Switch block for the gold mineral position. It reads the two minerals to the left and
+         * enters this switch block to hit off the gold mineral in its relative pos
+         */
 
         switch (goldPosition) {
 
@@ -92,19 +103,31 @@ public class CraterProgramJustParkingWithLight extends LinearOpMode {
                     telemetry.addData("Grid Nav Goto Pos X", RED_CRATER_LEFT[X]);
                     telemetry.addData("Grid Nav Goto Pos Y", RED_CRATER_LEFT[Y]);
                     printTelemetry(20);
+                    /**
+                     * Bringing the lift down
+                     */
                     robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.lift.setTargetPosition(16000);
                     robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     robot.lift.setPower(1);
 
+                    /**
+                     * Closing latch
+                     */
                     runtime.reset();
                     robot.latch.setPower(1);
                     while (runtime.seconds() < 1.15) {
                     }
                     robot.latch.setPower(0);
 
+                    /**
+                     * Turning towards the crater to park
+                     */
                     gyroTurn.turnGyro(-40);
 
+                    /**
+                     * Lowering the arm to park in the crater
+                     */
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.arm.setTargetPosition(-720);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -128,19 +151,31 @@ public class CraterProgramJustParkingWithLight extends LinearOpMode {
                     telemetry.addData("Grid Nav Goto Pos X", RED_CRATER_RIGHT[X]);
                     telemetry.addData("Grid Nav Goto Pos Y", RED_CRATER_RIGHT[Y]);
                     printTelemetry(40);
+                    /**
+                     * Bringing the lift down
+                     */
                     robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.lift.setTargetPosition(16000);
                     robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     robot.lift.setPower(1);
 
+                    /**
+                     * Closing latch
+                     */
                     runtime.reset();
                     robot.latch.setPower(1);
                     while (runtime.seconds() < 1.15) {
                     }
                     robot.latch.setPower(0);
 
+                    /**
+                     * Turning towards the crater to park
+                     */
                     gyroTurn.turnGyro(40);
 
+                    /**
+                     * Lowering the arm to park in the crater
+                     */
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.arm.setTargetPosition(-720);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -164,17 +199,26 @@ public class CraterProgramJustParkingWithLight extends LinearOpMode {
                     telemetry.addData("Grid Nav Goto Pos X", RED_CRATER_CENTER[X]);
                     telemetry.addData("Grid Nav Goto Pos Y", RED_CRATER_CENTER[Y]);
                     printTelemetry(60);
+                    /**
+                     * Bringing the lift down
+                     */
                     robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.lift.setTargetPosition(16000);
                     robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     robot.lift.setPower(1);
 
+                    /**
+                     * Closing latch
+                     */
                     runtime.reset();
                     robot.latch.setPower(1);
                     while (runtime.seconds() < 1.15) {
                     }
                     robot.latch.setPower(0);
 
+                    /**
+                     * Lowering the arm to park in the crater
+                     */
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.arm.setTargetPosition(-720);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
