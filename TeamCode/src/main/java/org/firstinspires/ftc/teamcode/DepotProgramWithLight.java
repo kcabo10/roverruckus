@@ -125,9 +125,9 @@ public class DepotProgramWithLight extends LinearOpMode {
                     }
                     robot.arm.setPower(0);
 
-                    gridNavigation.driveToPosition(2.9, 1.6, 1);
-                    gridNavigation.setGridPosition(2.6,1.6,-75);
-                    gridNavigation.driveToPosition(RED_DEPOT_PARKING[X], RED_DEPOT_PARKING[Y], 1);
+                    gridNavigation.driveToPosition(1, 3, .7);
+//                    gridNavigation.setGridPosition(1,1.6,-95);
+                    gridNavigation.driveToPosition(-1.5, 2.7, .7);
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.arm.setTargetPosition(500);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -168,9 +168,9 @@ public class DepotProgramWithLight extends LinearOpMode {
                     }
 
                     robot.arm.setPower(0);
-                    gridNavigation.driveToPosition(2.7, 1.6, .7);
-                    gridNavigation.setGridPosition(2.6,1.6,-95);
-                    gridNavigation.driveToPosition(RED_DEPOT_PARKING[X], RED_DEPOT_PARKING[Y], .7);
+                    gridNavigation.driveToPosition(1, 3, .7);
+//                    gridNavigation.setGridPosition(1,1.6,-95);
+                    gridNavigation.driveToPosition(-1.5, 2.7, .7);
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.arm.setTargetPosition(500);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -209,9 +209,9 @@ public class DepotProgramWithLight extends LinearOpMode {
                     }
 
                     robot.arm.setPower(0);
-                    gridNavigation.driveToPosition(2.9, 1.6, .7);
-                    gridNavigation.setGridPosition(2.9,1.6,-55);
-                    gridNavigation.driveToPosition(RED_DEPOT_PARKING[X], RED_DEPOT_PARKING[Y], .7);
+                    gridNavigation.driveToPosition(1, 3, .7);
+//                    gridNavigation.setGridPosition(1,1.6,-95);
+                    gridNavigation.driveToPosition(-1.5, 2.7, .7);
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.arm.setTargetPosition(500);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
