@@ -11,8 +11,12 @@ import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.I2cDeviceSynch;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.teamcode.sensors.SensorMB1242;
+import org.firstinspires.ftc.teamcode.test.MB1242_Test;
 
 /**
  * Define Class as HardwareBeep
@@ -37,6 +41,8 @@ public class HardwareBeep {
     public BNO055IMU imu = null;
 
     public ModernRoboticsI2cColorSensor colorSensor = null;
+
+    public SensorMB1242 ultrasonic = null;
 
 
     /**
@@ -78,6 +84,7 @@ public class HardwareBeep {
         marker = hwMap.get(Servo.class, "marker");
         imu = hwMap.get(BNO055IMU.class, "imu");
         colorSensor = hwMap.get(ModernRoboticsI2cColorSensor.class, "color_Sensor");
+        ultrasonic = hwMap.get(SensorMB1242.class,"sonic");
 
         /**
          * Set Motor and Servo Direction
