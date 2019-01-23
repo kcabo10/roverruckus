@@ -135,8 +135,6 @@ public class HardwareBeep {
         armExtrusion.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
-
-
         /**
          * Set IMU Parameters
          */

@@ -24,7 +24,7 @@ public class ColorSensorTest extends LinearOpMode {
 
         robot.colorSensor.enableLed(true);
 
-        robot.latch.setPower(1);
+        robot.latch.setPower(-1);
         while (robot.colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER) != 3) {
             telemetry.addData("Color Number", robot.colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER));
             telemetry.update();
@@ -35,14 +35,10 @@ public class ColorSensorTest extends LinearOpMode {
         telemetry.update();
         sleep(2000);
 
-        robot.latch.setPower(-1);
-        while (robot.colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER) != 6) {
+        robot.latch.setPower(1);
+        while (robot.colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER) != 10) {
             telemetry.addData("Color Number", robot.colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER));
             telemetry.update();
         }
-            robot.latch.setPower(0);
-            telemetry.addData("Stopped Servo", "Servo is stopped");
-            telemetry.update();
-            sleep(2000);
     }
 }
