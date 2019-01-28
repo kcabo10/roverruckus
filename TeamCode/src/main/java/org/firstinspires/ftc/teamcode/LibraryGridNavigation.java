@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.sensors.SensorMB1242;
 
 
 /**
@@ -18,8 +19,10 @@ public class LibraryGridNavigation {
     HardwareBeep robot;// = new HardwareBeep();
     LibraryGyro gyro;// = new LibraryGyro();
     LibraryGyroDrive gyroDrive = new LibraryGyroDrive();
+    SensorMB1242 rearUS = robot.ultrasonic;
     private ElapsedTime runtime = new ElapsedTime();
     Telemetry telemetry;
+    int i = 0;
 
     double xOrigin = 0;
     //X1 is starting X coordinate
@@ -217,6 +220,32 @@ public class LibraryGridNavigation {
         gyro.turnGyro(turnAngle);
 
         gyroDrive.gyroDrive(power, (int) Distance, 0.0);
+
+    }
+
+    public void driveToPositionSonic(double xDestination, double yDestination, double power) {
+
+        getDriveDistance(xDestination, yDestination);
+
+        rearUS.startAutoPing(40);
+            if (runtime.milliseconds() > 200){
+
+                telemetry.addData("Distance",rearUS.getDistance());
+                telemetry.addData("Incrementor", i++);
+                telemetry.update();
+                rearUS.ping();
+                runtime.reset();
+            }
+            if (rearUS.getDistance() == 40){
+                gyroDrive.gyroDrive(power, (int) Distance, 0.0);
+            }
+            if (rearUS.getDistance() > 40){
+                gyro.turnGyro(20);
+                gyroDrive.gyroDrive(power, (int) Distance, 0.0);
+            }
+            if (rearUS.getDistance() < 40){
+
+            }
 
     }
 
