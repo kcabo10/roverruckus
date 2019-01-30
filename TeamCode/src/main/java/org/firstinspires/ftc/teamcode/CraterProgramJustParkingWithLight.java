@@ -85,7 +85,7 @@ public class CraterProgramJustParkingWithLight extends LinearOpMode {
 
         double[] RED_CRATER_LEFT = {1.2, 2.2};
         double[] RED_CRATER_RIGHT = {2.2, 1.2};
-        double[] RED_CRATER_CENTER = {1.5, 1.5};
+        double[] RED_CRATER_CENTER = {1.6, 1.6};
 
         /**
          * Switch block for the gold mineral position. It reads the two minerals to the left and
