@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.test;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.HardwareBeep;
@@ -14,17 +15,17 @@ import org.firstinspires.ftc.teamcode.sensors.SensorMB1242;
 public class MB1242_Test extends LinearOpMode {
     HardwareBeep robot = new HardwareBeep();
 
-    SensorMB1242 rearUS;
+//    SensorMB1242 rearUS
     boolean last = false;
+    public ElapsedTime runtime = new ElapsedTime();
+    int i = 0;
 
     @Override
     public void runOpMode() {
         robot.init(hardwareMap);
 
 //        rearUS = hardwareMap.get(SensorMB1242.class,"rear");
-        rearUS = robot.ultrasonic;
-
-        rearUS.init(telemetry);
+        SensorMB1242 rearUS = robot.ultrasonic;
 
         rearUS.startAutoPing(40);
         sleep(2000);
@@ -33,22 +34,40 @@ public class MB1242_Test extends LinearOpMode {
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
-        telemetry.addData("waitForStart()", "");
-        telemetry.update();
-        sleep(2000);
-//        rearUS.run();
+            telemetry.addData("waitForStart()", i++);
+            telemetry.update();
+        //rearUS.run();
 //        telemetry.addData("rearUS.run", "");
 //        telemetry.update();
 //        sleep(2000);
         telemetry.addData("Should have read sensor", "");
         telemetry.update();
+        sleep(2000);
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()&&!isStopRequested()) {
-            rearUS.run();
 
-            telemetry.addData("Distance",rearUS.getDistance());
-            telemetry.update();
+            if (runtime.milliseconds() > 200){
+
+                telemetry.addData("Distance",rearUS.getDistance());
+                telemetry.addData("Incrementor", i++);
+                telemetry.update();
+                rearUS.ping();
+                runtime.reset();
+            }
+
+
+
+            /**
+             * Create a new Elapsed Timer obj
+             * reset it
+             *
+             * inside loop
+             * check if timer is > 100ms
+             *   write8()
+             *   distance = getDistance()
+
+             */
         }
 
         rearUS.close();

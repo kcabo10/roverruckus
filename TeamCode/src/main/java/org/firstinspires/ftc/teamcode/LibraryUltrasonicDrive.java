@@ -1,24 +1,24 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.util.Hardware;
+import com.qualcomm.robotcore.hardware.I2cAddr;
+import com.qualcomm.robotcore.hardware.I2cDevice;
+import com.qualcomm.robotcore.hardware.I2cDeviceSynch;
+import com.qualcomm.robotcore.hardware.I2cDeviceSynchDevice;
+import com.qualcomm.robotcore.hardware.configuration.annotations.I2cDeviceType;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.teamcode.sensors.SensorMB1242;
 
-//@Autonomous(name="Michael Gryo Testing 4", group="Exercises")
-//@Disabled
-
-public class LibraryGyro {
+public class LibraryUltrasonicDrive {
 
     HardwareBeep robot = null;
+    //SensorMB1242 sonic = robot.ultrasonic;
     Telemetry telemetry;
     Orientation lastAngles = new Orientation();
     double globalAngle, power = .30, correction;
@@ -38,76 +38,7 @@ public class LibraryGyro {
     public void init(HardwareBeep myRobot, Telemetry myTelemetry){
         robot = myRobot;
         telemetry = myTelemetry;
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-
-        parameters.mode = BNO055IMU.SensorMode.IMU;
-        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters.loggingEnabled = false;
-
-        robot.imu.initialize(parameters);
     }
-
-    /**
-     * Resets the cumulative angle tracking to zero.
-     */
-    private void resetAngle() {
-        lastAngles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-
-        globalAngle = 0;
-    }
-
-    /**
-     * Get current cumulative angle rotation from last reset.
-     *
-     * @return Angle in degrees. + = left, - = right.
-     */
-    public double getAngle() {
-        // We experimentally determined the Z axis is the axis we want to use for heading angle.
-        // We have to process the angle because the imu works in euler angles so the Z axis is
-        // returned as 0 to +180 or 0 to -180 rolling back to -179 or +179 when rotation passes
-        // 180 degrees. We detect this transition and track the total cumulative angle of rotation.
-
-        Orientation angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-
-        double deltaAngle = angles.firstAngle - lastAngles.firstAngle;
-
-        if (deltaAngle < -180)
-            deltaAngle += 360;
-        else if (deltaAngle > 180)
-            deltaAngle -= 360;
-
-        globalAngle += deltaAngle;
-
-        lastAngles = angles;
-
-        return globalAngle;
-    }
-
-    /**
-     * See if we are moving in a straight line and if not return a power correction value.
-     *
-     * @return Power adjustment, + is adjust left - is adjust right.
-     */
-    private double checkDirection() {
-        // The gain value determines how sensitive the correction is to direction changes.
-        // You will have to experiment with your robot to get small smooth direction changes
-        // to stay on a straight line.
-        double correction, angle, gain = .10;
-
-        angle = getAngle();
-
-        if (angle == 0)
-            correction = 0;             // no adjustment.
-        else
-            correction = -angle;        // reverse sign of angle for correction.
-
-        correction = correction * gain;
-
-        return correction;
-    }
-
-
 
     public void ComputePID() {
         long now = System.currentTimeMillis();
@@ -130,7 +61,7 @@ public class LibraryGyro {
     }
 
 
-    public double turnGyro(float targetHeading) {
+    public double turnUltrasonic(float targetHeading) {
         int original_anglez = 0;
 //        BNO055IMU imu;
         int xVal, yVal, zVal = 0;
@@ -142,11 +73,10 @@ public class LibraryGyro {
         int timer = 0;
         double currentHeading, headingError, driveSteering, leftPower, rightPower, oldCurrentHeading = 0.0;
         long startTime = 0;
-//        imu = (BNO055IMU) hardwareMap.gyroSensor.get("imu");
         double polarity = 1;
         polarity = targetHeading > 0 ? 1 : -1;
 
-        resetAngle();
+        robot.ultrasonic.getDistance();
         robot.leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -157,11 +87,11 @@ public class LibraryGyro {
 //        updateTelemetry(telemetry);
 
         startTime = System.currentTimeMillis();
-        currentHeading = getAngle();
+        currentHeading = robot.ultrasonic.getDistance();
         SetTunings(.02, 0, 0.1);
 
         Setpoint = targetHeading;
-        Input = getAngle();
+        Input = robot.ultrasonic.getDistance();
         telemetry.addData("Current Pos ", currentHeading);
         telemetry.addData("Setpoint ", Setpoint);
         telemetry.addData("Input ", Input);
@@ -181,7 +111,7 @@ public class LibraryGyro {
             robot.rightBack.setPower(-Output);
             timer++;
             //sleep(1000);
-            Input = getAngle();
+            Input = robot.ultrasonic.getDistance();
             //sleep(1000);
             telemetry.addData("curHeading", Input);
             telemetry.addData("tarHeading", Setpoint);

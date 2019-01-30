@@ -1,6 +1,9 @@
 package org.firstinspires.ftc.teamcode.sensors;
 
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.ControlSystem;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.I2cDeviceSynch;
 import com.qualcomm.robotcore.hardware.I2cDeviceSynchDevice;
@@ -10,6 +13,7 @@ import com.qualcomm.robotcore.hardware.configuration.annotations.DevicePropertie
 import com.qualcomm.robotcore.hardware.configuration.annotations.I2cDeviceType;
 import com.qualcomm.robotcore.util.TypeConversion;
 
+import org.firstinspires.ftc.teamcode.HardwareBeep;
 import org.firstinspires.ftc.teamcode.LibraryGridNavigation;
 
 @I2cDeviceType
@@ -19,11 +23,14 @@ import org.firstinspires.ftc.teamcode.LibraryGridNavigation;
 public class SensorMB1242 extends I2cDeviceSynchDevice<I2cDeviceSynch> implements Runnable
 {
     private Thread thread;
+    Telemetry telemetry;
+    HardwareBeep robot = null;
     private boolean autoPing;
     private int autoPingDelay;
     private long lastPingTime = Long.MAX_VALUE;
     private int lastDistance = Integer.MAX_VALUE;
     private long minDelay = 100;
+
 
     public void setAutoPingDelay(int delay)
     {
@@ -84,7 +91,12 @@ public class SensorMB1242 extends I2cDeviceSynchDevice<I2cDeviceSynch> implement
         autoPingDelay = delay;
         autoPing = true;
 
+        telemetry.addData("SensorMB1242", "startAutoPing");
+        telemetry.update();
+
         thread.start();
+
+        //run();
     }
 
     public void stopAutoPing ()
@@ -107,6 +119,7 @@ public class SensorMB1242 extends I2cDeviceSynchDevice<I2cDeviceSynch> implement
             distance = TypeConversion.byteArrayToShort(deviceClient.read(0x01, 2));
             lastDistance = distance;
         }
+        distance = TypeConversion.byteArrayToShort(deviceClient.read(0x01, 2));
 
         return distance;
     }
@@ -116,14 +129,16 @@ public class SensorMB1242 extends I2cDeviceSynchDevice<I2cDeviceSynch> implement
     {
         while (autoPing)
         {
-            ping();
-            try
-            {
-                Thread.sleep(autoPingDelay);
-            }
-            catch (InterruptedException e)
-            {
-            }
+            //Thread.sleep(40);
+//            ping();
+//
+//            try
+//
+//            {
+//                Thread.sleep(autoPingDelay);
+//            }
+//            catch (InterruptedException e){
+//            }
         }
     }
 }
