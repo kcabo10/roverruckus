@@ -26,9 +26,11 @@ public class TeleOpProgram extends OpMode
     int arm_state = 0;
     int auto_latch_open = 0;
     int auto_latch_close = 0;
+    float armPower = 0;
     public ElapsedTime autolatchtime = new ElapsedTime();
     public ElapsedTime colorsensortime = new ElapsedTime();
     public ElapsedTime armtime = new ElapsedTime();
+    public ElapsedTime armbreaktime = new ElapsedTime();
 
     // 0 = waiting, 1 = arm up commanded, 2 = arm down commanded
 
@@ -276,6 +278,16 @@ public class TeleOpProgram extends OpMode
         else if (gamepad2.right_trigger > 0) {
             robot.armExtrusion.setPower(1);
         }
+        else if (gamepad2.left_bumper){
+            if (armbreaktime.milliseconds() > 100){
+                if (armPower == 0)
+                    armPower = 1;
+                else if (armPower == 1)
+                    armPower = 0;
+                armbreaktime.reset();
+                robot.armExtrusion.setPower(armPower);
+            }
+        }
         else {
             robot.armExtrusion.setPower(0);
         }
@@ -301,6 +313,7 @@ public class TeleOpProgram extends OpMode
 
                     robot.arm.setPower(.75);
                     arm_state = 1;
+
                 }
                 else if (gamepad1.left_trigger > 0) {
                     // Moving arm up
