@@ -18,14 +18,15 @@ public class TeleOpProgram extends OpMode
     private int buttonYPressed;
     private int buttonAPressed;
     boolean manual_mode = false;
-    boolean lift_mode = false;
+    boolean latch_open_mode = false;
+    boolean latch_close_mode = false;
     boolean lower_mode = false;
     private int direction = -1;
     private double scaleFactor = 1;
     int arm_state = 0;
-    int auto_lift = 0;
-    int auto_lower = 0;
-    public ElapsedTime autolifttime = new ElapsedTime();
+    int auto_latch_open = 0;
+    int auto_latch_close = 0;
+    public ElapsedTime autolatchtime = new ElapsedTime();
     public ElapsedTime colorsensortime = new ElapsedTime();
     public ElapsedTime armtime = new ElapsedTime();
 
@@ -129,31 +130,30 @@ public class TeleOpProgram extends OpMode
          */
 
 
-//        if (gamepad2.dpad_down && !gamepad2.dpad_up)        {
-//            robot.lift.setPower(1);
-//        }
-//        else if (gamepad2.dpad_up && !gamepad2.dpad_down) {
-//            robot.lift.setPower(-1);
-//        }
-//        else {
-//            robot.lift.setPower(0);
-//        }
-
+        if (gamepad2.dpad_down && !gamepad2.dpad_up)        {
+            robot.lift.setPower(1);
+        }
+        else if (gamepad2.dpad_up && !gamepad2.dpad_down) {
+            robot.lift.setPower(-1);
+        }
+        else {
+            robot.lift.setPower(0);
+        }
 
         /**
          Latch Release Control
           */
 //        if (gamepad2.dpad_right) {
-//            colorSensorTime.reset();
-//            while ((robot.colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER) != 3) && (colorSensorTime.seconds() < 1)) {
+//            colorsensortime.reset();
+//            while ((robot.colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER) != 3) && (colorsensortime.seconds() < 1)) {
 //                telemetry.addData("Color Number", robot.colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER));
 //                telemetry.update();
 //                robot.latch.setPower(-1);
 //            }
 //        }
 //        else if (gamepad2.dpad_left) {
-//            colorSensorTime.reset();
-//            while ((robot.colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER) != 10) && (colorSensorTime.seconds() < 1)) {
+//            colorsensortime.reset();
+//            while ((robot.colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER) != 10) && (colorsensortime.seconds() < 1)) {
 //                telemetry.addData("Color Number", robot.colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER));
 //                telemetry.update();
 //                robot.latch.setPower(1);
@@ -190,62 +190,46 @@ public class TeleOpProgram extends OpMode
          * MANUAL MODE 5
          */
 
-        if (!manual_mode && !lower_mode) {
-            lift_mode = true;
-            switch (auto_lift) {
+        if (!manual_mode && !latch_open_mode) {
+            switch (auto_latch_open) {
                 case 0:
-                    //WAIT FOR AUTO_LIFT BUTTON
-                    if (gamepad2.dpad_up) {
-                        autolifttime.reset();
-                        auto_lift++;
+                   if (gamepad2.dpad_right) {
+                        autolatchtime.reset();
+                        auto_latch_open++;
                     }
                     break;
                 case 1:
-                    //START LATCH
                     robot.latch.setPower(-1);
-                    auto_lift++;
+                    auto_latch_open++;
                     break;
                 case 2:
-                    //CHECK COLOR AND START LIFT
                     if (colorsensortime.milliseconds() > 200) {
                         if (robot.colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER) == 3) {
                             robot.latch.setPower(0);
-                            robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                            robot.lift.setTargetPosition(-16000);
-                            robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                            robot.lift.setPower(1);
-                            auto_lift++;
+                            auto_latch_open = 0;
                         }
                         colorsensortime.reset();
                     }
                     break;
             }
         }
-        if(!manual_mode && !lift_mode) {
-            lower_mode = true;
-            switch (auto_lower) {
+        if(!manual_mode && !latch_close_mode) {
+            switch (auto_latch_close) {
                 case 0:
-                    //WAIT FOR AUTO_LIFT BUTTON
-                    if (gamepad2.dpad_down) {
-                        autolifttime.reset();
-                        auto_lower++;
+                    if (gamepad2.dpad_left) {
+                        autolatchtime.reset();
+                        auto_latch_close++;
                     }
                     break;
                 case 1:
-                    //START LATCH
                     robot.latch.setPower(1);
-                    auto_lower++;
+                    auto_latch_close++;
                     break;
                 case 2:
-                    //CHECK COLOR AND START LATCH
                     if (colorsensortime.milliseconds() > 200) {
                         if (robot.colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER) == 10) {
                             robot.latch.setPower(0);
-                            robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                            robot.lift.setTargetPosition(16000);
-                            robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                            robot.lift.setPower(1);
-                            auto_lower++;
+                            auto_latch_close = 0;
                         }
                         colorsensortime.reset();
                     }
@@ -254,20 +238,11 @@ public class TeleOpProgram extends OpMode
         }
 
 
-    if (autolifttime.seconds() > 3 && gamepad2.dpad_up && auto_lift > 0) {
+    if (autolatchtime.seconds() > 1.5 && (gamepad2.dpad_right || gamepad2.dpad_left)) {
          manual_mode = true;
+
     }
-
     if (manual_mode) {
-        if (gamepad2.dpad_down && !gamepad2.dpad_up) {
-            robot.lift.setPower(1);
-        } else if (gamepad2.dpad_up && !gamepad2.dpad_down) {
-            robot.lift.setPower(-1);
-        } else {
-            robot.lift.setPower(0);
-        }
-
-
         if (gamepad2.dpad_right) {
                 robot.latch.setPower(-1);
         }
@@ -379,9 +354,12 @@ public class TeleOpProgram extends OpMode
         * Telemetry
         */
 
+        telemetry.addData("Lift Encoder Ticks", robot.lift.getCurrentPosition());
         telemetry.addData("Color Number", robot.colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER));
         telemetry.addData("arm_state", arm_state);
-        telemetry.addData("auto_lift", auto_lift);
+        telemetry.addData("auto_latch_open", auto_latch_open);
+        telemetry.addData("auto_latch_close", auto_latch_close);
+        telemetry.addData("manual_mode", manual_mode);
         telemetry.addData("Scale Factor", scaleFactor);
         telemetry.addData("Direction", direction);
         telemetry.addData("left front power", robot.leftFront.getPower());
@@ -389,7 +367,6 @@ public class TeleOpProgram extends OpMode
         telemetry.addData("right front power", robot.rightFront.getPower());
         telemetry.addData("right back power", robot.rightBack.getPower());
         telemetry.addData("Arm Encoder Ticks", robot.arm.getCurrentPosition());
-        telemetry.addData("Lift Encoder Ticks", robot.lift.getCurrentPosition());
         telemetry.addData("Arm Extrusion Encoder Ticks", robot.armExtrusion.getCurrentPosition());
         telemetry.update();
     }
