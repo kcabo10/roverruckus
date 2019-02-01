@@ -40,8 +40,7 @@ public class DepotProgramNoLight extends LinearOpMode {
         telemetry.update();
 
         robot.latch.setPower(0);
-        robot.marker.setPosition(0);
-        robot.basket.setPower(0);
+        robot.basket.setPosition(0);
 
         /**
          Wait for start button.

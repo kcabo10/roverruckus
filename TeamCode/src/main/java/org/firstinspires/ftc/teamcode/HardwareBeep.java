@@ -10,9 +10,11 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.I2cDeviceSynch;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.sensors.SensorMB1242;
@@ -35,8 +37,7 @@ public class HardwareBeep {
     public DcMotor armExtrusion = null;
     public DcMotor intake = null;
     public CRServo latch = null;
-    public CRServo basket = null;
-    public Servo marker = null;
+    public Servo basket = null;
 
     public BNO055IMU imu = null;
 
@@ -44,6 +45,7 @@ public class HardwareBeep {
 
     public SensorMB1242 ultrasonic = null;
 
+    public DigitalChannel touchSensor = null;
 
     /**
      * Set local OpMode Members
@@ -80,11 +82,12 @@ public class HardwareBeep {
         arm = hwMap.get(DcMotor.class, "arm");
         armExtrusion = hwMap.get(DcMotor.class, "arm_extrusion");
         intake = hwMap.get(DcMotor.class, "intake");
-        basket = hwMap.get(CRServo.class, "basket");
-        marker = hwMap.get(Servo.class, "marker");
+        basket = hwMap.get(Servo.class, "basket");
         imu = hwMap.get(BNO055IMU.class, "imu");
         colorSensor = hwMap.get(ModernRoboticsI2cColorSensor.class, "color_Sensor");
         ultrasonic = hwMap.get(SensorMB1242.class,"sonic");
+        touchSensor = hwMap.get(DigitalChannel.class, "sensor_digital");
+
 
         /**
          * Set Motor and Servo Direction
@@ -98,7 +101,6 @@ public class HardwareBeep {
         armExtrusion.setDirection(DcMotor.Direction.FORWARD);
         intake.setDirection(DcMotor.Direction.FORWARD);
         latch.setDirection(CRServo.Direction.FORWARD);
-        marker.setDirection(Servo.Direction.REVERSE);
 
         /**
          * Set Motor to Zero Power Behavior
@@ -116,8 +118,6 @@ public class HardwareBeep {
          * Set Servos to Zero Power
          */
         latch.setPower(0);
-        basket.setPower(0);
-        marker.setPosition(0);
 
         /**
          * Set Motors to Run Without Encoders

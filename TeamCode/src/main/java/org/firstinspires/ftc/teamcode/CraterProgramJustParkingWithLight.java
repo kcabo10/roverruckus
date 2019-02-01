@@ -34,8 +34,7 @@ public class CraterProgramJustParkingWithLight extends LinearOpMode {
         telemetry.update();
 
         robot.latch.setPower(0);
-        robot.marker.setPosition(0);
-        robot.basket.setPower(0);
+
 
 
         /**

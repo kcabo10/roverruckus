@@ -33,6 +33,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
 /*
  * This is an example LinearOpMode that shows how to use
@@ -44,8 +45,9 @@ import com.qualcomm.robotcore.hardware.DigitalChannel;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list.
  */
 @TeleOp(name = "Sensor: touch", group = "Sensor")
-@Disabled
 public class RevTouchSensor extends LinearOpMode {
+
+    HardwareBeep robot = new HardwareBeep();
     /**
      * The REV Robotics Touch Sensor
      * is treated as a digital channel.  It is HIGH if the button is unpressed.
@@ -56,19 +58,18 @@ public class RevTouchSensor extends LinearOpMode {
      * The lower (first) pin stays unconnected.*
      */
 
-    DigitalChannel digitalTouch;  // Hardware Device Object
-
     @Override
     public void runOpMode() {
 
-        // get a reference to our digitalTouch object.
-        digitalTouch = hardwareMap.get(DigitalChannel.class, "sensor_digital");
+        robot.init(hardwareMap);
 
         // set the digital channel to input.
-        digitalTouch.setMode(DigitalChannel.Mode.INPUT);
+//        robot.touchSensor.setMode(DigitalChannel.Mode.INPUT);
 
         // wait for the start button to be pressed.
         waitForStart();
+
+        int i = 0;
 
         // while the op mode is active, loop and read the light levels.
         // Note we use opModeIsActive() as our loop condition because it is an interruptible method.
@@ -76,12 +77,14 @@ public class RevTouchSensor extends LinearOpMode {
 
             // send the info back to driver station using telemetry function.
             // if the digital channel returns true it's HIGH and the button is unpressed.
-            if (digitalTouch.getState() == true) {
+            if (robot.touchSensor.getState() == true) {
                 telemetry.addData("Digital Touch", "Is Not Pressed");
             } else {
                 telemetry.addData("Digital Touch", "Is Pressed");
             }
-
+            telemetry.addData("incrementor", i++);
+            telemetry.addData("mode", robot.touchSensor.getMode());
+            telemetry.addData("state", robot.touchSensor.getState());
             telemetry.update();
         }
     }

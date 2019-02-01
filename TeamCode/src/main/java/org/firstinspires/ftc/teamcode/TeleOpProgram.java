@@ -24,6 +24,7 @@ public class TeleOpProgram extends OpMode
     private int direction = -1;
     private double scaleFactor = 1;
     int arm_state = 0;
+    int arm_extrusion_state = 0;
     int auto_latch_open = 0;
     int auto_latch_close = 0;
     float armPower = 0;
@@ -64,8 +65,6 @@ public class TeleOpProgram extends OpMode
         robot.intake.setPower(0);
         robot.arm.setPower(0);
         robot.armExtrusion.setPower(0);
-        robot.basket.setPower(0);
-        robot.marker.setPosition(0);
 
     }
 
@@ -94,13 +93,13 @@ public class TeleOpProgram extends OpMode
          *Invert Direction On Y Button
          */
 
-        switch (buttonYPressed){
-            case(0):
+        switch (buttonYPressed) {
+            case (0):
                 if (gamepad1.y) {
                     buttonYPressed = 1;
                 }
                 break;
-            case(1):
+            case (1):
                 if (!gamepad1.y) {
                     buttonYPressed = 0;
                     reverseDirection();
@@ -114,17 +113,17 @@ public class TeleOpProgram extends OpMode
 
 
         switch (buttonAPressed) {
-            case(0):
-             if (gamepad1.a)  {
-                 buttonAPressed = 1;
-             }
-            break;
-            case(1):
+            case (0):
+                if (gamepad1.a) {
+                    buttonAPressed = 1;
+                }
+                break;
+            case (1):
                 if (!gamepad1.a) {
                     buttonAPressed = 0;
                     scaleFactor();
                 }
-            break;
+                break;
         }
 
         /**
@@ -132,19 +131,17 @@ public class TeleOpProgram extends OpMode
          */
 
 
-        if (gamepad2.dpad_down && !gamepad2.dpad_up)        {
+        if (gamepad2.dpad_down && !gamepad2.dpad_up) {
             robot.lift.setPower(1);
-        }
-        else if (gamepad2.dpad_up && !gamepad2.dpad_down) {
+        } else if (gamepad2.dpad_up && !gamepad2.dpad_down) {
             robot.lift.setPower(-1);
-        }
-        else {
+        } else {
             robot.lift.setPower(0);
         }
 
         /**
          Latch Release Control
-          */
+         */
 //        if (gamepad2.dpad_right) {
 //            colorsensortime.reset();
 //            while ((robot.colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER) != 3) && (colorsensortime.seconds() < 1)) {
@@ -195,7 +192,7 @@ public class TeleOpProgram extends OpMode
         if (!manual_mode && !latch_open_mode) {
             switch (auto_latch_open) {
                 case 0:
-                   if (gamepad2.dpad_right) {
+                    if (gamepad2.dpad_right) {
                         autolatchtime.reset();
                         auto_latch_open++;
                     }
@@ -215,7 +212,7 @@ public class TeleOpProgram extends OpMode
                     break;
             }
         }
-        if(!manual_mode && !latch_close_mode) {
+        if (!manual_mode && !latch_close_mode) {
             switch (auto_latch_close) {
                 case 0:
                     if (gamepad2.dpad_left) {
@@ -240,31 +237,27 @@ public class TeleOpProgram extends OpMode
         }
 
 
-    if (autolatchtime.seconds() > 1.5 && (gamepad2.dpad_right || gamepad2.dpad_left)) {
-         manual_mode = true;
+        if (autolatchtime.seconds() > 1.5 && (gamepad2.dpad_right || gamepad2.dpad_left)) {
+            manual_mode = true;
 
-    }
-    if (manual_mode) {
-        if (gamepad2.dpad_right) {
+        }
+        if (manual_mode) {
+            if (gamepad2.dpad_right) {
                 robot.latch.setPower(-1);
-        }
-        else if (gamepad2.dpad_left) {
+            } else if (gamepad2.dpad_left) {
                 robot.latch.setPower(1);
+            } else robot.latch.setPower(0);
         }
-        else robot.latch.setPower(0);
-    }
 
-        
+
         /**
          *Intake Control
          */
         if (gamepad1.right_trigger > 0) {
             robot.intake.setPower(-0.50);
-        }
-        else if (gamepad1.right_bumper) {
+        } else if (gamepad1.right_bumper) {
             robot.intake.setPower(0.50);
-        }
-        else {
+        } else {
             robot.intake.setPower(0);
         }
 
@@ -273,33 +266,28 @@ public class TeleOpProgram extends OpMode
          */
 
         if (gamepad2.right_bumper) {
-            robot.armExtrusion.setPower(-1);
-        }
-        else if (gamepad2.right_trigger > 0) {
-            robot.armExtrusion.setPower(1);
-        }
-        else if (gamepad2.left_bumper){
-            if (armbreaktime.milliseconds() > 100){
-                if (armPower == 0)
-                    armPower = 1;
-                else if (armPower == 1)
-                    armPower = 0;
-                armbreaktime.reset();
-                robot.armExtrusion.setPower(armPower);
+            do {
+                robot.basket.setPosition(.5);
+                robot.armExtrusion.setPower(1);
             }
-        }
-        else {
+            while (robot.touchSensor.getState() == true);
+        } else if (gamepad2.right_trigger > 0) {
+//            robot.armExtrusion.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//            robot.armExtrusion.setTargetPosition(-7200);
+//            robot.armExtrusion.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.armExtrusion.setPower(-1);
+            robot.basket.setPosition(.3);
+        } else {
             robot.armExtrusion.setPower(0);
         }
 
         /**
-        Arm Control
+         Arm Control
          */
 
         //int arm_state;
         // 0 = waiting for command, 1 = commanded, 2 = waiting for arm.isbusy==false
-        switch (arm_state)
-        {
+        switch (arm_state) {
             case 0:
                 // This state is the constant state that waits for the trigger/bumper/slide to be pressed/pushed
 
@@ -314,8 +302,7 @@ public class TeleOpProgram extends OpMode
                     robot.arm.setPower(.75);
                     arm_state = 1;
 
-                }
-                else if (gamepad1.left_trigger > 0) {
+                } else if (gamepad1.left_trigger > 0) {
                     // Moving arm up
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.arm.setTargetPosition(-580);
@@ -328,7 +315,7 @@ public class TeleOpProgram extends OpMode
             case 1:
                 // Once it recognizes that the controller has been moved, and the power is set, then it initializes this next state.
                 armtime.reset();
-                if (robot.arm.isBusy()){
+                if (robot.arm.isBusy()) {
                     arm_state = 2; //moving
                 }
                 break;
@@ -344,7 +331,7 @@ public class TeleOpProgram extends OpMode
 
         // MANUAL OVERRIDE
         if ((gamepad2.right_stick_y > .05 && gamepad2.right_stick_y <= 1) ||
-                (gamepad2.right_stick_y < -.05 && gamepad2.right_stick_y >= -1)){
+                (gamepad2.right_stick_y < -.05 && gamepad2.right_stick_y >= -1)) {
             robot.arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             arm_state = 0;
         }
@@ -352,16 +339,29 @@ public class TeleOpProgram extends OpMode
         /**
          Basket
          */
+        // check to see if we need to move the servo.
+        if (gamepad2.a) {
+            // move to 0 degrees.
+            robot.basket.setPosition(0);
+            telemetry.addData("Button a pressed", gamepad2.a);
+            telemetry.update();
+        } else if (gamepad2.x) {
+            robot.basket.setPosition(.5);
+            telemetry.addData("Button x pressed", gamepad2.x);
+            telemetry.update();
+        }
 
-        if (gamepad2.left_stick_y > 0) {
-            robot.basket.setPower(0.5);
-        }
-        else if (gamepad2.left_stick_y < 0) {
-            robot.basket.setPower(-0.5);
-        }
-        else {
-            robot.basket.setPower(0);
-        }
+
+
+//        if (gamepad2.left_stick_y > 0) {
+//            robot.basket.setPower(0.5);
+//        }
+//        else if (gamepad2.left_stick_y < 0) {
+//            robot.basket.setPower(-0.5);
+//        }
+//        else {
+//            robot.basket.setPower(0);
+//        }
 
         /**
         * Telemetry
@@ -393,8 +393,6 @@ public class TeleOpProgram extends OpMode
         robot.intake.setPower(0);
         robot.arm.setPower(0);
         robot.armExtrusion.setPower(0);
-        robot.basket.setPower(0);
-        robot.marker.setPosition(0);
 
     }
 }
