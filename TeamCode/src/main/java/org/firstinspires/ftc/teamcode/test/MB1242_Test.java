@@ -25,7 +25,7 @@ public class MB1242_Test extends LinearOpMode {
         robot.init(hardwareMap);
 
 //        rearUS = hardwareMap.get(SensorMB1242.class,"rear");
-        SensorMB1242 rearUS = robot.ultrasonic;
+        SensorMB1242 rearUS = robot.sonic;
 
         rearUS.startAutoPing(40);
         sleep(2000);
