@@ -5,7 +5,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
-import com.qualcomm.robotcore.util.Range;
 
 /**
  * Created by kyliestruth 10/5/17.
@@ -310,10 +309,7 @@ public class TeleOpProgram extends OpMode
             case 0:
                 // This state is the constant state that waits for the trigger/bumper/slide to be pressed/pushed
 
-                double speed = gamepad2.right_stick_y * .75;
-                if (robot.arm.getCurrentPosition() <= 104)
-                    speed = Range.clip(speed, -.2, .2);
-                robot.arm.setPower(speed);
+                robot.arm.setPower(gamepad2.right_stick_y * .75);
 
                 if (gamepad1.left_bumper) {
                     // Moving arm down
