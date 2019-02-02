@@ -43,7 +43,7 @@ public class HardwareBeep {
 
     public ModernRoboticsI2cColorSensor colorSensor = null;
 
-    public SensorMB1242 ultrasonic = null;
+    public SensorMB1242 sonic = null;
 
     public DigitalChannel touchSensor = null;
 
@@ -85,7 +85,7 @@ public class HardwareBeep {
         basket = hwMap.get(Servo.class, "basket");
         imu = hwMap.get(BNO055IMU.class, "imu");
         colorSensor = hwMap.get(ModernRoboticsI2cColorSensor.class, "color_Sensor");
-        ultrasonic = hwMap.get(SensorMB1242.class,"sonic");
+        sonic = hwMap.get(SensorMB1242.class,"sonic");
         touchSensor = hwMap.get(DigitalChannel.class, "sensor_digital");
 
 
@@ -132,7 +132,7 @@ public class HardwareBeep {
          */
         arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        armExtrusion.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        armExtrusion.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
         /**

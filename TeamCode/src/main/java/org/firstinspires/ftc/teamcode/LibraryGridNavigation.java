@@ -19,7 +19,7 @@ public class LibraryGridNavigation {
     HardwareBeep robot;// = new HardwareBeep();
     LibraryGyro gyro;// = new LibraryGyro();
     LibraryGyroDrive gyroDrive = new LibraryGyroDrive();
-    SensorMB1242 rearUS = robot.ultrasonic;
+    SensorMB1242 rearUS = robot.sonic;
     private ElapsedTime runtime = new ElapsedTime();
     Telemetry telemetry;
     int i = 0;

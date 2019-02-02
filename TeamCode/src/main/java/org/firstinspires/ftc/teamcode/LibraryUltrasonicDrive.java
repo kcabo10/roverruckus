@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.I2cDevice;
 import com.qualcomm.robotcore.hardware.I2cDeviceSynch;
@@ -17,7 +18,7 @@ import org.firstinspires.ftc.teamcode.sensors.SensorMB1242;
 
 public class LibraryUltrasonicDrive {
 
-    HardwareBeep robot = null;
+    HardwareBeep robot = new HardwareBeep();
     //SensorMB1242 sonic = robot.ultrasonic;
     Telemetry telemetry;
     Orientation lastAngles = new Orientation();
@@ -38,6 +39,7 @@ public class LibraryUltrasonicDrive {
     public void init(HardwareBeep myRobot, Telemetry myTelemetry){
         robot = myRobot;
         telemetry = myTelemetry;
+
     }
 
     public void ComputePID() {
@@ -76,7 +78,8 @@ public class LibraryUltrasonicDrive {
         double polarity = 1;
         polarity = targetHeading > 0 ? 1 : -1;
 
-        robot.ultrasonic.getDistance();
+        telemetry.addData("Distance read", robot.sonic.getDistance());
+        telemetry.update();
         robot.leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -87,12 +90,12 @@ public class LibraryUltrasonicDrive {
 //        updateTelemetry(telemetry);
 
         startTime = System.currentTimeMillis();
-        currentHeading = robot.ultrasonic.getDistance();
+//        currentHeading = robot.sonic.getDistance();
         SetTunings(.02, 0, 0.1);
 
         Setpoint = targetHeading;
-        Input = robot.ultrasonic.getDistance();
-        telemetry.addData("Current Pos ", currentHeading);
+        Input = robot.sonic.getDistance();
+//        telemetry.addData("Current Pos ", currentHeading);
         telemetry.addData("Setpoint ", Setpoint);
         telemetry.addData("Input ", Input);
         telemetry.update();
@@ -111,7 +114,7 @@ public class LibraryUltrasonicDrive {
             robot.rightBack.setPower(-Output);
             timer++;
             //sleep(1000);
-            Input = robot.ultrasonic.getDistance();
+            Input = robot.sonic.getDistance();
             //sleep(1000);
             telemetry.addData("curHeading", Input);
             telemetry.addData("tarHeading", Setpoint);

@@ -18,6 +18,7 @@ public class PIDUltrasonicTest extends LinearOpMode {
     @Override
     public void runOpMode() {
         robot.init(hardwareMap);
+        ultrasonicDrive.init(robot, telemetry);
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();

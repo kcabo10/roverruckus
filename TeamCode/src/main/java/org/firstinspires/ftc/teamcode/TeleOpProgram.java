@@ -31,6 +31,7 @@ public class TeleOpProgram extends OpMode
     public ElapsedTime autolatchtime = new ElapsedTime();
     public ElapsedTime colorsensortime = new ElapsedTime();
     public ElapsedTime armtime = new ElapsedTime();
+    public ElapsedTime armExtrusionTime = new ElapsedTime();
     public ElapsedTime armbreaktime = new ElapsedTime();
 
     // 0 = waiting, 1 = arm up commanded, 2 = arm down commanded
@@ -264,20 +265,31 @@ public class TeleOpProgram extends OpMode
         /**
          *Arm Extrusion
          */
-        if (gamepad2.right_bumper) {
-            do {
-                robot.basket.setPosition(.5);
-                robot.armExtrusion.setPower(1);
-            }
-            while (robot.touchSensor.getState() == true);
-        } else if (gamepad2.right_trigger > 0) {
-//            robot.armExtrusion.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//            robot.armExtrusion.setTargetPosition(-7200);
-//            robot.armExtrusion.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.armExtrusion.setPower(-1);
-            robot.basket.setPosition(.3);
-        } else {
-            robot.armExtrusion.setPower(0);
+
+        switch (arm_extrusion_state) {
+            case 0:
+                if (gamepad2.right_bumper && robot.touchSensor.getState() == true) {
+                    robot.armExtrusion.setPower(1);
+                    robot.basket.setPosition(.5);
+                    arm_extrusion_state++; //moving
+                }
+                else if (gamepad2.right_trigger > 0) {
+                    robot.armExtrusion.setPower(-1);
+                    robot.basket.setPosition(.3);
+                }
+                else {
+                    robot.armExtrusion.setPower(0);
+                }
+                break;
+
+
+            case 1:
+                // Last state before it goes back to state 0. This state has a timer to ensure that the motor stops at 2 seconds.
+                if (robot.touchSensor.getState() == false) {
+                    robot.armExtrusion.setPower(0);
+                    arm_extrusion_state = 0;
+                }
+                break;
         }
 
         /**
@@ -369,6 +381,8 @@ public class TeleOpProgram extends OpMode
         telemetry.addData("Lift Encoder Ticks", robot.lift.getCurrentPosition());
         telemetry.addData("Color Number", robot.colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER));
         telemetry.addData("arm_state", arm_state);
+        telemetry.addData("arm_extrusion_state", arm_extrusion_state);
+        telemetry.addData("touch sensor", robot.touchSensor.getState());
         telemetry.addData("auto_latch_open", auto_latch_open);
         telemetry.addData("auto_latch_close", auto_latch_close);
         telemetry.addData("manual_mode", manual_mode);
@@ -380,6 +394,7 @@ public class TeleOpProgram extends OpMode
         telemetry.addData("right back power", robot.rightBack.getPower());
         telemetry.addData("Arm Encoder Ticks", robot.arm.getCurrentPosition());
         telemetry.addData("Arm Extrusion Encoder Ticks", robot.armExtrusion.getCurrentPosition());
+        telemetry.addData("Arm Extrusion Power", robot.armExtrusion.getPower());
         telemetry.update();
     }
 
