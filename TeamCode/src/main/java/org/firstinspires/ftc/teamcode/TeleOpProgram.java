@@ -264,7 +264,6 @@ public class TeleOpProgram extends OpMode
         /**
          *Arm Extrusion
          */
-
         if (gamepad2.right_bumper) {
             do {
                 robot.basket.setPosition(.5);
