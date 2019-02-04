@@ -282,7 +282,6 @@ public class TeleOpProgram extends OpMode
                 }
                 break;
 
-
             case 1:
                 // Last state before it goes back to state 0. This state has a timer to ensure that the motor stops at 2 seconds.
                 if (robot.touchSensor.getState() == false) {
@@ -291,7 +290,9 @@ public class TeleOpProgram extends OpMode
                 }
                 break;
         }
-//
+        if (gamepad2.right_bumper)
+
+
 //        if(gamepad2.right_bumper) {
 //            robot.armExtrusion.setPower(-1);
 //            robot.basket.setPosition(.5);

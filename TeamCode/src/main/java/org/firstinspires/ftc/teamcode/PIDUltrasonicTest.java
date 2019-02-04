@@ -4,8 +4,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.sensors.SensorMB1242;
-
 @TeleOp(name="PID Ultrasonic Test", group="Test")
 //@Disabled
 public class PIDUltrasonicTest extends LinearOpMode {
@@ -25,7 +23,7 @@ public class PIDUltrasonicTest extends LinearOpMode {
 
         telemetry.addData("waitForStart()", i++);
         telemetry.update();
-        ultrasonicDrive.turnUltrasonic(20000);
+        ultrasonicDrive.ultrasonicDrive(.4, 20000, 8);
 
         telemetry.addData("Should have ran turnUltrasonic", "");
         telemetry.update();

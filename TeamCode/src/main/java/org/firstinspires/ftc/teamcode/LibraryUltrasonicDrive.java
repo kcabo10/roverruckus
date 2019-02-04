@@ -1,151 +1,237 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.hardware.bosch.BNO055IMU;
+
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.I2cAddr;
-import com.qualcomm.robotcore.hardware.I2cDevice;
-import com.qualcomm.robotcore.hardware.I2cDeviceSynch;
-import com.qualcomm.robotcore.hardware.I2cDeviceSynchDevice;
-import com.qualcomm.robotcore.hardware.configuration.annotations.I2cDeviceType;
+import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.teamcode.sensors.SensorMB1242;
+
 
 public class LibraryUltrasonicDrive {
 
     HardwareBeep robot = new HardwareBeep();
-    //SensorMB1242 sonic = robot.ultrasonic;
     Telemetry telemetry;
-    Orientation lastAngles = new Orientation();
-    double globalAngle, power = .30, correction;
-    double angle_variable;
-    double speed;
-    boolean aButton, bButton, touched;
 
-    long lastTime;
-    double Input, Output, Setpoint;
-    double errSum, lastErr;
-    double kp, ki, kd;
+    int read_distance = 8;
+    //DcMotor motor;
 
+
+    static final double     HEADING_THRESHOLD       = 1 ;      // As tight as we can make it with an integer gyro
+    static final double     P_TURN_COEFF            = 0.1;     // Larger is more responsive, but also less stable
+    static final double     P_DRIVE_COEFF           = 0.75;     // Larger is more responsive, but also less stable
+
+
+    public ElapsedTime runtime = new ElapsedTime();
 
     /**
-     * The hardware class needs to be initialized before this function is called
-    */
-    public void init(HardwareBeep myRobot, Telemetry myTelemetry){
+     * The hardware class needs to be initialized before this f unction is called
+     */
+    public void init(HardwareBeep myRobot, Telemetry myTelemetry) {
         robot = myRobot;
         telemetry = myTelemetry;
+        //motor = myMotor;
 
     }
 
-    public void ComputePID() {
-        long now = System.currentTimeMillis();
-        double timeChange = (double) (now - lastTime);
-        double error = Setpoint - Input;
-        errSum += (error * timeChange);
-        double dErr = (error - lastErr);
+    public void ultrasonicDrive ( double speed,
+                            int encoderTicks,
+                            double distance_target) {
 
-        Output = kp * error + ki * errSum + kd * dErr;
-        lastErr = error;
-        lastTime = now;
+        int     newLeftTarget;
+        int     newRightTarget;
+        int     moveCounts;
+        double  max;
+        double  error;
+        double  steer;
+        double  leftSpeed;
+        double  rightSpeed;
 
-    }
+        int i = 0;
 
-    public void SetTunings (double Kp, double Ki, double Kd)
-    {
-        kp = Kp;
-        ki = Ki;
-        kd = Kd;
-    }
-
-
-    public double turnUltrasonic(float targetHeading) {
-        int original_anglez = 0;
-//        BNO055IMU imu;
-        int xVal, yVal, zVal = 0;
-        int heading = 0;
-        int angleZ = 0;
-        float MIDPOWER = 0;
-        double DRIVEGAIN = 1;
-        double TOLERANCE = .5;
-        int timer = 0;
-        double currentHeading, headingError, driveSteering, leftPower, rightPower, oldCurrentHeading = 0.0;
-        long startTime = 0;
-        double polarity = 1;
-        polarity = targetHeading > 0 ? 1 : -1;
+        telemetry.addData("In Ultrasonic Drive method", "");
+        telemetry.update();
 
         telemetry.addData("Distance read", robot.sonic.getDistance());
         telemetry.update();
-        robot.leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.rightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-
-//        telemetry.addData("Current Pos", currentHeading);
-//        updateTelemetry(telemetry);
-
-        startTime = System.currentTimeMillis();
-//        currentHeading = robot.sonic.getDistance();
-        SetTunings(.02, 0, 0.1);
-
-        Setpoint = targetHeading;
-        Input = robot.sonic.getDistance();
-//        telemetry.addData("Current Pos ", currentHeading);
-        telemetry.addData("Setpoint ", Setpoint);
-        telemetry.addData("Input ", Input);
-        telemetry.update();
-        //        sleep(5000);
-
-        //Input = currentHeading;
-
-        Output *= polarity;
-
-        do {
-
-            ComputePID();
-            robot.leftFront.setPower(Output);
-            robot.leftBack.setPower(Output);
-            robot.rightFront.setPower(-Output);
-            robot.rightBack.setPower(-Output);
-            timer++;
-            //sleep(1000);
-            Input = robot.sonic.getDistance();
-            //sleep(1000);
-            telemetry.addData("curHeading", Input);
-            telemetry.addData("tarHeading", Setpoint);
-            telemetry.update();
-            //} while (Input < targetHeading && (System.currentTimeMillis() < (startTime + 6000)));
-        } while ((Math.abs(Input - Setpoint) > TOLERANCE) || (System.currentTimeMillis() < (startTime + 1050)));
-
-
-        telemetry.addData("curHeading", Input);
-        telemetry.addData("tarHeading", Setpoint);
-        telemetry.addData("leftPwr", -Output);
-        telemetry.addData("rightPwr", Output);
-        //telemetry.addData("headingErr", headingError);
-        //telemetry.addData("driveSteer", driveSteering);
-        telemetry.addData("DRIVEGAIN", DRIVEGAIN);
-        telemetry.update();
-
-        robot.leftFront.setPower(0);
-        robot.leftBack.setPower(0);
-        robot.rightFront.setPower(0);
-        robot.rightBack.setPower(0);
-
         robot.leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
+        robot.leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.rightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+            // Determine new target position, and pass to motor controller
+            newLeftTarget = encoderTicks;
+            newLeftTarget = encoderTicks;
+            newRightTarget = encoderTicks;
+            newRightTarget = encoderTicks;
+
+            // Set Target and Turn On RUN_TO_POSITION
+            robot.leftFront.setTargetPosition(newLeftTarget);
+            robot.leftBack.setTargetPosition(newLeftTarget);
+            robot.rightFront.setTargetPosition(newRightTarget);
+            robot.rightBack.setTargetPosition(newRightTarget);
+
+            robot.leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.leftBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.rightBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+//            telemetry.addData("Code pos 1", "");
+//            telemetry.update();
+//            sleep(2000);
+
+            // start motion.
+            speed = Range.clip(Math.abs(speed), 0.0, .4);
+            robot.leftFront.setPower(speed);
+            robot.leftBack.setPower(speed);
+            robot.rightFront.setPower(speed);
+            robot.rightBack.setPower(speed);
+
+//            telemetry.addData("Code pos 2", "");
+//            telemetry.update();
+//            sleep(2000);
 
 
-        return Input;
+
+
+        // keep looping while we are still active, and BOTH motors are running.
+            while (robot.leftFront.isBusy() && robot.leftBack.isBusy() && robot.rightFront.isBusy() && robot.rightBack.isBusy()) {
+
+                if (runtime.milliseconds() > 200){
+
+                    read_distance = robot.sonic.getDistance();
+
+                    telemetry.addData("Distance",read_distance);
+                    telemetry.addData("Incrementor", i++);
+
+                    robot.sonic.ping();
+                    runtime.reset();
+                }
+
+
+                // adjust relative speed based on heading error.
+                error = getError(distance_target);
+                steer = getSteer(error, P_DRIVE_COEFF);
+
+                // if driving in reverse, the motor correction also needs to be reversed
+                if (encoderTicks < 0)
+                    steer *= -1.0;
+
+                leftSpeed = speed + steer;
+                rightSpeed = speed - steer;
+
+                leftSpeed = Range.clip(leftSpeed, -.3, .3);
+                rightSpeed = Range.clip(rightSpeed, -.3, .3);
+
+                robot.leftFront.setPower(leftSpeed);
+                robot.leftBack.setPower(leftSpeed);
+                robot.rightFront.setPower(rightSpeed);
+                robot.rightBack.setPower(rightSpeed);
+
+//                telemetry.addData("Code pos 4", "");
+//                telemetry.update();
+
+
+
+                // Display drive status for the driver.
+                telemetry.addData("Error" ,  error);
+                telemetry.addData("Steer", steer);
+//                telemetry.addData("Target",  "%7d:%7d",      newLeftTarget,  newRightTarget);
+//                telemetry.addData("Actual",  "%7d:%7d",      robot.leftFront.getCurrentPosition(),
+//                telemetry.addData("Actual",  "%7d:%7d",      robot.leftBack.getCurrentPosition(),
+//                                                             robot.rightFront.getCurrentPosition()));
+//                                                             robot.rightBack.getCurrentPosition();
+                telemetry.addData("L Speed", leftSpeed);
+                telemetry.addData("R Speed", rightSpeed);
+                telemetry.update();
+
+            }
+
+//            telemetry.addData("GyroDrive, after drive commands", "");
+//            telemetry.update();
+//            sleep(2000);
+
+            // Stop all motion;
+            robot.leftFront.setPower(0);
+            robot.leftBack.setPower(0);
+            robot.rightFront.setPower(0);
+            robot.rightBack.setPower(0);
+
+            // Turn off RUN_TO_POSITION
+            robot.leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        }
+
+
+
+    boolean onHeading(double speed, double distance, double PCoeff) {
+        double   error ;
+        double   steer ;
+        boolean  onTarget = false ;
+        double leftSpeed;
+        double rightSpeed;
+
+        // determine turn power based on +/- error
+        error = getError(distance);
+
+        if (Math.abs(error) <= HEADING_THRESHOLD) {
+            steer = 0.0;
+            leftSpeed  = 0.0;
+            rightSpeed = 0.0;
+            onTarget = true;
+        }
+        else {
+            steer = getSteer(error, PCoeff);
+            rightSpeed  = speed * steer;
+            leftSpeed   = -rightSpeed;
+        }
+
+        // Send desired speeds to motors.
+        robot.leftFront.setPower(leftSpeed);
+        robot.leftBack.setPower(leftSpeed);
+        robot.rightFront.setPower(rightSpeed);
+        robot.rightBack.setPower(rightSpeed);
+
+        // Display it for the driver.
+        telemetry.addData("Target", "%5.2f", distance);
+        telemetry.addData("Err/St", "%5.2f/%5.2f", error, steer);
+        telemetry.addData("Speed.", "%5.2f:%5.2f", leftSpeed, rightSpeed);
+
+        return onTarget;
+
 
     }
 
+    /**
+     * getError determines the error between the target angle and the robot's current heading
+     * @param   targetDistance  Desired angle (relative to global reference established at last Gyro Reset).
+     * @return  error angle: Degrees in the range +/- 180. Centered on the robot's frame of reference
+     *          +ve error means the robot should turn LEFT (CCW) to reduce error.
+     */
+    public double getError(double targetDistance) {
+
+        double robotError;
+
+        // calculate error in -179 to +180 range  (
+        robotError = targetDistance - read_distance;
+        return robotError;
+    }
+
+    /**
+     * returns desired steering force.  +/- 1 range.  +ve = steer left
+     * @param error   Error angle in robot relative degrees
+     * @param PCoeff  Proportional Gain Coefficient
+     * @return
+     */
+    public double getSteer(double error, double PCoeff) {
+        return Range.clip(error * PCoeff, -1, 1);
+    }
 }
