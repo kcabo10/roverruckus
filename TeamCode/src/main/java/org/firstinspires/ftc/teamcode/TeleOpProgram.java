@@ -31,8 +31,8 @@ public class TeleOpProgram extends OpMode
     public ElapsedTime autolatchtime = new ElapsedTime();
     public ElapsedTime colorsensortime = new ElapsedTime();
     public ElapsedTime armtime = new ElapsedTime();
-    public ElapsedTime armExtrusionTime = new ElapsedTime();
-    public ElapsedTime armbreaktime = new ElapsedTime();
+    public ElapsedTime colorSensorTimeOutOpen = new ElapsedTime();
+    public ElapsedTime colorSensorTimeOutClose = new ElapsedTime();
 
     // 0 = waiting, 1 = arm up commanded, 2 = arm down commanded
 
@@ -191,6 +191,10 @@ public class TeleOpProgram extends OpMode
          */
 
         if (!manual_mode && !latch_open_mode) {
+            if (auto_latch_open == 2 && colorSensorTimeOutOpen.seconds() > 1.15) {
+                robot.latch.setPower(0);
+                auto_latch_open = 0;
+            }
             switch (auto_latch_open) {
                 case 0:
                     if (gamepad2.dpad_right) {
@@ -199,6 +203,7 @@ public class TeleOpProgram extends OpMode
                     }
                     break;
                 case 1:
+                    colorSensorTimeOutOpen.reset();
                     robot.latch.setPower(-1);
                     auto_latch_open++;
                     break;
@@ -214,6 +219,10 @@ public class TeleOpProgram extends OpMode
             }
         }
         if (!manual_mode && !latch_close_mode) {
+            if (auto_latch_close == 2 && colorSensorTimeOutClose.seconds() > 1.15) {
+                robot.latch.setPower(0);
+                auto_latch_close = 0;
+            }
             switch (auto_latch_close) {
                 case 0:
                     if (gamepad2.dpad_left) {
@@ -222,6 +231,7 @@ public class TeleOpProgram extends OpMode
                     }
                     break;
                 case 1:
+                    colorSensorTimeOutClose.reset();
                     robot.latch.setPower(1);
                     auto_latch_close++;
                     break;
@@ -238,10 +248,11 @@ public class TeleOpProgram extends OpMode
         }
 
 
-        if (autolatchtime.seconds() > 1.5 && (gamepad2.dpad_right || gamepad2.dpad_left)) {
+        if (autolatchtime.seconds() > 1 && (gamepad2.dpad_right || gamepad2.dpad_left)) {
             manual_mode = true;
-
+            robot.latch.setPower(0);
         }
+
         if (manual_mode) {
             if (gamepad2.dpad_right) {
                 robot.latch.setPower(-1);
@@ -268,37 +279,39 @@ public class TeleOpProgram extends OpMode
 
         switch (arm_extrusion_state) {
             case 0:
-                if (gamepad2.right_bumper && robot.touchSensor.getState() == true) {
+                if (gamepad2.right_bumper && robot.touchSensor.getState()) {
                     robot.armExtrusion.setPower(1);
                     robot.basket.setPosition(.5);
                     arm_extrusion_state++; //moving
-                }
-                else if (gamepad2.right_trigger > 0) {
+                } else if (gamepad2.right_trigger > 0) {
                     robot.armExtrusion.setPower(-1);
                     robot.basket.setPosition(.3);
-                }
-                else {
+                } else {
                     robot.armExtrusion.setPower(0);
                 }
                 break;
-
             case 1:
+                if (!gamepad2.right_bumper) {
+                 arm_extrusion_state++;
+                }
+                break;
+            case 2:
                 // Last state before it goes back to state 0. This state has a timer to ensure that the motor stops at 2 seconds.
-                if (robot.touchSensor.getState() == false) {
+                if (!robot.touchSensor.getState()) {
+                    robot.armExtrusion.setPower(0);
+                    arm_extrusion_state = 0;
+                }
+                else if (gamepad2.right_bumper) {
+                    arm_extrusion_state++;
+                }
+                break;
+            case 3:
+                if (!gamepad2.right_bumper) {
                     robot.armExtrusion.setPower(0);
                     arm_extrusion_state = 0;
                 }
                 break;
         }
-        if (gamepad2.right_bumper)
-
-
-//        if(gamepad2.right_bumper) {
-//            robot.armExtrusion.setPower(-1);
-//            robot.basket.setPosition(.5);
-//        } else {
-//            robot.armExtrusion.setPower(0);
-//        }
 
         /**
          Arm Control
