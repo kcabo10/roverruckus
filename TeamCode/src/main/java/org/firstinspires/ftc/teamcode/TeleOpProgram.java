@@ -85,10 +85,19 @@ public class TeleOpProgram extends OpMode
         final double v3 = (r * Math.sin(robotAngle) + rightX) * scaleFactor * direction;
         final double v4 = (r * Math.cos(robotAngle) - rightX) * scaleFactor * direction;
 
-        robot.leftFront.setPower(v1);
-        robot.rightFront.setPower(v2);
-        robot.leftBack.setPower(v3);
-        robot.rightBack.setPower(v4);
+
+        if (direction == -1) {
+            robot.leftFront.setPower(v1);
+            robot.rightFront.setPower(v2);
+            robot.leftBack.setPower(v3);
+            robot.rightBack.setPower(v4);
+        }
+        else {
+            robot.leftFront.setPower(v2);
+            robot.rightFront.setPower(v1);
+            robot.leftBack.setPower(v4);
+            robot.rightBack.setPower(v3);
+        }
 
         /**
          *Invert Direction On Y Button
@@ -281,7 +290,7 @@ public class TeleOpProgram extends OpMode
             case 0:
                 if (gamepad2.right_bumper && robot.touchSensor.getState()) {
                     robot.armExtrusion.setPower(1);
-                    robot.basket.setPosition(.5);
+                    robot.basket.setPosition(.4);
                     arm_extrusion_state++; //moving
                 } else if (gamepad2.right_trigger > 0) {
                     robot.armExtrusion.setPower(-1);
