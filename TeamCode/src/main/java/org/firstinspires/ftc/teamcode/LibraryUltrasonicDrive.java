@@ -13,13 +13,13 @@ public class LibraryUltrasonicDrive {
     HardwareBeep robot = new HardwareBeep();
     Telemetry telemetry;
 
-    int read_distance = 8;
+    int read_distance = 0;
     //DcMotor motor;
 
 
     static final double     HEADING_THRESHOLD       = 1 ;      // As tight as we can make it with an integer gyro
     static final double     P_TURN_COEFF            = 0.1;     // Larger is more responsive, but also less stable
-    static final double     P_DRIVE_COEFF           = 0.75;     // Larger is more responsive, but also less stable
+    static final double     P_DRIVE_COEFF           = 0.01;     // Larger is more responsive, but also less stable
 
 
     public ElapsedTime runtime = new ElapsedTime();
@@ -86,11 +86,11 @@ public class LibraryUltrasonicDrive {
 //            sleep(2000);
 
             // start motion.
-            speed = Range.clip(Math.abs(speed), 0.0, .4);
-            robot.leftFront.setPower(speed);
-            robot.leftBack.setPower(speed);
-            robot.rightFront.setPower(speed);
-            robot.rightBack.setPower(speed);
+            speed = Range.clip(Math.abs(speed), 0.0, 1);
+//            robot.leftFront.setPower(speed);
+//            robot.leftBack.setPower(speed);
+//            robot.rightFront.setPower(speed);
+//            robot.rightBack.setPower(speed);
 
 //            telemetry.addData("Code pos 2", "");
 //            telemetry.update();
@@ -122,16 +122,16 @@ public class LibraryUltrasonicDrive {
                 if (encoderTicks < 0)
                     steer *= -1.0;
 
-                leftSpeed = speed + steer;
-                rightSpeed = speed - steer;
+                leftSpeed = speed - steer;
+                rightSpeed = speed + steer;
 
-                leftSpeed = Range.clip(leftSpeed, -.3, .3);
-                rightSpeed = Range.clip(rightSpeed, -.3, .3);
+                leftSpeed = Range.clip(leftSpeed, -1, 1);
+                rightSpeed = Range.clip(rightSpeed, -1, 1);
 
-                robot.leftFront.setPower(leftSpeed);
-                robot.leftBack.setPower(leftSpeed);
-                robot.rightFront.setPower(rightSpeed);
-                robot.rightBack.setPower(rightSpeed);
+//                robot.leftFront.setPower(leftSpeed);
+//                robot.leftBack.setPower(leftSpeed);
+//                robot.rightFront.setPower(rightSpeed);
+//                robot.rightBack.setPower(rightSpeed);
 
 //                telemetry.addData("Code pos 4", "");
 //                telemetry.update();
@@ -157,10 +157,10 @@ public class LibraryUltrasonicDrive {
 //            sleep(2000);
 
             // Stop all motion;
-            robot.leftFront.setPower(0);
-            robot.leftBack.setPower(0);
-            robot.rightFront.setPower(0);
-            robot.rightBack.setPower(0);
+//            robot.leftFront.setPower(0);
+//            robot.leftBack.setPower(0);
+//            robot.rightFront.setPower(0);
+//            robot.rightBack.setPower(0);
 
             // Turn off RUN_TO_POSITION
             robot.leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -221,7 +221,7 @@ public class LibraryUltrasonicDrive {
         double robotError;
 
         // calculate error in -179 to +180 range  (
-        robotError = targetDistance - read_distance;
+        robotError = read_distance - targetDistance;
         return robotError;
     }
 
@@ -234,4 +234,6 @@ public class LibraryUltrasonicDrive {
     public double getSteer(double error, double PCoeff) {
         return Range.clip(error * PCoeff, -1, 1);
     }
+
+
 }

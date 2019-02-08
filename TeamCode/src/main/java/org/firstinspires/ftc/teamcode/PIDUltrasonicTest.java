@@ -23,7 +23,7 @@ public class PIDUltrasonicTest extends LinearOpMode {
 
         telemetry.addData("waitForStart()", i++);
         telemetry.update();
-        ultrasonicDrive.ultrasonicDrive(.4, 20000, 8);
+        ultrasonicDrive.ultrasonicDrive(.4, 20000, 20.32);
 
         telemetry.addData("Should have ran turnUltrasonic", "");
         telemetry.update();
