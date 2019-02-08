@@ -141,53 +141,7 @@ public class TeleOpProgram extends OpMode
         }
 
         /**
-         Latch Release Control
-         */
-//        if (gamepad2.dpad_right) {
-//            colorsensortime.reset();
-//            while ((robot.colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER) != 3) && (colorsensortime.seconds() < 1)) {
-//                telemetry.addData("Color Number", robot.colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER));
-//                telemetry.update();
-//                robot.latch.setPower(-1);
-//            }
-//        }
-//        else if (gamepad2.dpad_left) {
-//            colorsensortime.reset();
-//            while ((robot.colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER) != 10) && (colorsensortime.seconds() < 1)) {
-//                telemetry.addData("Color Number", robot.colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER));
-//                telemetry.update();
-//                robot.latch.setPower(1);
-//            }
-//        }
-//        else robot.latch.setPower(0);
-        /**
          * Auto Lift and Latch With an Override
-         */
-
-        /**
-         * if !gamepad.y
-         *    autolifttime.reset()
-         * If gamepad y && !autoLiftInProgress
-         *    start autolift
-         *    start timer
-         *    autoLiftInProgress = TRUE;
-         * If timer > 3000 && !autoLiftInProgress
-         *    stop autolift
-         *    go manual
-         *    autliftInProgress == FALSE
-
-         */
-
-
-        /**
-         * case
-         * WAITING FOR AUTOLIFT 0
-         * START LATCH 1
-         * AUTOLIFT IN PROGRESS 1
-         * AUTOLIFT WAIT FOR COLOR SENSOR 2
-         * AUTOLIFT WAIT FOR LIFT 3
-         * AUTOLIFT DONE 4
-         * MANUAL MODE 5
          */
 
         if (!manual_mode && !latch_open_mode) {
@@ -382,18 +336,6 @@ public class TeleOpProgram extends OpMode
             telemetry.addData("Button x pressed", gamepad2.x);
             telemetry.update();
         }
-
-
-
-//        if (gamepad2.left_stick_y > 0) {
-//            robot.basket.setPower(0.5);
-//        }
-//        else if (gamepad2.left_stick_y < 0) {
-//            robot.basket.setPower(-0.5);
-//        }
-//        else {
-//            robot.basket.setPower(0);
-//        }
 
         /**
         * Telemetry
