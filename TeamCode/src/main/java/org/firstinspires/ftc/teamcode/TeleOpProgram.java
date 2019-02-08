@@ -80,24 +80,30 @@ public class TeleOpProgram extends OpMode
         double r = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
         double robotAngle = Math.atan2(gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4;
         double rightX = gamepad1.right_stick_x;
-        final double v1 = (r * Math.cos(robotAngle) + rightX) * scaleFactor * direction;
-        final double v2 = (r * Math.sin(robotAngle) - rightX) * scaleFactor * direction;
-        final double v3 = (r * Math.sin(robotAngle) + rightX) * scaleFactor * direction;
-        final double v4 = (r * Math.cos(robotAngle) - rightX) * scaleFactor * direction;
-
-
         if (direction == -1) {
+            final double v1 = (r * Math.cos(robotAngle) + rightX) * scaleFactor * direction;
+            final double v2 = (r * Math.sin(robotAngle) - rightX) * scaleFactor * direction;
+            final double v3 = (r * Math.sin(robotAngle) + rightX) * scaleFactor * direction;
+            final double v4 = (r * Math.cos(robotAngle) - rightX) * scaleFactor * direction;
+
+            robot.leftFront.setPower(v1);
+            robot.rightFront.setPower(v2);
+            robot.leftBack.setPower(v3);
+            robot.rightBack.setPower(v4);
+        } else {
+            final double v1 = (r * Math.cos(robotAngle) - rightX) * scaleFactor * direction;
+            final double v2 = (r * Math.sin(robotAngle) + rightX) * scaleFactor * direction;
+            final double v3 = (r * Math.sin(robotAngle) - rightX) * scaleFactor * direction;
+            final double v4 = (r * Math.cos(robotAngle) + rightX) * scaleFactor * direction;
+
             robot.leftFront.setPower(v1);
             robot.rightFront.setPower(v2);
             robot.leftBack.setPower(v3);
             robot.rightBack.setPower(v4);
         }
-        else {
-            robot.leftFront.setPower(v2);
-            robot.rightFront.setPower(v1);
-            robot.leftBack.setPower(v4);
-            robot.rightBack.setPower(v3);
-        }
+
+
+
 
         /**
          *Invert Direction On Y Button
