@@ -12,6 +12,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.I2cDeviceSynch;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
@@ -43,7 +44,8 @@ public class HardwareBeep {
 
     public ModernRoboticsI2cColorSensor colorSensor = null;
 
-    public SensorMB1242 sonic = null;
+    public SensorMB1242 rightSonic = null;
+    public SensorMB1242 leftSonic = null;
 
     public DigitalChannel touchSensor = null;
 
@@ -85,7 +87,10 @@ public class HardwareBeep {
         basket = hwMap.get(Servo.class, "basket");
         imu = hwMap.get(BNO055IMU.class, "imu");
         colorSensor = hwMap.get(ModernRoboticsI2cColorSensor.class, "color_Sensor");
-        sonic = hwMap.get(SensorMB1242.class,"sonic");
+        leftSonic = hwMap.get(SensorMB1242.class,"left_sonic");
+        rightSonic = hwMap.get(SensorMB1242.class,"right_sonic");
+        I2cAddr myAddr = new I2cAddr(225);
+        rightSonic.setI2cAddress(myAddr);
         touchSensor = hwMap.get(DigitalChannel.class, "sensor_digital");
 
 

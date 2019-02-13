@@ -13,7 +13,8 @@ public class LibraryUltrasonicDrive {
     HardwareBeep robot = new HardwareBeep();
     Telemetry telemetry;
 
-    int read_distance = 0;
+    int read_distance_left = 0;
+    int read_distance_right = 0;
     //DcMotor motor;
 
 
@@ -52,7 +53,8 @@ public class LibraryUltrasonicDrive {
         telemetry.addData("In Ultrasonic Drive method", "");
         telemetry.update();
 
-        telemetry.addData("Distance read", robot.sonic.getDistance());
+        telemetry.addData("Distance read", robot.leftSonic.getDistance());
+        telemetry.addData("Distance read", robot.rightSonic.getDistance());
         telemetry.update();
         robot.leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -87,10 +89,10 @@ public class LibraryUltrasonicDrive {
 
             // start motion.
             speed = Range.clip(Math.abs(speed), 0.0, 1);
-//            robot.leftFront.setPower(speed);
-//            robot.leftBack.setPower(speed);
-//            robot.rightFront.setPower(speed);
-//            robot.rightBack.setPower(speed);
+            robot.leftFront.setPower(speed);
+            robot.leftBack.setPower(speed);
+            robot.rightFront.setPower(speed);
+            robot.rightBack.setPower(speed);
 
 //            telemetry.addData("Code pos 2", "");
 //            telemetry.update();
@@ -104,12 +106,11 @@ public class LibraryUltrasonicDrive {
 
                 if (runtime.milliseconds() > 200){
 
-                    read_distance = robot.sonic.getDistance();
+                    read_distance_left = robot.leftSonic.getDistance();
+                    read_distance_right = robot.rightSonic.getDistance();
 
-                    telemetry.addData("Distance",read_distance);
-                    telemetry.addData("Incrementor", i++);
-
-                    robot.sonic.ping();
+                    robot.leftSonic.ping();
+                    robot.rightSonic.ping();
                     runtime.reset();
                 }
 
@@ -128,10 +129,10 @@ public class LibraryUltrasonicDrive {
                 leftSpeed = Range.clip(leftSpeed, -1, 1);
                 rightSpeed = Range.clip(rightSpeed, -1, 1);
 
-//                robot.leftFront.setPower(leftSpeed);
-//                robot.leftBack.setPower(leftSpeed);
-//                robot.rightFront.setPower(rightSpeed);
-//                robot.rightBack.setPower(rightSpeed);
+                robot.leftFront.setPower(leftSpeed);
+                robot.leftBack.setPower(leftSpeed);
+                robot.rightFront.setPower(rightSpeed);
+                robot.rightBack.setPower(rightSpeed);
 
 //                telemetry.addData("Code pos 4", "");
 //                telemetry.update();
@@ -139,6 +140,9 @@ public class LibraryUltrasonicDrive {
 
 
                 // Display drive status for the driver.
+                telemetry.addData("Left Distance",read_distance_left);
+                telemetry.addData("Right Distance",read_distance_right);
+                telemetry.addData("Incrementor", i++);
                 telemetry.addData("Error" ,  error);
                 telemetry.addData("Steer", steer);
 //                telemetry.addData("Target",  "%7d:%7d",      newLeftTarget,  newRightTarget);
@@ -156,11 +160,11 @@ public class LibraryUltrasonicDrive {
 //            telemetry.update();
 //            sleep(2000);
 
-            // Stop all motion;
-//            robot.leftFront.setPower(0);
-//            robot.leftBack.setPower(0);
-//            robot.rightFront.setPower(0);
-//            robot.rightBack.setPower(0);
+             //Stop all motion;
+            robot.leftFront.setPower(0);
+            robot.leftBack.setPower(0);
+            robot.rightFront.setPower(0);
+            robot.rightBack.setPower(0);
 
             // Turn off RUN_TO_POSITION
             robot.leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -221,7 +225,7 @@ public class LibraryUltrasonicDrive {
         double robotError;
 
         // calculate error in -179 to +180 range  (
-        robotError = read_distance - targetDistance;
+        robotError = read_distance_left - read_distance_right - targetDistance;
         return robotError;
     }
 

@@ -41,8 +41,23 @@ public class GyroDriveTesting extends LinearOpMode {
 
         waitForStart();
 
-        gyroDrive.gyroDrive(.3, 10000, 0);
-        sleep(3000);
+        //gyroDrive.gyroDrive(.3, 10000, 0);
+        gyroDrive.gyroDriveVariableP(.5, 2000, 0, .01);
+        sleep(2000);
+        gyroDrive.gyroDriveVariableP(.5, 2000, 0, .02);
+        sleep(2000);
+        gyroDrive.gyroDriveVariableP(.5, 2000, 0, .05);
+        sleep(2000);
+        gyroDrive.gyroDriveVariableP(.5, 2000, 0, .1);
+        sleep(2000);
+        gyroDrive.gyroDriveVariableP(.7, 2000, 0, .01);
+        sleep(2000);
+        gyroDrive.gyroDriveVariableP(.7, 2000, 0, .02);
+        sleep(2000);
+        gyroDrive.gyroDriveVariableP(.7, 2000, 0, .05);
+        sleep(2000);
+        gyroDrive.gyroDriveVariableP(.7, 2000, 0, .1);
+        sleep(2000);
 
     }
 }

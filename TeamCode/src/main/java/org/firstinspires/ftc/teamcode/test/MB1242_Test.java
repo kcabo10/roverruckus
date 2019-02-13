@@ -25,9 +25,11 @@ public class MB1242_Test extends LinearOpMode {
         robot.init(hardwareMap);
 
 //        rearUS = hardwareMap.get(SensorMB1242.class,"rear");
-        SensorMB1242 rearUS = robot.sonic;
+        SensorMB1242 leftSonic = robot.leftSonic;
+        SensorMB1242 rightSonic = robot.rightSonic;
 
-        rearUS.startAutoPing(40);
+        leftSonic.startAutoPing(40);
+        rightSonic.startAutoPing(40);
         sleep(2000);
         telemetry.addData("Start AutoPing", "");
         telemetry.update();
@@ -49,10 +51,12 @@ public class MB1242_Test extends LinearOpMode {
 
             if (runtime.milliseconds() > 200){
 
-                telemetry.addData("Distance",rearUS.getDistance());
+                telemetry.addData("Distance",leftSonic.getDistance());
+                telemetry.addData("Distance",rightSonic.getDistance());
                 telemetry.addData("Incrementor", i++);
                 telemetry.update();
-                rearUS.ping();
+                leftSonic.ping();
+                rightSonic.ping();
                 runtime.reset();
             }
 
@@ -70,6 +74,7 @@ public class MB1242_Test extends LinearOpMode {
              */
         }
 
-        rearUS.close();
+        leftSonic.close();
+        rightSonic.close();
     }
 }

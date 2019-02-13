@@ -19,7 +19,8 @@ public class LibraryGridNavigation {
     HardwareBeep robot;// = new HardwareBeep();
     LibraryGyro gyro;// = new LibraryGyro();
     LibraryGyroDrive gyroDrive = new LibraryGyroDrive();
-    SensorMB1242 rearUS = robot.sonic;
+//    SensorMB1242 leftUS = robot.leftSonic;
+//    SensorMB1242 rightUS = robot.rightSonic;
     private ElapsedTime runtime = new ElapsedTime();
     Telemetry telemetry;
     int i = 0;
@@ -222,32 +223,32 @@ public class LibraryGridNavigation {
         gyroDrive.gyroDrive(power, (int) Distance, 0.0);
 
     }
+//
+//    public void driveToPositionSonic(double xDestination, double yDestination, double power) {
+//
+//        getDriveDistance(xDestination, yDestination);
+//
+//        rearUS.startAutoPing(40);
+//            if (runtime.milliseconds() > 200){
+//
+//                telemetry.addData("Distance",rearUS.getDistance());
+//                telemetry.addData("Incrementor", i++);
+//                telemetry.update();
+//                rearUS.ping();
+//                runtime.reset();
+//            }
+//            if (rearUS.getDistance() == 40){
+//                gyroDrive.gyroDrive(power, (int) Distance, 0.0);
+//            }
+//            if (rearUS.getDistance() > 40){
+//                gyro.turnGyro(20);
+//                gyroDrive.gyroDrive(power, (int) Distance, 0.0);
+//            }
+//            if (rearUS.getDistance() < 40){
+//
+//            }
 
-    public void driveToPositionSonic(double xDestination, double yDestination, double power) {
-
-        getDriveDistance(xDestination, yDestination);
-
-        rearUS.startAutoPing(40);
-            if (runtime.milliseconds() > 200){
-
-                telemetry.addData("Distance",rearUS.getDistance());
-                telemetry.addData("Incrementor", i++);
-                telemetry.update();
-                rearUS.ping();
-                runtime.reset();
-            }
-            if (rearUS.getDistance() == 40){
-                gyroDrive.gyroDrive(power, (int) Distance, 0.0);
-            }
-            if (rearUS.getDistance() > 40){
-                gyro.turnGyro(20);
-                gyroDrive.gyroDrive(power, (int) Distance, 0.0);
-            }
-            if (rearUS.getDistance() < 40){
-
-            }
-
-    }
+//    }
 
     public void init(HardwareBeep myRobot, LibraryGyro myGyro, Telemetry myTelemetry) {
         robot = myRobot;

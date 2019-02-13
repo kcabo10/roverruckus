@@ -78,7 +78,8 @@ public class LibraryUltrasonicTurn {
         double polarity = 1;
         polarity = targetHeading > 0 ? 1 : -1;
 
-        telemetry.addData("Distance read", robot.sonic.getDistance());
+        telemetry.addData("Distance read", robot.leftSonic.getDistance());
+        telemetry.addData("Distance read", robot.rightSonic.getDistance());
         telemetry.update();
         robot.leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -94,7 +95,8 @@ public class LibraryUltrasonicTurn {
         SetTunings(.02, 0, 0.1);
 
         Setpoint = targetHeading;
-        Input = robot.sonic.getDistance();
+        Input = robot.leftSonic.getDistance();
+        Input = robot.rightSonic.getDistance();
 //        telemetry.addData("Current Pos ", currentHeading);
         telemetry.addData("Setpoint ", Setpoint);
         telemetry.addData("Input ", Input);
@@ -114,7 +116,8 @@ public class LibraryUltrasonicTurn {
             robot.rightBack.setPower(-Output);
             timer++;
             //sleep(1000);
-            Input = robot.sonic.getDistance();
+            Input = robot.leftSonic.getDistance();
+            Input = robot.rightSonic.getDistance();
             //sleep(1000);
             telemetry.addData("curHeading", Input);
             telemetry.addData("tarHeading", Setpoint);
