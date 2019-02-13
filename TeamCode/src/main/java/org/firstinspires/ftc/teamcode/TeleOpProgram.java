@@ -20,7 +20,6 @@ public class TeleOpProgram extends OpMode
     boolean manual_mode = false;
     boolean latch_open_mode = false;
     boolean latch_close_mode = false;
-    boolean lower_mode = false;
     private int direction = -1;
     private double scaleFactor = 1;
     int arm_state = 0;
@@ -102,9 +101,6 @@ public class TeleOpProgram extends OpMode
             robot.rightBack.setPower(v4);
         }
 
-
-
-
         /**
          *Invert Direction On Y Button
          */
@@ -117,8 +113,8 @@ public class TeleOpProgram extends OpMode
                 break;
             case (1):
                 if (!gamepad1.y) {
-                    buttonYPressed = 0;
                     reverseDirection();
+                    buttonYPressed = 0;
                 }
                 break;
         }
@@ -356,6 +352,7 @@ public class TeleOpProgram extends OpMode
         * Telemetry
         */
 
+        telemetry.addData("y Button", buttonYPressed);
         telemetry.addData("Lift Encoder Ticks", robot.lift.getCurrentPosition());
         telemetry.addData("Color Number", robot.colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER));
         telemetry.addData("arm_state", arm_state);
