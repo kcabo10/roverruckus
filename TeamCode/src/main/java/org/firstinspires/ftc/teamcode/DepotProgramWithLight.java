@@ -94,7 +94,7 @@ public class DepotProgramWithLight extends LinearOpMode {
         double[] RED_DEPOT_RIGHT = {1.23, .875};
         double[] RED_DEPOT_CENTER = {1.1, 1.1};
 
-        double[] RED_DEPOT_MARKER = {1.7,2.5};
+        double[] RED_DEPOT_MARKER = {1.9,2.5};
 
         double[] RED_DEPOT_PARKING = {-.4, 2.6};
 
