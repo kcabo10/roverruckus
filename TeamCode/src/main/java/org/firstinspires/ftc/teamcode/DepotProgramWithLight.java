@@ -5,7 +5,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-
 @Autonomous(name="Depot Program With Light", group="Beep")
 public class DepotProgramWithLight extends LinearOpMode {
 
@@ -23,8 +22,8 @@ public class DepotProgramWithLight extends LinearOpMode {
 
 
     /**
-    Called when init button is  pressed.
-    */
+     Called when init button is  pressed.
+     */
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -40,9 +39,10 @@ public class DepotProgramWithLight extends LinearOpMode {
         telemetry.update();
 
         robot.latch.setPower(0);
+//        robot.basket.setPosition(0);
 
         /**
-        Wait for start button.
+         Wait for start button.
          */
         waitForStart();
 
@@ -52,11 +52,11 @@ public class DepotProgramWithLight extends LinearOpMode {
 //        robot.lift.setTargetPosition(-17500);
 //        robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 //        robot.lift.setPower(1);
-//
+
         getMineralPosition();
-//
+
 //        runtime.reset();
-//
+
 //        while ((goldPosition == "Unknown") && (runtime.seconds() < 5)){
 //            gridNavigation.driveToPosition(.9,.9, .7);
 //
@@ -73,27 +73,30 @@ public class DepotProgramWithLight extends LinearOpMode {
 //        robot.lift.setPower(0);
 //        runtime.reset();
 
-        gridNavigation.setGridPosition(.8281, .8281, 45);
-        printTelemetry(10);
-        telemetry.update();
-        gridNavigation.driveToPosition(1, 1, .3);
+        /**
+         * took the hypotenuse line to the center of the robot is 20.625 inches
+         */
+
+        gridNavigation.setGridPosition(.6076, .6076, 45);
+//        telemetry.addData("my Initial Grid Nav Pos", gridNavigation.getGridPosition());
+//        telemetry.update();
+//        sleep(2000);
+//        gridNavigation.driveToPosition(1, 1, .8);
 
         int X = 0;
         int Y = 1;
 
-       /**
-        Change values to grab mineral
-        */
+        /**
+         Change values to grab mineral
+         */
 
-        double[] RED_DEPOT_LEFT = {1.3, 2.4};
-        double[] RED_DEPOT_RIGHT = {2.6, 1.3};
-        double[] RED_DEPOT_CENTER = {1.5, 1.5};
+        double[] RED_DEPOT_LEFT = {1.2, 2.5};
+        double[] RED_DEPOT_RIGHT = {1.23, .875};
+        double[] RED_DEPOT_CENTER = {1.1, 1.1};
 
-        double[] LEFT_RED_DEPOT_MARKER = {2.3,2.7};
-        double[] RIGHT_RED_DEPOT_MARKER = {2.6,2.3};
-        double[] CENTER_RED_DEPOT_MARKER = {2.2,2.2};
+        double[] RED_DEPOT_MARKER = {1.7,2.5};
 
-        double[] RED_DEPOT_PARKING = {2.6, -.5};
+        double[] RED_DEPOT_PARKING = {-.4, 2.6};
 
         switch (goldPosition) {
 
@@ -101,31 +104,15 @@ public class DepotProgramWithLight extends LinearOpMode {
                 telemetry.addData("Telemetry", "Gold Pos = LEFT");
                 printTelemetry(20);
                 if (goldPosition == "LEFT") {
+                    gridNavigation.driveToPosition(.8,.8,.5);
                     gridNavigation.driveToPosition(RED_DEPOT_LEFT[X], RED_DEPOT_LEFT[Y], .5);
                     telemetry.addData("Grid Nav Goto Pos X", RED_DEPOT_LEFT[X]);
                     telemetry.addData("Grid Nav Goto Pos Y", RED_DEPOT_LEFT[Y]);
-
-                    gridNavigation.driveToPositionBackwards(1, 2, .5);
-                    gridNavigation.driveToPosition(LEFT_RED_DEPOT_MARKER [X], LEFT_RED_DEPOT_MARKER [Y], .5);
-                    robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    robot.arm.setTargetPosition(500);
-                    robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    robot.arm.setPower(1);
-                    while (robot.arm.isBusy()) {
-                    }
-                    robot.arm.setPower(0);
-
-                    robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    robot.arm.setTargetPosition(-500);
-                    robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    robot.arm.setPower(1);
-                    while (robot.arm.isBusy()) {
-                    }
-                    robot.arm.setPower(0);
-
-                    gridNavigation.driveToPosition(1, 3, .5);
-//                    gridNavigation.setGridPosition(1,1.6,-95);
-                    gridNavigation.driveToPosition(-1.5, 2.7, .5);
+                    gridNavigation.driveToPosition(RED_DEPOT_MARKER [X], RED_DEPOT_MARKER [Y], .5);
+                    robot.intake.setPower(1);
+                    sleep(1000);
+                    robot.intake.setPower(0);
+                    gridNavigation.driveToPosition(RED_DEPOT_PARKING[X], RED_DEPOT_PARKING[Y], .5);
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.arm.setTargetPosition(500);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -145,11 +132,7 @@ public class DepotProgramWithLight extends LinearOpMode {
                 telemetry.addData("Telemetry", "Gold Pos = RIGHT");
                 printTelemetry(40);
                 if (goldPosition == "RIGHT"){
-                    gridNavigation.driveToPosition(RED_DEPOT_RIGHT[X], RED_DEPOT_RIGHT[Y], .5);
-                    telemetry.addData("Grid Nav Goto Pos X", RED_DEPOT_RIGHT[X]);
-                    telemetry.addData("Grid Nav Goto Pos Y", RED_DEPOT_RIGHT[Y]);
-                    gridNavigation.driveToPosition(RIGHT_RED_DEPOT_MARKER [X], RIGHT_RED_DEPOT_MARKER [Y], .5);
-
+                    gridNavigation.driveToPosition(.8,.8,.5);
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.arm.setTargetPosition(500);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -157,18 +140,23 @@ public class DepotProgramWithLight extends LinearOpMode {
                     while (robot.arm.isBusy()) {
                     }
                     robot.arm.setPower(0);
-
+                    gridNavigation.driveToPosition(RED_DEPOT_RIGHT[X], RED_DEPOT_RIGHT[Y], .5);
+                    telemetry.addData("Grid Nav Goto Pos X", RED_DEPOT_RIGHT[X]);
+                    telemetry.addData("Grid Nav Goto Pos Y", RED_DEPOT_RIGHT[Y]);
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    robot.arm.setTargetPosition(-500);
+                    robot.arm.setTargetPosition(-700);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     robot.arm.setPower(1);
                     while (robot.arm.isBusy()) {
                     }
-
                     robot.arm.setPower(0);
-                    gridNavigation.driveToPosition(1, 3, .5);
-//                    gridNavigation.setGridPosition(1,1.6,-95);
-                    gridNavigation.driveToPosition(-1.5, 2.7, .5);
+                    gridNavigation.driveToPosition(.5, 1.5, .5);
+                    gridNavigation.driveToPosition(.5, 2.5, .5);
+                    gridNavigation.driveToPosition(RED_DEPOT_MARKER [X], RED_DEPOT_MARKER [Y], .5);
+                    robot.intake.setPower(1);
+                    sleep(1000);
+                    robot.intake.setPower(0);
+                    gridNavigation.driveToPosition(RED_DEPOT_PARKING[X], RED_DEPOT_PARKING[Y], .7);
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.arm.setTargetPosition(500);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -190,7 +178,6 @@ public class DepotProgramWithLight extends LinearOpMode {
                 if (goldPosition == "CENTER"){
                     telemetry.addData("Grid Nav Goto Pos X", RED_DEPOT_CENTER[X]);
                     telemetry.addData("Grid Nav Goto Pos Y", RED_DEPOT_CENTER[Y]);
-                    gridNavigation.driveToPosition(CENTER_RED_DEPOT_MARKER[X], CENTER_RED_DEPOT_MARKER[Y],.5);
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.arm.setTargetPosition(500);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -198,18 +185,21 @@ public class DepotProgramWithLight extends LinearOpMode {
                     while (robot.arm.isBusy()) {
                     }
                     robot.arm.setPower(0);
-
+                    gridNavigation.driveToPosition(RED_DEPOT_CENTER[X], RED_DEPOT_CENTER[Y], .5);
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    robot.arm.setTargetPosition(-500);
+                    robot.arm.setTargetPosition(-700);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     robot.arm.setPower(1);
                     while (robot.arm.isBusy()) {
                     }
-
                     robot.arm.setPower(0);
-                    gridNavigation.driveToPosition(1, 3, .5);
-//                    gridNavigation.setGridPosition(1,1.6,-95);
-                    gridNavigation.driveToPosition(-1.5, 2.7, .5);
+                    gridNavigation.driveToPosition(.75, 1.5, .5);
+                    gridNavigation.driveToPosition(.5, 2.5, .5);
+                    gridNavigation.driveToPosition(RED_DEPOT_MARKER [X], RED_DEPOT_MARKER [Y], .5);
+                    robot.intake.setPower(1);
+                    sleep(1000);
+                    robot.intake.setPower(0);
+                    gridNavigation.driveToPosition(RED_DEPOT_PARKING[X], RED_DEPOT_PARKING[Y], .7);
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.arm.setTargetPosition(500);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -252,24 +242,24 @@ public class DepotProgramWithLight extends LinearOpMode {
         String previousPosition;
         goldPosition = tensorFlow.findMineral();
 
-            switch (goldPosition) {
-                case ("LEFT"):
-                    telemetry.addData("Telemetry", "Left Position");
-                    telemetry.update();
-                    break;
-                case ("RIGHT"):
-                    telemetry.addData("Telemetry", "Right Position");
-                    telemetry.update();
-                    break;
-                case ("CENTER"):
-                    telemetry.addData("Telemetry", "Center Position");
-                    telemetry.update();
-                    break;
-                case ("UNKNOWN"):
-                    telemetry.addData("Telemetry", "Unknown Position");
-                    telemetry.update();
-                    break;
-            }
-            telemetry.update();
+        switch (goldPosition) {
+            case ("LEFT"):
+                telemetry.addData("Telemetry", "Left Position");
+                telemetry.update();
+                break;
+            case ("RIGHT"):
+                telemetry.addData("Telemetry", "Right Position");
+                telemetry.update();
+                break;
+            case ("CENTER"):
+                telemetry.addData("Telemetry", "Center Position");
+                telemetry.update();
+                break;
+            case ("UNKNOWN"):
+                telemetry.addData("Telemetry", "Unknown Position");
+                telemetry.update();
+                break;
         }
+        telemetry.update();
     }
+}

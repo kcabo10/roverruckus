@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -219,14 +220,14 @@ public class LibraryGyroDrive {
                             int encoderTicks,
                             double angle, double PCoeff) {
 
-        int     newLeftTarget;
-        int     newRightTarget;
-        int     moveCounts;
-        double  max;
-        double  error;
-        double  steer;
-        double  leftSpeed;
-        double  rightSpeed;
+        int newLeftTarget;
+        int newRightTarget;
+        int moveCounts;
+        double max;
+        double error;
+        double steer;
+        double leftSpeed;
+        double rightSpeed;
 
         telemetry.addData("In Gyro Drive method", "");
         telemetry.update();
@@ -263,11 +264,11 @@ public class LibraryGyroDrive {
 //            sleep(2000);
 
         // start motion.
-        speed = Range.clip(Math.abs(speed), 0.0, 1);
-        robot.leftFront.setPower(speed);
-        robot.leftBack.setPower(speed);
-        robot.rightFront.setPower(speed);
-        robot.rightBack.setPower(speed);
+//        speed = Range.clip(Math.abs(speed), 0.0, 1);
+//        robot.leftFront.setPower(speed);
+//        robot.leftBack.setPower(speed);
+//        robot.rightFront.setPower(speed);
+//        robot.rightBack.setPower(speed);
 
 //            telemetry.addData("Code pos 2", "");
 //            telemetry.update();
@@ -275,10 +276,13 @@ public class LibraryGyroDrive {
 
 
         // keep looping while we are still active, and BOTH motors are running.
-        while (robot.leftFront.isBusy() && robot.leftBack.isBusy() && robot.rightFront.isBusy() && robot.rightBack.isBusy()) {
+        do {
 
+            telemetry.addData("libgyrodr: target angle", angle);
+            telemetry.addData("libgyrodr: gyro angle", gyro.getAngle());
             // adjust relative speed based on heading error.
             error = getError(angle);
+
             steer = getSteer(error, PCoeff);
 
             // if driving in reverse, the motor correction also needs to be reversed
@@ -300,9 +304,8 @@ public class LibraryGyroDrive {
 //                telemetry.update();
 
 
-
             // Display drive status for the driver.
-            telemetry.addData("Error" ,  error);
+            telemetry.addData("Error", error);
             telemetry.addData("Steer", steer);
 //                telemetry.addData("Target",  "%7d:%7d",      newLeftTarget,  newRightTarget);
 //                telemetry.addData("Actual",  "%7d:%7d",      robot.leftFront.getCurrentPosition(),
@@ -312,8 +315,7 @@ public class LibraryGyroDrive {
             telemetry.addData("L Speed", leftSpeed);
             telemetry.addData("R Speed", rightSpeed);
             telemetry.update();
-
-        }
+        } while (robot.leftFront.isBusy() && robot.leftBack.isBusy() && robot.rightFront.isBusy() && robot.rightBack.isBusy());
 
 //            telemetry.addData("GyroDrive, after drive commands", "");
 //            telemetry.update();

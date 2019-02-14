@@ -17,7 +17,7 @@ import org.firstinspires.ftc.teamcode.sensors.SensorMB1242;
 public class LibraryGridNavigation {
 
     HardwareBeep robot;// = new HardwareBeep();
-    LibraryGyro gyro;// = new LibraryGyro();
+    //LibraryGyro gyro;// = new LibraryGyro();
     LibraryGyroDrive gyroDrive = new LibraryGyroDrive();
 //    SensorMB1242 leftUS = robot.leftSonic;
 //    SensorMB1242 rightUS = robot.rightSonic;
@@ -47,6 +47,14 @@ public class LibraryGridNavigation {
         StartingAngle = angle;
         System.out.println("setGridPos to (" + xPosition + ", " + yPosition + ") angle " + angle);
     }
+
+//    //The angle 0 degrees starts on the positive X axis and moves counterclockwise
+//    public double[] getGridPosition() {
+//        double myPos[];
+//        myPos[0] = xOrigin;
+//        myPos[1] = yOrigin;
+//        return myPos;
+//    }
 
     public float getTurnAngleValuesOnly(double xDestination, double yDestination) {
 
@@ -145,8 +153,12 @@ public class LibraryGridNavigation {
         double yLeg = yDestination - yOrigin;
 
         Distance = ((Math.hypot(xLeg, yLeg) * 24) / 12.57) * 537.6 * GEAR_RATIO_SCALING_FACTOR;
-        // Distance is in encoder ticks
-
+        /** The input for each grid coordiante is one tile, so first we multiply the input
+         * by size of one tile, which is 24 inches.  Then we divide that value by the distance
+         * covered by one rotation of our wheels, which is 12.57 inches.  We then multiply that
+         * value by the number of encoder ticks per rotation of the motors we are using.  Finally,
+         * we multiply that encoder value by the gear ratio that is set up for the wheel assembly we use.
+*/
         System.out.println("Drive Distance is " + Distance);
 
         /* START TEST CODE FOR SHOWING PRINTS
@@ -174,7 +186,7 @@ public class LibraryGridNavigation {
         getDriveDistance(xDestination, yDestination);
         getTurnAngle(xDestination, yDestination);
 
-        gyro.turnGyro(turnAngle);
+        gyroDrive.gyro.turnGyro(turnAngle);
 
         robot.leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -215,12 +227,33 @@ public class LibraryGridNavigation {
     //The grid is set such as that the origin (0, 0) is at the center and each grid point is 2 feet from the next point
     public void driveToPosition(double xDestination, double yDestination, double power) {
 
+        double PCoeff = .01;
+
         getDriveDistance(xDestination, yDestination);
         getTurnAngle(xDestination, yDestination);
+//
+//        telemetry.addData("driveToPos: distance", Distance);
+//        telemetry.addData("driveToPos: power", power);
+//        telemetry.addData("driveToPos: PCoeff", PCoeff);
+//        telemetry.addData("driveToPos: turnAngle", turnAngle);
+//        telemetry.update();
+//        ElapsedTime timer = new ElapsedTime();
+//        timer.reset();
+//        while (timer.seconds()<4) {}
 
-        gyro.turnGyro(turnAngle);
 
-        gyroDrive.gyroDrive(power, (int) Distance, 0.0);
+        gyroDrive.gyro.turnGyro(turnAngle);
+
+        //gyroDrive.gyroDrive(power, (int) Distance, 0.0);
+
+
+//        telemetry.addData("driveToPos: turnAngle", turnAngle);
+//        telemetry.addData("driveToPos: getAngle", gyroDrive.gyro.getAngle());
+//        telemetry.update();
+//        timer.reset();
+//        while (timer.seconds()<4) {}
+
+        gyroDrive.gyroDriveVariableP(power, (int) Distance, turnAngle, PCoeff);
 
     }
 //
@@ -252,7 +285,7 @@ public class LibraryGridNavigation {
 
     public void init(HardwareBeep myRobot, LibraryGyro myGyro, Telemetry myTelemetry) {
         robot = myRobot;
-        gyro = myGyro;
+        //gyro = myGyro;
         telemetry = myTelemetry;
         gyroDrive.init(robot, telemetry, robot.leftFront);
     }
@@ -276,8 +309,7 @@ public class LibraryGridNavigation {
         else {
         }
 
-        gyro.turnGyro(turnAngle);
-
+        gyroDrive.gyro.turnGyro(turnAngle);
         gyroDrive.gyroDrive(-power, -(int) Distance, 0.0);
 
     }
@@ -301,8 +333,7 @@ public class LibraryGridNavigation {
         turnAngle = (turnAngle + 180);
         StartingAngle = (StartingAngle + 180);
 
-        gyro.turnGyro(turnAngle);
-
+        gyroDrive.gyro.turnGyro(turnAngle);
         gyroDrive.gyroDrive(-power, -(int) Distance, 0.0);
 
     }

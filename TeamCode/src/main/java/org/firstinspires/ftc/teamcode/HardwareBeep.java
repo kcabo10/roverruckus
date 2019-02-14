@@ -67,6 +67,12 @@ public class HardwareBeep {
      */
     public void init(HardwareMap ahwMap) {
 
+
+        /**
+         * TELEMETRY SWITCHES
+         */
+        boolean GRID_NAV_TELEMETRY_ON = true;
+
         /**
          * Save Reference To Hardware Map
          */
