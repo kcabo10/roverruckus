@@ -76,8 +76,8 @@ public class CraterProgramWithLight extends LinearOpMode {
         double[] RED_CRATER_RIGHT = {1.23, .875};
         double[] RED_CRATER_CENTER = {1, 1};
 
-        double[] RED_CRATER_MARKER = {-1.7, 2.5};
-        double[] LEFT_RED_CRATER_MARKER = {-1.7, 2.6};
+        double[] RED_CRATER_MARKER = {-1.9, 2.5};
+        double[] LEFT_RED_CRATER_MARKER = {-1.9, 2.6};
 
         double[] RED_CRATER_PARKING = {.6, 2.6};
         double[] LEFT_RED_CRATER_PARKING = {.6, 2.4};
