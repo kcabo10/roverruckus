@@ -48,40 +48,36 @@ public class DepotProgramWithLight extends LinearOpMode {
 
         // landing our robot
 
-//        robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        robot.lift.setTargetPosition(-17500);
-//        robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//        robot.lift.setPower(1);
+        robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.lift.setTargetPosition(-17500);
+        robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.lift.setPower(1);
 
         getMineralPosition();
 
-//        runtime.reset();
+        runtime.reset();
 
-//        while ((goldPosition == "Unknown") && (runtime.seconds() < 5)){
-//            gridNavigation.driveToPosition(.9,.9, .7);
-//
-//        }
-//
-//        robot.lift.setPower(0);
-//        runtime.reset();
-//        robot.latch.setPower(-1);
-//
-//        while (runtime.seconds() <1.15){
-//
-//        }
-//        robot.latch.setPower(0);
-//        robot.lift.setPower(0);
-//        runtime.reset();
+        while ((goldPosition == "Unknown") && (runtime.seconds() < 5)){
+            gridNavigation.driveToPosition(.9,.9, .7);
+
+        }
+
+        robot.lift.setPower(0);
+        runtime.reset();
+        robot.latch.setPower(-1);
+
+        while (runtime.seconds() <1.15){
+
+        }
+        robot.latch.setPower(0);
+        robot.lift.setPower(0);
+        runtime.reset();
 
         /**
          * took the hypotenuse line to the center of the robot is 20.625 inches
          */
 
         gridNavigation.setGridPosition(.6076, .6076, 45);
-//        telemetry.addData("my Initial Grid Nav Pos", gridNavigation.getGridPosition());
-//        telemetry.update();
-//        sleep(2000);
-//        gridNavigation.driveToPosition(1, 1, .8);
 
         int X = 0;
         int Y = 1;
