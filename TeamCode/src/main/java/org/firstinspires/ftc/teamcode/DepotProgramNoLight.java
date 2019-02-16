@@ -49,7 +49,7 @@ public class DepotProgramNoLight extends LinearOpMode {
         // landing our robot
 
         robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.lift.setTargetPosition(-18000);
+        robot.lift.setTargetPosition(-20680);
         robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.lift.setPower(1);
 
@@ -87,7 +87,7 @@ public class DepotProgramNoLight extends LinearOpMode {
          */
 
         double[] RED_DEPOT_LEFT = {1.2, 2.4};
-        double[] RED_DEPOT_RIGHT = {1.23, .875};
+        double[] RED_DEPOT_RIGHT = {1.2916, .9114};
         double[] RED_DEPOT_CENTER = {1.1, 1.1};
 
         double[] RED_DEPOT_MARKER = {1.6,2.6};
@@ -110,22 +110,23 @@ public class DepotProgramNoLight extends LinearOpMode {
                     telemetry.addData("Grid Nav Goto Pos Y", RED_DEPOT_LEFT[Y]);
                     gridNavigation.driveToPosition(LEFT_DEPOT_MARKER [X], LEFT_DEPOT_MARKER [Y], .5);
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    robot.arm.setTargetPosition(250);
+                    robot.arm.setTargetPosition(300);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     robot.arm.setPower(1);
                     while (robot.arm.isBusy()) {
                     }
-                    robot.arm.setPower(0);
+                    robot.arm.setPower(.105);
                     robot.intake.setPower(1);
                     sleep(1000);
                     robot.intake.setPower(0);
+                    runtime.reset();
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    robot.arm.setTargetPosition(-400);
+                    robot.arm.setTargetPosition(-300);//-644 is to come from mat to stopping point
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     robot.arm.setPower(1);
                     while (robot.arm.isBusy()) {
                     }
-                    robot.arm.setPower(0);
+                    robot.arm.setPower(.105);
                     gridNavigation.driveToPosition(RED_DEPOT_PARKING[X], RED_DEPOT_PARKING[Y], .7);
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.arm.setTargetPosition(500);
@@ -170,22 +171,23 @@ public class DepotProgramNoLight extends LinearOpMode {
                     gridNavigation.driveToPosition(.5, 2.5, .5);
                     gridNavigation.driveToPosition(RED_DEPOT_MARKER [X], RED_DEPOT_MARKER [Y], .5);
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    robot.arm.setTargetPosition(250);
+                    robot.arm.setTargetPosition(300);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     robot.arm.setPower(1);
                     while (robot.arm.isBusy()) {
                     }
-                    robot.arm.setPower(0);
+                    robot.arm.setPower(.105);
                     robot.intake.setPower(1);
                     sleep(1000);
                     robot.intake.setPower(0);
+                    runtime.reset();
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    robot.arm.setTargetPosition(-350);
+                    robot.arm.setTargetPosition(-300);//-644 is to come from mat to stopping point
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     robot.arm.setPower(1);
                     while (robot.arm.isBusy()) {
                     }
-                    robot.arm.setPower(0);
+                    robot.arm.setPower(.105);
                     gridNavigation.driveToPosition(RED_DEPOT_PARKING[X], RED_DEPOT_PARKING[Y], .7);
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.arm.setTargetPosition(500);
@@ -228,22 +230,23 @@ public class DepotProgramNoLight extends LinearOpMode {
                     gridNavigation.driveToPosition(.2, 2.5, .5);
                     gridNavigation.driveToPosition(RED_DEPOT_MARKER [X], RED_DEPOT_MARKER [Y], .5);
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    robot.arm.setTargetPosition(250);
+                    robot.arm.setTargetPosition(300);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     robot.arm.setPower(1);
                     while (robot.arm.isBusy()) {
                     }
-                    robot.arm.setPower(0);
+                    robot.arm.setPower(.105);
                     robot.intake.setPower(1);
                     sleep(1000);
                     robot.intake.setPower(0);
+                    runtime.reset();
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    robot.arm.setTargetPosition(-350);
+                    robot.arm.setTargetPosition(-300);//-644 is to come from mat to stopping point
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     robot.arm.setPower(1);
                     while (robot.arm.isBusy()) {
                     }
-                    robot.arm.setPower(0);
+                    robot.arm.setPower(.105);
                     gridNavigation.driveToPosition(RED_DEPOT_PARKING[X], RED_DEPOT_PARKING[Y], .7);
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.arm.setTargetPosition(500);
