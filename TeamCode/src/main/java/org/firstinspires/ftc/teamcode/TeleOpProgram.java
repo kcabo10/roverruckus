@@ -109,11 +109,11 @@ public class TeleOpProgram extends OpMode
             case (0):
                 if (gamepad1.y) {
                     buttonYPressed = 1;
+                    reverseDirection();
                 }
                 break;
             case (1):
                 if (!gamepad1.y) {
-                    reverseDirection();
                     buttonYPressed = 0;
                 }
                 break;
@@ -250,7 +250,7 @@ public class TeleOpProgram extends OpMode
                     arm_extrusion_state++; //moving
                 } else if (gamepad2.right_trigger > 0) {
                     robot.armExtrusion.setPower(-1);
-                    robot.basket.setPosition(.3);
+                    robot.basket.setPosition(.4);
                 } else {
                     robot.armExtrusion.setPower(0);
                 }
@@ -352,25 +352,26 @@ public class TeleOpProgram extends OpMode
         * Telemetry
         */
 
-        telemetry.addData("y Button", buttonYPressed);
-        telemetry.addData("Lift Encoder Ticks", robot.lift.getCurrentPosition());
-        telemetry.addData("Color Number", robot.colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER));
-        telemetry.addData("arm_state", arm_state);
-        telemetry.addData("arm_extrusion_state", arm_extrusion_state);
-        telemetry.addData("touch sensor", robot.touchSensor.getState());
-        telemetry.addData("auto_latch_open", auto_latch_open);
-        telemetry.addData("auto_latch_close", auto_latch_close);
-        telemetry.addData("manual_mode", manual_mode);
-        telemetry.addData("Scale Factor", scaleFactor);
+        telemetry.addData("y Button", gamepad1.y);
+        telemetry.addData("ButtonYPressed", buttonYPressed);
         telemetry.addData("Direction", direction);
-        telemetry.addData("left front power", robot.leftFront.getPower());
-        telemetry.addData("left back power", robot.leftBack.getPower());
-        telemetry.addData("right front power", robot.rightFront.getPower());
-        telemetry.addData("right back power", robot.rightBack.getPower());
-        telemetry.addData("Arm Encoder Ticks", robot.arm.getCurrentPosition());
-        telemetry.addData("Arm Extrusion Encoder Ticks", robot.armExtrusion.getCurrentPosition());
-        telemetry.addData("Arm Extrusion Power", robot.armExtrusion.getPower());
-        telemetry.addData("Arm Power", robot.arm.getPower());
+//        telemetry.addData("Lift Encoder Ticks", robot.lift.getCurrentPosition());
+//        telemetry.addData("Color Number", robot.colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER));
+//        telemetry.addData("arm_state", arm_state);
+//        telemetry.addData("arm_extrusion_state", arm_extrusion_state);
+//        telemetry.addData("touch sensor", robot.touchSensor.getState());
+//        telemetry.addData("auto_latch_open", auto_latch_open);
+//        telemetry.addData("auto_latch_close", auto_latch_close);
+//        telemetry.addData("manual_mode", manual_mode);
+//        telemetry.addData("Scale Factor", scaleFactor);
+//        telemetry.addData("left front power", robot.leftFront.getPower());
+//        telemetry.addData("left back power", robot.leftBack.getPower());
+//        telemetry.addData("right front power", robot.rightFront.getPower());
+//        telemetry.addData("right back power", robot.rightBack.getPower());
+//        telemetry.addData("Arm Encoder Ticks", robot.arm.getCurrentPosition());
+//        telemetry.addData("Arm Extrusion Encoder Ticks", robot.armExtrusion.getCurrentPosition());
+//        telemetry.addData("Arm Extrusion Power", robot.armExtrusion.getPower());
+//        telemetry.addData("Arm Power", robot.arm.getPower());
         telemetry.update();
     }
 

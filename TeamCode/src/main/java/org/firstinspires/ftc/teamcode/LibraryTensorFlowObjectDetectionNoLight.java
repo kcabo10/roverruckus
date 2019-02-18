@@ -29,6 +29,8 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.util.ElapsedTime;
+
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
@@ -145,8 +147,10 @@ public class LibraryTensorFlowObjectDetectionNoLight {
      */
     public String readMineral() {
         String currentPos = "";
+        ElapsedTime timer = new ElapsedTime();
+        timer.reset();
 
-        while (currentPos == "") {
+        while (currentPos == "" && timer.seconds() < 6) {
             if (tfod != null) {                    // getUpdatedRecognitions() will return null if no new information is available since
                 // the last time that call was made.
                 List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
