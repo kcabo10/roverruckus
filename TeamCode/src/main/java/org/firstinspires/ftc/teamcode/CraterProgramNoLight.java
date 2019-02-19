@@ -107,7 +107,7 @@ public class CraterProgramNoLight extends LinearOpMode {
                     robot.arm.setPower(1);
                     while (robot.arm.isBusy()) {
                     }
-                    robot.arm.setPower(0);
+                    robot.arm.setPower(.111);
                     gridNavigation.driveToPosition(0,2.5,.5);
                     gridNavigation.driveToPosition(LEFT_CRATER_MARKER[X], LEFT_CRATER_MARKER[Y], .5);
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -116,7 +116,7 @@ public class CraterProgramNoLight extends LinearOpMode {
                     robot.arm.setPower(1);
                     while (robot.arm.isBusy()) {
                     }
-                    robot.arm.setPower(.105);
+                    robot.arm.setPower(.111);
                     robot.intake.setPower(.6);
                     sleep(1000);
                     robot.intake.setPower(0);
@@ -127,7 +127,7 @@ public class CraterProgramNoLight extends LinearOpMode {
                     robot.arm.setPower(1);
                     while (robot.arm.isBusy()) {
                     }
-                    robot.arm.setPower(.105);
+                    robot.arm.setPower(.111);
                     gridNavigation.driveToPosition(RED_CRATER_PARKING[X], RED_CRATER_PARKING[Y], .7);
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.arm.setTargetPosition(750);
@@ -166,7 +166,7 @@ public class CraterProgramNoLight extends LinearOpMode {
                     robot.arm.setPower(1);
                     while (robot.arm.isBusy()) {
                     }
-                    robot.arm.setPower(0);
+                    robot.arm.setPower(.111);
                     gridNavigation.driveToPosition(0,2.5,.5);
                     gridNavigation.driveToPosition(RIGHT_CRATER_MARKER[X], RIGHT_CRATER_MARKER[Y], .5);
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -175,7 +175,7 @@ public class CraterProgramNoLight extends LinearOpMode {
                     robot.arm.setPower(1);
                     while (robot.arm.isBusy()) {
                     }
-                    robot.arm.setPower(.105);
+                    robot.arm.setPower(.111);
                     robot.intake.setPower(1);
                     sleep(1000);
                     robot.intake.setPower(0);
@@ -186,7 +186,7 @@ public class CraterProgramNoLight extends LinearOpMode {
                     robot.arm.setPower(1);
                     while (robot.arm.isBusy()) {
                     }
-                    robot.arm.setPower(.105);
+                    robot.arm.setPower(.111);
                     gridNavigation.driveToPosition(RED_CRATER_PARKING[X], RED_CRATER_PARKING[Y], .7);
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.arm.setTargetPosition(750);
@@ -219,7 +219,7 @@ public class CraterProgramNoLight extends LinearOpMode {
                     robot.arm.setPower(1);
                     while (robot.arm.isBusy()) {
                     }
-                    robot.arm.setPower(0);
+                    robot.arm.setPower(.111);
                     gridNavigation.driveToPosition(0,2.5,.5);
                     gridNavigation.driveToPosition(RED_CRATER_MARKER[X], RED_CRATER_MARKER[Y], .5);
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -228,7 +228,7 @@ public class CraterProgramNoLight extends LinearOpMode {
                     robot.arm.setPower(1);
                     while (robot.arm.isBusy()) {
                     }
-                    robot.arm.setPower(.105);
+                    robot.arm.setPower(.111);
                     robot.intake.setPower(1);
                     sleep(1000);
                     robot.intake.setPower(0);
@@ -239,7 +239,7 @@ public class CraterProgramNoLight extends LinearOpMode {
                     robot.arm.setPower(1);
                     while (robot.arm.isBusy()) {
                     }
-                    robot.arm.setPower(.105);
+                    robot.arm.setPower(.111);
                     gridNavigation.driveToPosition(RED_CRATER_PARKING[X], RED_CRATER_PARKING[Y], .7);
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.arm.setTargetPosition(750);
