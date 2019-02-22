@@ -76,6 +76,7 @@ public class LibraryTensorFlowObjectDetectionNoLight {
     private TFObjectDetector tfod;
     HardwareBeep robot;
     Telemetry telemetry;
+    ElapsedTime timer;
 
     public LibraryTensorFlowObjectDetectionNoLight(HardwareBeep newHardwareBeep, Telemetry newTelemetry) {
 
@@ -116,7 +117,7 @@ public class LibraryTensorFlowObjectDetectionNoLight {
         startTime = System.currentTimeMillis();
 
 
-        while (System.currentTimeMillis() < (startTime + 3000)) {
+        while (System.currentTimeMillis() < (startTime + 3000)) { /**DEBUG CHANGED TO 30000*/
 
             goldPosition = readMineral();
 
@@ -150,39 +151,69 @@ public class LibraryTensorFlowObjectDetectionNoLight {
         ElapsedTime timer = new ElapsedTime();
         timer.reset();
 
-        while (currentPos == "" && timer.seconds() < 6) {
+        while (currentPos == "" && timer.seconds() < 6 ) { /**DEBUG CHANGED TO 600 */
             if (tfod != null) {                    // getUpdatedRecognitions() will return null if no new information is available since
                 // the last time that call was made.
                 List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
                 if (updatedRecognitions != null) {
                     telemetry.addData("# Object Detected", updatedRecognitions.size());
+
+
                     if (updatedRecognitions.size() >= 2) {
                         int goldMineralX = -1;
                         int silverMineral1X = -1;
                         int silverMineral2X = -1;
                         LinkedList<Recognition> recognitionLinkedList = new LinkedList<Recognition>();
-                        telemetry.addData("New Linked List creation", "");
+//                        telemetry.addData("New Linked List creation", "");
+
+
                         for (Recognition recognition : updatedRecognitions) {
-                            telemetry.addData("Iterate over updatedRecognitions", updatedRecognitions.indexOf(recognition));
-                            telemetry.update();
+//                            telemetry.addData("Iterate over updatedRecognitions", updatedRecognitions.indexOf(recognition));
+//                            telemetry.update();
+
+
                             /**
                              * Set the camera to read two minerals and decide what position gold is in
                              */
 
                             if ((recognitionLinkedList.isEmpty()) ||
                                     (recognition.getBottom() > recognitionLinkedList.getFirst().getBottom())) {
-                                //telemetry.addData("Added element to recognitionLinkedList", "");
-                                //sleep(2000);
+//                                telemetry.addData("Added element to recognitionLinkedList", "");
+//                                telemetry.update();
+
+
                                 recognitionLinkedList.addFirst(recognition);
                             } else {
                                 recognitionLinkedList.add(recognition);
                             }
                         }
+
+                        /**DEBUG*/
+//                        for (int i = 0; i <= recognitionLinkedList.size(); i++) {
+//                            telemetry.clearAll();
+//                            telemetry.addData("iterate over all elements: element ", i);
+//                            telemetry.addData("mineral type", recognitionLinkedList.get(i).getLabel());
+//                            telemetry.addData("mineral bottom", recognitionLinkedList.get(i).getBottom());
+//                            telemetry.addData("mineral top", recognitionLinkedList.get(i).getTop());
+//                            telemetry.addData("mineral left", recognitionLinkedList.get(i).getLeft());
+//                            telemetry.addData("mineral right", recognitionLinkedList.get(i).getRight());
+//                            telemetry.addData("List size", recognitionLinkedList.size());
+//                            telemetry.update();
+//
+//                            timer.reset();
+//                            while (timer.seconds() < 3) {}
+//
+//                        }
+                        /**END DEBUG*/
+
                         Recognition recognition = null;
                         for (int i = 0; i < 2; i++) {
-                            //telemetry.addData("iterate over first two elements: element ", i);
-                            //telemetry.addData("List size", recognitionLinkedList.size());
-                            //telemetry.update();
+                            telemetry.addData("iterate over first two elements: element ", i);
+                            telemetry.addData("mineral type", recognitionLinkedList.get(1).getLabel());
+                            telemetry.addData("mineral bottom", recognitionLinkedList.get(i).getBottom());
+                            telemetry.addData("List size", recognitionLinkedList.size());
+                            telemetry.update();
+
                             recognition = recognitionLinkedList.get(i);
                             if (recognition.getLabel().equals(LABEL_GOLD_MINERAL)) {
                                 goldMineralX = (int) recognition.getLeft();
@@ -246,5 +277,6 @@ public class LibraryTensorFlowObjectDetectionNoLight {
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_GOLD_MINERAL, LABEL_SILVER_MINERAL);
     }
+
 }
 // Quinn was here

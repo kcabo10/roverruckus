@@ -23,6 +23,7 @@ public class TeleOpProgram extends OpMode
     private int direction = -1;
     private double scaleFactor = 1;
     int arm_state = 0;
+    int basket_state = 0;
     int arm_extrusion_state = 0;
     int auto_latch_open = 0;
     int auto_latch_close = 0;
@@ -347,6 +348,11 @@ public class TeleOpProgram extends OpMode
             telemetry.addData("Button x pressed", gamepad2.x);
             telemetry.update();
         }
+        else if (gamepad2.b){
+            robot.basket.setPosition(1);
+            telemetry.addData("Button b pressed", gamepad2.b);
+            telemetry.update();
+        }
 
         /**
         * Telemetry
@@ -371,7 +377,7 @@ public class TeleOpProgram extends OpMode
 //        telemetry.addData("Arm Encoder Ticks", robot.arm.getCurrentPosition());
 //        telemetry.addData("Arm Extrusion Encoder Ticks", robot.armExtrusion.getCurrentPosition());
 //        telemetry.addData("Arm Extrusion Power", robot.armExtrusion.getPower());
-//        telemetry.addData("Arm Power", robot.arm.getPower());
+        telemetry.addData("Arm Power", robot.arm.getPower());
         telemetry.update();
     }
 

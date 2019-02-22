@@ -130,12 +130,12 @@ public class CraterProgramNoLight extends LinearOpMode {
                     robot.arm.setPower(.111);
                     gridNavigation.driveToPosition(RED_CRATER_PARKING[X], RED_CRATER_PARKING[Y], .7);
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    robot.arm.setTargetPosition(750);
+                    robot.arm.setTargetPosition(800);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     robot.arm.setPower(1);
                     while (robot.arm.isBusy()) {
                     }
-                    robot.arm.setPower(0);
+                    robot.arm.setPower(.111);
 
                 } else {
                     telemetry.addData("Telemetry", "No Position Found");
@@ -189,12 +189,12 @@ public class CraterProgramNoLight extends LinearOpMode {
                     robot.arm.setPower(.111);
                     gridNavigation.driveToPosition(RED_CRATER_PARKING[X], RED_CRATER_PARKING[Y], .7);
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    robot.arm.setTargetPosition(750);
+                    robot.arm.setTargetPosition(800);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     robot.arm.setPower(1);
                     while (robot.arm.isBusy()) {
                     }
-                    robot.arm.setPower(0);
+                    robot.arm.setPower(.111);
                 } else {
                     telemetry.addData("Telemetry", "No Position Found");
                     printTelemetry(50);
@@ -242,12 +242,12 @@ public class CraterProgramNoLight extends LinearOpMode {
                     robot.arm.setPower(.111);
                     gridNavigation.driveToPosition(RED_CRATER_PARKING[X], RED_CRATER_PARKING[Y], .7);
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    robot.arm.setTargetPosition(750);
+                    robot.arm.setTargetPosition(800);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     robot.arm.setPower(1);
                     while (robot.arm.isBusy()) {
                     }
-                    robot.arm.setPower(0);
+                    robot.arm.setPower(.111);
                 } else {
                     telemetry.addData("Telemetry", "No Position Found");
                     printTelemetry(50);
@@ -259,8 +259,152 @@ public class CraterProgramNoLight extends LinearOpMode {
                 telemetry.update();
             break;
         }
+        telemetry.addData("Parked Ready to pull out arm", "");
+        telemetry.update();
 
-        stop();
+        robot.leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.leftFront.setTargetPosition(-537);
+        robot.leftBack.setTargetPosition(-537);
+        robot.rightFront.setTargetPosition(-537);
+        robot.rightBack.setTargetPosition(-537);
+        robot.leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.leftBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.rightBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.leftBack.setPower(.5);
+        robot.leftFront.setPower(.5);
+        robot.rightBack.setPower(.5);
+        robot.rightFront.setPower(.5);
+
+        while (robot.rightFront.isBusy()){
+
+        }
+        robot.leftBack.setPower(0);
+        robot.leftFront.setPower(0);
+        robot.rightBack.setPower(0);
+        robot.rightFront.setPower(0);
+
+        robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.arm.setTargetPosition(-400);
+        robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.arm.setPower(1);
+        while (robot.arm.isBusy()) {
+        }
+        robot.arm.setPower(.111);
+
+
+        robot.leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.leftFront.setTargetPosition(500);
+        robot.leftBack.setTargetPosition(500);
+        robot.rightFront.setTargetPosition(500);
+        robot.rightBack.setTargetPosition(500);
+        robot.leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.leftBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.rightBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.leftBack.setPower(.5);
+        robot.leftFront.setPower(.5);
+        robot.rightBack.setPower(.5);
+        robot.rightFront.setPower(.5);
+
+        while (robot.rightFront.isBusy()){
+
+        }
+        robot.leftBack.setPower(0);
+        robot.leftFront.setPower(0);
+        robot.rightBack.setPower(0);
+        robot.rightFront.setPower(0);
+
+        robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.arm.setTargetPosition(400);
+        robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.arm.setPower(1);
+        while (robot.arm.isBusy()) {
+        }
+        robot.arm.setPower(.111);
+
+        robot.intake.setPower(1);
+        sleep(1000);
+        robot.intake.setPower(0);
+
+
+
+        while (true) {
+
+            //start intake
+            robot.intake.setPower(1);
+
+            robot.leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.leftFront.setTargetPosition(-250);
+            robot.leftBack.setTargetPosition(-250);
+            robot.rightFront.setTargetPosition(-250);
+            robot.rightBack.setTargetPosition(-250);
+            robot.leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.leftBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.rightBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.leftBack.setPower(.5);
+            robot.leftFront.setPower(.5);
+            robot.rightBack.setPower(.5);
+            robot.rightFront.setPower(.5);
+
+            while (robot.rightFront.isBusy()){
+
+            }
+            robot.leftBack.setPower(0);
+            robot.leftFront.setPower(0);
+            robot.rightBack.setPower(0);
+            robot.rightFront.setPower(0);
+
+            robot.leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.leftFront.setTargetPosition(250);
+            robot.leftBack.setTargetPosition(250);
+            robot.rightFront.setTargetPosition(250);
+            robot.rightBack.setTargetPosition(250);
+            robot.leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.leftBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.rightBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.leftBack.setPower(.5);
+            robot.leftFront.setPower(.5);
+            robot.rightBack.setPower(.5);
+            robot.rightFront.setPower(.5);
+
+            while (robot.rightFront.isBusy()){
+
+            }
+            robot.leftBack.setPower(0);
+            robot.leftFront.setPower(0);
+            robot.rightBack.setPower(0);
+            robot.rightFront.setPower(0);
+
+            robot.intake.setPower(0);
+            /**stop and reset encoders on motors
+             * set target position forward
+             * set power 1
+             * while is busy do nothing
+             * set power 0 to all motors
+             *
+             * stop and reset encoders on motors
+             * set target pos backward
+             * set power 1
+             * while is busy do nothing
+             * set power 0 to all motors
+             *
+             */
+        }
     }
 
     private void printTelemetry(int codePos) {

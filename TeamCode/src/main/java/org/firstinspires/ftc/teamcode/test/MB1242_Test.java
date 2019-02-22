@@ -4,10 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.HardwareBeep;
-import org.firstinspires.ftc.teamcode.sensors.SensorMB1242;
-
 import org.firstinspires.ftc.teamcode.sensors.SensorMB1242;
 
 @TeleOp(name="Rear Ultrasonic Testing", group="Test")
