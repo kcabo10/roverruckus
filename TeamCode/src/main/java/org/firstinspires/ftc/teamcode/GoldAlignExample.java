@@ -32,16 +32,14 @@ package org.firstinspires.ftc.teamcode;
 import com.disnodeteam.dogecv.CameraViewDisplay;
 import com.disnodeteam.dogecv.DogeCV;
 import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
-import com.disnodeteam.dogecv.detectors.roverrukus.SamplingOrderDetector;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 @Disabled
-@TeleOp(name="GoldAlign Example", group="DogeCV")
+@TeleOp(name = "GoldAlign Example", group = "DogeCV")
 
-public class GoldAlignExample extends OpMode
-{
+public class GoldAlignExample extends OpMode {
     private GoldAlignDetector detector;
 
 
@@ -85,8 +83,8 @@ public class GoldAlignExample extends OpMode
 
     @Override
     public void loop() {
-        telemetry.addData("IsAligned" , detector.getAligned()); // Is the bot aligned with the gold mineral
-        telemetry.addData("X Pos" , detector.getXPosition()); // Gold X pos.
+        telemetry.addData("IsAligned", detector.getAligned()); // Is the bot aligned with the gold mineral
+        telemetry.addData("X Pos", detector.getXPosition()); // Gold X pos.
     }
 
     /*

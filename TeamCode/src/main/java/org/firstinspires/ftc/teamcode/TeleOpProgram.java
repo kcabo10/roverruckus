@@ -1,38 +1,36 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
 
 /**
  * Created by kyliestruth 10/5/17.
  */
 
-@TeleOp(name= "TeleOp Program", group= "TankDrive" )
-public class TeleOpProgram extends OpMode
-{
-    private HardwareBeep robot = new HardwareBeep();
-
-    private int buttonYPressed;
-    private int buttonAPressed;
+@TeleOp(name = "TeleOp Program", group = "TankDrive")
+public class TeleOpProgram extends OpMode {
+    public ElapsedTime autolatchtime = new ElapsedTime();
+    public ElapsedTime colorsensortime = new ElapsedTime();
+    public ElapsedTime armtime = new ElapsedTime();
+    public ElapsedTime colorSensorTimeOutOpen = new ElapsedTime();
+    public ElapsedTime colorSensorTimeOutClose = new ElapsedTime();
     boolean manual_mode = false;
     boolean latch_open_mode = false;
     boolean latch_close_mode = false;
-    private int direction = -1;
-    private double scaleFactor = 1;
     int arm_state = 0;
     int basket_state = 0;
     int arm_extrusion_state = 0;
     int auto_latch_open = 0;
     int auto_latch_close = 0;
     float armPower = 0;
-    public ElapsedTime autolatchtime = new ElapsedTime();
-    public ElapsedTime colorsensortime = new ElapsedTime();
-    public ElapsedTime armtime = new ElapsedTime();
-    public ElapsedTime colorSensorTimeOutOpen = new ElapsedTime();
-    public ElapsedTime colorSensorTimeOutClose = new ElapsedTime();
+    private HardwareBeep robot = new HardwareBeep();
+    private int buttonYPressed;
+    private int buttonAPressed;
+    private int direction = -1;
+    private double scaleFactor = 1;
 
     // 0 = waiting, 1 = arm up commanded, 2 = arm down commanded
 
@@ -44,13 +42,14 @@ public class TeleOpProgram extends OpMode
         }
     }
 
-    public void scaleFactor(){
+    public void scaleFactor() {
         if (scaleFactor == 0.5) {
             scaleFactor = 1;
         } else if (scaleFactor == 1) {
             scaleFactor = 0.5;
         }
     }
+
     public void init() {
         robot.init(hardwareMap);
         telemetry.addData("Say", "Hello Driver");
@@ -258,7 +257,7 @@ public class TeleOpProgram extends OpMode
                 break;
             case 1:
                 if (!gamepad2.right_bumper) {
-                 arm_extrusion_state++;
+                    arm_extrusion_state++;
                 }
                 break;
             case 2:
@@ -266,8 +265,7 @@ public class TeleOpProgram extends OpMode
                 if (!robot.touchSensor.getState()) {
                     robot.armExtrusion.setPower(0);
                     arm_extrusion_state = 0;
-                }
-                else if (gamepad2.right_bumper) {
+                } else if (gamepad2.right_bumper) {
                     arm_extrusion_state++;
                 }
                 break;
@@ -347,16 +345,15 @@ public class TeleOpProgram extends OpMode
             robot.basket.setPosition(.5);
             telemetry.addData("Button x pressed", gamepad2.x);
             telemetry.update();
-        }
-        else if (gamepad2.b){
+        } else if (gamepad2.b) {
             robot.basket.setPosition(1);
             telemetry.addData("Button b pressed", gamepad2.b);
             telemetry.update();
         }
 
         /**
-        * Telemetry
-        */
+         * Telemetry
+         */
 
         telemetry.addData("y Button", gamepad1.y);
         telemetry.addData("ButtonYPressed", buttonYPressed);

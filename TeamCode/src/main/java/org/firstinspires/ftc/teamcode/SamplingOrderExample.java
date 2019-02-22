@@ -31,20 +31,14 @@ package org.firstinspires.ftc.teamcode;
 
 import com.disnodeteam.dogecv.CameraViewDisplay;
 import com.disnodeteam.dogecv.DogeCV;
-import com.disnodeteam.dogecv.detectors.roverrukus.GoldDetector;
-import com.disnodeteam.dogecv.filters.HSVColorFilter;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.util.ElapsedTime;
-
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 @Disabled
-@TeleOp(name="Sampling Order Example", group="DogeCV")
+@TeleOp(name = "Sampling Order Example", group = "DogeCV")
 
-public class SamplingOrderExample extends OpMode
-{
+public class SamplingOrderExample extends OpMode {
     private LibrarySamplingOrderDetector detector;
 
     @Override
@@ -69,8 +63,6 @@ public class SamplingOrderExample extends OpMode
         detector.enable();
 
 
-
-
     }
 
     @Override
@@ -89,11 +81,11 @@ public class SamplingOrderExample extends OpMode
     @Override
     public void loop() {
         String myPosition = null;
-        telemetry.addData("Current Order" , detector.getCurrentOrder().toString()); // The current result for the frame
-        telemetry.addData("Last Order" , detector.getLastOrder().toString()); // The last known result
+        telemetry.addData("Current Order", detector.getCurrentOrder().toString()); // The current result for the frame
+        telemetry.addData("Last Order", detector.getLastOrder().toString()); // The last known result
         myPosition = detector.getLastOrder().toString();
-        switch(myPosition){
-            case("LEFT"):
+        switch (myPosition) {
+            case ("LEFT"):
                 telemetry.addData("Telemetry", "Left Position");
                 telemetry.update();
                 break;
@@ -105,7 +97,7 @@ public class SamplingOrderExample extends OpMode
                 telemetry.addData("Telemetry", "Center Position");
                 telemetry.update();
                 break;
-            case("UNKNOWN"):
+            case ("UNKNOWN"):
                 telemetry.addData("Telemetry", "Unknown Position");
                 telemetry.update();
                 break;

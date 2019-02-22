@@ -44,10 +44,10 @@ import java.util.List;
 /**
  * This 2018-2019 OpMode illustrates the basics of using the TensorFlow Object Detection API to
  * determine the position of the gold and silver minerals.
- *
+ * <p>
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list.
- *
+ * <p>
  * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
  * is explained below.
  */
@@ -64,19 +64,17 @@ public class LibraryTensorFlowObjectDetectionNoLight {
     //private static final String VUFORIA_KEY = "AS9xNSf/////AAABmZ2AubQkTEFHuWxboHr/qgcSu4jWVAzmohkEVAicGMw66GcX1uY55PbVhytIM4mQxb4WUjuz3eIg3QzfmZ1a9jPPREvj90fYcxhBmk6+444WAselalZu6Kw/xDM7ibuO3Md5STFLGzKUsZDLajzqjeZT67DuCxWJDCUutKZoVbmOS7kgNEbuHNO9LJuq80OTL7aiNsAjqLtAdduHT8nqSCz4wjQ1pbsZ1Ds809JN0PHu3nHC+dbWj8qqKUiFkEo0Z38g1tanehxI8vvJ+Rj/ezymKCsUeXhkgZ7CDq/uwAitEi75qpQZv1fs4ctcLoZVvpn4oGrmpv1QItYOsPa7E79ed5izdd021d5Z1RUya4bh";
 
     private static final String VUFORIA_KEY = "Aa4mtdP/////AAABmSRcR7UP9kS4nIeX1am8Tf5TlWuaSoXF9p9tlyFSx0zDxT39pe+kg1dseqSvlAQBMws92KngQN7wl3RHkCgjre8b+A9RXXtGx0mlQ1PWbMIf4AlDdHncv6ERajxzi+HwOgFkMt44eQ9gVLBLUvxzDepzfZaMSfalcWz3qtbhq8hH2R3npGb+p2x6XVY6IWZSwkKpnCFVddAhsyuToQ/S5ndIkeB2O4mquvWESjFDc6ALl/SU7Rcg5Qb/chtv2dK+EWkcaf+XSjzn7KvOsaykUeOk2ChCIEQizneBH0ILH28lPMGjxTky7qnTf+5Jb/IHpd64ZtTZN9Q2Nyrlce1750yUVtnqSxRdUPPaJTiBQrKo";
-
+    HardwareBeep robot;
+    Telemetry telemetry;
+    ElapsedTime timer;
     /**
      * Set Vuforia as a Localizer
      */
     private VuforiaLocalizer vuforia;
-
     /**
      * Set tfod to the TensorFlowObjectDetector
      */
     private TFObjectDetector tfod;
-    HardwareBeep robot;
-    Telemetry telemetry;
-    ElapsedTime timer;
 
     public LibraryTensorFlowObjectDetectionNoLight(HardwareBeep newHardwareBeep, Telemetry newTelemetry) {
 
@@ -151,7 +149,7 @@ public class LibraryTensorFlowObjectDetectionNoLight {
         ElapsedTime timer = new ElapsedTime();
         timer.reset();
 
-        while (currentPos == "" && timer.seconds() < 6 ) { /**DEBUG CHANGED TO 600 */
+        while (currentPos == "" && timer.seconds() < 6) { /**DEBUG CHANGED TO 600 */
             if (tfod != null) {                    // getUpdatedRecognitions() will return null if no new information is available since
                 // the last time that call was made.
                 List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();

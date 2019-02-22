@@ -5,25 +5,24 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@Autonomous(name="Depot Program No Light", group="Beep")
+@Autonomous(name = "Depot Program No Light", group = "Beep")
 public class DepotProgramNoLight extends LinearOpMode {
 
+    public ElapsedTime runtime = new ElapsedTime();
+    public String foundTargetName = "";
     HardwareBeep robot = new HardwareBeep();
     LibraryGyro gyroTurn = new LibraryGyro();
     LibraryGyroDrive gyroDrive = new LibraryGyroDrive();
     LibraryDogeforia dogeforia = new LibraryDogeforia(robot, telemetry);
     LibraryGridNavigation gridNavigation = new LibraryGridNavigation();
     LibraryTensorFlowObjectDetectionNoLight tensorFlow = new LibraryTensorFlowObjectDetectionNoLight(robot, telemetry);
-
     String goldPosition = "";
-    public ElapsedTime runtime = new ElapsedTime();
-    public String foundTargetName = "";
     int armExtrusionPos, liftPos;
 
 
     /**
-    Called when init button is  pressed.
-    */
+     * Called when init button is  pressed.
+     */
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -57,8 +56,8 @@ public class DepotProgramNoLight extends LinearOpMode {
 
         runtime.reset();
 
-        while ((goldPosition == "Unknown") && (runtime.seconds() < 5)){
-            gridNavigation.driveToPosition(.9,.9, .7);
+        while ((goldPosition == "Unknown") && (runtime.seconds() < 5)) {
+            gridNavigation.driveToPosition(.9, .9, .7);
 
         }
 
@@ -66,7 +65,7 @@ public class DepotProgramNoLight extends LinearOpMode {
         runtime.reset();
         robot.latch.setPower(-1);
 
-        while (runtime.seconds() <1.15){
+        while (runtime.seconds() < 1.15) {
 
         }
         robot.latch.setPower(0);
@@ -90,8 +89,8 @@ public class DepotProgramNoLight extends LinearOpMode {
         double[] RED_DEPOT_RIGHT = {1.2916, .9114};
         double[] RED_DEPOT_CENTER = {1.1, 1.1};
 
-        double[] RED_DEPOT_MARKER = {1.6,2.6};
-        double[] LEFT_DEPOT_MARKER = {1.6,2.4};
+        double[] RED_DEPOT_MARKER = {1.6, 2.6};
+        double[] LEFT_DEPOT_MARKER = {1.6, 2.4};
 
         double[] RED_DEPOT_PARKING = {-.8, 2.65};
 
@@ -104,12 +103,12 @@ public class DepotProgramNoLight extends LinearOpMode {
                 telemetry.addData("Telemetry", "Gold Pos = LEFT");
                 printTelemetry(20);
                 if (goldPosition == "LEFT") {
-                    gridNavigation.driveToPosition(.8,.8,.5);
+                    gridNavigation.driveToPosition(.8, .8, .5);
                     lowerLift();
                     gridNavigation.driveToPosition(RED_DEPOT_LEFT[X], RED_DEPOT_LEFT[Y], .5);
                     telemetry.addData("Grid Nav Goto Pos X", RED_DEPOT_LEFT[X]);
                     telemetry.addData("Grid Nav Goto Pos Y", RED_DEPOT_LEFT[Y]);
-                    gridNavigation.driveToPosition(LEFT_DEPOT_MARKER [X], LEFT_DEPOT_MARKER [Y], .5);
+                    gridNavigation.driveToPosition(LEFT_DEPOT_MARKER[X], LEFT_DEPOT_MARKER[Y], .5);
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.arm.setTargetPosition(450);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -138,8 +137,7 @@ public class DepotProgramNoLight extends LinearOpMode {
                     robot.arm.setPower(.111);
 //                    gridNavigation.driveToPosition(RED_DEPOT_ARM_DROP[X], RED_DEPOT_ARM_DROP[Y], .5);
 
-                }
-                else {
+                } else {
                     telemetry.addData("Telemetry", "No Position Found");
                     printTelemetry(30);
                 }
@@ -149,8 +147,8 @@ public class DepotProgramNoLight extends LinearOpMode {
             case "RIGHT":
                 telemetry.addData("Telemetry", "Gold Pos = RIGHT");
                 printTelemetry(40);
-                if (goldPosition == "RIGHT"){
-                    gridNavigation.driveToPosition(.8,.8,.5);
+                if (goldPosition == "RIGHT") {
+                    gridNavigation.driveToPosition(.8, .8, .5);
                     lowerLift();
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.arm.setTargetPosition(750);
@@ -171,7 +169,7 @@ public class DepotProgramNoLight extends LinearOpMode {
                     robot.arm.setPower(.111);
                     gridNavigation.driveToPosition(.5, 1.5, .5);
                     gridNavigation.driveToPosition(.5, 2.5, .5);
-                    gridNavigation.driveToPosition(RED_DEPOT_MARKER [X], RED_DEPOT_MARKER [Y], .5);
+                    gridNavigation.driveToPosition(RED_DEPOT_MARKER[X], RED_DEPOT_MARKER[Y], .5);
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.arm.setTargetPosition(450);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -199,8 +197,7 @@ public class DepotProgramNoLight extends LinearOpMode {
                     }
                     robot.arm.setPower(.111);
 //                    gridNavigation.driveToPosition(RED_DEPOT_ARM_DROP[X], RED_DEPOT_ARM_DROP[Y], .5);
-                }
-                else {
+                } else {
                     telemetry.addData("Telemetry", "No Position Found");
                     printTelemetry(50);
                 }
@@ -210,7 +207,7 @@ public class DepotProgramNoLight extends LinearOpMode {
             case "CENTER":
                 telemetry.addData("Telemetry", "Gold Pos = CENTER");
                 printTelemetry(60);
-                if (goldPosition == "CENTER"){
+                if (goldPosition == "CENTER") {
                     telemetry.addData("Grid Nav Goto Pos X", RED_DEPOT_CENTER[X]);
                     telemetry.addData("Grid Nav Goto Pos Y", RED_DEPOT_CENTER[Y]);
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -231,7 +228,7 @@ public class DepotProgramNoLight extends LinearOpMode {
                     robot.arm.setPower(.111);
                     gridNavigation.driveToPosition(.65, 1.5, .5);
                     gridNavigation.driveToPosition(.2, 2.5, .5);
-                    gridNavigation.driveToPosition(RED_DEPOT_MARKER [X], RED_DEPOT_MARKER [Y], .5);
+                    gridNavigation.driveToPosition(RED_DEPOT_MARKER[X], RED_DEPOT_MARKER[Y], .5);
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.arm.setTargetPosition(450);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -259,8 +256,7 @@ public class DepotProgramNoLight extends LinearOpMode {
                     }
                     robot.arm.setPower(.111);
 //                    gridNavigation.driveToPosition(RED_DEPOT_ARM_DROP[X], RED_DEPOT_ARM_DROP[Y], .5);
-                }
-                else {
+                } else {
                     telemetry.addData("Telemetry", "No Position Found");
                     printTelemetry(70);
                 }
@@ -298,7 +294,7 @@ public class DepotProgramNoLight extends LinearOpMode {
         robot.rightBack.setPower(.5);
         robot.rightFront.setPower(.5);
 
-        while (robot.rightFront.isBusy()){
+        while (robot.rightFront.isBusy()) {
 
         }
         robot.leftBack.setPower(0);
@@ -332,7 +328,7 @@ public class DepotProgramNoLight extends LinearOpMode {
         robot.rightBack.setPower(.5);
         robot.rightFront.setPower(.5);
 
-        while (robot.rightFront.isBusy()){
+        while (robot.rightFront.isBusy()) {
 
         }
         robot.leftBack.setPower(0);
@@ -351,7 +347,6 @@ public class DepotProgramNoLight extends LinearOpMode {
         robot.intake.setPower(1);
         sleep(1000);
         robot.intake.setPower(0);
-
 
 
         while (true) {
@@ -376,7 +371,7 @@ public class DepotProgramNoLight extends LinearOpMode {
             robot.rightBack.setPower(.5);
             robot.rightFront.setPower(.5);
 
-            while (robot.rightFront.isBusy()){
+            while (robot.rightFront.isBusy()) {
 
             }
             robot.leftBack.setPower(0);
@@ -401,7 +396,7 @@ public class DepotProgramNoLight extends LinearOpMode {
             robot.rightBack.setPower(.5);
             robot.rightFront.setPower(.5);
 
-            while (robot.rightFront.isBusy()){
+            while (robot.rightFront.isBusy()) {
 
             }
             robot.leftBack.setPower(0);
@@ -434,7 +429,7 @@ public class DepotProgramNoLight extends LinearOpMode {
         telemetry.update();
     }
 
-    private void lowerLift(){
+    private void lowerLift() {
         robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.lift.setTargetPosition(14500);
         robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);

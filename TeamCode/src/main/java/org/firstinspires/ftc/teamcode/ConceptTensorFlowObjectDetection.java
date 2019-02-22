@@ -34,22 +34,21 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 
-import java.util.List;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * This 2018-2019 OpMode illustrates the basics of using the TensorFlow Object Detection API to
  * determine the position of the gold and silver minerals.
- *
+ * <p>
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list.
- *
+ * <p>
  * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
  * is explained below.
  */
@@ -73,20 +72,17 @@ public class ConceptTensorFlowObjectDetection extends LinearOpMode {
      * and paste it in to your code on the next line, between the double quotes.
      */
     private static final String VUFORIA_KEY = "AehWUEP/////AAAAGdLM1Ir3CEUunWFOGlSVegZ02oYjauBrfpYGcP/MNvZGEWO15KaOdjuIx0XAGISDJtiT9pfALwG5bGHfY2d5LVLV3jBq+2vLfcYh7zxUbHOcJpPfbzpUDVkGI5WHZlZ6IaqoCAEPznkxcZ5uyMwfZr1qyZp9LVTTAFhYwjRgSuF4/mcjzI3/ujUOZEKUzIOQbSlAPyNkiNMnRA0RHlzK7djpkXvghYsX7LYJDnJc5Fvpi6mqZqI+lyco0jnUHhMh4l7HczZ1HbKTAwuJFqc3aQab8bnjw9QegJb62vURA/ljwEIEUhT6mEGx+XJSOUA+KCwi/WDnKcZwOZr43VqmHPgLCvJmTFpVeOdBY4ozX5/J";
-
+    String returnVal;
     /**
      * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
      * localization engine.
      */
     private VuforiaLocalizer vuforia;
-
     /**
      * {@link #tfod} is the variable we will use to store our instance of the Tensor Flow Object
      * Detection engine.
      */
     private TFObjectDetector tfod;
-
-    String returnVal;
 
     @Override
     public void runOpMode() {
@@ -117,17 +113,17 @@ public class ConceptTensorFlowObjectDetection extends LinearOpMode {
                     // the last time that call was made.
                     List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
                     if (updatedRecognitions != null) {
-                      telemetry.addData("# Object Detected", updatedRecognitions.size());
-                      if (updatedRecognitions.size() >= 2) {
-                        int goldMineralX = -1;
-                        int silverMineral1X = -1;
-                        int silverMineral2X = -1;
-                        LinkedList<Recognition> recognitionLinkedList = new LinkedList<Recognition>();
-                        telemetry.addData("New Linked List creation", "");
-                        for (Recognition recognition : updatedRecognitions) {
-                            telemetry.addData("Iterate over updatedRecognitions", updatedRecognitions.indexOf(recognition));
-                            telemetry.update();
-                            //sleep(2000);
+                        telemetry.addData("# Object Detected", updatedRecognitions.size());
+                        if (updatedRecognitions.size() >= 2) {
+                            int goldMineralX = -1;
+                            int silverMineral1X = -1;
+                            int silverMineral2X = -1;
+                            LinkedList<Recognition> recognitionLinkedList = new LinkedList<Recognition>();
+                            telemetry.addData("New Linked List creation", "");
+                            for (Recognition recognition : updatedRecognitions) {
+                                telemetry.addData("Iterate over updatedRecognitions", updatedRecognitions.indexOf(recognition));
+                                telemetry.update();
+                                //sleep(2000);
                             /* FOR TESTING
                             telemetry.addData("rec label", recognition.getLabel());
                             telemetry.addData("rec angle", recognition.estimateAngleToObject(AngleUnit.DEGREES));
@@ -136,50 +132,48 @@ public class ConceptTensorFlowObjectDetection extends LinearOpMode {
                             telemetry.addData("rec heigt", recognition.getImageHeight());
                             */
 
-                            if ((recognitionLinkedList.isEmpty()) ||
-                                    (recognition.getBottom() > recognitionLinkedList.getFirst().getBottom())) {
-                                //telemetry.addData("Added element to recognitionLinkedList", "");
-                                //sleep(2000);
-                                recognitionLinkedList.addFirst(recognition);
+                                if ((recognitionLinkedList.isEmpty()) ||
+                                        (recognition.getBottom() > recognitionLinkedList.getFirst().getBottom())) {
+                                    //telemetry.addData("Added element to recognitionLinkedList", "");
+                                    //sleep(2000);
+                                    recognitionLinkedList.addFirst(recognition);
+                                } else {
+                                    recognitionLinkedList.add(recognition);
+                                }
                             }
-                            else {
-                                recognitionLinkedList.add(recognition);
-                            }
-                        }
 
-                        Recognition recognition = null;
-                        for (int i = 0; i < 2; i++) {
-                            //telemetry.addData("iterate over first two elements: element ", i);
-                            //telemetry.addData("List size", recognitionLinkedList.size());
-                            //telemetry.update();
-                            recognition = recognitionLinkedList.get(i);
-                            if (recognition.getLabel().equals(LABEL_GOLD_MINERAL)) {
-                                goldMineralX = (int) recognition.getLeft();
-                            } else if (silverMineral1X == -1) {
-                                silverMineral1X = (int) recognition.getLeft();
-                            } else {
-                                silverMineral2X = (int) recognition.getLeft();
+                            Recognition recognition = null;
+                            for (int i = 0; i < 2; i++) {
+                                //telemetry.addData("iterate over first two elements: element ", i);
+                                //telemetry.addData("List size", recognitionLinkedList.size());
+                                //telemetry.update();
+                                recognition = recognitionLinkedList.get(i);
+                                if (recognition.getLabel().equals(LABEL_GOLD_MINERAL)) {
+                                    goldMineralX = (int) recognition.getLeft();
+                                } else if (silverMineral1X == -1) {
+                                    silverMineral1X = (int) recognition.getLeft();
+                                } else {
+                                    silverMineral2X = (int) recognition.getLeft();
+                                }
                             }
-                        }
 
 
-                        if (goldMineralX == -1 && silverMineral1X != -1 && silverMineral2X != -1) {
-                            telemetry.addData("Gold Mineral Position", "Left");
-                            returnVal = "LEFT";
-                        }
-                        if (goldMineralX != -1 && silverMineral1X != -1) {
-                            if (goldMineralX > silverMineral1X) {
-                                telemetry.addData("Gold Mineral Position", "Right");
-                                returnVal = "RIGHT";
+                            if (goldMineralX == -1 && silverMineral1X != -1 && silverMineral2X != -1) {
+                                telemetry.addData("Gold Mineral Position", "Left");
+                                returnVal = "LEFT";
                             }
-                            else {
-                                telemetry.addData("Gold Mineral Position", "Center");
-                                returnVal = "CENTER";
+                            if (goldMineralX != -1 && silverMineral1X != -1) {
+                                if (goldMineralX > silverMineral1X) {
+                                    telemetry.addData("Gold Mineral Position", "Right");
+                                    returnVal = "RIGHT";
+                                } else {
+                                    telemetry.addData("Gold Mineral Position", "Center");
+                                    returnVal = "CENTER";
+                                }
                             }
                         }
-                      }
-                      telemetry.update();
-                      sleep(2000);
+                        telemetry.update();
+                        sleep(2000);
                     }
                 }
             }
@@ -213,7 +207,7 @@ public class ConceptTensorFlowObjectDetection extends LinearOpMode {
      */
     private void initTfod() {
         int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
-            "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+                "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_GOLD_MINERAL, LABEL_SILVER_MINERAL);

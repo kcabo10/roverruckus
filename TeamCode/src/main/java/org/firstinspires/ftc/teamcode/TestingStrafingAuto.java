@@ -8,11 +8,11 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
  * Created by kyliestruth 10/27/18.
  */
 
-@TeleOp(name= "Strafing Test Auto", group= "TankDrive")
-public class TestingStrafingAuto extends OpMode
-{
+@TeleOp(name = "Strafing Test Auto", group = "TankDrive")
+public class TestingStrafingAuto extends OpMode {
     private HardwareMapStrafingTest robot = new HardwareMapStrafingTest();
-     @Override
+
+    @Override
     public void init() {
 
         robot.init(hardwareMap);
@@ -21,16 +21,17 @@ public class TestingStrafingAuto extends OpMode
 
     public void init_loop() {
 
-         }
+    }
 
-   public void loop() {
+    public void loop() {
 
         robot.rightBack.setPower(1);
         robot.rightFront.setPower(-1);
         robot.leftBack.setPower(-1);
         robot.leftFront.setPower(1);
     }
-        public void stop() {
+
+    public void stop() {
 
     }
 }

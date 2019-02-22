@@ -6,18 +6,17 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-@Autonomous(name="Crater Program With Light", group="Beep")
+@Autonomous(name = "Crater Program With Light", group = "Beep")
 public class CraterProgramWithLight extends LinearOpMode {
 
+    public ElapsedTime runtime = new ElapsedTime();
+    public String foundTargetName = "";
     HardwareBeep robot = new HardwareBeep();
     LibraryGyro gyroTurn = new LibraryGyro();
     LibraryGyroDrive gyroDrive = new LibraryGyroDrive();
     LibraryGridNavigation gridNavigation = new LibraryGridNavigation();
     LibraryTensorFlowObjectDetectionWithLight tensorFlow = new LibraryTensorFlowObjectDetectionWithLight(robot, telemetry);
-
     String goldPosition = "";
-    public ElapsedTime runtime = new ElapsedTime();
-    public String foundTargetName = "";
     int armExtrusionPos, liftPos;
 
     @Override
@@ -56,7 +55,7 @@ public class CraterProgramWithLight extends LinearOpMode {
         runtime.reset();
         robot.latch.setPower(-1);
 
-        while (runtime.seconds() <1.15){
+        while (runtime.seconds() < 1.15) {
 
         }
         robot.latch.setPower(0);
@@ -89,7 +88,7 @@ public class CraterProgramWithLight extends LinearOpMode {
                 printTelemetry(20);
 
                 if (goldPosition == "LEFT") {
-                    gridNavigation.driveToPosition(.8,.8,.5);
+                    gridNavigation.driveToPosition(.8, .8, .5);
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.arm.setTargetPosition(500);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -107,7 +106,7 @@ public class CraterProgramWithLight extends LinearOpMode {
                     while (robot.arm.isBusy()) {
                     }
                     robot.arm.setPower(0);
-                    gridNavigation.driveToPosition(0,2.5,.5);
+                    gridNavigation.driveToPosition(0, 2.5, .5);
                     gridNavigation.driveToPosition(LEFT_RED_CRATER_MARKER[X], LEFT_RED_CRATER_MARKER[Y], .5);
                     robot.intake.setPower(1);
                     sleep(1000);
@@ -132,7 +131,7 @@ public class CraterProgramWithLight extends LinearOpMode {
                 printTelemetry(40);
 
                 if (goldPosition == "RIGHT") {
-                    gridNavigation.driveToPosition(.8,.8,.5);
+                    gridNavigation.driveToPosition(.8, .8, .5);
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.arm.setTargetPosition(500);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -150,7 +149,7 @@ public class CraterProgramWithLight extends LinearOpMode {
                     while (robot.arm.isBusy()) {
                     }
                     robot.arm.setPower(0);
-                    gridNavigation.driveToPosition(0,2.5,.5);
+                    gridNavigation.driveToPosition(0, 2.5, .5);
                     gridNavigation.driveToPosition(RED_CRATER_MARKER[X], RED_CRATER_MARKER[Y], .5);
                     robot.intake.setPower(1);
                     sleep(1000);
@@ -171,7 +170,7 @@ public class CraterProgramWithLight extends LinearOpMode {
 
             case "CENTER":
                 telemetry.addData("Telemetry", "Gold Pos = CENTER");
-                if (goldPosition == "CENTER"){
+                if (goldPosition == "CENTER") {
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.arm.setTargetPosition(500);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -187,7 +186,7 @@ public class CraterProgramWithLight extends LinearOpMode {
                     while (robot.arm.isBusy()) {
                     }
                     robot.arm.setPower(0);
-                    gridNavigation.driveToPosition(0,2.5,.5);
+                    gridNavigation.driveToPosition(0, 2.5, .5);
                     gridNavigation.driveToPosition(RED_CRATER_MARKER[X], RED_CRATER_MARKER[Y], .5);
                     robot.intake.setPower(1);
                     sleep(1000);

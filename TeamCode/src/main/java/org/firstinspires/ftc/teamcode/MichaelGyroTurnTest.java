@@ -4,22 +4,18 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
-@Autonomous(name="Michael Gryo Testing 1", group="Exercises")
+@Autonomous(name = "Michael Gryo Testing 1", group = "Exercises")
 @Disabled
 public class MichaelGyroTurnTest extends LinearOpMode {
 
-    public HardwareBeep robot   = new HardwareBeep();
-    public LibraryGyro gyro     = new LibraryGyro();
+    public HardwareBeep robot = new HardwareBeep();
+    public LibraryGyro gyro = new LibraryGyro();
     Orientation lastAngles = new Orientation();
     double globalAngle, power = .30, correction;
     double angle_variable;
@@ -87,28 +83,27 @@ public class MichaelGyroTurnTest extends LinearOpMode {
         telemetry.update();
 
 
-        gridNav.setGridPosition(0,0,0);
+        gridNav.setGridPosition(0, 0, 0);
         telemetry.addData("Telemtry", "gridNav SetPosition complete");
         telemetry.update();
 
         sleep(3000);
 
 
-        gridNav.driveToPosition(0,2, power);
+        gridNav.driveToPosition(0, 2, power);
         telemetry.addData("Telemtry", "gridNav GridNavImplemented complete");
         telemetry.update();
 
         sleep(3000);
 
-        gridNav.driveToPosition(2,2,power);
+        gridNav.driveToPosition(2, 2, power);
         sleep(3000);
 
-        gridNav.driveToPosition(2,0,power);
+        gridNav.driveToPosition(2, 0, power);
         sleep(3000);
 
-        gridNav.driveToPosition(0,0, power);
+        gridNav.driveToPosition(0, 0, power);
         sleep(3000);
-
 
 
         while (opModeIsActive()) {
@@ -185,19 +180,20 @@ public class MichaelGyroTurnTest extends LinearOpMode {
 
     /**
      * Rotate left or right the number of degrees. Does not support turning more than 180 degrees.
+     *
      * @param degrees Degrees to turn, + is left - is right
      */
-    private void GyroTurn(int degrees){
+    private void GyroTurn(int degrees) {
 
         resetAngle();
 
         double realign;
 
-        if(degrees < 0){
+        if (degrees < 0) {
             //rotates left
-            while(opModeIsActive() && getAngle() > degrees){
+            while (opModeIsActive() && getAngle() > degrees) {
 
-                double Proportional = (degrees - getAngle())/degrees;
+                double Proportional = (degrees - getAngle()) / degrees;
                 double speed = Math.round(Proportional);
 
                 telemetry.addData("Telemetry 1", "Active");
@@ -223,7 +219,7 @@ public class MichaelGyroTurnTest extends LinearOpMode {
 
             realign = degrees - getAngle();
 
-            while (opModeIsActive() && realign > 0){
+            while (opModeIsActive() && realign > 0) {
 
                 robot.leftFront.setPower(.1);
                 robot.leftBack.setPower(.1);
@@ -232,13 +228,12 @@ public class MichaelGyroTurnTest extends LinearOpMode {
                 // set leftPower to .1
                 // set rightPower to -.1
             }
-        }
-        else if(degrees > 0){
+        } else if (degrees > 0) {
             //rotates right
 
-            while(opModeIsActive() && getAngle() < degrees){
+            while (opModeIsActive() && getAngle() < degrees) {
 
-                double Proportional = (degrees - getAngle())/degrees;
+                double Proportional = (degrees - getAngle()) / degrees;
                 double speed = Math.round(Proportional);
 
                 telemetry.addData("Telemetry 4", "Active");
@@ -265,7 +260,7 @@ public class MichaelGyroTurnTest extends LinearOpMode {
 
             realign = degrees - getAngle();
 
-            while (opModeIsActive() && realign > 0){
+            while (opModeIsActive() && realign > 0) {
 
                 robot.leftFront.setPower(-.1);
                 robot.leftBack.setPower(-.1);
@@ -275,12 +270,10 @@ public class MichaelGyroTurnTest extends LinearOpMode {
                 // set rightPower to .1
 
             }
-        }
-        else return;
+        } else return;
 
 
         resetAngle();
-
 
 
     }

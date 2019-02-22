@@ -12,14 +12,12 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
-import java.math.RoundingMode;
-
-@Autonomous(name="Michael Gryo Testing 3", group="Exercises")
+@Autonomous(name = "Michael Gryo Testing 3", group = "Exercises")
 @Disabled
 public class MichaelGyroTurnTest3 extends LinearOpMode {
 
 
-    HardwarePushbot robot   = new HardwarePushbot();
+    HardwarePushbot robot = new HardwarePushbot();
     DcMotor LeftFront;
     DcMotor LeftBack;
     DcMotor RightFront;

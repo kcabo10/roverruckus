@@ -2,13 +2,13 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.sensors.SensorMB1242;
 
 
 /**
  * Created by vasudevfamily on 8/31/17.
- *
+ * <p>
  * This library contains the grid navigation program, which utilizes a virtual grid
  * with origin (0, 0) starting the center of the field.  The angle fo 0 degrees
  * begins on the positive X axis and moves counterclockwise
@@ -19,12 +19,8 @@ public class LibraryGridNavigation {
     HardwareBeep robot;// = new HardwareBeep();
     //LibraryGyro gyro;// = new LibraryGyro();
     LibraryGyroDrive gyroDrive = new LibraryGyroDrive();
-//    SensorMB1242 leftUS = robot.leftSonic;
-//    SensorMB1242 rightUS = robot.rightSonic;
-    private ElapsedTime runtime = new ElapsedTime();
     Telemetry telemetry;
     int i = 0;
-
     double xOrigin = 0;
     //X1 is starting X coordinate
     double xDestination;
@@ -39,6 +35,9 @@ public class LibraryGridNavigation {
     double Distance;
     float turnAngle = 0f;
     double GEAR_RATIO_SCALING_FACTOR = 1.2857142857;//(35/45);
+    //    SensorMB1242 leftUS = robot.leftSonic;
+//    SensorMB1242 rightUS = robot.rightSonic;
+    private ElapsedTime runtime = new ElapsedTime();
 
     //The angle 0 degrees starts on the positive X axis and moves counterclockwise
     public void setGridPosition(double xPosition, double yPosition, float angle) {
@@ -69,10 +68,9 @@ public class LibraryGridNavigation {
         System.out.println("xLeg is " + xLeg);
         System.out.println("yLeg is " + yLeg);
         tanAngle = (float) Math.toDegrees(theta);
-        if(tanAngle > 180){
+        if (tanAngle > 180) {
             tanAngle = tanAngle - 360;
-        }
-        else if(tanAngle < -180){
+        } else if (tanAngle < -180) {
             tanAngle = tanAngle + 360;
         }
         System.out.println("Start Angle is " + StartingAngle);
@@ -113,7 +111,7 @@ public class LibraryGridNavigation {
         telemetry.addData("Y pos", yLeg);
 
         tanAngle = (float) Math.toDegrees(theta);
-        while((tanAngle > 180) || (tanAngle < -180)) {
+        while ((tanAngle > 180) || (tanAngle < -180)) {
             if (tanAngle > 180) {
                 tanAngle = tanAngle - 360;
             } else if (tanAngle < -180) {
@@ -158,7 +156,7 @@ public class LibraryGridNavigation {
          * covered by one rotation of our wheels, which is 12.57 inches.  We then multiply that
          * value by the number of encoder ticks per rotation of the motors we are using.  Finally,
          * we multiply that encoder value by the gear ratio that is set up for the wheel assembly we use.
-*/
+         */
         System.out.println("Drive Distance is " + Distance);
 
         /* START TEST CODE FOR SHOWING PRINTS
@@ -296,17 +294,15 @@ public class LibraryGridNavigation {
 
 //        turnAngle = (turnAngle - 180);
 
-        if(turnAngle > 180){
+        if (turnAngle > 180) {
             turnAngle = turnAngle - 180;
             StartingAngle = (StartingAngle - 180);
 
-        }
-        else if(turnAngle < -180){
+        } else if (turnAngle < -180) {
             turnAngle = turnAngle + 180;
             StartingAngle = (StartingAngle + 180);
 
-        }
-        else {
+        } else {
         }
 
         gyroDrive.gyro.turnGyro(turnAngle);

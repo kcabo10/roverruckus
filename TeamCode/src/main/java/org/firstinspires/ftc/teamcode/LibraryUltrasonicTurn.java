@@ -1,20 +1,9 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.I2cAddr;
-import com.qualcomm.robotcore.hardware.I2cDevice;
-import com.qualcomm.robotcore.hardware.I2cDeviceSynch;
-import com.qualcomm.robotcore.hardware.I2cDeviceSynchDevice;
-import com.qualcomm.robotcore.hardware.configuration.annotations.I2cDeviceType;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.teamcode.sensors.SensorMB1242;
 
 public class LibraryUltrasonicTurn {
 
@@ -35,8 +24,8 @@ public class LibraryUltrasonicTurn {
 
     /**
      * The hardware class needs to be initialized before this function is called
-    */
-    public void init(HardwareBeep myRobot, Telemetry myTelemetry){
+     */
+    public void init(HardwareBeep myRobot, Telemetry myTelemetry) {
         robot = myRobot;
         telemetry = myTelemetry;
 
@@ -55,8 +44,7 @@ public class LibraryUltrasonicTurn {
 
     }
 
-    public void SetTunings (double Kp, double Ki, double Kd)
-    {
+    public void SetTunings(double Kp, double Ki, double Kd) {
         kp = Kp;
         ki = Ki;
         kd = Kd;
@@ -123,7 +111,8 @@ public class LibraryUltrasonicTurn {
             telemetry.addData("tarHeading", Setpoint);
             telemetry.update();
             //} while (Input < targetHeading && (System.currentTimeMillis() < (startTime + 6000)));
-        } while ((Math.abs(Input - Setpoint) > TOLERANCE) || (System.currentTimeMillis() < (startTime + 1050)));
+        }
+        while ((Math.abs(Input - Setpoint) > TOLERANCE) || (System.currentTimeMillis() < (startTime + 1050)));
 
 
         telemetry.addData("curHeading", Input);
@@ -144,7 +133,6 @@ public class LibraryUltrasonicTurn {
         robot.leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
 
 
         return Input;

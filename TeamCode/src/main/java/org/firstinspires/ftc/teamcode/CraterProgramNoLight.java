@@ -6,18 +6,17 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-@Autonomous(name="Crater Program No Light", group="Beep")
+@Autonomous(name = "Crater Program No Light", group = "Beep")
 public class CraterProgramNoLight extends LinearOpMode {
 
+    public ElapsedTime runtime = new ElapsedTime();
+    public String foundTargetName = "";
     HardwareBeep robot = new HardwareBeep();
     LibraryGyro gyroTurn = new LibraryGyro();
     LibraryGyroDrive gyroDrive = new LibraryGyroDrive();
     LibraryGridNavigation gridNavigation = new LibraryGridNavigation();
     LibraryTensorFlowObjectDetectionNoLight tensorFlow = new LibraryTensorFlowObjectDetectionNoLight(robot, telemetry);
-
     String goldPosition = "";
-    public ElapsedTime runtime = new ElapsedTime();
-    public String foundTargetName = "";
     int armExtrusionPos, liftPos;
 
     @Override
@@ -37,7 +36,7 @@ public class CraterProgramNoLight extends LinearOpMode {
 
 
         /**
-        Wait for start button.
+         Wait for start button.
          */
 
         waitForStart();
@@ -56,7 +55,7 @@ public class CraterProgramNoLight extends LinearOpMode {
         runtime.reset();
         robot.latch.setPower(-1);
 
-        while (runtime.seconds() <1.15){
+        while (runtime.seconds() < 1.15) {
 
         }
         robot.latch.setPower(0);
@@ -68,9 +67,9 @@ public class CraterProgramNoLight extends LinearOpMode {
         int X = 0;
         int Y = 1;
 
-       /**
-        Change values to grab mineral
-        */
+        /**
+         Change values to grab mineral
+         */
 
         double[] RED_CRATER_LEFT = {1, 1.2916}; //.9322
         double[] RED_CRATER_RIGHT = {1.3125, .8958};
@@ -89,7 +88,7 @@ public class CraterProgramNoLight extends LinearOpMode {
                 printTelemetry(20);
 
                 if (goldPosition == "LEFT") {
-                    gridNavigation.driveToPosition(.8,.8,.5);
+                    gridNavigation.driveToPosition(.8, .8, .5);
                     lowerLift();
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.arm.setTargetPosition(750);
@@ -108,7 +107,7 @@ public class CraterProgramNoLight extends LinearOpMode {
                     while (robot.arm.isBusy()) {
                     }
                     robot.arm.setPower(.111);
-                    gridNavigation.driveToPosition(0,2.5,.5);
+                    gridNavigation.driveToPosition(0, 2.5, .5);
                     gridNavigation.driveToPosition(LEFT_CRATER_MARKER[X], LEFT_CRATER_MARKER[Y], .5);
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.arm.setTargetPosition(450);
@@ -141,14 +140,14 @@ public class CraterProgramNoLight extends LinearOpMode {
                     telemetry.addData("Telemetry", "No Position Found");
                     printTelemetry(30);
                 }
-            break;
+                break;
 
             case "RIGHT":
                 telemetry.addData("Telemetry", "Gold Pos = RIGHT");
                 printTelemetry(40);
 
                 if (goldPosition == "RIGHT") {
-                    gridNavigation.driveToPosition(.8,.8,.5);
+                    gridNavigation.driveToPosition(.8, .8, .5);
                     lowerLift();
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.arm.setTargetPosition(750);
@@ -167,7 +166,7 @@ public class CraterProgramNoLight extends LinearOpMode {
                     while (robot.arm.isBusy()) {
                     }
                     robot.arm.setPower(.111);
-                    gridNavigation.driveToPosition(0,2.5,.5);
+                    gridNavigation.driveToPosition(0, 2.5, .5);
                     gridNavigation.driveToPosition(RIGHT_CRATER_MARKER[X], RIGHT_CRATER_MARKER[Y], .5);
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.arm.setTargetPosition(450);
@@ -199,11 +198,11 @@ public class CraterProgramNoLight extends LinearOpMode {
                     telemetry.addData("Telemetry", "No Position Found");
                     printTelemetry(50);
                 }
-            break;
+                break;
 
             case "CENTER":
                 telemetry.addData("Telemetry", "Gold Pos = CENTER");
-                if (goldPosition == "CENTER"){
+                if (goldPosition == "CENTER") {
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.arm.setTargetPosition(750);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -220,7 +219,7 @@ public class CraterProgramNoLight extends LinearOpMode {
                     while (robot.arm.isBusy()) {
                     }
                     robot.arm.setPower(.111);
-                    gridNavigation.driveToPosition(0,2.5,.5);
+                    gridNavigation.driveToPosition(0, 2.5, .5);
                     gridNavigation.driveToPosition(RED_CRATER_MARKER[X], RED_CRATER_MARKER[Y], .5);
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.arm.setTargetPosition(450);
@@ -257,7 +256,7 @@ public class CraterProgramNoLight extends LinearOpMode {
             default:
                 telemetry.addData("Telemetry", "Didn't see gold pos");
                 telemetry.update();
-            break;
+                break;
         }
         telemetry.addData("Parked Ready to pull out arm", "");
         telemetry.update();
@@ -279,7 +278,7 @@ public class CraterProgramNoLight extends LinearOpMode {
         robot.rightBack.setPower(.5);
         robot.rightFront.setPower(.5);
 
-        while (robot.rightFront.isBusy()){
+        while (robot.rightFront.isBusy()) {
 
         }
         robot.leftBack.setPower(0);
@@ -313,7 +312,7 @@ public class CraterProgramNoLight extends LinearOpMode {
         robot.rightBack.setPower(.5);
         robot.rightFront.setPower(.5);
 
-        while (robot.rightFront.isBusy()){
+        while (robot.rightFront.isBusy()) {
 
         }
         robot.leftBack.setPower(0);
@@ -332,7 +331,6 @@ public class CraterProgramNoLight extends LinearOpMode {
         robot.intake.setPower(1);
         sleep(1000);
         robot.intake.setPower(0);
-
 
 
         while (true) {
@@ -357,7 +355,7 @@ public class CraterProgramNoLight extends LinearOpMode {
             robot.rightBack.setPower(.5);
             robot.rightFront.setPower(.5);
 
-            while (robot.rightFront.isBusy()){
+            while (robot.rightFront.isBusy()) {
 
             }
             robot.leftBack.setPower(0);
@@ -382,7 +380,7 @@ public class CraterProgramNoLight extends LinearOpMode {
             robot.rightBack.setPower(.5);
             robot.rightFront.setPower(.5);
 
-            while (robot.rightFront.isBusy()){
+            while (robot.rightFront.isBusy()) {
 
             }
             robot.leftBack.setPower(0);
@@ -415,7 +413,7 @@ public class CraterProgramNoLight extends LinearOpMode {
         telemetry.update();
     }
 
-    private void lowerLift(){
+    private void lowerLift() {
         robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.lift.setTargetPosition(14500);
         robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -430,26 +428,26 @@ public class CraterProgramNoLight extends LinearOpMode {
         String previousPosition;
         goldPosition = tensorFlow.findMineral();
 
-            switch (goldPosition) {
-                case ("LEFT"):
-                    telemetry.addData("Telemetry", "Left Position");
-                    telemetry.update();
-                    break;
-                case ("RIGHT"):
-                    telemetry.addData("Telemetry", "Right Position");
-                    telemetry.update();
-                    break;
-                case ("CENTER"):
-                    telemetry.addData("Telemetry", "Center Position");
-                    telemetry.update();
-                    break;
-                default:
-                    telemetry.addData("Telemetry", "Unknown Position");
-                    telemetry.update();
-                    goldPosition = "CENTER";
-                    break;
-            }
-
-            telemetry.update();
+        switch (goldPosition) {
+            case ("LEFT"):
+                telemetry.addData("Telemetry", "Left Position");
+                telemetry.update();
+                break;
+            case ("RIGHT"):
+                telemetry.addData("Telemetry", "Right Position");
+                telemetry.update();
+                break;
+            case ("CENTER"):
+                telemetry.addData("Telemetry", "Center Position");
+                telemetry.update();
+                break;
+            default:
+                telemetry.addData("Telemetry", "Unknown Position");
+                telemetry.update();
+                goldPosition = "CENTER";
+                break;
         }
+
+        telemetry.update();
+    }
 }

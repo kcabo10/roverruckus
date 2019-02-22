@@ -4,31 +4,25 @@ import com.disnodeteam.dogecv.CameraViewDisplay;
 import com.disnodeteam.dogecv.DogeCV;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
 
 
-@Autonomous(name="Master Autonomous Program", group="Beep")
+@Autonomous(name = "Master Autonomous Program", group = "Beep")
 public class MasterAutonomousProgram extends LinearOpMode {
 
+    static final double DRIVE_SPEED = 1.0;
+    static final double TURN_SPEED = 1.0;
+    public String foundTargetName = "";
     HardwareBeep robot = new HardwareBeep();
     LibraryGyro gyroTurn = new LibraryGyro();
     LibraryGyroDrive gyroDrive = new LibraryGyroDrive();
     LibraryDogeforia dogeforia = new LibraryDogeforia(robot, telemetry);
     LibraryVuMarkIdentification vuforia;
     LibraryGridNavigation gridNavigation = new LibraryGridNavigation();
-
     String goldPosition = "";
 
-
-    static final double DRIVE_SPEED = 1.0;
-    static final double TURN_SPEED = 1.0;
-
-
-    public String foundTargetName = "";
-
     /**
-    Called when init button is  pressed.
-    */
+     * Called when init button is  pressed.
+     */
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -46,7 +40,7 @@ public class MasterAutonomousProgram extends LinearOpMode {
 
 
         /**
-        Wait for start button.
+         Wait for start button.
          */
 
         waitForStart();
@@ -79,7 +73,7 @@ public class MasterAutonomousProgram extends LinearOpMode {
         telemetry.update();
 
         gyroTurn.turnGyro(45);
-        gyroDrive.gyroDrive(.3, -400,0);//1611);
+        gyroDrive.gyroDrive(.3, -400, 0);//1611);
 
         printTelemetry(20);
 
@@ -101,9 +95,9 @@ public class MasterAutonomousProgram extends LinearOpMode {
         int X = 0;
         int Y = 1;
 
-       /**
-        Change values to grab mineral
-        */
+        /**
+         Change values to grab mineral
+         */
 
 
         double[] BLUE_DEPOT_LEFT = {-2, -1};
@@ -115,7 +109,7 @@ public class MasterAutonomousProgram extends LinearOpMode {
         double[] BLUE_CRATER_CENTER = {1.5, -1.5};
 
         double[] RED_DEPOT_LEFT = {2, 1};
-        double[] RED_DEPOT_RIGHT = {1, 2} ;
+        double[] RED_DEPOT_RIGHT = {1, 2};
         double[] RED_DEPOT_CENTER = {1.5, 1.5};
 
         double[] RED_CRATER_LEFT = {-1, 2};
@@ -149,15 +143,14 @@ public class MasterAutonomousProgram extends LinearOpMode {
                     gridNavigation.driveToPosition(RED_CRATER_LEFT[X], RED_CRATER_LEFT[Y], .2);
 //                    gridNavigation.driveToPosition(RED_CRATER_LEFT_PARKING[X], RED_CRATER_LEFT_PARKING[Y], .2);
                 }
-                if (goldPosition == "RIGHT"){
+                if (goldPosition == "RIGHT") {
                     gridNavigation.driveToPosition(RED_CRATER_RIGHT[X], RED_CRATER_RIGHT[Y], .2);
 //                    gridNavigation.driveToPosition(RED_CRATER_RIGHT_PARKING[X], RED_CRATER_RIGHT_PARKING[Y], .2);
                 }
-                if (goldPosition == "CENTER"){
+                if (goldPosition == "CENTER") {
                     gridNavigation.driveToPosition(RED_CRATER_CENTER[X], RED_CRATER_CENTER[Y], .2);
 //                    gridNavigation.driveToPosition(RED_CRATER_CENTER_PARKING[X], RED_CRATER_CENTER_PARKING[Y], .2);
-                }
-                else {
+                } else {
                     telemetry.addData("Telemetry", "No Position Found");
                 }
 
@@ -170,17 +163,16 @@ public class MasterAutonomousProgram extends LinearOpMode {
                     gridNavigation.driveToPosition(BLUE_CRATER_LEFT[X], BLUE_CRATER_LEFT[Y], .2);
 //                    gridNavigation.driveToPosition(BLUE_CRATER_LEFT_PARKING[X], BLUE_CRATER_LEFT_PARKING[Y],.2);
                 }
-                if (goldPosition == "RIGHT"){
+                if (goldPosition == "RIGHT") {
                     gridNavigation.driveToPosition(BLUE_CRATER_RIGHT[X], BLUE_CRATER_RIGHT[Y], .2);
 //                    gridNavigation.driveToPosition(BLUE_CRATER_RIGHT_PARKING[X], BLUE_CRATER_RIGHT_PARKING[Y], .2);
                 }
-                if (goldPosition == "CENTER"){
-                        gridNavigation.driveToPosition(BLUE_CRATER_CENTER[X], BLUE_CRATER_CENTER[Y], .2);
-                }
-                else {
+                if (goldPosition == "CENTER") {
+                    gridNavigation.driveToPosition(BLUE_CRATER_CENTER[X], BLUE_CRATER_CENTER[Y], .2);
+                } else {
                     telemetry.addData("Telemetry", "No Position Found");
                 }
-                    break;
+                break;
 
 
             case "Front-Craters":
@@ -191,15 +183,14 @@ public class MasterAutonomousProgram extends LinearOpMode {
                     gridNavigation.driveToPosition(BLUE_DEPOT_LEFT[X], BLUE_DEPOT_LEFT[Y], .2);
 //                    gridNavigation.driveToPosition(BLUE_DEPOT_LEFT_PARKING[X], BLUE_DEPOT_LEFT_PARKING[Y], .2);
                 }
-                if (goldPosition == "RIGHT"){
+                if (goldPosition == "RIGHT") {
                     gridNavigation.driveToPosition(BLUE_DEPOT_RIGHT[X], BLUE_DEPOT_RIGHT[Y], .2);
 //                    gridNavigation.driveToPosition(BLUE_DEPOT_RIGHT_PARKING[X], BLUE_DEPOT_RIGHT_PARKING[Y], .2);
                 }
-                if (goldPosition == "CENTER"){
+                if (goldPosition == "CENTER") {
                     gridNavigation.driveToPosition(BLUE_DEPOT_CENTER[X], BLUE_DEPOT_CENTER[Y], .2);
 //                    gridNavigation.driveToPosition(BLUE_DEPOT_CENTER_PARKING[X], BLUE_DEPOT_CENTER_PARKING[Y], .2);
-                }
-                else {
+                } else {
                     telemetry.addData("Telemetry", "No Position Found");
                 }
 
@@ -216,19 +207,18 @@ public class MasterAutonomousProgram extends LinearOpMode {
                     telemetry.addData("Grid Nav Goto Pos Y", RED_DEPOT_LEFT[Y]);
 //                    gridNavigation.driveToPosition(RED_DEPOT_LEFT_PARKING[X], RED_DEPOT_LEFT_PARKING[Y], .2);
                 }
-                if (goldPosition == "RIGHT"){
+                if (goldPosition == "RIGHT") {
                     gridNavigation.driveToPosition(RED_DEPOT_RIGHT[X], RED_DEPOT_RIGHT[Y], .2);
                     telemetry.addData("Grid Nav Goto Pos X", RED_DEPOT_RIGHT[X]);
                     telemetry.addData("Grid Nav Goto Pos Y", RED_DEPOT_RIGHT[Y]);
 //                    gridNavigation.driveToPosition(RED_DEPOT_RIGHT_PARKING[X], RED_DEPOT_RIGHT_PARKING[Y], .2);
                 }
-                if (goldPosition == "CENTER"){
+                if (goldPosition == "CENTER") {
                     gridNavigation.driveToPosition(RED_DEPOT_CENTER[X], RED_DEPOT_CENTER[Y], .2);
                     telemetry.addData("Grid Nav Goto Pos X", RED_DEPOT_CENTER[X]);
                     telemetry.addData("Grid Nav Goto Pos Y", RED_DEPOT_CENTER[Y]);
 //                    gridNavigation.driveToPosition(RED_DEPOT_CENTER_PARKING[X], RED_DEPOT_CENTER_PARKING[Y], .2);
-                }
-                else {
+                } else {
                     telemetry.addData("Telemetry", "No Position Found");
                     printTelemetry(80);
                 }
@@ -237,7 +227,7 @@ public class MasterAutonomousProgram extends LinearOpMode {
                 telemetry.addData("Grid Nav Goto Pos Y", RED_DEPOT_LEFT[Y]);
 
                 telemetry.update();
-                sleep (2000);
+                sleep(2000);
                 break;
 
 
@@ -285,7 +275,6 @@ public class MasterAutonomousProgram extends LinearOpMode {
         detector.enable();
 
 
-
         goldPosition = "UNKNOWN";
         previousPosition = "UNKNOWN";
         telemetry.addData("MAP", "Running Sampling Order loop");
@@ -307,8 +296,7 @@ public class MasterAutonomousProgram extends LinearOpMode {
                 goldPosition = detector.getLastOrder().toString();
 
                 if (goldPosition == previousPosition) {
-                }
-                else {
+                } else {
                     previousPosition = goldPosition;
                     startTime = System.currentTimeMillis();
 

@@ -29,11 +29,8 @@
 
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DigitalChannel;
-import com.qualcomm.robotcore.hardware.TouchSensor;
 
 /*
  * This is an example LinearOpMode that shows how to use
@@ -48,11 +45,12 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 public class RevTouchSensor extends LinearOpMode {
 
     HardwareBeep robot = new HardwareBeep();
+
     /**
      * The REV Robotics Touch Sensor
      * is treated as a digital channel.  It is HIGH if the button is unpressed.
      * It pulls LOW if the button is pressed.
-     *
+     * <p>
      * Also, when you connect a REV Robotics Touch Sensor to the digital I/O port on the
      * Expansion Hub using a 4-wire JST cable, the second pin gets connected to the Touch Sensor.
      * The lower (first) pin stays unconnected.*

@@ -6,6 +6,7 @@ package org.firstinspires.ftc.teamcode;
 /**
  * Import Hardware
  */
+
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -13,13 +14,10 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.I2cAddr;
-import com.qualcomm.robotcore.hardware.I2cDeviceSynch;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.sensors.SensorMB1242;
-import org.firstinspires.ftc.teamcode.test.MB1242_Test;
 
 /**
  * Define Class as HardwareBeep
@@ -28,7 +26,7 @@ public class HardwareBeep {
 
     /**
      * Set Public OpMode Members
-     * */
+     */
     public DcMotor leftFront = null;
     public DcMotor leftBack = null;
     public DcMotor rightFront = null;
@@ -93,8 +91,8 @@ public class HardwareBeep {
         basket = hwMap.get(Servo.class, "basket");
         imu = hwMap.get(BNO055IMU.class, "imu");
         colorSensor = hwMap.get(ModernRoboticsI2cColorSensor.class, "color_Sensor");
-        leftSonic = hwMap.get(SensorMB1242.class,"left_sonic");
-        rightSonic = hwMap.get(SensorMB1242.class,"right_sonic");
+        leftSonic = hwMap.get(SensorMB1242.class, "left_sonic");
+        rightSonic = hwMap.get(SensorMB1242.class, "right_sonic");
         I2cAddr myAddr = new I2cAddr(225);
         rightSonic.setI2cAddress(myAddr);
         touchSensor = hwMap.get(DigitalChannel.class, "sensor_digital");

@@ -1,9 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class HardwareMapStrafingTest {
@@ -20,6 +18,7 @@ public class HardwareMapStrafingTest {
     public HardwareMapStrafingTest() {
 
     }
+
     public void init(HardwareMap ahwMap) {
         hwMap = ahwMap;
         leftFront = hwMap.get(DcMotor.class, "left_front");
