@@ -93,7 +93,7 @@ public class CraterProgramNoLight extends LinearOpMode {
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.arm.setTargetPosition(750);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    robot.arm.setPower(1);
+                    robot.arm.setPower(1); 
                     while (robot.arm.isBusy()) {
                     }
                     robot.arm.setPower(0);
