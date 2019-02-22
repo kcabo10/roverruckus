@@ -17,11 +17,12 @@ public class TeleOpProgram extends OpMode
 
     private int buttonYPressed;
     private int buttonAPressed;
-    boolean manual_mode = false;
-    boolean latch_open_mode = false;
-    boolean latch_close_mode = false;
+    private boolean manual_mode = false;
+    private boolean latch_open_mode = false;
+    private boolean latch_close_mode = false;
     private int direction = -1;
     private double scaleFactor = 1;
+    private double scaleSpeed = 1;
     int arm_state = 0;
     int arm_extrusion_state = 0;
     int auto_latch_open = 0;
@@ -50,6 +51,7 @@ public class TeleOpProgram extends OpMode
             scaleFactor = 0.5;
         }
     }
+
     public void init() {
         robot.init(hardwareMap);
         telemetry.addData("Say", "Hello Driver");
@@ -58,6 +60,7 @@ public class TeleOpProgram extends OpMode
 
     public void init_loop() {
 
+        boolean latch_open_mode = false;
         buttonYPressed = 0;
         buttonAPressed = 0;
         robot.lift.setPower(0);
@@ -79,6 +82,7 @@ public class TeleOpProgram extends OpMode
         double r = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
         double robotAngle = Math.atan2(gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4;
         double rightX = gamepad1.right_stick_x;
+
         if (direction == -1) {
             final double v1 = (r * Math.cos(robotAngle) + rightX) * scaleFactor * direction;
             final double v2 = (r * Math.sin(robotAngle) - rightX) * scaleFactor * direction;
@@ -94,6 +98,18 @@ public class TeleOpProgram extends OpMode
             final double v2 = (r * Math.sin(robotAngle) + rightX) * scaleFactor * direction;
             final double v3 = (r * Math.sin(robotAngle) - rightX) * scaleFactor * direction;
             final double v4 = (r * Math.cos(robotAngle) + rightX) * scaleFactor * direction;
+
+            robot.leftFront.setPower(v1);
+            robot.rightFront.setPower(v2);
+            robot.leftBack.setPower(v3);
+            robot.rightBack.setPower(v4);
+        }
+
+        if (gamepad1.right_stick_y == 1) {
+            final double v1 = (r * Math.cos(robotAngle) - rightX/2) * scaleFactor * direction;
+            final double v2 = (r * Math.sin(robotAngle) + rightX/2) * scaleFactor * direction;
+            final double v3 = (r * Math.sin(robotAngle) - rightX/2) * scaleFactor * direction;
+            final double v4 = (r * Math.cos(robotAngle) + rightX/2) * scaleFactor * direction;
 
             robot.leftFront.setPower(v1);
             robot.rightFront.setPower(v2);
