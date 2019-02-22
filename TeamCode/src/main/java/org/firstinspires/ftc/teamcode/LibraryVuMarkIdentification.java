@@ -29,14 +29,7 @@
 
 package org.firstinspires.ftc.teamcode;
 
-import android.drm.DrmUtils;
-
-import com.disnodeteam.dogecv.Dogeforia;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-
-import com.vuforia.Trackable;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -59,45 +52,44 @@ import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocaliz
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.FRONT;
 
 
-
 /**
  * This 2018-2019 OpMode illustrates the basics of using the Vuforia localizer to determine
  * positioning and orientation of robot on the FTC field.
  * The code is structured as a LinearOpMode
- *
+ * <p>
  * Vuforia uses the phone's camera to inspect it's surroundings, and attempt to locate target images.
- *
+ * <p>
  * When images are located, Vuforia is able to determine the position and orientation of the
  * image relative to the camera.  This sample code than combines that information with a
  * knowledge of where the target images are on the field, to determine the location of the camera.
- *
+ * <p>
  * This example assumes a "square" field configuration where the red and blue alliance stations
  * are on opposite walls of each other.
- *
+ * <p>
  * From the Audience perspective, the Red Alliance station is on the right and the
  * Blue Alliance Station is on the left.
  * The four vision targets are located in the center of each of the perimeter walls with
  * the images facing inwards towards the robots:
- *     - BlueRover is the Mars Rover image target on the wall closest to the blue alliance
- *     - RedFootprint is the Lunar Footprint target on the wall closest to the red alliance
- *     - FrontCraters is the Lunar Craters image target on the wall closest to the audience
- *     - BackSpace is the Deep Space image target on the wall farthest from the audience
- *
+ * - BlueRover is the Mars Rover image target on the wall closest to the blue alliance
+ * - RedFootprint is the Lunar Footprint target on the wall closest to the red alliance
+ * - FrontCraters is the Lunar Craters image target on the wall closest to the audience
+ * - BackSpace is the Deep Space image target on the wall farthest from the audience
+ * <p>
  * A final calculation then uses the location of the camera on the robot to determine the
  * robot's location and orientation on the field.
  *
  * @see VuforiaLocalizer
  * @see VuforiaTrackableDefaultListener
  * see  ftc_app/doc/tutorial/FTC_FieldCoordinateSystemDefinition.pdf
- *
+ * <p>
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list.
- *
+ * <p>
  * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
  * is explained below.
  */
 
-public class LibraryVuMarkIdentification{
+public class LibraryVuMarkIdentification {
 
     /*
      * IMPORTANT: You need to obtain your own license key to use Vuforia. The string below with which
@@ -112,42 +104,35 @@ public class LibraryVuMarkIdentification{
      * and paste it in to your code on the next line, between the double quotes.
      */
     private static final String VUFORIA_KEY = "AehWUEP/////AAAAGdLM1Ir3CEUunWFOGlSVegZ02oYjauBrfpYGcP/MNvZGEWO15KaOdjuIx0XAGISDJtiT9pfALwG5bGHfY2d5LVLV3jBq+2vLfcYh7zxUbHOcJpPfbzpUDVkGI5WHZlZ6IaqoCAEPznkxcZ5uyMwfZr1qyZp9LVTTAFhYwjRgSuF4/mcjzI3/ujUOZEKUzIOQbSlAPyNkiNMnRA0RHlzK7djpkXvghYsX7LYJDnJc5Fvpi6mqZqI+lyco0jnUHhMh4l7HczZ1HbKTAwuJFqc3aQab8bnjw9QegJb62vURA/ljwEIEUhT6mEGx+XJSOUA+KCwi/WDnKcZwOZr43VqmHPgLCvJmTFpVeOdBY4ozX5/J";
-
-    private static String foundTargetName = "";
     // Since ImageTarget trackables use mm to specifiy their dimensions, we must use mm for all the physical dimension.
     // We will define some constants and conversions here
-    private static final float mmPerInch        = 25.4f;
-    private static final float mmFTCFieldWidth  = (12*6) * mmPerInch;       // the width of the FTC field (from the center point to the outer panels)
-    private static final float mmTargetHeight   = (6) * mmPerInch;          // the height of the center of the target image above the floor
-
+    private static final float mmPerInch = 25.4f;
+    private static final float mmFTCFieldWidth = (12 * 6) * mmPerInch;       // the width of the FTC field (from the center point to the outer panels)
+    private static final float mmTargetHeight = (6) * mmPerInch;          // the height of the center of the target image above the floor
     // Select which camera you want use.  The FRONT camera is the one on the same side as the screen.
     // Valid choices are:  BACK or FRONT
     private static final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK;
-
-
-    private OpenGLMatrix lastLocation = null;
-    private boolean targetVisible = false;
+    private static String foundTargetName = "";
     public float gridPos[] = new float[2];
     public Orientation rotation;
-
     /**
      * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
      * localization engine.
      */
     VuforiaLocalizer vuforia;
-
     HardwareMap hardwareMap;
-
     Telemetry telemetry;
+    private OpenGLMatrix lastLocation = null;
+    private boolean targetVisible = false;
 
-    public LibraryVuMarkIdentification(HardwareMap newHardwareMap, Telemetry newTelemetry){
+    public LibraryVuMarkIdentification(HardwareMap newHardwareMap, Telemetry newTelemetry) {
 
         hardwareMap = newHardwareMap;
 
         telemetry = newTelemetry;
     }
 
-     public String getTarget() {
+    public String getTarget() {
         /*
          * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
          * We can pass Vuforia the handle to a camera preview resource (on the RC phone);
@@ -158,8 +143,8 @@ public class LibraryVuMarkIdentification{
 
         // VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 
-        parameters.vuforiaLicenseKey = VUFORIA_KEY ;
-        parameters.cameraDirection   = CAMERA_CHOICE;
+        parameters.vuforiaLicenseKey = VUFORIA_KEY;
+        parameters.cameraDirection = CAMERA_CHOICE;
 
         //  Instantiate the Vuforia engine
         vuforia = ClassFactory.getInstance().createVuforia(parameters);
@@ -168,7 +153,7 @@ public class LibraryVuMarkIdentification{
         gridPos = new float[2];
 
 
-         // Load the data sets that for the trackable objects. These particular data
+        // Load the data sets that for the trackable objects. These particular data
         // sets are stored in the 'assets' part of our application.
         VuforiaTrackables targetsRoverRuckus = this.vuforia.loadTrackablesFromAsset("RoverRuckus");
         VuforiaTrackable blueRover = targetsRoverRuckus.get(0);
@@ -235,7 +220,7 @@ public class LibraryVuMarkIdentification{
          */
         OpenGLMatrix frontCratersLocationOnField = OpenGLMatrix
                 .translation(-mmFTCFieldWidth, 0, mmTargetHeight)
-                .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0 , 90));
+                .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0, 90));
         frontCraters.setLocation(frontCratersLocationOnField);
 
         /**
@@ -272,9 +257,9 @@ public class LibraryVuMarkIdentification{
          * Next, translate the camera lens to where it is on the robot.
          * In this example, it is centered (left to right), but 110 mm forward of the middle of the robot, and 200 mm above ground level.
          */
-        final int CAMERA_FORWARD_DISPLACEMENT  = 242;   // eg: Camera is 110 mm in front of robot center
+        final int CAMERA_FORWARD_DISPLACEMENT = 242;   // eg: Camera is 110 mm in front of robot center
         final int CAMERA_VERTICAL_DISPLACEMENT = 265;   // eg: Camera is 200 mm above ground
-        final int CAMERA_LEFT_DISPLACEMENT     = 48;   // eg: Camera is ON the robot's center line
+        final int CAMERA_LEFT_DISPLACEMENT = 48;   // eg: Camera is ON the robot's center line
 
         OpenGLMatrix phoneLocationOnRobot = OpenGLMatrix
                 .translation(CAMERA_LEFT_DISPLACEMENT, CAMERA_VERTICAL_DISPLACEMENT, CAMERA_FORWARD_DISPLACEMENT)
@@ -282,9 +267,8 @@ public class LibraryVuMarkIdentification{
                         CAMERA_CHOICE == FRONT ? 90 : -90, 0, 0));
 
         /**  Let all the trackable listeners know where the phone is.  */
-        for (VuforiaTrackable trackable : allTrackables)
-        {
-            ((VuforiaTrackableDefaultListener)trackable.getListener()).setPhoneInformation(phoneLocationOnRobot, parameters.cameraDirection);
+        for (VuforiaTrackable trackable : allTrackables) {
+            ((VuforiaTrackableDefaultListener) trackable.getListener()).setPhoneInformation(phoneLocationOnRobot, parameters.cameraDirection);
         }
 
         /** Wait for the game to begin */
@@ -294,8 +278,8 @@ public class LibraryVuMarkIdentification{
         /** Start tracking the data sets we care about. */
         targetsRoverRuckus.activate();
 
-            // check all the trackable target to see which one (if any) is visible.
-            targetVisible = false;
+        // check all the trackable target to see which one (if any) is visible.
+        targetVisible = false;
         while (!targetVisible) {
             for (VuforiaTrackable trackable : allTrackables) {
                 if (((VuforiaTrackableDefaultListener) trackable.getListener()).isVisible()) {
@@ -314,26 +298,25 @@ public class LibraryVuMarkIdentification{
             }
         }
 
-            // Provide feedback as to where the robot is located (if we know).
-            if (targetVisible) {
+        // Provide feedback as to where the robot is located (if we know).
+        if (targetVisible) {
 
-                // express position (translation) of robot in inches.
-                VectorF translation = lastLocation.getTranslation();
-                telemetry.addData("Pos (in)", "{X, Y, Z} = %.1f, %.1f, %.1f",
-                        translation.get(0) / mmPerInch, translation.get(1) / mmPerInch, translation.get(2) / mmPerInch);
+            // express position (translation) of robot in inches.
+            VectorF translation = lastLocation.getTranslation();
+            telemetry.addData("Pos (in)", "{X, Y, Z} = %.1f, %.1f, %.1f",
+                    translation.get(0) / mmPerInch, translation.get(1) / mmPerInch, translation.get(2) / mmPerInch);
 
-                // express the rotation of the robot in degrees.
-                rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
-                telemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f", rotation.firstAngle, rotation.secondAngle, rotation.thirdAngle);
-                gridPos[0] = translation.get(0) / mmPerInch / 24;
-                gridPos[1] = translation.get(1) / mmPerInch / 24;
-                telemetry.addData("GridNav Pos", "{X, Y, Heading} = %.1f, %.1f, %.0f", gridPos[0], gridPos[1], rotation.thirdAngle);
-            }
-            else {
-                telemetry.addData("Visible Target", "none");
-            }
-            telemetry.update();
-         return foundTargetName;
+            // express the rotation of the robot in degrees.
+            rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
+            telemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f", rotation.firstAngle, rotation.secondAngle, rotation.thirdAngle);
+            gridPos[0] = translation.get(0) / mmPerInch / 24;
+            gridPos[1] = translation.get(1) / mmPerInch / 24;
+            telemetry.addData("GridNav Pos", "{X, Y, Heading} = %.1f, %.1f, %.0f", gridPos[0], gridPos[1], rotation.thirdAngle);
+        } else {
+            telemetry.addData("Visible Target", "none");
+        }
+        telemetry.update();
+        return foundTargetName;
 
-     }
+    }
 }

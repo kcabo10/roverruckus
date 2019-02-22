@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -9,9 +8,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
  * Created by kyliestruth 10/5/17.
  */
 
-@TeleOp(name= "Strafing Test", group= "TankDrive")
-public class StrafingTest extends OpMode
-{
+@TeleOp(name = "Strafing Test", group = "TankDrive")
+public class StrafingTest extends OpMode {
     private HardwareMapStrafingTest robot = new HardwareMapStrafingTest();
 
     public void init() {
@@ -30,7 +28,7 @@ public class StrafingTest extends OpMode
          *POV Mecanum Wheel Control With Strafing
          */
 
-       double r = Math.hypot(-gamepad1.left_stick_x, gamepad1.left_stick_y);
+        double r = Math.hypot(-gamepad1.left_stick_x, gamepad1.left_stick_y);
         double robotAngle = Math.atan2(gamepad1.left_stick_y, -gamepad1.left_stick_x) - Math.PI / 4;
         double rightX = gamepad1.right_stick_x;
         final double v1 = r * Math.cos(robotAngle) + rightX;

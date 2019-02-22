@@ -8,11 +8,11 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
  * Created by kyliestruth 10/27/18.
  */
 @Disabled
-@TeleOp(name= "Arm Test", group= "TankDrive")
-public class TestingArm extends OpMode
-{
+@TeleOp(name = "Arm Test", group = "TankDrive")
+public class TestingArm extends OpMode {
     private HardwareBeep robot = new HardwareBeep();
-     @Override
+
+    @Override
     public void init() {
 
         robot.init(hardwareMap);
@@ -21,7 +21,7 @@ public class TestingArm extends OpMode
 
     public void init_loop() {
 
-         robot.arm.setPower(0);
+        robot.arm.setPower(0);
     }
 
     public void loop() {
@@ -34,7 +34,7 @@ public class TestingArm extends OpMode
             robot.arm.setPower(0);
     }
 
-        public void stop() {
+    public void stop() {
 
         robot.arm.setPower(0);
     }

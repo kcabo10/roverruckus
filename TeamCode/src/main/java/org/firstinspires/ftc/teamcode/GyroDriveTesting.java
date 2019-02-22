@@ -1,15 +1,14 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 
-@Autonomous(name="GyroDriveTesting", group="Exercises")
+@Autonomous(name = "GyroDriveTesting", group = "Exercises")
 public class GyroDriveTesting extends LinearOpMode {
 
-    public HardwareBeep robot   = new HardwareBeep();
-    public LibraryGyro gyro     = new LibraryGyro();
+    public HardwareBeep robot = new HardwareBeep();
+    public LibraryGyro gyro = new LibraryGyro();
     LibraryGyroDrive gyroDrive = new LibraryGyroDrive();
 
 
@@ -41,8 +40,23 @@ public class GyroDriveTesting extends LinearOpMode {
 
         waitForStart();
 
-        gyroDrive.gyroDrive(.3, 10000, 0);
-        sleep(3000);
+        //gyroDrive.gyroDrive(.3, 10000, 0);
+        gyroDrive.gyroDriveVariableP(.5, 2000, 0, .01);
+        sleep(2000);
+        gyroDrive.gyroDriveVariableP(.5, 2000, 0, .02);
+        sleep(2000);
+        gyroDrive.gyroDriveVariableP(.5, 2000, 0, .05);
+        sleep(2000);
+        gyroDrive.gyroDriveVariableP(.5, 2000, 0, .1);
+        sleep(2000);
+        gyroDrive.gyroDriveVariableP(.7, 2000, 0, .01);
+        sleep(2000);
+        gyroDrive.gyroDriveVariableP(.7, 2000, 0, .02);
+        sleep(2000);
+        gyroDrive.gyroDriveVariableP(.7, 2000, 0, .05);
+        sleep(2000);
+        gyroDrive.gyroDriveVariableP(.7, 2000, 0, .1);
+        sleep(2000);
 
     }
 }

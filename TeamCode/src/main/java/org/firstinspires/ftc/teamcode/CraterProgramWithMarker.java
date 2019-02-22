@@ -7,19 +7,18 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Disabled
-@Autonomous(name="Crater Program With Marker", group="Beep")
+@Autonomous(name = "Crater Program With Marker", group = "Beep")
 public class CraterProgramWithMarker extends LinearOpMode {
 
 
+    public ElapsedTime runtime = new ElapsedTime();
+    public String foundTargetName = "";
     HardwareBeep robot = new HardwareBeep();
     LibraryGyro gyroTurn = new LibraryGyro();
     LibraryGyroDrive gyroDrive = new LibraryGyroDrive();
     LibraryGridNavigation gridNavigation = new LibraryGridNavigation();
     LibraryTensorFlowObjectDetectionWithLight tensorFlow = new LibraryTensorFlowObjectDetectionWithLight(robot, telemetry);
-
     String goldPosition = "";
-    public ElapsedTime runtime = new ElapsedTime();
-    public String foundTargetName = "";
     int armExtrusionPos, liftPos;
 
     @Override
@@ -37,7 +36,7 @@ public class CraterProgramWithMarker extends LinearOpMode {
         robot.latch.setPower(0);
 
         /**
-        Wait for start button.
+         Wait for start button.
          */
 
         waitForStart();
@@ -56,7 +55,7 @@ public class CraterProgramWithMarker extends LinearOpMode {
         runtime.reset();
         robot.latch.setPower(-1);
 
-        while (runtime.seconds() <1.15){
+        while (runtime.seconds() < 1.15) {
 
         }
         robot.latch.setPower(0);
@@ -71,9 +70,9 @@ public class CraterProgramWithMarker extends LinearOpMode {
         int X = 0;
         int Y = 1;
 
-       /**
-        Change values to grab mineral
-        */
+        /**
+         Change values to grab mineral
+         */
 
         double[] RED_CRATER_LEFT = {1.2, 2.2};
         double[] RED_CRATER_RIGHT = {2.2, 1.2};
@@ -103,7 +102,7 @@ public class CraterProgramWithMarker extends LinearOpMode {
                     while (runtime.seconds() < 1.15) {
                     }
                     robot.latch.setPower(0);
-                    gridNavigation.driveToPositionBackwards(.5,.5,.7);
+                    gridNavigation.driveToPositionBackwards(.5, .5, .7);
 //                    gridNavigation.driveToPosition(.1, 2.3, .7);
 //                    gridNavigation.driveToPosition(RED_CRATER_MARKER[X], RED_CRATER_MARKER[Y], .7);
 //                    sleep(500);
@@ -137,7 +136,7 @@ public class CraterProgramWithMarker extends LinearOpMode {
                     telemetry.addData("Telemetry", "No Position Found");
                     printTelemetry(30);
                 }
-            break;
+                break;
 
             case "RIGHT":
                 telemetry.addData("Telemetry", "Gold Pos = RIGHT");
@@ -201,13 +200,13 @@ public class CraterProgramWithMarker extends LinearOpMode {
                     telemetry.addData("Telemetry", "No Position Found");
                     printTelemetry(50);
                 }
-            break;
+                break;
 
             case "CENTER":
                 telemetry.addData("Telemetry", "Gold Pos = CENTER");
                 printTelemetry(60);
 
-                if (goldPosition == "CENTER"){
+                if (goldPosition == "CENTER") {
                     gridNavigation.driveToPosition(RED_CRATER_CENTER[X], RED_CRATER_CENTER[Y], .7);
                     telemetry.addData("Grid Nav Goto Pos X", RED_CRATER_CENTER[X]);
                     telemetry.addData("Grid Nav Goto Pos Y", RED_CRATER_CENTER[Y]);
@@ -223,7 +222,7 @@ public class CraterProgramWithMarker extends LinearOpMode {
                     }
                     robot.latch.setPower(0);
 
-                    gridNavigation.driveToPositionBackwards(.5,.5,.7);
+                    gridNavigation.driveToPositionBackwards(.5, .5, .7);
                     gridNavigation.driveToPosition(.1, 2.3, .7);
                     gridNavigation.driveToPosition(RED_CRATER_MARKER[X], RED_CRATER_MARKER[Y], .7);
                     sleep(500);
@@ -252,13 +251,13 @@ public class CraterProgramWithMarker extends LinearOpMode {
                     while (robot.arm.isBusy()) {
                     }
                     robot.arm.setPower(0);
-                    }
-                    robot.arm.setPower(0);
+                }
+                robot.arm.setPower(0);
 
             default:
                 telemetry.addData("Telemetry", "Didn't see gold pos");
                 telemetry.update();
-            break;
+                break;
         }
         stop();
     }
@@ -278,24 +277,24 @@ public class CraterProgramWithMarker extends LinearOpMode {
         String previousPosition;
         goldPosition = tensorFlow.findMineral();
 
-            switch (goldPosition) {
-                case ("LEFT"):
-                    telemetry.addData("Telemetry", "Left Position");
-                    telemetry.update();
-                    break;
-                case ("RIGHT"):
-                    telemetry.addData("Telemetry", "Right Position");
-                    telemetry.update();
-                    break;
-                case ("CENTER"):
-                    telemetry.addData("Telemetry", "Center Position");
-                    telemetry.update();
-                    break;
-                case ("UNKNOWN"):
-                    telemetry.addData("Telemetry", "Unknown Position");
-                    telemetry.update();
-                    break;
-            }
-            telemetry.update();
+        switch (goldPosition) {
+            case ("LEFT"):
+                telemetry.addData("Telemetry", "Left Position");
+                telemetry.update();
+                break;
+            case ("RIGHT"):
+                telemetry.addData("Telemetry", "Right Position");
+                telemetry.update();
+                break;
+            case ("CENTER"):
+                telemetry.addData("Telemetry", "Center Position");
+                telemetry.update();
+                break;
+            case ("UNKNOWN"):
+                telemetry.addData("Telemetry", "Unknown Position");
+                telemetry.update();
+                break;
         }
+        telemetry.update();
+    }
 }

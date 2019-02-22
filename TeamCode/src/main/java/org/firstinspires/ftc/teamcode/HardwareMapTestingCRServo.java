@@ -14,6 +14,7 @@ public class HardwareMapTestingCRServo {
     public HardwareMapTestingCRServo() {
 
     }
+
     public void init(HardwareMap ahwMap) {
         hwMap = ahwMap;
 

@@ -1,11 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.util.Hardware;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -34,8 +30,8 @@ public class LibraryGyro {
 
     /**
      * The hardware class needs to be initialized before this function is called
-    */
-    public void init(HardwareBeep myRobot, Telemetry myTelemetry){
+     */
+    public void init(HardwareBeep myRobot, Telemetry myTelemetry) {
         robot = myRobot;
         telemetry = myTelemetry;
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -108,7 +104,6 @@ public class LibraryGyro {
     }
 
 
-
     public void ComputePID() {
         long now = System.currentTimeMillis();
         double timeChange = (double) (now - lastTime);
@@ -122,8 +117,7 @@ public class LibraryGyro {
 
     }
 
-    public void SetTunings (double Kp, double Ki, double Kd)
-    {
+    public void SetTunings(double Kp, double Ki, double Kd) {
         kp = Kp;
         ki = Ki;
         kd = Kd;
@@ -187,7 +181,8 @@ public class LibraryGyro {
             telemetry.addData("tarHeading", Setpoint);
             telemetry.update();
             //} while (Input < targetHeading && (System.currentTimeMillis() < (startTime + 6000)));
-        } while ((Math.abs(Input - Setpoint) > TOLERANCE) || (System.currentTimeMillis() < (startTime + 1050)));
+        }
+        while ((Math.abs(Input - Setpoint) > TOLERANCE) || (System.currentTimeMillis() < (startTime + 1050)));
 
 
         telemetry.addData("curHeading", Input);
@@ -208,7 +203,6 @@ public class LibraryGyro {
         robot.leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
 
 
         return Input;

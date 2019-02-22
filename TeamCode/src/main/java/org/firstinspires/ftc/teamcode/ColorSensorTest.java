@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
  * Created by kyliestruth 10/27/18.
  */
 
-@Autonomous(name= "Color Sensor Test", group= "TankDrive")
+@Autonomous(name = "Color Sensor Test", group = "TankDrive")
 public class ColorSensorTest extends LinearOpMode {
 
     HardwareBeep robot = new HardwareBeep();

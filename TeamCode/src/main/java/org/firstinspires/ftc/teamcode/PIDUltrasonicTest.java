@@ -4,13 +4,13 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@TeleOp(name="PID Ultrasonic Test", group="Test")
+@TeleOp(name = "PID Ultrasonic Test", group = "Test")
 //@Disabled
 public class PIDUltrasonicTest extends LinearOpMode {
+    public ElapsedTime runtime = new ElapsedTime();
     HardwareBeep robot = new HardwareBeep();
     LibraryUltrasonicDrive ultrasonicDrive = new LibraryUltrasonicDrive();
     boolean last = false;
-    public ElapsedTime runtime = new ElapsedTime();
     int i = 0;
 
     @Override
@@ -23,10 +23,10 @@ public class PIDUltrasonicTest extends LinearOpMode {
 
         telemetry.addData("waitForStart()", i++);
         telemetry.update();
-        ultrasonicDrive.ultrasonicDrive(.4, 20000, 20.32);
+        ultrasonicDrive.ultrasonicDrive(.4, 999999, 0);
 
         telemetry.addData("Should have ran turnUltrasonic", "");
         telemetry.update();
 
-        }
+    }
 }

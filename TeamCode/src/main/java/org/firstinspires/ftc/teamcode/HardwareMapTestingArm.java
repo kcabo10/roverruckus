@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class HardwareMapTestingArm {
@@ -15,6 +15,7 @@ public class HardwareMapTestingArm {
     public HardwareMapTestingArm() {
 
     }
+
     public void init(HardwareMap ahwMap) {
         hwMap = ahwMap;
 

@@ -6,21 +6,22 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-//import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
-@Autonomous(name="Michael Gryo Testing 2", group="Exercises")
+//import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
+
+@Autonomous(name = "Michael Gryo Testing 2", group = "Exercises")
 @Disabled
 public class MichaelGyroTurnTest2 extends LinearOpMode {
 
     HardwareBeep robot = new HardwareBeep();
-    DcMotor  LeftFront;
-    DcMotor  LeftBack;
-    DcMotor  RightFront;
-    DcMotor  RightBack;
+    DcMotor LeftFront;
+    DcMotor LeftBack;
+    DcMotor RightFront;
+    DcMotor RightBack;
     BNO055IMU imu;
     Orientation lastAngles = new Orientation();
     double globalAngle, power = .30, correction;
@@ -33,10 +34,10 @@ public class MichaelGyroTurnTest2 extends LinearOpMode {
 
         robot.init(hardwareMap);
         LeftFront = hardwareMap.dcMotor.get("left_front");
-        LeftBack =  hardwareMap.dcMotor.get("left_back");
+        LeftBack = hardwareMap.dcMotor.get("left_back");
 
         RightFront = hardwareMap.dcMotor.get("right_front");
-        RightBack  = hardwareMap.dcMotor.get("right_back");
+        RightBack = hardwareMap.dcMotor.get("right_back");
 
 
         // get a reference to REV Touch sensor.
@@ -148,19 +149,20 @@ public class MichaelGyroTurnTest2 extends LinearOpMode {
 
     /**
      * Rotate left or right the number of degrees. Does not support turning more than 180 degrees.
+     *
      * @param degrees Degrees to turn, + is left - is right
      */
-    private void GyroTurn(int degrees){
+    private void GyroTurn(int degrees) {
 
         resetAngle();
 
         double realign;
 
-        if(degrees < 0){
+        if (degrees < 0) {
             //rotates left
-            while(opModeIsActive() && getAngle() > degrees){
+            while (opModeIsActive() && getAngle() > degrees) {
 
-                double Proportional = (degrees - getAngle())/degrees;
+                double Proportional = (degrees - getAngle()) / degrees;
                 double speed = Math.round(Proportional);
 
                 telemetry.addData("Telemetry 1", "Active");
@@ -186,7 +188,7 @@ public class MichaelGyroTurnTest2 extends LinearOpMode {
 
             realign = degrees - getAngle();
 
-            while (opModeIsActive() && realign > 0){
+            while (opModeIsActive() && realign > 0) {
 
                 LeftFront.setPower(.1);
                 LeftBack.setPower(.1);
@@ -195,13 +197,12 @@ public class MichaelGyroTurnTest2 extends LinearOpMode {
                 // set leftPower to .1
                 // set rightPower to -.1
             }
-        }
-        else if(degrees > 0){
+        } else if (degrees > 0) {
             //rotates right
 
-            while(opModeIsActive() && getAngle() < degrees){
+            while (opModeIsActive() && getAngle() < degrees) {
 
-                double Proportional = (degrees - getAngle())/degrees;
+                double Proportional = (degrees - getAngle()) / degrees;
                 double speed = Math.round(Proportional);
 
                 telemetry.addData("Telemetry 4", "Active");
@@ -228,7 +229,7 @@ public class MichaelGyroTurnTest2 extends LinearOpMode {
 
             realign = degrees - getAngle();
 
-            while (opModeIsActive() && realign > 0){
+            while (opModeIsActive() && realign > 0) {
 
                 LeftFront.setPower(-.1);
                 LeftBack.setPower(-.1);
@@ -238,12 +239,10 @@ public class MichaelGyroTurnTest2 extends LinearOpMode {
                 // set rightPower to .1
 
             }
-        }
-        else return;
+        } else return;
 
 
         resetAngle();
-
 
 
     }

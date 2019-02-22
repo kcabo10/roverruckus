@@ -30,18 +30,15 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
-@Autonomous(name="Rev Gyro Drive Sample", group="Pushbot")
+@Autonomous(name = "Rev Gyro Drive Sample", group = "Pushbot")
 public class TestingGridNavGyroDrive extends LinearOpMode {
 
     /* Declare OpMode members. */
-    HardwareBeep         robot   = new HardwareBeep();   // Use a Pushbot's hardware
-    LibraryGyro   gyro    = new LibraryGyro();                    // Additional Gyro device
+    HardwareBeep robot = new HardwareBeep();   // Use a Pushbot's hardware
+    LibraryGyro gyro = new LibraryGyro();                    // Additional Gyro device
     LibraryGyroDrive gyroDrive = new LibraryGyroDrive();
     LibraryGridNavigation gridNavigation = new LibraryGridNavigation();
 
@@ -88,16 +85,16 @@ public class TestingGridNavGyroDrive extends LinearOpMode {
         telemetry.addData("Set starting pos", "");
         telemetry.update();
 
-        gridNavigation.setGridPosition(0,0,0);
+        gridNavigation.setGridPosition(0, 0, 0);
 
-        gridNavigation.driveToPosition(1,0,.5);
+        gridNavigation.driveToPosition(1, 0, .5);
 
-        gridNavigation.driveToPositionBackwards(0,0,.5);
+        gridNavigation.driveToPositionBackwards(0, 0, .5);
 
         sleep(5000);
 
-        gridNavigation.driveToPosition(2,0,.5);
-        gridNavigation.driveToPositionBackwards(0,0,.5);
+        gridNavigation.driveToPosition(2, 0, .5);
+        gridNavigation.driveToPositionBackwards(0, 0, .5);
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
