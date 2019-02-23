@@ -10,7 +10,10 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * <p>
  * <b>Summary:</b>
  * <p>
- * Depot Program With Light
+ * This is our autonomous program for the depot side on both sides of the field. This program runs
+ * with the phone light for Tensor Flow. Use this program if the lighting is really dim or light
+ * at all. This programs lands, hits off the gold mineral, deposits the team marker, and parks in the
+ * other alligances crater.
  */
 @Autonomous(name = "Depot Program With Light", group = "Beep")
 public class DepotProgramWithLight extends LinearOpMode {

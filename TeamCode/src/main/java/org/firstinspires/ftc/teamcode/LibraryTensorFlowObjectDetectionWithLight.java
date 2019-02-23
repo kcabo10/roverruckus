@@ -29,6 +29,8 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.util.ElapsedTime;
+
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
@@ -40,43 +42,32 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * This 2018-2019 OpMode illustrates the basics of using the TensorFlow Object Detection API to
- * determine the position of the gold and silver minerals.
- * <p>
- * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
- * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list.
- * <p>
- * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
- * is explained below.
+ * This Our OpMode that illustrates TensorFlow Object Detection API to determine the position of the
+ * gold and silver minerals.
  */
 public class LibraryTensorFlowObjectDetectionWithLight {
     private static final String TFOD_MODEL_ASSET = "RoverRuckus.tflite";
     private static final String LABEL_GOLD_MINERAL = "Gold Mineral";
     private static final String LABEL_SILVER_MINERAL = "Silver Mineral";
 
-
-    /**
-     * Set Vuforia Key so it knows what phone it is connecting to
-     */
-    //private static final String VUFORIA_KEY = "AehWUEP/////AAAAGdLM1Ir3CEUunWFOGlSVegZ02oYjauBrfpYGcP/MNvZGEWO15KaOdjuIx0XAGISDJtiT9pfALwG5bGHfY2d5LVLV3jBq+2vLfcYh7zxUbHOcJpPfbzpUDVkGI5WHZlZ6IaqoCAEPznkxcZ5uyMwfZr1qyZp9LVTTAFhYwjRgSuF4/mcjzI3/ujUOZEKUzIOQbSlAPyNkiNMnRA0RHlzK7djpkXvghYsX7LYJDnJc5Fvpi6mqZqI+lyco0jnUHhMh4l7HczZ1HbKTAwuJFqc3aQab8bnjw9QegJb62vURA/ljwEIEUhT6mEGx+XJSOUA+KCwi/WDnKcZwOZr43VqmHPgLCvJmTFpVeOdBY4ozX5/J";
-    //private static final String VUFORIA_KEY = "AS9xNSf/////AAABmZ2AubQkTEFHuWxboHr/qgcSu4jWVAzmohkEVAicGMw66GcX1uY55PbVhytIM4mQxb4WUjuz3eIg3QzfmZ1a9jPPREvj90fYcxhBmk6+444WAselalZu6Kw/xDM7ibuO3Md5STFLGzKUsZDLajzqjeZT67DuCxWJDCUutKZoVbmOS7kgNEbuHNO9LJuq80OTL7aiNsAjqLtAdduHT8nqSCz4wjQ1pbsZ1Ds809JN0PHu3nHC+dbWj8qqKUiFkEo0Z38g1tanehxI8vvJ+Rj/ezymKCsUeXhkgZ7CDq/uwAitEi75qpQZv1fs4ctcLoZVvpn4oGrmpv1QItYOsPa7E79ed5izdd021d5Z1RUya4bh";
-
+    // Set Vuforia Key so it knows what phone it is connecting to
     private static final String VUFORIA_KEY = "Aa4mtdP/////AAABmSRcR7UP9kS4nIeX1am8Tf5TlWuaSoXF9p9tlyFSx0zDxT39pe+kg1dseqSvlAQBMws92KngQN7wl3RHkCgjre8b+A9RXXtGx0mlQ1PWbMIf4AlDdHncv6ERajxzi+HwOgFkMt44eQ9gVLBLUvxzDepzfZaMSfalcWz3qtbhq8hH2R3npGb+p2x6XVY6IWZSwkKpnCFVddAhsyuToQ/S5ndIkeB2O4mquvWESjFDc6ALl/SU7Rcg5Qb/chtv2dK+EWkcaf+XSjzn7KvOsaykUeOk2ChCIEQizneBH0ILH28lPMGjxTky7qnTf+5Jb/IHpd64ZtTZN9Q2Nyrlce1750yUVtnqSxRdUPPaJTiBQrKo";
     HardwareBeep robot;
     Telemetry telemetry;
-    /**
-     * Set Vuforia as a Localizer
-     */
+    ElapsedTime timer;
+    // Set Vuforia as a Localizer
     private VuforiaLocalizer vuforia;
-    /**
-     * Set tfod to the TensorFlowObjectDetector
-     */
+    // Set tfod to the TensorFlowObjectDetector
     private TFObjectDetector tfod;
 
+    /**
+     *
+     * @param newHardwareBeep
+     * @param newTelemetry
+     */
     public LibraryTensorFlowObjectDetectionWithLight(HardwareBeep newHardwareBeep, Telemetry newTelemetry) {
 
         robot = newHardwareBeep;
-
         telemetry = newTelemetry;
 
     }
@@ -86,9 +77,7 @@ public class LibraryTensorFlowObjectDetectionWithLight {
         // first.
         initVuforia();
 
-        /**
-         * Turn on the light on phone to make mineral visible
-         */
+        // Turn on the light on phone to make mineral visible
         phoneLight(true);
 
         if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
@@ -97,7 +86,7 @@ public class LibraryTensorFlowObjectDetectionWithLight {
             telemetry.addData("Sorry!", "This device is not compatible with TFOD");
         }
 
-        /** Activate Tensor Flow Object Detection. */
+        // Activate Tensor Flow Object Detection
         if (tfod != null) {
             tfod.activate();
         }
@@ -105,23 +94,27 @@ public class LibraryTensorFlowObjectDetectionWithLight {
         String previousPosition = "";
         String goldPosition = "";
 
-        /**
-         * Sets the TensorFlow to read the mineral for at least 3 seconds to verify that it is the correct mineral
-         */
-
+        // sets start time to read in milliseconds
         startTime = System.currentTimeMillis();
 
+        // sets the TensorFlow to read the mineral for at least 3 seconds to verify that it is the
+        // correct mineral
+        while (System.currentTimeMillis() < (startTime + 3000)) { /**DEBUG CHANGED TO 30000*/
 
-        while (System.currentTimeMillis() < (startTime + 3000)) {
-
+            // sets gold position values to the read mineral function
             goldPosition = readMineral();
 
+            // this if statement waits until the current gold position is the same as the previous
+            // position
             if (goldPosition == previousPosition) {
+                // if the mineral position is not the same
             } else {
                 previousPosition = goldPosition;
+                // restarts the start time
                 startTime = System.currentTimeMillis();
 
             }
+            // telemetry
             telemetry.addData("StartTime: ", startTime);
             telemetry.addData("CurrentTime: ", System.currentTimeMillis());
             telemetry.addData("Prev Position:  ", previousPosition);
@@ -134,69 +127,91 @@ public class LibraryTensorFlowObjectDetectionWithLight {
         }
         telemetry.addData("Mineral Position: ", goldPosition);
         telemetry.update();
+        // sets it to keep the phone light off
         phoneLight(false);
         return goldPosition;
     }
 
-    /**
-     * Begin reading the mineral
-     */
+    // read mineral function
     public String readMineral() {
         String currentPos = "";
+        ElapsedTime timer = new ElapsedTime();
+        timer.reset();
 
-        while (currentPos == "") {
-            if (tfod != null) {                    // getUpdatedRecognitions() will return null if no new information is available since
+        // while mineral position is not found and the timer counts 6 seconds
+        while (currentPos == "" && timer.seconds() < 6) { /**DEBUG CHANGED TO 600 */
+            // getUpdatedRecognitions() will return null if no new information is available since
+            if (tfod != null) {
                 // the last time that call was made.
                 List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
+                // if when it updates it sees an object
                 if (updatedRecognitions != null) {
+                    // update telemetry to read what mineral is found
                     telemetry.addData("# Object Detected", updatedRecognitions.size());
+
+                    // if the object identification is greater or equal
                     if (updatedRecognitions.size() >= 2) {
                         int goldMineralX = -1;
                         int silverMineral1X = -1;
                         int silverMineral2X = -1;
+                        // created a linked list which sorts the values that Tensor Flow reads.
+                        // It gets the values by reading the bottom left corner of the minerals.
                         LinkedList<Recognition> recognitionLinkedList = new LinkedList<Recognition>();
-                        telemetry.addData("New Linked List creation", "");
-                        for (Recognition recognition : updatedRecognitions) {
-                            telemetry.addData("Iterate over updatedRecognitions", updatedRecognitions.indexOf(recognition));
-                            telemetry.update();
-                            /**
-                             * Set the camera to read two minerals and decide what position gold is in
-                             */
 
+                        for (Recognition recognition : updatedRecognitions) {
+
+                            // if there are no minerals in the Linked List or if the bottom value
+                            // is greater than the first than it moves that mineral value to the
+                            // from of the Linked List
                             if ((recognitionLinkedList.isEmpty()) ||
                                     (recognition.getBottom() > recognitionLinkedList.getFirst().getBottom())) {
-                                //telemetry.addData("Added element to recognitionLinkedList", "");
-                                //sleep(2000);
+
                                 recognitionLinkedList.addFirst(recognition);
                             } else {
                                 recognitionLinkedList.add(recognition);
                             }
                         }
+
                         Recognition recognition = null;
                         for (int i = 0; i < 2; i++) {
-                            //telemetry.addData("iterate over first two elements: element ", i);
-                            //telemetry.addData("List size", recognitionLinkedList.size());
-                            //telemetry.update();
+                            telemetry.addData("iterate over first two elements: element ", i);
+                            telemetry.addData("mineral type", recognitionLinkedList.get(1).getLabel());
+                            telemetry.addData("mineral bottom", recognitionLinkedList.get(i).getBottom());
+                            telemetry.addData("List size", recognitionLinkedList.size());
+                            telemetry.update();
+
+                            // finding mineral value
                             recognition = recognitionLinkedList.get(i);
+                            // if Tensor Flow reads the mineral as a gold mineral than it obtains
+                            // the left x value
                             if (recognition.getLabel().equals(LABEL_GOLD_MINERAL)) {
                                 goldMineralX = (int) recognition.getLeft();
+                                // else if it reads 1 silver mineral it reads the left x value
                             } else if (silverMineral1X == -1) {
                                 silverMineral1X = (int) recognition.getLeft();
+                                // else if it reads 2 silver mineral than it gets the two left x
+                                // values of both minerals
                             } else {
                                 silverMineral2X = (int) recognition.getLeft();
                             }
                         }
-                        /**
-                         * Choose which position is correct
-                         */
+                        // this is where it calculates the correct gold mineral position
+
+                        // if it reads two silver minerals than it sets the current gold position as
+                        // LEFT
                         if (goldMineralX == -1 && silverMineral1X != -1 && silverMineral2X != -1) {
                             telemetry.addData("Gold Mineral Position", "Left");
                             currentPos = "LEFT";
                         }
+                        // if it reads a gold and silver mineral than it goes into this function
                         if (goldMineralX != -1 && silverMineral1X != -1) {
+                            // if it reads the gold mineral as greater than the silver mineral than
+                            // it sets the current gold mineral position as RIGHT
                             if (goldMineralX > silverMineral1X) {
                                 telemetry.addData("Gold Mineral Position", "Right");
                                 currentPos = "RIGHT";
+                                //if the gold mineral is not greater than the silver mineral than
+                                // it sets the current gold mineral position as CENTER
                             } else {
                                 telemetry.addData("Gold Mineral Position", "Center");
                                 currentPos = "CENTER";
@@ -206,13 +221,13 @@ public class LibraryTensorFlowObjectDetectionWithLight {
                 }
             }
         }
+        // returns the current gold mineral position
         return currentPos;
     }
 
+    // this is the function that initializes the Tensor Flow program
     private void initVuforia() {
-        /*
-         * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
-         */
+        // Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 
         parameters.vuforiaLicenseKey = VUFORIA_KEY;
@@ -220,12 +235,12 @@ public class LibraryTensorFlowObjectDetectionWithLight {
 
         //  Instantiate the Vuforia engine
         vuforia = ClassFactory.getInstance().createVuforia(parameters);
-
-        // Loading trackables is not necessary for the Tensor Flow Object Detection engine.
     }
 
+    // this funciton is for the phone light
     private void phoneLight(boolean on) {
 
+        // if you set the phone light to true than it turns on the phone flashlight
         com.vuforia.CameraDevice.getInstance().setFlashTorchMode(on);
 
     }
@@ -240,5 +255,5 @@ public class LibraryTensorFlowObjectDetectionWithLight {
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_GOLD_MINERAL, LABEL_SILVER_MINERAL);
     }
+
 }
-// Quinn was here

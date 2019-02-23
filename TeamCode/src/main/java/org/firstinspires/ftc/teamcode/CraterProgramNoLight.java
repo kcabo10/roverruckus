@@ -10,7 +10,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * <p>
  * <b>Summary:</b>
  * <p>
- *  Crater Program No Light
+ *  This is our autonomous program for the crater side on both sides of the field. This program runs
+ *  without the phone light for Tensor Flow. This is the go to program. This programs lands, hits off the gold mineral, deposits the team marker, and parks in
+ *  our alligances crater.
  */
 @Autonomous(name = "Crater Program No Light", group = "Beep")
 public class CraterProgramNoLight extends LinearOpMode {
