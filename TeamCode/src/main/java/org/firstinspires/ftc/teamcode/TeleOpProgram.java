@@ -1,37 +1,31 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
 
 /**
  * Created by kyliestruth 10/5/17.
  */
 
-@TeleOp(name = "TeleOp Program", group = "TankDrive")
-public class TeleOpProgram extends OpMode {
-    public ElapsedTime autolatchtime = new ElapsedTime();
-    public ElapsedTime colorsensortime = new ElapsedTime();
-    public ElapsedTime armtime = new ElapsedTime();
-    public ElapsedTime colorSensorTimeOutOpen = new ElapsedTime();
-    public ElapsedTime colorSensorTimeOutClose = new ElapsedTime();
-    boolean manual_mode = false;
-    boolean latch_open_mode = false;
-    boolean latch_close_mode = false;
-    int arm_state = 0;
-    int basket_state = 0;
-    int arm_extrusion_state = 0;
-    int auto_latch_open = 0;
-    int auto_latch_close = 0;
-    float armPower = 0;
+@TeleOp(name= "TeleOp Program", group= "TankDrive" )
+public class TeleOpProgram extends OpMode
+{
     private HardwareBeep robot = new HardwareBeep();
+
     private int buttonYPressed;
     private int buttonAPressed;
+    private boolean manual_mode = false;
     private int direction = -1;
     private double scaleFactor = 1;
-
+    private double scaleTurningSpeed = 1;
+    int arm_state = 0;
+    int arm_extrusion_state = 0;
+    int basket_state = 0;
+    public ElapsedTime armtime = new ElapsedTime();
+    public ElapsedTime basketTime = new ElapsedTime();
     // 0 = waiting, 1 = arm up commanded, 2 = arm down commanded
 
     public void reverseDirection() {
@@ -42,7 +36,7 @@ public class TeleOpProgram extends OpMode {
         }
     }
 
-    public void scaleFactor() {
+    public void scaleFactor(){
         if (scaleFactor == 0.5) {
             scaleFactor = 1;
         } else if (scaleFactor == 1) {
@@ -79,27 +73,31 @@ public class TeleOpProgram extends OpMode {
         double r = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
         double robotAngle = Math.atan2(gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4;
         double rightX = gamepad1.right_stick_x;
+
         if (direction == -1) {
-            final double v1 = (r * Math.cos(robotAngle) + rightX) * scaleFactor * direction;
-            final double v2 = (r * Math.sin(robotAngle) - rightX) * scaleFactor * direction;
-            final double v3 = (r * Math.sin(robotAngle) + rightX) * scaleFactor * direction;
-            final double v4 = (r * Math.cos(robotAngle) - rightX) * scaleFactor * direction;
+            final double v1 = (r * Math.cos(robotAngle) + (rightX * scaleTurningSpeed)) * scaleFactor * direction;
+            final double v2 = (r * Math.sin(robotAngle) - (rightX * scaleTurningSpeed)) * scaleFactor * direction;
+            final double v3 = (r * Math.sin(robotAngle) + (rightX * scaleTurningSpeed)) * scaleFactor * direction;
+            final double v4 = (r * Math.cos(robotAngle) - (rightX * scaleTurningSpeed)) * scaleFactor * direction;
 
             robot.leftFront.setPower(v1);
             robot.rightFront.setPower(v2);
             robot.leftBack.setPower(v3);
             robot.rightBack.setPower(v4);
+
         } else {
-            final double v1 = (r * Math.cos(robotAngle) - rightX) * scaleFactor * direction;
-            final double v2 = (r * Math.sin(robotAngle) + rightX) * scaleFactor * direction;
-            final double v3 = (r * Math.sin(robotAngle) - rightX) * scaleFactor * direction;
-            final double v4 = (r * Math.cos(robotAngle) + rightX) * scaleFactor * direction;
+            final double v1 = (r * Math.cos(robotAngle) - (rightX * scaleTurningSpeed)) * scaleFactor * direction;
+            final double v2 = (r * Math.sin(robotAngle) + (rightX * scaleTurningSpeed)) * scaleFactor * direction;
+            final double v3 = (r * Math.sin(robotAngle) - (rightX * scaleTurningSpeed)) * scaleFactor * direction;
+            final double v4 = (r * Math.cos(robotAngle) + (rightX * scaleTurningSpeed)) * scaleFactor * direction;
 
             robot.leftFront.setPower(v1);
             robot.rightFront.setPower(v2);
             robot.leftBack.setPower(v3);
             robot.rightBack.setPower(v4);
         }
+
+
 
         /**
          *Invert Direction On Y Button
@@ -109,11 +107,11 @@ public class TeleOpProgram extends OpMode {
             case (0):
                 if (gamepad1.y) {
                     buttonYPressed = 1;
-                    reverseDirection();
                 }
                 break;
             case (1):
                 if (!gamepad1.y) {
+                    reverseDirection();
                     buttonYPressed = 0;
                 }
                 break;
@@ -139,6 +137,16 @@ public class TeleOpProgram extends OpMode {
         }
 
         /**
+         * Scale Turning on Right Stick Button
+         */
+
+        if (gamepad1.right_stick_button) {
+            scaleTurningSpeed = 0.5;
+        } else {
+            scaleTurningSpeed = 1;
+        }
+
+        /**
          *Lift Control
          */
 
@@ -152,80 +160,14 @@ public class TeleOpProgram extends OpMode {
         }
 
         /**
-         * Auto Lift and Latch With an Override
+         * Latching
          */
 
-        if (!manual_mode && !latch_open_mode) {
-            if (auto_latch_open == 2 && colorSensorTimeOutOpen.seconds() > 1.15) {
-                robot.latch.setPower(0);
-                auto_latch_open = 0;
-            }
-            switch (auto_latch_open) {
-                case 0:
-                    if (gamepad2.dpad_right) {
-                        autolatchtime.reset();
-                        auto_latch_open++;
-                    }
-                    break;
-                case 1:
-                    colorSensorTimeOutOpen.reset();
-                    robot.latch.setPower(-1);
-                    auto_latch_open++;
-                    break;
-                case 2:
-                    if (colorsensortime.milliseconds() > 200) {
-                        if (robot.colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER) == 3) {
-                            robot.latch.setPower(0);
-                            auto_latch_open = 0;
-                        }
-                        colorsensortime.reset();
-                    }
-                    break;
-            }
-        }
-        if (!manual_mode && !latch_close_mode) {
-            if (auto_latch_close == 2 && colorSensorTimeOutClose.seconds() > 1.15) {
-                robot.latch.setPower(0);
-                auto_latch_close = 0;
-            }
-            switch (auto_latch_close) {
-                case 0:
-                    if (gamepad2.dpad_left) {
-                        autolatchtime.reset();
-                        auto_latch_close++;
-                    }
-                    break;
-                case 1:
-                    colorSensorTimeOutClose.reset();
-                    robot.latch.setPower(1);
-                    auto_latch_close++;
-                    break;
-                case 2:
-                    if (colorsensortime.milliseconds() > 200) {
-                        if (robot.colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER) == 10) {
-                            robot.latch.setPower(0);
-                            auto_latch_close = 0;
-                        }
-                        colorsensortime.reset();
-                    }
-                    break;
-            }
-        }
-
-
-        if (autolatchtime.seconds() > 1 && (gamepad2.dpad_right || gamepad2.dpad_left)) {
-            manual_mode = true;
-            robot.latch.setPower(0);
-        }
-
-        if (manual_mode) {
-            if (gamepad2.dpad_right) {
-                robot.latch.setPower(-1);
-            } else if (gamepad2.dpad_left) {
-                robot.latch.setPower(1);
-            } else robot.latch.setPower(0);
-        }
-
+        if (gamepad2.dpad_right) {
+            robot.latch.setPower(-1);
+        } else if (gamepad2.dpad_left) {
+            robot.latch.setPower(1);
+        } else robot.latch.setPower(0);
 
         /**
          *Intake Control
@@ -250,14 +192,14 @@ public class TeleOpProgram extends OpMode {
                     arm_extrusion_state++; //moving
                 } else if (gamepad2.right_trigger > 0) {
                     robot.armExtrusion.setPower(-1);
-                    robot.basket.setPosition(.4);
+                    robot.basket.setPosition(.3);
                 } else {
                     robot.armExtrusion.setPower(0);
                 }
                 break;
             case 1:
                 if (!gamepad2.right_bumper) {
-                    arm_extrusion_state++;
+                 arm_extrusion_state++;
                 }
                 break;
             case 2:
@@ -265,7 +207,8 @@ public class TeleOpProgram extends OpMode {
                 if (!robot.touchSensor.getState()) {
                     robot.armExtrusion.setPower(0);
                     arm_extrusion_state = 0;
-                } else if (gamepad2.right_bumper) {
+                }
+                else if (gamepad2.right_bumper) {
                     arm_extrusion_state++;
                 }
                 break;
@@ -346,35 +289,45 @@ public class TeleOpProgram extends OpMode {
             telemetry.addData("Button x pressed", gamepad2.x);
             telemetry.update();
         } else if (gamepad2.b) {
-            robot.basket.setPosition(1);
-            telemetry.addData("Button b pressed", gamepad2.b);
-            telemetry.update();
+            robot.basket.setPosition(.9);
+        }
+        switch (basket_state) {
+            case (0):
+                if (gamepad2.y) {
+                    basketTime.reset();
+                    robot.basket.setPosition(.25);
+                    basket_state++;
+                }
+            break;
+            case (1):
+                if (robot.basket.getPosition() >= .25 && basketTime.seconds() > .25) {
+                    robot.basket.setPosition(0);
+                    basket_state = 0;
+                }
+            break;
         }
 
-        /**
-         * Telemetry
-         */
 
-        telemetry.addData("y Button", gamepad1.y);
-        telemetry.addData("ButtonYPressed", buttonYPressed);
+        /**
+        * Telemetry
+        */
+
+        telemetry.addData("y Button", buttonYPressed);
+        telemetry.addData("Lift Encoder Ticks", robot.lift.getCurrentPosition());
+        telemetry.addData("Color Number", robot.colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER));
+        telemetry.addData("arm_state", arm_state);
+        telemetry.addData("arm_extrusion_state", arm_extrusion_state);
+        telemetry.addData("touch sensor", robot.touchSensor.getState());
+        telemetry.addData("manual_mode", manual_mode);
+        telemetry.addData("Scale Factor", scaleFactor);
         telemetry.addData("Direction", direction);
-//        telemetry.addData("Lift Encoder Ticks", robot.lift.getCurrentPosition());
-//        telemetry.addData("Color Number", robot.colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER));
-//        telemetry.addData("arm_state", arm_state);
-//        telemetry.addData("arm_extrusion_state", arm_extrusion_state);
-//        telemetry.addData("touch sensor", robot.touchSensor.getState());
-//        telemetry.addData("auto_latch_open", auto_latch_open);
-//        telemetry.addData("auto_latch_close", auto_latch_close);
-//        telemetry.addData("manual_mode", manual_mode);
-//        telemetry.addData("Scale Factor", scaleFactor);
-//        telemetry.addData("left front power", robot.leftFront.getPower());
-//        telemetry.addData("left back power", robot.leftBack.getPower());
-//        telemetry.addData("right front power", robot.rightFront.getPower());
-//        telemetry.addData("right back power", robot.rightBack.getPower());
-//        telemetry.addData("Arm Encoder Ticks", robot.arm.getCurrentPosition());
-//        telemetry.addData("Arm Extrusion Encoder Ticks", robot.armExtrusion.getCurrentPosition());
-//        telemetry.addData("Arm Extrusion Power", robot.armExtrusion.getPower());
-        telemetry.addData("Arm Power", robot.arm.getPower());
+        telemetry.addData("left front power", robot.leftFront.getPower());
+        telemetry.addData("left back power", robot.leftBack.getPower());
+        telemetry.addData("right front power", robot.rightFront.getPower());
+        telemetry.addData("right back power", robot.rightBack.getPower());
+        telemetry.addData("Arm Encoder Ticks", robot.arm.getCurrentPosition());
+        telemetry.addData("Arm Extrusion Encoder Ticks", robot.armExtrusion.getCurrentPosition());
+        telemetry.addData("Arm Extrusion Power", robot.armExtrusion.getPower());
         telemetry.update();
     }
 
