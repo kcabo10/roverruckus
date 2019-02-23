@@ -12,8 +12,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
-@Autonomous(name = "Michael's Test Program", group = "Exercises")
 @Disabled
+@Autonomous(name = "Michael's Test Program", group = "Exercises")
 public class MichaelRandomTesting extends LinearOpMode {
 
     HardwarePushbot robot = new HardwarePushbot();

@@ -36,8 +36,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-@Autonomous(name = "Rev Gyro Drive Sample", group = "Pushbot")
 @Disabled
+@Autonomous(name = "Rev Gyro Drive Sample", group = "Pushbot")
 public class RevGyroDriveSample extends LinearOpMode {
 
     static final double COUNTS_PER_MOTOR_REV = 1440;    // eg: TETRIX Motor Encoder

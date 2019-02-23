@@ -1,33 +1,37 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
 
 /**
  * Created by kyliestruth 10/5/17.
  */
 
-@TeleOp(name= "TeleOp Program", group= "TankDrive" )
-public class TeleOpProgram extends OpMode
-{
-    private HardwareBeep robot = new HardwareBeep();
+@TeleOp(name = "TeleOp Program", group = "TankDrive")
+public class TeleOpProgram extends OpMode {
 
-    private int buttonYPressed;
-    private int buttonAPressed;
-    private boolean manual_mode = false;
-    private int direction = -1;
-    private double scaleFactor = 1;
-    private double scaleTurningSpeed = 1;
+    //Declaring timers for the arm and basket.
+    public ElapsedTime armtime = new ElapsedTime();
+    public ElapsedTime baskettime = new ElapsedTime();
+    //Setting arm_state, arm_extrusion_state, and basket_state values to zero for arm state machine.
     int arm_state = 0;
     int arm_extrusion_state = 0;
     int basket_state = 0;
-    public ElapsedTime armtime = new ElapsedTime();
-    public ElapsedTime basketTime = new ElapsedTime();
-    // 0 = waiting, 1 = arm up commanded, 2 = arm down commanded
+    //Calling hardware map.
+    private HardwareBeep robot = new HardwareBeep();
+    //Setting value to track whether the Y and A buttons are pressed to zero which is not pressed.
+    private int buttonYPressed = 0;
+    private int buttonAPressed = 0;
+    //Setting initial direction to forward.
+    private int direction = -1;
+    //Setting scaling to full speed.
+    private double scaleFactor = 1;
+    private double scaleTurningSpeed = 1;
 
+    //reverseDirection, when called, reverses the value of direction.
     public void reverseDirection() {
         if (direction == 1) {
             direction = -1;
@@ -36,7 +40,8 @@ public class TeleOpProgram extends OpMode
         }
     }
 
-    public void scaleFactor(){
+    //When scaleFactor is called the value is set to either .5 or 1.
+    public void scaleFactor() {
         if (scaleFactor == 0.5) {
             scaleFactor = 1;
         } else if (scaleFactor == 1) {
@@ -44,16 +49,14 @@ public class TeleOpProgram extends OpMode
         }
     }
 
+    //Initializing hardware map
     public void init() {
         robot.init(hardwareMap);
         telemetry.addData("Say", "Hello Driver");
-
     }
 
+    //Setting motor power to zero
     public void init_loop() {
-
-        buttonYPressed = 0;
-        buttonAPressed = 0;
         robot.lift.setPower(0);
         robot.latch.setPower(0);
         robot.intake.setPower(0);
@@ -64,16 +67,12 @@ public class TeleOpProgram extends OpMode
 
     public void loop() {
 
-        robot.colorSensor.enableLed(true);
-
-        /**
-         *POV Mecanum Wheel Control With Strafing
-         */
-
         double r = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
         double robotAngle = Math.atan2(gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4;
         double rightX = gamepad1.right_stick_x;
 
+        //When the direction value is reversed this if statement inverts the addition and subtraction for turning.
+        //Default mode: The robot starts with the scaleTurningSpeed set to 1, scaleFactor set to 1, and direction set to forward.
         if (direction == -1) {
             final double v1 = (r * Math.cos(robotAngle) + (rightX * scaleTurningSpeed)) * scaleFactor * direction;
             final double v2 = (r * Math.sin(robotAngle) - (rightX * scaleTurningSpeed)) * scaleFactor * direction;
@@ -97,12 +96,7 @@ public class TeleOpProgram extends OpMode
             robot.rightBack.setPower(v4);
         }
 
-
-
-        /**
-         *Invert Direction On Y Button
-         */
-
+        //When the y button has been pressed and released the direction is reversed.
         switch (buttonYPressed) {
             case (0):
                 if (gamepad1.y) {
@@ -117,11 +111,7 @@ public class TeleOpProgram extends OpMode
                 break;
         }
 
-        /**
-         *ScaleFactor on A Button
-         */
-
-
+        //When the a button has been pressed and released the speed is scaled to .5 power.
         switch (buttonAPressed) {
             case (0):
                 if (gamepad1.a) {
@@ -136,21 +126,16 @@ public class TeleOpProgram extends OpMode
                 break;
         }
 
-        /**
-         * Scale Turning on Right Stick Button
-         */
-
+        //When the button below the right joystick is pressed JUST the turning speed power is set to .5.
         if (gamepad1.right_stick_button) {
             scaleTurningSpeed = 0.5;
         } else {
             scaleTurningSpeed = 1;
         }
 
-        /**
-         *Lift Control
-         */
-
-
+        //When the dpad down is pressed down and the dpad up is not being pressed the lift power is set to 1.
+        //When the dpad up is pressed down and the dpad down is not being pressed the lift power is set to -1.
+        //Otherwise the power is set to zero
         if (gamepad2.dpad_down && !gamepad2.dpad_up) {
             robot.lift.setPower(1);
         } else if (gamepad2.dpad_up && !gamepad2.dpad_down) {
@@ -159,19 +144,18 @@ public class TeleOpProgram extends OpMode
             robot.lift.setPower(0);
         }
 
-        /**
-         * Latching
-         */
-
+        //If the right dpad is being pressed the latch power is set to -1.
+        //If the left dpad is being pressed the latch power is set to 1.
+        //Otherwise the power is set to zero.
         if (gamepad2.dpad_right) {
             robot.latch.setPower(-1);
         } else if (gamepad2.dpad_left) {
             robot.latch.setPower(1);
         } else robot.latch.setPower(0);
 
-        /**
-         *Intake Control
-         */
+        //When the right trigger is being pressed the intake power is set to -.5.
+        //When the right bumper is being pressed the intake power is set to .5.
+        //Otherwise the power is set to zero.
         if (gamepad1.right_trigger > 0) {
             robot.intake.setPower(-0.50);
         } else if (gamepad1.right_bumper) {
@@ -180,39 +164,43 @@ public class TeleOpProgram extends OpMode
             robot.intake.setPower(0);
         }
 
-        /**
-         *Arm Extrusion
-         */
-
         switch (arm_extrusion_state) {
             case 0:
+                //when the right bumper is being pressed and the touch sensor is not being set the armExtrusion power is set to 1 and the basket position is set to .5.
+                //Once those conditions are met the state advances to the next case.
+                //When the right trigger is being pressed the armExtrusion power is set to -1 and the basket position is set to .4.
+                //Otherwise the power is set to 0.
                 if (gamepad2.right_bumper && robot.touchSensor.getState()) {
                     robot.armExtrusion.setPower(1);
                     robot.basket.setPosition(.5);
                     arm_extrusion_state++; //moving
                 } else if (gamepad2.right_trigger > 0) {
                     robot.armExtrusion.setPower(-1);
-                    robot.basket.setPosition(.3);
+                    robot.basket.setPosition(.4);
                 } else {
                     robot.armExtrusion.setPower(0);
                 }
                 break;
             case 1:
+                //Once the right bumper is not being pressed it advances to the next state.
                 if (!gamepad2.right_bumper) {
-                 arm_extrusion_state++;
+                    arm_extrusion_state++;
                 }
                 break;
             case 2:
-                // Last state before it goes back to state 0. This state has a timer to ensure that the motor stops at 2 seconds.
+                //Last state before it goes back to state 0.
+                //When the touch sensor is pressed it advances to state zero.
+                //If the right bumper is pressed the state advances to the next case.
                 if (!robot.touchSensor.getState()) {
                     robot.armExtrusion.setPower(0);
                     arm_extrusion_state = 0;
-                }
-                else if (gamepad2.right_bumper) {
+                } else if (gamepad2.right_bumper) {
                     arm_extrusion_state++;
                 }
                 break;
             case 3:
+                //This case sets the power to zero once the right bumper has been released and returns to state zero.
+                //This allows the drivers to terminate the movement of the arm to avoid damage to the robot.
                 if (!gamepad2.right_bumper) {
                     robot.armExtrusion.setPower(0);
                     arm_extrusion_state = 0;
@@ -220,46 +208,43 @@ public class TeleOpProgram extends OpMode
                 break;
         }
 
-        /**
-         Arm Control
-         */
-
-        //int arm_state;
-        // 0 = waiting for command, 1 = commanded, 2 = waiting for arm.isbusy==false
+        //In this state machine: 0 = waiting for command, 1 = commanded, 2 = waiting for the arm to not be busy
         switch (arm_state) {
             case 0:
-                // This state is the constant state that waits for the trigger/bumper/slide to be pressed/pushed
+                // This case is the constant state that waits for the trigger or bumper to be pressed.
 
+                //The arm is set to default to the game pad 2 right stick
                 robot.arm.setPower(gamepad2.right_stick_y * .75);
 
+                //When the left bumper on game pad 1 is pressed the arm moves to a vertical set position of about 90 degrees.
+                //When the left trigger on game pad 1 is pressed the arms moves to a horizontal set position of about 180 degrees.
                 if (gamepad1.left_bumper) {
-                    // Moving arm down
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.arm.setTargetPosition(500);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
                     robot.arm.setPower(.75);
                     arm_state = 1;
 
                 } else if (gamepad1.left_trigger > 0) {
-                    // Moving arm up
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.arm.setTargetPosition(-580);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
                     robot.arm.setPower(1);
                     arm_state = 1;
+
+                    // Once it recognizes that the controller has been moved, and the power is set, then it advances to state 1.
                 }
                 break;
             case 1:
-                // Once it recognizes that the controller has been moved, and the power is set, then it initializes this next state.
+                //Resetting the timer for the arm
                 armtime.reset();
+                //If the arm is moving advance to state 2
                 if (robot.arm.isBusy()) {
                     arm_state = 2; //moving
                 }
                 break;
             case 2:
-                // Last state before it goes back to state 0. This state has a timer to ensure that the motor stops at 2 seconds.
+                //When the arm is not busy and the timer has reached 2 it returns to state 0 and set the arm power to zero.
                 if (!robot.arm.isBusy() || armtime.seconds() >= 2) {
                     arm_state = 0;
                     robot.arm.setPower(0);
@@ -268,19 +253,18 @@ public class TeleOpProgram extends OpMode
 
         }
 
-        // MANUAL OVERRIDE
+        //Manual Override for the arm:
+        //If the game pad 2 right joystick is between the values .05 and 1 or -1 and -.05 then the arm is set to run without encoders and it returns to state zero.
         if ((gamepad2.right_stick_y > .05 && gamepad2.right_stick_y <= 1) ||
                 (gamepad2.right_stick_y < -.05 && gamepad2.right_stick_y >= -1)) {
             robot.arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             arm_state = 0;
         }
 
-        /**
-         Basket
-         */
-        // check to see if we need to move the servo.
+        //When the game pad 2 a button is pressed set the basket position to 0
+        //When the game pad 2 x button is pressed set the basket position to .5.
+        //When the game pad 2 b button is pressed set the basket position to .9.
         if (gamepad2.a) {
-            // move to 0 degrees.
             robot.basket.setPosition(0);
             telemetry.addData("Button a pressed", gamepad2.a);
             telemetry.update();
@@ -291,34 +275,32 @@ public class TeleOpProgram extends OpMode
         } else if (gamepad2.b) {
             robot.basket.setPosition(.9);
         }
+
         switch (basket_state) {
             case (0):
+                //When the game pad 2 y button is pressed this state resets the timer, sets the position to .25 and advances to the next state.
                 if (gamepad2.y) {
-                    basketTime.reset();
+                    baskettime.reset();
                     robot.basket.setPosition(.25);
                     basket_state++;
                 }
-            break;
+                break;
             case (1):
-                if (robot.basket.getPosition() >= .25 && basketTime.seconds() > .25) {
+                //Once the basket reaches the .25 position and the timer has reached .25 seconds the robot basket position is set to zero and it returns to state zero.
+                if (robot.basket.getPosition() >= .25 && baskettime.seconds() > .25) {
                     robot.basket.setPosition(0);
                     basket_state = 0;
                 }
-            break;
+                break;
         }
 
-
-        /**
-        * Telemetry
-        */
-
+        //Telemetry
         telemetry.addData("y Button", buttonYPressed);
         telemetry.addData("Lift Encoder Ticks", robot.lift.getCurrentPosition());
         telemetry.addData("Color Number", robot.colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER));
         telemetry.addData("arm_state", arm_state);
         telemetry.addData("arm_extrusion_state", arm_extrusion_state);
         telemetry.addData("touch sensor", robot.touchSensor.getState());
-        telemetry.addData("manual_mode", manual_mode);
         telemetry.addData("Scale Factor", scaleFactor);
         telemetry.addData("Direction", direction);
         telemetry.addData("left front power", robot.leftFront.getPower());
@@ -333,8 +315,10 @@ public class TeleOpProgram extends OpMode
 
     public void stop() {
 
+        //Set the buttons to not being pressed
         buttonYPressed = 0;
         buttonAPressed = 0;
+        //Set the motor powers to zero
         robot.lift.setPower(0);
         robot.latch.setPower(0);
         robot.intake.setPower(0);

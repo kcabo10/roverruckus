@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -8,6 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
  * Created by kyliestruth 10/5/17.
  */
 
+@Disabled
 @TeleOp(name = "Strafing Test", group = "TankDrive")
 public class StrafingTest extends OpMode {
     private HardwareMapStrafingTest robot = new HardwareMapStrafingTest();

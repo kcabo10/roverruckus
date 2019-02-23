@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.test;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -7,6 +8,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.HardwareBeep;
 import org.firstinspires.ftc.teamcode.sensors.SensorMB1242;
 
+@Disabled
 @TeleOp(name="Rear Ultrasonic Testing", group="Test")
 //@Disabled
 public class MB1242_Test extends LinearOpMode {

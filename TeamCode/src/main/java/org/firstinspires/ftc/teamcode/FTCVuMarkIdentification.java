@@ -65,9 +65,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
  * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
  * is explained in {@link ConceptVuforiaNavigation}.
  */
-
-@TeleOp(name = "Concept: VuMark Id", group = "Concept")
 @Disabled
+@TeleOp(name = "Concept: VuMark Id", group = "Concept")
 public class FTCVuMarkIdentification extends LinearOpMode {
 
     public static final String TAG = "Vuforia VuMark Identification";

@@ -2,12 +2,14 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 /**
  * Created by kyliestruth 10/27/18.
  */
 
+@Disabled
 @Autonomous(name = "Color Sensor Test", group = "TankDrive")
 public class ColorSensorTest extends LinearOpMode {
 

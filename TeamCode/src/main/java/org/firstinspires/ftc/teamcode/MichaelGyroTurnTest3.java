@@ -12,8 +12,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
-@Autonomous(name = "Michael Gryo Testing 3", group = "Exercises")
 @Disabled
+@Autonomous(name = "Michael Gryo Testing 3", group = "Exercises")
 public class MichaelGyroTurnTest3 extends LinearOpMode {
 
 

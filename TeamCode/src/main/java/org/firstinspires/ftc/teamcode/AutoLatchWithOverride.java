@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -10,21 +11,20 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Created by kyliestruth 10/5/17.
  */
 
-@TeleOp(name = "Strafing Test", group = "TankDrive")
+@Disabled
+@TeleOp(name = "Auto Latch With Override", group = "TankDrive")
 public class AutoLatchWithOverride extends OpMode {
-    private HardwareBeep robot = new HardwareBeep();
 
-
-    private boolean manual_mode = false;
-    private boolean latch_open_mode = false;
-    private boolean latch_close_mode = false;
-    int auto_latch_open = 0;
-    int auto_latch_close = 0;
     public ElapsedTime autolatchtime = new ElapsedTime();
     public ElapsedTime colorsensortime = new ElapsedTime();
     public ElapsedTime colorSensorTimeOutOpen = new ElapsedTime();
     public ElapsedTime colorSensorTimeOutClose = new ElapsedTime();
-
+    int auto_latch_open = 0;
+    int auto_latch_close = 0;
+    private HardwareBeep robot = new HardwareBeep();
+    private boolean manual_mode = false;
+    private boolean latch_open_mode = false;
+    private boolean latch_close_mode = false;
 
     public void init() {
         robot.init(hardwareMap);

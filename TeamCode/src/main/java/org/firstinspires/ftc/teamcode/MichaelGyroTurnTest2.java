@@ -13,8 +13,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 //import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 
-@Autonomous(name = "Michael Gryo Testing 2", group = "Exercises")
 @Disabled
+@Autonomous(name = "Michael Gryo Testing 2", group = "Exercises")
 public class MichaelGyroTurnTest2 extends LinearOpMode {
 
     HardwareBeep robot = new HardwareBeep();

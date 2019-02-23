@@ -2,8 +2,10 @@ package org.firstinspires.ftc.teamcode;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+@Disabled
 @Autonomous(name = "Testing Ultrasonic Sensor", group = "Exercises")
 public class TestingMB1242Sensor extends LinearOpMode {
 
