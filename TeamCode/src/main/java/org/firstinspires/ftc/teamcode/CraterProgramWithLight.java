@@ -6,7 +6,11 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
- * @author Katie
+ * @author Beep Patrol
+ * <p>
+ * <b>Summary:</b>
+ * <p>
+ * Crater Program With Light
  */
 @Autonomous(name = "Crater Program With Light", group = "Beep")
 public class CraterProgramWithLight extends LinearOpMode {
@@ -31,6 +35,9 @@ public class CraterProgramWithLight extends LinearOpMode {
 
     /**
      * @throws InterruptedException
+     * <p>
+     * The main body of our code which contains the set of commands carried out in our crater side autonomous program.
+     *
      */
     @Override
     public void runOpMode() throws InterruptedException {
@@ -465,8 +472,7 @@ public class CraterProgramWithLight extends LinearOpMode {
     }
 
     /**
-     *
-     * @param codePos this is the value we use in telemetry to see where in the code we are
+     * @param codePos This is the value we use in telemetry to see where in the code we are
      */
     private void printTelemetry(int codePos) {
         telemetry.addData("Gold Pos", goldPosition);
@@ -477,7 +483,7 @@ public class CraterProgramWithLight extends LinearOpMode {
     }
 
     /**
-     * This is the function we call to lower the lift while sampling
+     * Lowers lift while reading the sampling
      */
     private void lowerLift() {
         robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -488,7 +494,7 @@ public class CraterProgramWithLight extends LinearOpMode {
     }
 
     /**
-     * Function we use to call Tensor Flow in order to read gold mineral position
+     * Calls Tensor Flow in order to read gold mineral position
      */
     public void getMineralPosition() {
         int debounceCount = 0;

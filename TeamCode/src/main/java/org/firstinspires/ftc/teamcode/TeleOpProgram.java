@@ -7,9 +7,12 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
- * Created by kyliestruth 10/5/17.
+ * @author Beep Patrol
+ * <p>
+ * <b>Summary:</b>
+ * <p>
+ * This is our main teleOp program which controls the robot during the driver controlled period.
  */
-
 @TeleOp(name = "TeleOp Program", group = "TankDrive")
 public class TeleOpProgram extends OpMode {
 
