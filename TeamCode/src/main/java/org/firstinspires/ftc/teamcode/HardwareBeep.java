@@ -1,11 +1,7 @@
-/**
- * Set Package
- */
+//Declare package
 package org.firstinspires.ftc.teamcode;
 
-/**
- * Import Hardware
- */
+//Import Hardware
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
@@ -19,14 +15,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.sensors.SensorMB1242;
 
-/**
- * Define Class as HardwareBeep
- */
 public class HardwareBeep {
 
-    /**
-     * Set Public OpMode Members
-     */
+    // Set Public OpMode Members
     public DcMotor leftFront = null;
     public DcMotor leftBack = null;
     public DcMotor rightFront = null;
@@ -37,48 +28,30 @@ public class HardwareBeep {
     public DcMotor intake = null;
     public CRServo latch = null;
     public Servo basket = null;
-
     public BNO055IMU imu = null;
-
     public ModernRoboticsI2cColorSensor colorSensor = null;
-
     public SensorMB1242 rightSonic = null;
     public SensorMB1242 leftSonic = null;
-
     public DigitalChannel touchSensor = null;
 
-    /**
-     * Set local OpMode Members
-     */
+    // Set local OpMode Members
     HardwareMap hwMap = null;
     private ElapsedTime period = new ElapsedTime();
 
-    /**
-     * Constructor
-     */
+    // Constructor
     public HardwareBeep() {
-
     }
 
-    /**
-     * Initialize Standard Hardware Interfaces
-     */
+    // Initialize Standard Hardware Interfaces
     public void init(HardwareMap ahwMap) {
 
-
-        /**
-         * TELEMETRY SWITCHES
-         */
+        // Telemetry Switches
         boolean GRID_NAV_TELEMETRY_ON = true;
 
-        /**
-         * Save Reference To Hardware Map
-         */
+        // Save Reference To Hardware Map
         hwMap = ahwMap;
 
-        /**
-         * Define Motors, Servos, and Sensors
-         */
+        // Define Motors, Servos, and Sensors
         leftFront = hwMap.get(DcMotor.class, "left_front");
         leftBack = hwMap.get(DcMotor.class, "left_back");
         rightFront = hwMap.get(DcMotor.class, "right_front");
@@ -97,10 +70,7 @@ public class HardwareBeep {
         rightSonic.setI2cAddress(myAddr);
         touchSensor = hwMap.get(DigitalChannel.class, "sensor_digital");
 
-
-        /**
-         * Set Motor and Servo Direction
-         */
+        // Set Motor and Servo Direction
         leftFront.setDirection(DcMotor.Direction.FORWARD);
         leftBack.setDirection(DcMotor.Direction.FORWARD);
         rightFront.setDirection(DcMotor.Direction.REVERSE);
@@ -111,9 +81,7 @@ public class HardwareBeep {
         intake.setDirection(DcMotor.Direction.FORWARD);
         latch.setDirection(CRServo.Direction.FORWARD);
 
-        /**
-         * Set Motor to Zero Power Behavior
-         */
+        // Set Motor to Zero Power Behavior
         rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -123,42 +91,28 @@ public class HardwareBeep {
         armExtrusion.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        /**
-         * Set Servos to Zero Power
-         */
+        // Set Servos to Zero Power
         latch.setPower(0);
 
-        /**
-         * Set Motors to Run Without Encoders
-         */
+        // Set Motors to Run Without Encoders
         leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        /**
-         * Set Motors to Run Using Encoders
-         */
+        // Set Motors to Run Using Encoders
         arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         armExtrusion.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-
-        /**
-         * Set IMU Parameters
-         */
-
+        // Set IMU Parameters
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.mode = BNO055IMU.SensorMode.IMU;
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
         parameters.loggingEnabled = false;
 
-        /**
-         * Initialize IMU
-         */
+        // Initialize IMU
         imu.initialize(parameters);
-
-
     }
 }
