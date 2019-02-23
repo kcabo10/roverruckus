@@ -8,21 +8,23 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 @Autonomous(name = "Depot Program No Light", group = "Beep")
 public class DepotProgramNoLight extends LinearOpMode {
 
+    // Declaring a timer
     public ElapsedTime runtime = new ElapsedTime();
     public String foundTargetName = "";
+    //Calling our hardware map
     HardwareBeep robot = new HardwareBeep();
+    // Calling the Library Gyro program to use the gyro turn function
     LibraryGyro gyroTurn = new LibraryGyro();
+    // Calling the Library Gyro Drive program to use the gyro drive function
     LibraryGyroDrive gyroDrive = new LibraryGyroDrive();
-    LibraryDogeforia dogeforia = new LibraryDogeforia(robot, telemetry);
+    // Calling the Library Grid Nav Library to use the grid navigation functions
     LibraryGridNavigation gridNavigation = new LibraryGridNavigation();
-    LibraryTensorFlowObjectDetectionNoLight tensorFlow = new LibraryTensorFlowObjectDetectionNoLight(robot, telemetry);
+    // Calling the Library Tensor Flow No Light to use the Tensor Flow function without
+    // initializing the light
+    LibraryTensorFlowObjectDetectionNoLight tensorFlow =
+            new LibraryTensorFlowObjectDetectionNoLight(robot, telemetry);
+    // Declaring gold position value to read what position Tensor Flow sees the gold mineral in
     String goldPosition = "";
-    int armExtrusionPos, liftPos;
-
-
-    /**
-     * Called when init button is  pressed.
-     */
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -30,75 +32,74 @@ public class DepotProgramNoLight extends LinearOpMode {
 
         telemetry.addData("Telemetry", "robot initializing");
         telemetry.update();
+        //initializing the hardware map
         robot.init(hardwareMap);
+        //initializing the grid Nav function
         gridNavigation.init(robot, gyroTurn, telemetry);
+        //initializing the gyro turn function
         gyroTurn.init(robot, telemetry);
+        //initializing the gyro drive function
         gyroDrive.init(robot, telemetry, robot.rightBack);
         telemetry.addData("Telemetry", "run opMode start");
         telemetry.update();
 
+        // setting initial latch power to 0
         robot.latch.setPower(0);
-//        robot.basket.setPosition(0);
 
-        /**
-         Wait for start button.
-         */
+        //wait for start
         waitForStart();
 
         // landing our robot
-
         robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.lift.setTargetPosition(-20680);
         robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.lift.setPower(1);
 
+        // Start up Tensor Flow to read mineral position while landing
         getMineralPosition();
 
-        runtime.reset();
-
-        while ((goldPosition == "Unknown") && (runtime.seconds() < 5)) {
-            gridNavigation.driveToPosition(.9, .9, .7);
-
-        }
-
+        // stop running lift once it gets to target position
         robot.lift.setPower(0);
         runtime.reset();
+        // run servo to open latch
         robot.latch.setPower(-1);
 
+        //wait for 1.15 seconds
         while (runtime.seconds() < 1.15) {
 
         }
+        // set servo power to 0
         robot.latch.setPower(0);
         robot.lift.setPower(0);
         runtime.reset();
 
-        /**
-         * took the hypotenuse line to the center of the robot is 20.625 inches
-         */
-
+        // took the hypotenuse line to the center of the robot is 20.625 inches
+        // Set initial Grid Nav position
         gridNavigation.setGridPosition(.6076, .6076, 45);
 
         int X = 0;
         int Y = 1;
 
-        /**
-         Change values to grab mineral
-         */
-
+        // Left mineral pos
         double[] RED_DEPOT_LEFT = {1.2, 2.4};
+        // right mineral pos
         double[] RED_DEPOT_RIGHT = {1.2916, .9114};
+        // center mineral pos
         double[] RED_DEPOT_CENTER = {1.1, 1.1};
 
+        // right and center marker pos
         double[] RED_DEPOT_MARKER = {1.6, 2.6};
+        // left mineral marker pos
         double[] LEFT_DEPOT_MARKER = {1.6, 2.4};
 
+        // Parking pos for all mineral positions
         double[] RED_DEPOT_PARKING = {-.8, 2.65};
 
-
-        double[] RED_DEPOT_ARM_DROP = {-.1, 2.6};
-
+        // This is a switch block that plays the program in relation to the mineral position that
+        // Tensor Flow reads
         switch (goldPosition) {
 
+            // If Tensor Flow reads the left mineral position then it plays this case
             case "LEFT":
                 telemetry.addData("Telemetry", "Gold Pos = LEFT");
                 printTelemetry(20);
@@ -144,12 +145,16 @@ public class DepotProgramNoLight extends LinearOpMode {
 
                 break;
 
+            // If Tensor Flow reads the right mineral position then it plays this case
             case "RIGHT":
                 telemetry.addData("Telemetry", "Gold Pos = RIGHT");
                 printTelemetry(40);
                 if (goldPosition == "RIGHT") {
+                    // drive away from lander
                     gridNavigation.driveToPosition(.8, .8, .5);
+                    // start lower lift
                     lowerLift();
+                    // drop arm
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.arm.setTargetPosition(750);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -157,30 +162,39 @@ public class DepotProgramNoLight extends LinearOpMode {
                     while (robot.arm.isBusy()) {
                     }
                     robot.arm.setPower(0);
+                    // drive to right mineral pos
                     gridNavigation.driveToPosition(RED_DEPOT_RIGHT[X], RED_DEPOT_RIGHT[Y], .5);
                     telemetry.addData("Grid Nav Goto Pos X", RED_DEPOT_RIGHT[X]);
                     telemetry.addData("Grid Nav Goto Pos Y", RED_DEPOT_RIGHT[Y]);
+                    // lift arm
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.arm.setTargetPosition(-825);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     robot.arm.setPower(1);
                     while (robot.arm.isBusy()) {
                     }
+                    // set power to .111 to keep arm up
                     robot.arm.setPower(.111);
+                    // drive around minerals to get to depot
                     gridNavigation.driveToPosition(.5, 1.5, .5);
                     gridNavigation.driveToPosition(.5, 2.5, .5);
+                    // drive towards depot to deposit marker
                     gridNavigation.driveToPosition(RED_DEPOT_MARKER[X], RED_DEPOT_MARKER[Y], .5);
+                    // bring arm down
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.arm.setTargetPosition(450);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     robot.arm.setPower(1);
                     while (robot.arm.isBusy()) {
                     }
+                    // hold arm position
                     robot.arm.setPower(.111);
+                    // run intake to deposit marker
                     robot.intake.setPower(1);
                     sleep(1000);
                     robot.intake.setPower(0);
                     runtime.reset();
+                    // bring arm up
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.arm.setTargetPosition(-450);//-644 is to come from mat to stopping point
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -188,7 +202,9 @@ public class DepotProgramNoLight extends LinearOpMode {
                     while (robot.arm.isBusy()) {
                     }
                     robot.arm.setPower(.111);
+                    // drive to crater to park
                     gridNavigation.driveToPosition(RED_DEPOT_PARKING[X], RED_DEPOT_PARKING[Y], .7);
+                    // bring arm down to park
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.arm.setTargetPosition(800);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -196,7 +212,6 @@ public class DepotProgramNoLight extends LinearOpMode {
                     while (robot.arm.isBusy()) {
                     }
                     robot.arm.setPower(.111);
-//                    gridNavigation.driveToPosition(RED_DEPOT_ARM_DROP[X], RED_DEPOT_ARM_DROP[Y], .5);
                 } else {
                     telemetry.addData("Telemetry", "No Position Found");
                     printTelemetry(50);
@@ -204,12 +219,14 @@ public class DepotProgramNoLight extends LinearOpMode {
 
                 break;
 
+            // If Tensor Flow reads the center mineral position then it plays this case
             case "CENTER":
                 telemetry.addData("Telemetry", "Gold Pos = CENTER");
                 printTelemetry(60);
                 if (goldPosition == "CENTER") {
                     telemetry.addData("Grid Nav Goto Pos X", RED_DEPOT_CENTER[X]);
                     telemetry.addData("Grid Nav Goto Pos Y", RED_DEPOT_CENTER[Y]);
+                    // bring arm down
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.arm.setTargetPosition(750);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -217,8 +234,11 @@ public class DepotProgramNoLight extends LinearOpMode {
                     while (robot.arm.isBusy()) {
                     }
                     robot.arm.setPower(0);
+                    // drive to center mineral position
                     gridNavigation.driveToPosition(RED_DEPOT_CENTER[X], RED_DEPOT_CENTER[Y], .5);
+                    // start lowering the lift
                     lowerLift();
+                    // bring arm up
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.arm.setTargetPosition(-800);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -226,20 +246,26 @@ public class DepotProgramNoLight extends LinearOpMode {
                     while (robot.arm.isBusy()) {
                     }
                     robot.arm.setPower(.111);
+                    // drive around right mineral to get to depot
                     gridNavigation.driveToPosition(.65, 1.5, .5);
                     gridNavigation.driveToPosition(.2, 2.5, .5);
+                    // drive to depot to deposit marker
                     gridNavigation.driveToPosition(RED_DEPOT_MARKER[X], RED_DEPOT_MARKER[Y], .5);
+                    // bring arm down
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.arm.setTargetPosition(450);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     robot.arm.setPower(1);
                     while (robot.arm.isBusy()) {
                     }
+                    // hold arm position
                     robot.arm.setPower(.111);
+                    // run intake to deposit intake
                     robot.intake.setPower(1);
                     sleep(1000);
                     robot.intake.setPower(0);
                     runtime.reset();
+                    // bring arm up
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.arm.setTargetPosition(-450);//-644 is to come from mat to stopping point
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -247,7 +273,9 @@ public class DepotProgramNoLight extends LinearOpMode {
                     while (robot.arm.isBusy()) {
                     }
                     robot.arm.setPower(.111);
+                    // drive to crater to park
                     gridNavigation.driveToPosition(RED_DEPOT_PARKING[X], RED_DEPOT_PARKING[Y], .7);
+                    // lower arm to park in crater
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.arm.setTargetPosition(800);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -255,7 +283,6 @@ public class DepotProgramNoLight extends LinearOpMode {
                     while (robot.arm.isBusy()) {
                     }
                     robot.arm.setPower(.111);
-//                    gridNavigation.driveToPosition(RED_DEPOT_ARM_DROP[X], RED_DEPOT_ARM_DROP[Y], .5);
                 } else {
                     telemetry.addData("Telemetry", "No Position Found");
                     printTelemetry(70);
@@ -266,17 +293,19 @@ public class DepotProgramNoLight extends LinearOpMode {
 
                 telemetry.update();
                 break;
-
-
+            // should never get to this case but in case it can't find the mineral position
+            // it goes to this default case
             default:
                 telemetry.addData("Telemetry", "Didn't see gold pos");
                 telemetry.update();
                 break;
-
         }
 
+        // Once it goes through the case block it does the following
         telemetry.addData("Parked Ready to pull out arm", "");
         telemetry.update();
+
+        // We stop using Grid Nav at this point and drive backwards to pull out our arm
         robot.leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -294,14 +323,17 @@ public class DepotProgramNoLight extends LinearOpMode {
         robot.rightBack.setPower(.5);
         robot.rightFront.setPower(.5);
 
+        // Wait until wheels encoders have gone to -537
         while (robot.rightFront.isBusy()) {
 
         }
+        // Shut off motors
         robot.leftBack.setPower(0);
         robot.leftFront.setPower(0);
         robot.rightBack.setPower(0);
         robot.rightFront.setPower(0);
 
+        // Lift up arm
         robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.arm.setTargetPosition(-400);
         robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -310,7 +342,7 @@ public class DepotProgramNoLight extends LinearOpMode {
         }
         robot.arm.setPower(.111);
 
-
+        // driving forward
         robot.leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -336,6 +368,7 @@ public class DepotProgramNoLight extends LinearOpMode {
         robot.rightBack.setPower(0);
         robot.rightFront.setPower(0);
 
+        // Bringing the arm down
         robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.arm.setTargetPosition(400);
         robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -344,16 +377,18 @@ public class DepotProgramNoLight extends LinearOpMode {
         }
         robot.arm.setPower(.111);
 
+        // Start intake to suck in minerals
         robot.intake.setPower(1);
         sleep(1000);
         robot.intake.setPower(0);
 
-
+        // Continuous while block
         while (true) {
 
             //start intake
             robot.intake.setPower(1);
 
+            // driving backwards
             robot.leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             robot.leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             robot.rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -379,6 +414,7 @@ public class DepotProgramNoLight extends LinearOpMode {
             robot.rightBack.setPower(0);
             robot.rightFront.setPower(0);
 
+            // driving forward
             robot.leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             robot.leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             robot.rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -404,31 +440,23 @@ public class DepotProgramNoLight extends LinearOpMode {
             robot.rightBack.setPower(0);
             robot.rightFront.setPower(0);
 
+            // Stopping intake
             robot.intake.setPower(0);
-            /**stop and reset encoders on motors
-             * set target position forward
-             * set power 1
-             * while is busy do nothing
-             * set power 0 to all motors
-             *
-             * stop and reset encoders on motors
-             * set target pos backward
-             * set power 1
-             * while is busy do nothing
-             * set power 0 to all motors
-             *
-             */
         }
-
     }
-
-
+    /**
+     *
+     * @param codePos this is the value we use in telemetry to see where in the code we are
+     */
     private void printTelemetry(int codePos) {
         telemetry.addData("Gold Pos", goldPosition);
         telemetry.addData("Code Position", codePos);
         telemetry.update();
     }
 
+    /**
+     * This is the function we call to lower the lift while sampling
+     */
     private void lowerLift() {
         robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.lift.setTargetPosition(14500);
@@ -437,13 +465,16 @@ public class DepotProgramNoLight extends LinearOpMode {
 
     }
 
-
+    /**
+     * Function we use to call Tensor Flow in order to read gold mineral position
+     */
     public void getMineralPosition() {
         int debounceCount = 0;
         long startTime = 0;
         String previousPosition;
         goldPosition = tensorFlow.findMineral();
 
+        // Switch block that indicated which mineral position it reads
         switch (goldPosition) {
             case ("LEFT"):
                 telemetry.addData("Telemetry", "Left Position");
@@ -457,12 +488,16 @@ public class DepotProgramNoLight extends LinearOpMode {
                 telemetry.addData("Telemetry", "Center Position");
                 telemetry.update();
                 break;
+
+            // If it reads unknown than it goes to this default case
             default:
                 telemetry.addData("Telemetry", "Unknown Position");
                 telemetry.update();
+                // sets mineral pos to center as default
                 goldPosition = "CENTER";
                 break;
         }
+
         telemetry.update();
     }
 }
