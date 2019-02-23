@@ -5,6 +5,13 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+/**
+ * @author Beep Patrol
+ * <p>
+ * <b>Summary:</b>
+ * <p>
+ * Depot Program With Light
+ */
 @Autonomous(name = "Depot Program With Light", group = "Beep")
 public class DepotProgramWithLight extends LinearOpMode {
 
@@ -26,9 +33,12 @@ public class DepotProgramWithLight extends LinearOpMode {
     // Declaring gold position value to read what position Tensor Flow sees the gold mineral in
     String goldPosition = "";
 
+    /**
+     * @throws InterruptedException <p>
+     *                              The main body of our code which contains the set of commands carried out in our crater side autonomous program.
+     */
     @Override
     public void runOpMode() throws InterruptedException {
-
 
         telemetry.addData("Telemetry", "robot initializing");
         telemetry.update();
@@ -444,9 +454,9 @@ public class DepotProgramWithLight extends LinearOpMode {
             robot.intake.setPower(0);
         }
     }
+
     /**
-     *
-     * @param codePos this is the value we use in telemetry to see where in the code we are
+     * @param codePos This is the value we use in telemetry to see where in the code we are
      */
     private void printTelemetry(int codePos) {
         telemetry.addData("Gold Pos", goldPosition);
@@ -455,7 +465,7 @@ public class DepotProgramWithLight extends LinearOpMode {
     }
 
     /**
-     * This is the function we call to lower the lift while sampling
+     * Lowers lift while reading the sampling
      */
     private void lowerLift() {
         robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -466,7 +476,7 @@ public class DepotProgramWithLight extends LinearOpMode {
     }
 
     /**
-     * Function we use to call Tensor Flow in order to read gold mineral position
+     * Calls Tensor Flow in order to read gold mineral position
      */
     public void getMineralPosition() {
         int debounceCount = 0;
