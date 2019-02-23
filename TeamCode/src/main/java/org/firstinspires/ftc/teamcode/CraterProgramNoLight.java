@@ -27,13 +27,13 @@ public class CraterProgramNoLight extends LinearOpMode {
     // Calling the Library Gyro Drive program to use the gyro drive function
     LibraryGyroDrive gyroDrive = new LibraryGyroDrive();
     // Calling the Library Grid Nav Library to use the grid navigation functions
-    LibraryGridNavigation gridNavigation = new LibraryGridNavigation();
+    private LibraryGridNavigation gridNavigation = new LibraryGridNavigation();
     // Calling the Library Tensor Flow No Light to use the Tensor Flow function without
     // initializing the light
-    LibraryTensorFlowObjectDetectionNoLight tensorFlow =
+    private LibraryTensorFlowObjectDetectionNoLight tensorFlow =
             new LibraryTensorFlowObjectDetectionNoLight(robot, telemetry);
     // Declaring gold position value to read what position Tensor Flow sees the gold mineral in
-    String goldPosition = "";
+    private String goldPosition = "";
 
     /**
      * The main body of our code which contains the set of commands carried out in our crater side autonomous program.
