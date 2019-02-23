@@ -42,7 +42,9 @@ public class HardwareBeep {
     public HardwareBeep() {
     }
 
-    // Initialize Standard Hardware Interfaces
+    /**
+     * Initializes standard hardware snterfaces
+     */
     public void init(HardwareMap ahwMap) {
 
         // Telemetry Switches

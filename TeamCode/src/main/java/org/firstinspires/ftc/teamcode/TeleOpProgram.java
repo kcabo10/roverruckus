@@ -17,12 +17,12 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class TeleOpProgram extends OpMode {
 
     // Declaring timers for the arm and basket.
-    public ElapsedTime armtime = new ElapsedTime();
-    public ElapsedTime baskettime = new ElapsedTime();
+    private ElapsedTime armtime = new ElapsedTime();
+    private ElapsedTime baskettime = new ElapsedTime();
     // Setting arm_state, arm_extrusion_state, and basket_state values to zero for arm state machine.
-    int arm_state = 0;
-    int arm_extrusion_state = 0;
-    int basket_state = 0;
+    private int arm_state = 0;
+    private int arm_extrusion_state = 0;
+    private int basket_state = 0;
     // Calling hardware map.
     private HardwareBeep robot = new HardwareBeep();
     // Setting value to track whether the Y and A buttons are pressed to zero which is not pressed.
@@ -34,8 +34,10 @@ public class TeleOpProgram extends OpMode {
     private double scaleFactor = 1;
     private double scaleTurningSpeed = 1;
 
-    // reverseDirection, when called, reverses the value of direction.
-    public void reverseDirection() {
+    /**
+     * Reverses the direction of the mecanum drive.
+     */
+    private void reverseDirection() {
         if (direction == 1) {
             direction = -1;
         } else if (direction == -1) {
@@ -43,8 +45,10 @@ public class TeleOpProgram extends OpMode {
         }
     }
 
-    // When scaleFactor is called the value is set to either .5 or 1.
-    public void scaleFactor() {
+    /**
+     * Scales the speed of the robot to .5.
+     */
+    private void scaleFactor() {
         if (scaleFactor == 0.5) {
             scaleFactor = 1;
         } else if (scaleFactor == 1) {
@@ -52,13 +56,17 @@ public class TeleOpProgram extends OpMode {
         }
     }
 
-    // Initializing hardware map
+    /**
+     * Initializes hardware map.
+     */
     public void init() {
         robot.init(hardwareMap);
         telemetry.addData("Say", "Hello Driver");
     }
 
-    // Setting motor power to zero
+    /**
+     * Sets motor power to zero
+     */
     public void init_loop() {
         robot.lift.setPower(0);
         robot.latch.setPower(0);
@@ -68,6 +76,9 @@ public class TeleOpProgram extends OpMode {
 
     }
 
+    /**
+     * The main body of our code which contains the code for each of the features on our robot used in teleOp
+     */
     public void loop() {
 
         double r = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
@@ -316,12 +327,13 @@ public class TeleOpProgram extends OpMode {
         telemetry.update();
     }
 
+    /**
+     * Sets the buttons to not being pressed, sets the motor power to zero, and terminates the program.
+     */
     public void stop() {
 
-        // Set the buttons to not being pressed
         buttonYPressed = 0;
         buttonAPressed = 0;
-        // Set the motor powers to zero
         robot.lift.setPower(0);
         robot.latch.setPower(0);
         robot.intake.setPower(0);
