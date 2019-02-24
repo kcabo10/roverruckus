@@ -37,10 +37,7 @@ public class CraterProgramWithLight extends LinearOpMode {
     String goldPosition = "";
 
     /**
-     * @throws InterruptedException
-     * <p>
      * The main body of our code which contains the set of commands carried out in our crater side autonomous program.
-     *
      */
     @Override
     public void runOpMode() {
