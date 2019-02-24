@@ -36,11 +36,10 @@ public class DepotProgramNoLight extends LinearOpMode {
     String goldPosition = "";
 
     /**
-     * @throws InterruptedException <p>
-     *                              The main body of our code which contains the set of commands carried out in our crater side autonomous program.
+     * The main body of our code which contains the set of commands carried out in our crater side autonomous program.
      */
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() {
 
 
         telemetry.addData("Telemetry", "robot initializing");
