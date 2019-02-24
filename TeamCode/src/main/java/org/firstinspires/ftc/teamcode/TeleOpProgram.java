@@ -187,7 +187,7 @@ public class TeleOpProgram extends OpMode {
                 if (gamepad2.right_bumper && robot.touchSensor.getState()) {
                     robot.armExtrusion.setPower(1);
                     robot.basket.setPosition(.5);
-                    arm_extrusion_state++; // moving
+                    arm_extrusion_state++;
                 } else if (gamepad2.right_trigger > 0) {
                     robot.armExtrusion.setPower(-1);
                     robot.basket.setPosition(.4);
