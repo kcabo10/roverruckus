@@ -41,7 +41,7 @@ public class DepotProgramWithLight extends LinearOpMode {
      *                              The main body of our code which contains the set of commands carried out in our crater side autonomous program.
      */
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() {
 
         telemetry.addData("Telemetry", "robot initializing");
         telemetry.update();

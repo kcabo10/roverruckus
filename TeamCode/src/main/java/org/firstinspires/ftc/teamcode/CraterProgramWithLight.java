@@ -43,7 +43,7 @@ public class CraterProgramWithLight extends LinearOpMode {
      *
      */
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() {
 
         telemetry.addData("Telemetry", "robot initializing");
         telemetry.update();
