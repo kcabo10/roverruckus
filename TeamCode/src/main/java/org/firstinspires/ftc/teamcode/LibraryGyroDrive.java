@@ -30,7 +30,7 @@ public class LibraryGyroDrive {
     DcMotor motor;
 
     /**
-     * The hardware class needs to be initialized before this f unction is called
+     * The hardware class needs to be initialized before this method is called
      */
     public void init(HardwareBeep myRobot, Telemetry myTelemetry, DcMotor myMotor) {
         robot = myRobot;
@@ -41,8 +41,8 @@ public class LibraryGyroDrive {
     }
 
     /**
-     *
-     * @param speed This allows us to input a speed when we call this function.
+     * This is the method we use to call gyro drive in the Grid Navigation library
+     * @param speed This allows us to input a speed when we call this method.
      * @param encoderTicks Input how far you want to drive using the encoder ticks.
      * @param angle Input what angle you want it to drive.
      */
@@ -151,9 +151,9 @@ public class LibraryGyroDrive {
 
 
     /**
-     *
+     * This method calculates the error and then determines the speed and direction necessary for the robot to correct in order to drive straight
      * @param speed Input your desired speed.
-     * @param angle This is the angle the function is fed by the readings to determine the error
+     * @param angle This is the angle the method is fed by the readings to determine the error
      * @param PCoeff Proportional Gain Coefficient
      * @return
      */
@@ -226,8 +226,8 @@ public class LibraryGyroDrive {
     }
 
     /**
-     *
-     * @param speed When you call the function input the desired speed
+     * This is the method we use to call gyro drive in the Grid Navigation library when we want to integrate the p coefficient
+     * @param speed When you call the method input the desired speed
      * @param encoderTicks Input the distance you want to drive in encoder ticks
      * @param angle What angle you would like to drive
      * @param PCoeff Proportional Gain Coefficient

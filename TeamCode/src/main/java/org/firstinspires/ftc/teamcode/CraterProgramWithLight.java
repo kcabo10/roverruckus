@@ -37,7 +37,7 @@ public class CraterProgramWithLight extends LinearOpMode {
     String goldPosition = "";
 
     /**
-     * The main body of our code which contains the set of commands carried out in our crater side autonomous program.
+     * This method is the main body of our code which contains the set of commands carried out in our crater side autonomous program.
      */
     @Override
     public void runOpMode() {
@@ -484,7 +484,7 @@ public class CraterProgramWithLight extends LinearOpMode {
     }
 
     /**
-     * Lowers lift while reading the sampling
+     * This method lowers the lift while reading the sampling
      */
     private void lowerLift() {
         robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -495,7 +495,7 @@ public class CraterProgramWithLight extends LinearOpMode {
     }
 
     /**
-     * Calls Tensor Flow in order to read gold mineral position
+     * This method calls Tensor Flow in order to read gold mineral position
      */
     public void getMineralPosition() {
         int debounceCount = 0;

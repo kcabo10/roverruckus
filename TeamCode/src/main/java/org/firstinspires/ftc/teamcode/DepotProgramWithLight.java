@@ -37,7 +37,7 @@ public class DepotProgramWithLight extends LinearOpMode {
     String goldPosition = "";
 
     /**
-     * The main body of our code which contains the set of commands carried out in our crater side autonomous program.
+     * This method is the main body of our code which contains the set of commands carried out in our crater side autonomous program.
      */
     @Override
     public void runOpMode() {
@@ -148,7 +148,6 @@ public class DepotProgramWithLight extends LinearOpMode {
                     while (robot.arm.isBusy()) {
                     }
                     robot.arm.setPower(.111);
-//                    gridNavigation.driveToPosition(RED_DEPOT_ARM_DROP[X], RED_DEPOT_ARM_DROP[Y], .5);
 
                 } else {
                     telemetry.addData("Telemetry", "No Position Found");
@@ -468,7 +467,7 @@ public class DepotProgramWithLight extends LinearOpMode {
     }
 
     /**
-     * Lowers lift while reading the sampling
+     * This method lowers the lift while reading the sampling
      */
     private void lowerLift() {
         robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -479,7 +478,7 @@ public class DepotProgramWithLight extends LinearOpMode {
     }
 
     /**
-     * Calls Tensor Flow in order to read gold mineral position
+     * This method calls Tensor Flow in order to read gold mineral position
      */
     public void getMineralPosition() {
         int debounceCount = 0;
