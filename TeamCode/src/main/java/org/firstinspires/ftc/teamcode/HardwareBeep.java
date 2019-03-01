@@ -53,6 +53,7 @@ public class HardwareBeep {
 
     /**
      * Initializes standard hardware interfaces
+     * @param ahwMap A reference to Hardware Map
      */
     public void init(HardwareMap ahwMap) {
 

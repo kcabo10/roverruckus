@@ -61,9 +61,9 @@ public class LibraryTensorFlowObjectDetectionWithLight {
     private TFObjectDetector tfod;
 
     /**
-     *
-     * @param newHardwareBeep
-     * @param newTelemetry
+     * Sets the robot and telemetry for the program.
+     * @param newHardwareBeep A new variable for Hardware Beep
+     * @param newTelemetry A call to use telemetry
      */
     public LibraryTensorFlowObjectDetectionWithLight(HardwareBeep newHardwareBeep, Telemetry newTelemetry) {
 
@@ -72,6 +72,10 @@ public class LibraryTensorFlowObjectDetectionWithLight {
 
     }
 
+    /**
+     * This method starts up the phone light and reads the mineral position.
+     * @return This return function sends back the gold position
+     */
     public String findMineral() {
         // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
         // first.
@@ -225,7 +229,9 @@ public class LibraryTensorFlowObjectDetectionWithLight {
         return currentPos;
     }
 
-    // this is the function that initializes the Tensor Flow program
+    /**
+     * That method starts up vuforia on the phone
+     */
     private void initVuforia() {
         // Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
@@ -237,7 +243,12 @@ public class LibraryTensorFlowObjectDetectionWithLight {
         vuforia = ClassFactory.getInstance().createVuforia(parameters);
     }
 
-    // this funciton is for the phone light
+    // this function is for the phone light
+
+    /**
+     * This method is called to start up the phone light
+     * @param on This parameter is used to start up the phone light
+     */
     private void phoneLight(boolean on) {
 
         // if you set the phone light to true than it turns on the phone flashlight
