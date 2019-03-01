@@ -43,7 +43,7 @@ import java.util.List;
 
 /**
  * This Our OpMode that illustrates TensorFlow Object Detection API to determine the position of the
- * gold and silver minerals.
+ * gold and silver minerals. This library sets the phone light to be on.
  */
 public class LibraryTensorFlowObjectDetectionWithLight {
     private static final String TFOD_MODEL_ASSET = "RoverRuckus.tflite";

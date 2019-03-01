@@ -458,6 +458,7 @@ public class DepotProgramNoLight extends LinearOpMode {
     }
 
     /**
+     * This method prints telemetry for our autonomous program
      * @param codePos This is the value we use in telemetry to see where in the code we are
      */
     private void printTelemetry(int codePos) {

@@ -15,6 +15,15 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.sensors.SensorMB1242;
 
+/**
+ * @author Beep Patrol
+ * <p>
+ * <b>Summary:</b>
+ * <p>
+ * This is our Hardware Map that contains all the motors, servos, and sensors that we use on the
+ * robot. We pull this Hardware Map in all the programs we use a part of the robot. In this program
+ * we intialize the encoders on the motors we want to call the encoder for.
+ */
 public class HardwareBeep {
 
     // Set Public OpMode Members
@@ -43,7 +52,7 @@ public class HardwareBeep {
     }
 
     /**
-     * Initializes standard hardware snterfaces
+     * Initializes standard hardware interfaces
      */
     public void init(HardwareMap ahwMap) {
 
