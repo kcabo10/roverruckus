@@ -42,9 +42,9 @@ public class LibraryGyroDrive {
 
     /**
      *
-     * @param speed
-     * @param encoderTicks
-     * @param angle
+     * @param speed This allows us to input a speed when we call this function.
+     * @param encoderTicks Input how far you want to drive using the encoder ticks.
+     * @param angle Input what angle you want it to drive.
      */
     public void gyroDrive(double speed,
                           int encoderTicks,
@@ -152,9 +152,9 @@ public class LibraryGyroDrive {
 
     /**
      *
-     * @param speed
-     * @param angle
-     * @param PCoeff
+     * @param speed Input your desired speed.
+     * @param angle This is the angle the function is fed by the readings to determine the error
+     * @param PCoeff Proportional Gain Coefficient
      * @return
      */
     boolean onHeading(double speed, double angle, double PCoeff) {
@@ -200,7 +200,6 @@ public class LibraryGyroDrive {
 
     /**
      * getError determines the error between the target angle and the robot's current heading
-     *
      * @param targetAngle Desired angle (relative to global reference established at last Gyro Reset).
      * @return error angle: Degrees in the range +/- 180. Centered on the robot's frame of reference
      * +ve error means the robot should turn LEFT (CCW) to reduce error.
@@ -218,7 +217,6 @@ public class LibraryGyroDrive {
 
     /**
      * returns desired steering force.  +/- 1 range.  +ve = steer left
-     *
      * @param error  Error angle in robot relative degrees
      * @param PCoeff Proportional Gain Coefficient
      * @return
@@ -229,10 +227,10 @@ public class LibraryGyroDrive {
 
     /**
      *
-     * @param speed
-     * @param encoderTicks
-     * @param angle
-     * @param PCoeff
+     * @param speed When you call the function input the desired speed
+     * @param encoderTicks Input the distance you want to drive in encoder ticks
+     * @param angle What angle you would like to drive
+     * @param PCoeff Proportional Gain Coefficient
      */
     public void gyroDriveVariableP(double speed,
                                    int encoderTicks,

@@ -9,9 +9,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
-//@Autonomous(name="Michael Gryo Testing 4", group="Exercises")
-//@Disabled
-
 public class LibraryGyro {
 
     HardwareBeep robot = null;
@@ -26,7 +23,6 @@ public class LibraryGyro {
     double Input, Output, Setpoint;
     double errSum, lastErr;
     double kp, ki, kd;
-
 
     /**
      * The hardware class needs to be initialized before this function is called
@@ -55,7 +51,6 @@ public class LibraryGyro {
 
     /**
      * Get current cumulative angle rotation from last reset.
-     *
      * @return Angle in degrees. + = left, - = right.
      */
     public double getAngle() {
@@ -82,7 +77,6 @@ public class LibraryGyro {
 
     /**
      * See if we are moving in a straight line and if not return a power correction value.
-     *
      * @return Power adjustment, + is adjust left - is adjust right.
      */
     private double checkDirection() {
@@ -117,6 +111,12 @@ public class LibraryGyro {
 
     }
 
+    /**
+     *
+     * @param Kp
+     * @param Ki
+     * @param Kd
+     */
     public void SetTunings(double Kp, double Ki, double Kd) {
         kp = Kp;
         ki = Ki;
@@ -124,6 +124,11 @@ public class LibraryGyro {
     }
 
 
+    /**
+     *
+     * @param targetHeading
+     * @return
+     */
     public double turnGyro(float targetHeading) {
         int original_anglez = 0;
 //        BNO055IMU imu;
