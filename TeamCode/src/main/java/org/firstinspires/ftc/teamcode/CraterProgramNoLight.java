@@ -490,7 +490,6 @@ public class CraterProgramNoLight extends LinearOpMode {
         robot.lift.setTargetPosition(14500);
         robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.lift.setPower(1);
-
     }
 
     /**

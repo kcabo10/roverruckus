@@ -35,7 +35,7 @@ public class TeleOpProgram extends OpMode {
     private double scaleTurningSpeed = 1;
 
     /**
-     * Reverses the direction of the mecanum drive.
+     * This method reverses the direction of the mecanum drive.
      */
     private void reverseDirection() {
         if (direction == 1) {
@@ -46,7 +46,7 @@ public class TeleOpProgram extends OpMode {
     }
 
     /**
-     * Scales the speed of the robot to .5.
+     * This method scales the speed of the robot to .5.
      */
     private void scaleFactor() {
         if (scaleFactor == 0.5) {
@@ -57,7 +57,7 @@ public class TeleOpProgram extends OpMode {
     }
 
     /**
-     * Initializes hardware map.
+     * This method initializes hardware map.
      */
     public void init() {
         robot.init(hardwareMap);
@@ -65,7 +65,7 @@ public class TeleOpProgram extends OpMode {
     }
 
     /**
-     * Sets motor power to zero
+     * This method sets motor power to zero
      */
     public void init_loop() {
         robot.lift.setPower(0);
@@ -77,7 +77,7 @@ public class TeleOpProgram extends OpMode {
     }
 
     /**
-     * The main body of our code which contains the code for each of the features on our robot used in teleOp
+     * This method is the main body of our code which contains the code for each of the features on our robot used in teleOp
      */
     public void loop() {
 
@@ -188,7 +188,7 @@ public class TeleOpProgram extends OpMode {
                     robot.armExtrusion.setPower(1);
                     robot.basket.setPosition(.5);
                     arm_extrusion_state++;
-                    
+
                 } else if (gamepad2.right_trigger > 0) {
                     robot.armExtrusion.setPower(-1);
                     robot.basket.setPosition(.4);
@@ -329,7 +329,7 @@ public class TeleOpProgram extends OpMode {
     }
 
     /**
-     * Sets the buttons to not being pressed, sets the motor power to zero, and terminates the program.
+     * This method sets the buttons to not being pressed, sets the motor power to zero, and terminates the program.
      */
     public void stop() {
 

@@ -7,13 +7,12 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 
 /**
- * Created by vasudevfamily on 8/31/17.
+ * Created by Beep Patrol
  * <p>
  * This library contains the grid navigation program, which utilizes a virtual grid
  * with origin (0, 0) starting the center of the field.  The angle fo 0 degrees
  * begins on the positive X axis and moves counterclockwise
  */
-
 public class LibraryGridNavigation {
 
     HardwareBeep robot;// = new HardwareBeep();
@@ -40,6 +39,12 @@ public class LibraryGridNavigation {
     private ElapsedTime runtime = new ElapsedTime();
 
     //The angle 0 degrees starts on the positive X axis and moves counterclockwise
+
+    /**
+     * @param xPosition
+     * @param yPosition
+     * @param angle
+     */
     public void setGridPosition(double xPosition, double yPosition, float angle) {
         xOrigin = xPosition;
         yOrigin = yPosition;
@@ -55,6 +60,12 @@ public class LibraryGridNavigation {
 //        return myPos;
 //    }
 
+    /**
+     *
+     * @param xDestination
+     * @param yDestination
+     * @return
+     */
     public float getTurnAngleValuesOnly(double xDestination, double yDestination) {
 
         float tanAngle = 0; // comment
@@ -95,6 +106,12 @@ public class LibraryGridNavigation {
 
     }
 
+    /**
+     *
+     * @param xDestination
+     * @param yDestination
+     * @return
+     */
     public float getTurnAngle(double xDestination, double yDestination) {
 
         float tanAngle = 0; // comment
@@ -144,6 +161,12 @@ public class LibraryGridNavigation {
 
     }
 
+    /**
+     *
+     * @param xDestination
+     * @param yDestination
+     * @return
+     */
     public double getDriveDistance(double xDestination, double yDestination) {
 
         double xLeg = xDestination - xOrigin;
@@ -179,6 +202,12 @@ public class LibraryGridNavigation {
     }
 
     //The grid is set such as that the origin (0, 0) is at the center and each grid point is 2 feet from the next point
+    /**
+     *
+     * @param xDestination
+     * @param yDestination
+     * @param power
+     */
     public void driveToPositionNonBlocking(double xDestination, double yDestination, double power) {
 
         getDriveDistance(xDestination, yDestination);
@@ -214,6 +243,13 @@ public class LibraryGridNavigation {
     }
 
     //The grid is set such as that the origin (0, 0) is at the center and each grid point is 2 feet from the next point
+
+    /**
+     *
+     * @param xDestination
+     * @param yDestination
+     * @param power
+     */
     public void driveToPositionValuesOnly(double xDestination, double yDestination, double power) {
 
         System.out.println("%n%ndriveToPosValuesOnly to (" + xDestination + ", " + yDestination + ")");
@@ -223,6 +259,13 @@ public class LibraryGridNavigation {
     }
 
     //The grid is set such as that the origin (0, 0) is at the center and each grid point is 2 feet from the next point
+
+    /**
+     *
+     * @param xDestination
+     * @param yDestination
+     * @param power
+     */
     public void driveToPosition(double xDestination, double yDestination, double power) {
 
         double PCoeff = .01;
@@ -281,6 +324,12 @@ public class LibraryGridNavigation {
 
 //    }
 
+    /**
+     *
+     * @param myRobot
+     * @param myGyro
+     * @param myTelemetry
+     */
     public void init(HardwareBeep myRobot, LibraryGyro myGyro, Telemetry myTelemetry) {
         robot = myRobot;
         //gyro = myGyro;
@@ -288,6 +337,12 @@ public class LibraryGridNavigation {
         gyroDrive.init(robot, telemetry, robot.leftFront);
     }
 
+    /**
+     *
+     * @param xDestination
+     * @param yDestination
+     * @param power
+     */
     public void driveToPositionBackwards(double xDestination, double yDestination, double power) {
         getDriveDistance(xDestination, yDestination);
         getTurnAngle(xDestination, yDestination);
@@ -310,6 +365,12 @@ public class LibraryGridNavigation {
 
     }
 
+    /**
+     *
+     * @param xDestination
+     * @param yDestination
+     * @param power
+     */
     public void driveToPositionBackwardsValuesOnly(double xDestination, double yDestination, double power) {
         getDriveDistance(xDestination, yDestination);
         getTurnAngleValuesOnly(xDestination, yDestination);
@@ -322,6 +383,12 @@ public class LibraryGridNavigation {
 
     }
 
+    /**
+     *
+     * @param xDestination
+     * @param yDestination
+     * @param power
+     */
     public void driveToPositionReverse(double xDestination, double yDestination, double power) {
         getDriveDistance(xDestination, yDestination);
         getTurnAngle(xDestination, yDestination);
@@ -334,6 +401,12 @@ public class LibraryGridNavigation {
 
     }
 
+    /**
+     *
+     * @param xDestination
+     * @param yDestination
+     * @param power
+     */
     public void driveToPositionReverseValuesOnly(double xDestination, double yDestination, double power) {
         getDriveDistance(xDestination, yDestination);
         getTurnAngleValuesOnly(xDestination, yDestination);
