@@ -51,6 +51,7 @@ public class LibraryGyro {
 
     /**
      * Get current cumulative angle rotation from last reset.
+     *
      * @return Angle in degrees. + = left, - = right.
      */
     public double getAngle() {
@@ -77,6 +78,7 @@ public class LibraryGyro {
 
     /**
      * See if we are moving in a straight line and if not return a power correction value.
+     *
      * @return Power adjustment, + is adjust left - is adjust right.
      */
     private double checkDirection() {
@@ -112,7 +114,6 @@ public class LibraryGyro {
     }
 
     /**
-     *
      * @param Kp
      * @param Ki
      * @param Kd
@@ -125,7 +126,6 @@ public class LibraryGyro {
 
 
     /**
-     *
      * @param targetHeading
      * @return
      */

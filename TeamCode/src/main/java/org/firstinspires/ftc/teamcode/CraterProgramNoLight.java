@@ -10,9 +10,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * <p>
  * <b>Summary:</b>
  * <p>
- *  This is our autonomous program for the crater side on both sides of the field. This program runs
- *  without the phone light for Tensor Flow. This is the go to program. This programs lands, hits off the gold mineral, deposits the team marker, and parks in
- *  our alligances crater.
+ * This is our autonomous program for the crater side on both sides of the field. This program runs
+ * without the phone light for Tensor Flow. This is the go to program. This programs lands, hits off the gold mineral, deposits the team marker, and parks in
+ * our alligances crater.
  */
 @Autonomous(name = "Crater Program No Light", group = "Beep")
 public class CraterProgramNoLight extends LinearOpMode {
@@ -319,8 +319,8 @@ public class CraterProgramNoLight extends LinearOpMode {
                     printTelemetry(50);
                 }
                 break;
-                // should never get to this case but in case it can't find the mineral position
-                // it goes to this default case
+            // should never get to this case but in case it can't find the mineral position
+            // it goes to this default case
             default:
                 telemetry.addData("Telemetry", "Didn't see gold pos");
                 telemetry.update();
@@ -472,6 +472,7 @@ public class CraterProgramNoLight extends LinearOpMode {
 
     /**
      * This method prints telemetry for our autonomous program
+     *
      * @param codePos This is the value we use in telemetry to see where in the code we are
      */
     private void printTelemetry(int codePos) {
@@ -516,7 +517,7 @@ public class CraterProgramNoLight extends LinearOpMode {
                 telemetry.update();
                 break;
 
-                // If it reads unknown than it goes to this default case
+            // If it reads unknown than it goes to this default case
             default:
                 telemetry.addData("Telemetry", "Unknown Position");
                 telemetry.update();

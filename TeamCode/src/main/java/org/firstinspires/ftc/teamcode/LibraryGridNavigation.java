@@ -61,7 +61,6 @@ public class LibraryGridNavigation {
 //    }
 
     /**
-     *
      * @param xDestination
      * @param yDestination
      * @return
@@ -107,7 +106,6 @@ public class LibraryGridNavigation {
     }
 
     /**
-     *
      * @param xDestination
      * @param yDestination
      * @return
@@ -162,7 +160,6 @@ public class LibraryGridNavigation {
     }
 
     /**
-     *
      * @param xDestination
      * @param yDestination
      * @return
@@ -202,8 +199,8 @@ public class LibraryGridNavigation {
     }
 
     //The grid is set such as that the origin (0, 0) is at the center and each grid point is 2 feet from the next point
+
     /**
-     *
      * @param xDestination
      * @param yDestination
      * @param power
@@ -245,7 +242,6 @@ public class LibraryGridNavigation {
     //The grid is set such as that the origin (0, 0) is at the center and each grid point is 2 feet from the next point
 
     /**
-     *
      * @param xDestination
      * @param yDestination
      * @param power
@@ -261,7 +257,6 @@ public class LibraryGridNavigation {
     //The grid is set such as that the origin (0, 0) is at the center and each grid point is 2 feet from the next point
 
     /**
-     *
      * @param xDestination
      * @param yDestination
      * @param power
@@ -325,7 +320,6 @@ public class LibraryGridNavigation {
 //    }
 
     /**
-     *
      * @param myRobot
      * @param myGyro
      * @param myTelemetry
@@ -338,7 +332,6 @@ public class LibraryGridNavigation {
     }
 
     /**
-     *
      * @param xDestination
      * @param yDestination
      * @param power
@@ -366,7 +359,6 @@ public class LibraryGridNavigation {
     }
 
     /**
-     *
      * @param xDestination
      * @param yDestination
      * @param power
@@ -384,7 +376,6 @@ public class LibraryGridNavigation {
     }
 
     /**
-     *
      * @param xDestination
      * @param yDestination
      * @param power
@@ -402,7 +393,6 @@ public class LibraryGridNavigation {
     }
 
     /**
-     *
      * @param xDestination
      * @param yDestination
      * @param power

@@ -98,7 +98,6 @@ public class MichaelGyroTurnTest_Test {
 //        gridNavigation.driveToPositionBackwards(RED_CRATER_PARKING[X], RED_CRATER_PARKING[Y], .7);
 
 
-
     }
 
     private void michaelGyroTurnTest() throws Exception {

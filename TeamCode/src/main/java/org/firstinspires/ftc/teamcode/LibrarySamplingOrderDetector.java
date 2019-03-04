@@ -47,6 +47,7 @@ public class LibrarySamplingOrderDetector extends DogeCVDetector {
     private Mat yellowMask = new Mat();
     private Mat whiteMask = new Mat();
     private Mat hiarchy = new Mat();
+
     public LibrarySamplingOrderDetector() {
         super();
         this.detectorName = "Sampling Order Detector";

@@ -9,7 +9,6 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -53,6 +52,7 @@ public class HardwareBeep {
 
     /**
      * Initializes standard hardware interfaces
+     *
      * @param ahwMap A reference to Hardware Map
      */
     public void init(HardwareMap ahwMap) {
@@ -77,9 +77,8 @@ public class HardwareBeep {
         imu = hwMap.get(BNO055IMU.class, "imu");
         colorSensor = hwMap.get(ModernRoboticsI2cColorSensor.class, "color_Sensor");
         leftSonic = hwMap.get(SensorMB1242.class, "left_sonic");
+        leftSonic.changeI2cAddress(225);
         rightSonic = hwMap.get(SensorMB1242.class, "right_sonic");
-        I2cAddr myAddr = new I2cAddr(225);
-        rightSonic.setI2cAddress(myAddr);
         touchSensor = hwMap.get(DigitalChannel.class, "sensor_digital");
 
         // Set Motor and Servo Direction
