@@ -52,14 +52,6 @@ public class LibraryGridNavigation {
         System.out.println("setGridPos to (" + xPosition + ", " + yPosition + ") angle " + angle);
     }
 
-//    //The angle 0 degrees starts on the positive X axis and moves counterclockwise
-//    public double[] getGridPosition() {
-//        double myPos[];
-//        myPos[0] = xOrigin;
-//        myPos[1] = yOrigin;
-//        return myPos;
-//    }
-
     /**
      * @param xDestination
      * @param yDestination
@@ -69,35 +61,43 @@ public class LibraryGridNavigation {
 
         float tanAngle = 0; // comment
 
+        // This section creates the legs of the triangle formed by the rectangular coordinates
+        // inputted by the programing team.
         double xLeg = xDestination - xOrigin;
 
         double yLeg = yDestination - yOrigin;
 
+        // The theta variable is found by taking the inverse tangent function of the y and x legs
+        // of the triangle. Theta is the angle the robot needs to turn to align with the new
+        // destination.
         double theta = Math.atan2(yLeg, xLeg);
         //atan2 automatically corrects for the limited domain of the inverse tangent function
-        System.out.println("xLeg is " + xLeg);
-        System.out.println("yLeg is " + yLeg);
+
+
+        // This converts the radians given by the atan2 funtion to degrees.
         tanAngle = (float) Math.toDegrees(theta);
-        if (tanAngle > 180) {
-            tanAngle = tanAngle - 360;
-        } else if (tanAngle < -180) {
-            tanAngle = tanAngle + 360;
-        }
-        System.out.println("Start Angle is " + StartingAngle);
-        System.out.println("Tangent Angle is " + tanAngle);
+//        if (tanAngle > 180) {
+//            tanAngle = tanAngle - 360;
+//        } else if (tanAngle < -180) {
+//            tanAngle = tanAngle + 360;
+//        }
+
+        // These set the previous destination coordinates to the next starting coordinates.
         xOrigin = xDestination;
         yOrigin = yDestination;
 
         turnAngle = tanAngle - StartingAngle;
-//            if(180 > turnAngle){
-//                turnAngle = turnAngle - 360;
-//            }
-//            else if(turnAngle < -180){
-//                turnAngle = turnAngle + 360;
-//            }
-//            else{
-//
-//            }
+        if (turnAngle > 180) {
+            turnAngle = turnAngle - 360;
+        } else if (turnAngle < -180) {
+            turnAngle = turnAngle + 360;
+        } else {
+
+        }
+        System.out.println("xLeg is " + xLeg);
+        System.out.println("yLeg is " + yLeg);
+        System.out.println("Start Angle is " + StartingAngle);
+        System.out.println("Tangent Angle is " + tanAngle);
         System.out.println("Turn angle " + turnAngle);
         StartingAngle = tanAngle;
 
@@ -178,32 +178,18 @@ public class LibraryGridNavigation {
          * we multiply that encoder value by the gear ratio that is set up for the wheel assembly we use.
          */
         System.out.println("Drive Distance is " + Distance);
-
-        /* START TEST CODE FOR SHOWING PRINTS
-        telemetry.addData("Drive Distance is ", Distance);
-        telemetry.addData("Gear Scale Factor", GEAR_RATIO_SCALING_FACTOR);
-        telemetry.addData("xOrigin", xOrigin);
-        telemetry.addData("yOrigin", yOrigin);
-        telemetry.addData("xDestination", xDestination);
-        telemetry.addData("yDestimation", yDestination);
-        telemetry.addData("xLeg", xLeg);
-        telemetry.addData("yLeg", yLeg);
-        telemetry.update();
-
-        runtime.reset();
-
-        while((runtime.seconds() < 4)) {
-        }
-        /* END TEST CODE */
         return Distance;
     }
 
-    //The grid is set such as that the origin (0, 0) is at the center and each grid point is 2 feet from the next point
+    //The grid is set such as that the origin (0, 0) is at the center and each grid point is 2 feet
+    // from the next point
 
     /**
-     * @param xDestination
-     * @param yDestination
-     * @param power
+     * @param xDestination When you call this method in another function you insert the x destination
+     *      * you want to go to on the grid
+     * @param yDestination When you call this method in another function you insert the y destination
+     * you want to go to on the grid
+     * @param power Input the power you want to run the robot at
      */
     public void driveToPositionNonBlocking(double xDestination, double yDestination, double power) {
 
@@ -242,9 +228,11 @@ public class LibraryGridNavigation {
     //The grid is set such as that the origin (0, 0) is at the center and each grid point is 2 feet from the next point
 
     /**
-     * @param xDestination
-     * @param yDestination
-     * @param power
+     * @param xDestination When you call this method in another function you insert the x destination
+     *      * you want to go to on the grid
+     * @param yDestination When you call this method in another function you insert the y destination
+     * you want to go to on the grid
+     * @param power Input the power you want to run the robot at
      */
     public void driveToPositionValuesOnly(double xDestination, double yDestination, double power) {
 
@@ -257,9 +245,11 @@ public class LibraryGridNavigation {
     //The grid is set such as that the origin (0, 0) is at the center and each grid point is 2 feet from the next point
 
     /**
-     * @param xDestination
-     * @param yDestination
-     * @param power
+     * @param xDestination When you call this method in another function you insert the x destination
+     *      * you want to go to on the grid
+     * @param yDestination When you call this method in another function you insert the y destination
+     * you want to go to on the grid
+     * @param power Input the power you want to run the robot at
      */
     public void driveToPosition(double xDestination, double yDestination, double power) {
 
@@ -267,74 +257,33 @@ public class LibraryGridNavigation {
 
         getDriveDistance(xDestination, yDestination);
         getTurnAngle(xDestination, yDestination);
-//
-//        telemetry.addData("driveToPos: distance", Distance);
-//        telemetry.addData("driveToPos: power", power);
-//        telemetry.addData("driveToPos: PCoeff", PCoeff);
-//        telemetry.addData("driveToPos: turnAngle", turnAngle);
-//        telemetry.update();
-//        ElapsedTime timer = new ElapsedTime();
-//        timer.reset();
-//        while (timer.seconds()<4) {}
-
 
         gyroDrive.gyro.turnGyro(turnAngle);
-
-        //gyroDrive.gyroDrive(power, (int) Distance, 0.0);
-
-
-//        telemetry.addData("driveToPos: turnAngle", turnAngle);
-//        telemetry.addData("driveToPos: getAngle", gyroDrive.gyro.getAngle());
-//        telemetry.update();
-//        timer.reset();
-//        while (timer.seconds()<4) {}
 
         gyroDrive.gyroDriveVariableP(power, (int) Distance, turnAngle, PCoeff);
 
     }
-//
-//    public void driveToPositionSonic(double xDestination, double yDestination, double power) {
-//
-//        getDriveDistance(xDestination, yDestination);
-//
-//        rearUS.startAutoPing(40);
-//            if (runtime.milliseconds() > 200){
-//
-//                telemetry.addData("Distance",rearUS.getDistance());
-//                telemetry.addData("Incrementor", i++);
-//                telemetry.update();
-//                rearUS.ping();
-//                runtime.reset();
-//            }
-//            if (rearUS.getDistance() == 40){
-//                gyroDrive.gyroDrive(power, (int) Distance, 0.0);
-//            }
-//            if (rearUS.getDistance() > 40){
-//                gyro.turnGyro(20);
-//                gyroDrive.gyroDrive(power, (int) Distance, 0.0);
-//            }
-//            if (rearUS.getDistance() < 40){
-//
-//            }
 
-//    }
-
-    /**
-     * @param myRobot
-     * @param myGyro
-     * @param myTelemetry
+    /** This is the initialize method
+     * @param myRobot Call your hardware map
+     * @param myGyro Insert the gyro you want to ues. In our case we use the REV IMU
+     * @param myTelemetry Call the telemetry
      */
     public void init(HardwareBeep myRobot, LibraryGyro myGyro, Telemetry myTelemetry) {
+        // this is our robot
         robot = myRobot;
-        //gyro = myGyro;
+        // calling telemetry
         telemetry = myTelemetry;
+        // Called the gyro drive library for us to use in the drive to position method
         gyroDrive.init(robot, telemetry, robot.leftFront);
     }
 
     /**
-     * @param xDestination
-     * @param yDestination
-     * @param power
+     * @param xDestination When you call this method in another function you insert the x destination
+     *      * you want to go to on the grid
+     * @param yDestination When you call this method in another function you insert the y destination
+     * you want to go to on the grid
+     * @param power Input the power you want to run the robot at
      */
     public void driveToPositionBackwards(double xDestination, double yDestination, double power) {
         getDriveDistance(xDestination, yDestination);
@@ -359,9 +308,11 @@ public class LibraryGridNavigation {
     }
 
     /**
-     * @param xDestination
-     * @param yDestination
-     * @param power
+     * @param xDestination When you call this method in another function you insert the x destination
+     *      * you want to go to on the grid
+     * @param yDestination When you call this method in another function you insert the y destination
+     * you want to go to on the grid
+     * @param power Input the power you want to run the robot at
      */
     public void driveToPositionBackwardsValuesOnly(double xDestination, double yDestination, double power) {
         getDriveDistance(xDestination, yDestination);
@@ -376,9 +327,11 @@ public class LibraryGridNavigation {
     }
 
     /**
-     * @param xDestination
-     * @param yDestination
-     * @param power
+     * @param xDestination When you call this method in another function you insert the x destination
+     *      * you want to go to on the grid
+     * @param yDestination When you call this method in another function you insert the y destination
+     * you want to go to on the grid
+     * @param power Input the power you want to run the robot at
      */
     public void driveToPositionReverse(double xDestination, double yDestination, double power) {
         getDriveDistance(xDestination, yDestination);
@@ -393,9 +346,11 @@ public class LibraryGridNavigation {
     }
 
     /**
-     * @param xDestination
-     * @param yDestination
-     * @param power
+     * @param xDestination When you call this method in another function you insert the x destination
+     *      * you want to go to on the grid
+     * @param yDestination When you call this method in another function you insert the y destination
+     * you want to go to on the grid
+     * @param power Input the power you want to run the robot at
      */
     public void driveToPositionReverseValuesOnly(double xDestination, double yDestination, double power) {
         getDriveDistance(xDestination, yDestination);

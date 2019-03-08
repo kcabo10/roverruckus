@@ -10,10 +10,15 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 public class LibraryGyro {
-
+    // calls the hardware map
     HardwareBeep robot = null;
+    // Calls the telemetry in order to send updates to the phone
     Telemetry telemetry;
+    // Call this to read the last angle of the gyro
     Orientation lastAngles = new Orientation();
+
+
+    // values we use throughout the program
     double globalAngle, power = .30, correction;
     double angle_variable;
     double speed;
@@ -28,15 +33,17 @@ public class LibraryGyro {
      * The hardware class needs to be initialized before this function is called
      */
     public void init(HardwareBeep myRobot, Telemetry myTelemetry) {
+        // initializes all the programs we are pulling for this Library
         robot = myRobot;
         telemetry = myTelemetry;
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-
+        // Sets parameters for gyro
         parameters.mode = BNO055IMU.SensorMode.IMU;
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
         parameters.loggingEnabled = false;
 
+        // initializes the gyro in the Rev IMU
         robot.imu.initialize(parameters);
     }
 
@@ -44,8 +51,8 @@ public class LibraryGyro {
      * Resets the cumulative angle tracking to zero.
      */
     private void resetAngle() {
+        // We completely reset the gyro angle
         lastAngles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-
         globalAngle = 0;
     }
 
@@ -60,8 +67,10 @@ public class LibraryGyro {
         // returned as 0 to +180 or 0 to -180 rolling back to -179 or +179 when rotation passes
         // 180 degrees. We detect this transition and track the total cumulative angle of rotation.
 
-        Orientation angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        Orientation angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX,
+                AngleUnit.DEGREES);
 
+        //
         double deltaAngle = angles.firstAngle - lastAngles.firstAngle;
 
         if (deltaAngle < -180)
@@ -113,35 +122,35 @@ public class LibraryGyro {
 
     }
 
-    /**
+    /** This method sets the PID values
      * @param Kp
      * @param Ki
      * @param Kd
      */
     public void SetTunings(double Kp, double Ki, double Kd) {
+        // Add values for PID algorithm
+        // The P value stands for Proportional
         kp = Kp;
+        // I stands for Integral
         ki = Ki;
+        // D stands for Derivative
         kd = Kd;
     }
 
 
-    /**
+    /** This is the turn Gyro method that call in other programs to turn the robot to a certain
+     * degree.
      * @param targetHeading
      * @return
      */
     public double turnGyro(float targetHeading) {
-        int original_anglez = 0;
-//        BNO055IMU imu;
-        int xVal, yVal, zVal = 0;
-        int heading = 0;
-        int angleZ = 0;
-        float MIDPOWER = 0;
+        // Drive Gain value is used to track the gyros position
         double DRIVEGAIN = 1;
+        //
         double TOLERANCE = .5;
-        int timer = 0;
-        double currentHeading, headingError, driveSteering, leftPower, rightPower, oldCurrentHeading = 0.0;
+        double timer = 0;
+        double currentHeading = 0.0;
         long startTime = 0;
-//        imu = (BNO055IMU) hardwareMap.gyroSensor.get("imu");
         double polarity = 1;
         polarity = targetHeading > 0 ? 1 : -1;
 
@@ -150,10 +159,6 @@ public class LibraryGyro {
         robot.leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.rightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-
-//        telemetry.addData("Current Pos", currentHeading);
-//        updateTelemetry(telemetry);
 
         startTime = System.currentTimeMillis();
         currentHeading = getAngle();
@@ -165,9 +170,6 @@ public class LibraryGyro {
         telemetry.addData("Setpoint ", Setpoint);
         telemetry.addData("Input ", Input);
         telemetry.update();
-        //        sleep(5000);
-
-        //Input = currentHeading;
 
         Output *= polarity;
 
@@ -179,13 +181,10 @@ public class LibraryGyro {
             robot.rightFront.setPower(-Output);
             robot.rightBack.setPower(-Output);
             timer++;
-            //sleep(1000);
             Input = getAngle();
-            //sleep(1000);
             telemetry.addData("curHeading", Input);
             telemetry.addData("tarHeading", Setpoint);
             telemetry.update();
-            //} while (Input < targetHeading && (System.currentTimeMillis() < (startTime + 6000)));
         }
         while ((Math.abs(Input - Setpoint) > TOLERANCE) || (System.currentTimeMillis() < (startTime + 1050)));
 
@@ -194,8 +193,6 @@ public class LibraryGyro {
         telemetry.addData("tarHeading", Setpoint);
         telemetry.addData("leftPwr", -Output);
         telemetry.addData("rightPwr", Output);
-        //telemetry.addData("headingErr", headingError);
-        //telemetry.addData("driveSteer", driveSteering);
         telemetry.addData("DRIVEGAIN", DRIVEGAIN);
         telemetry.update();
 

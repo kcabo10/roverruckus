@@ -63,7 +63,7 @@ public class DepotProgramWithLight extends LinearOpMode {
 
         // landing our robot
         robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.lift.setTargetPosition(-20680);
+        robot.lift.setTargetPosition(-11760);
         robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.lift.setPower(1);
 
@@ -472,7 +472,7 @@ public class DepotProgramWithLight extends LinearOpMode {
      */
     private void lowerLift() {
         robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.lift.setTargetPosition(14500);
+        robot.lift.setTargetPosition(11760);
         robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.lift.setPower(1);
 

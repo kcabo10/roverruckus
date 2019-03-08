@@ -62,7 +62,7 @@ public class CraterProgramNoLight extends LinearOpMode {
 
         // landing the robot
         robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.lift.setTargetPosition(-18000);
+        robot.lift.setTargetPosition(-11760);
         robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.lift.setPower(1);
 
@@ -104,7 +104,7 @@ public class CraterProgramNoLight extends LinearOpMode {
         double[] LEFT_CRATER_MARKER = {-1.5, 2.9};
 
         // Parking position for all mineral positions
-        double[] RED_CRATER_PARKING = {.8, 2.7};
+        double[] RED_CRATER_PARKING = {.7, 2.7};
 
         // This is a switch block that plays the program in relation to the mineral position that
         // Tensor Flow reads
@@ -488,7 +488,7 @@ public class CraterProgramNoLight extends LinearOpMode {
      */
     private void lowerLift() {
         robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.lift.setTargetPosition(14500);
+        robot.lift.setTargetPosition(11760);
         robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.lift.setPower(1);
     }
@@ -517,7 +517,7 @@ public class CraterProgramNoLight extends LinearOpMode {
                 telemetry.update();
                 break;
 
-            // If it reads unknown than it goes to this default case
+            // If it reads unknown than it goes to this defaul   t case
             default:
                 telemetry.addData("Telemetry", "Unknown Position");
                 telemetry.update();

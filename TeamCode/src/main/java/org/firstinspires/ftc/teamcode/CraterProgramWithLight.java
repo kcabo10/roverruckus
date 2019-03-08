@@ -63,7 +63,7 @@ public class CraterProgramWithLight extends LinearOpMode {
 
         // landing the robot
         robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.lift.setTargetPosition(-18000);
+        robot.lift.setTargetPosition(-11760);
         robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.lift.setPower(1);
 
@@ -489,7 +489,7 @@ public class CraterProgramWithLight extends LinearOpMode {
      */
     private void lowerLift() {
         robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.lift.setTargetPosition(14500);
+        robot.lift.setTargetPosition(11760);
         robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.lift.setPower(1);
 
