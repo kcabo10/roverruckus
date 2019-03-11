@@ -21,8 +21,8 @@ public class TeleOpProgram extends OpMode {
     private ElapsedTime baskettime = new ElapsedTime();
     // Setting arm_state, arm_extrusion_state, and basket_state values to zero for arm state machine.
     private int arm_state = 0;
-    private int trigger_arm_extrusion_state = 0;
-    private int bumper_arm_extrusion_state = 0;
+    private int arm_extrusion_state = 0;
+    private int right_trigger_state = 0;
     private int basket_state = 0;
     // Calling hardware map.
     private HardwareBeep robot = new HardwareBeep();
@@ -34,6 +34,7 @@ public class TeleOpProgram extends OpMode {
     // Setting scaling to full speed.
     private double scaleFactor = 1;
     private double scaleTurningSpeed = 1;
+    private boolean right_trigger_pushed = false;
 
     /**
      * This method reverses the direction of the mecanum drive.
@@ -179,45 +180,7 @@ public class TeleOpProgram extends OpMode {
             robot.intake.setPower(0);
         }
 
-        if (gamepad2.right_trigger > 0) {
-            robot.armExtrusion.setPower(-1);
-
-            if (robot.arm.isBusy()) {
-
-            }
-            robot.arm.setPower(0);
-        }
-
-        switch (trigger_arm_extrusion_state) {
-            case 0:
-
-                if (gamepad2.right_trigger > 0) {
-                    robot.armExtrusion.setPower(-1);
-                    robot.basket.setPosition(.4);
-                    robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    robot.arm.setTargetPosition(-150);
-                    robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    robot.arm.setPower(.75);
-                    trigger_arm_extrusion_state++;
-                } else {
-                    robot.armExtrusion.setPower(0);
-                }
-                break;
-            case 1:
-                // Once the right trigger is not being pressed it advances to the next state.
-                // Resetting the timer for the arm
-                if (gamepad2.right_trigger <= 0) {
-                    robot.armExtrusion.setPower(0);
-                    robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    robot.arm.setTargetPosition(150);
-                    robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    robot.arm.setPower(.75);
-                    trigger_arm_extrusion_state = 0;
-                }
-                break;
-        }
-
-        switch (bumper_arm_extrusion_state) {
+        switch (arm_extrusion_state) {
             case 0:
                 // when the right bumper is being pressed and the touch sensor is not being set the armExtrusion power is set to 1 and the basket position is set to .5.
                 // Once those conditions are met the state advances to the next case.
@@ -226,16 +189,41 @@ public class TeleOpProgram extends OpMode {
                 if (gamepad2.right_bumper && robot.touchSensor.getState()) {
                     robot.armExtrusion.setPower(1);
                     robot.basket.setPosition(.5);
-                    bumper_arm_extrusion_state++;
+                    arm_extrusion_state++;
+
+                } else if (gamepad2.right_trigger > 0) {
+                    robot.armExtrusion.setPower(-1);
+                    robot.basket.setPosition(.4);
+                    right_trigger_pushed = true;
 
                 } else {
                     robot.armExtrusion.setPower(0);
+                    right_trigger_pushed = false;
+                }
+                switch (right_trigger_state) {
+                    case 0:
+                        if (right_trigger_pushed) {
+                            armtime.reset();
+                            //move out the arm
+                            robot.arm.setPower(1);
+                            right_trigger_state = 1;
+                            right_trigger_pushed = false;
+                        }
+                        break;
+                    case 1:
+                        if (armtime.seconds() >= .1) {
+                            //turn off motor
+                            robot.arm.setPower(0);
+                        }
+                        right_trigger_pushed = false;
+                        right_trigger_state = 0;
+                        break;
                 }
                 break;
             case 1:
                 // Once the right bumper is not being pressed it advances to the next state.
                 if (!gamepad2.right_bumper) {
-                    bumper_arm_extrusion_state++;
+                    arm_extrusion_state++;
                 }
                 break;
             case 2:
@@ -244,9 +232,9 @@ public class TeleOpProgram extends OpMode {
                 // If the right bumper is pressed the state advances to the next case.
                 if (!robot.touchSensor.getState()) {
                     robot.armExtrusion.setPower(0);
-                    bumper_arm_extrusion_state = 0;
+                    arm_extrusion_state = 0;
                 } else if (gamepad2.right_bumper) {
-                    bumper_arm_extrusion_state++;
+                    arm_extrusion_state++;
                 }
                 break;
             case 3:
@@ -254,7 +242,7 @@ public class TeleOpProgram extends OpMode {
                 // This allows the drivers to terminate the movement of the arm to avoid damage to the robot.
                 if (!gamepad2.right_bumper) {
                     robot.armExtrusion.setPower(0);
-                    bumper_arm_extrusion_state = 0;
+                    arm_extrusion_state = 0;
                 }
                 break;
         }
@@ -350,7 +338,7 @@ public class TeleOpProgram extends OpMode {
         telemetry.addData("Lift Encoder Ticks", robot.lift.getCurrentPosition());
         telemetry.addData("Color Number", robot.colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER));
         telemetry.addData("arm_state", arm_state);
-        telemetry.addData("arm_extrusion_state", bumper_arm_extrusion_state);
+        telemetry.addData("arm_extrusion_state", arm_extrusion_state);
         telemetry.addData("touch sensor", robot.touchSensor.getState());
         telemetry.addData("Scale Factor", scaleFactor);
         telemetry.addData("Direction", direction);
