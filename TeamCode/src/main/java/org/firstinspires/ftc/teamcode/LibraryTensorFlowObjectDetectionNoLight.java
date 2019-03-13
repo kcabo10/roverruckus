@@ -50,20 +50,21 @@ public class LibraryTensorFlowObjectDetectionNoLight {
     private static final String LABEL_GOLD_MINERAL = "Gold Mineral";
     private static final String LABEL_SILVER_MINERAL = "Silver Mineral";
 
-     // Set Vuforia Key so it knows what phone it is connecting to
+    // Set Vuforia Key so it knows what phone it is connecting to
     private static final String VUFORIA_KEY = "Aa4mtdP/////AAABmSRcR7UP9kS4nIeX1am8Tf5TlWuaSoXF9p9tlyFSx0zDxT39pe+kg1dseqSvlAQBMws92KngQN7wl3RHkCgjre8b+A9RXXtGx0mlQ1PWbMIf4AlDdHncv6ERajxzi+HwOgFkMt44eQ9gVLBLUvxzDepzfZaMSfalcWz3qtbhq8hH2R3npGb+p2x6XVY6IWZSwkKpnCFVddAhsyuToQ/S5ndIkeB2O4mquvWESjFDc6ALl/SU7Rcg5Qb/chtv2dK+EWkcaf+XSjzn7KvOsaykUeOk2ChCIEQizneBH0ILH28lPMGjxTky7qnTf+5Jb/IHpd64ZtTZN9Q2Nyrlce1750yUVtnqSxRdUPPaJTiBQrKo";
     HardwareBeep robot;
     Telemetry telemetry;
     ElapsedTime timer;
-     // Set Vuforia as a Localizer
+    // Set Vuforia as a Localizer
     private VuforiaLocalizer vuforia;
-     // Set tfod to the TensorFlowObjectDetector
+    // Set tfod to the TensorFlowObjectDetector
     private TFObjectDetector tfod;
 
     /**
      * This method sets the hardware map and telemetry for TensorFlow
+     *
      * @param newHardwareBeep This is the hardware we use to initialize TensorFlow to the phone
-     * @param newTelemetry This is the parameter that calls the telemetry for us to use
+     * @param newTelemetry    This is the parameter that calls the telemetry for us to use
      */
     public LibraryTensorFlowObjectDetectionNoLight(HardwareBeep newHardwareBeep, Telemetry
             newTelemetry) {
@@ -75,6 +76,7 @@ public class LibraryTensorFlowObjectDetectionNoLight {
 
     /**
      * This method initializes vuforia and returns the gold mineral position
+     *
      * @return Returns gold mineral position
      */
     public String findMineral() {
@@ -139,6 +141,7 @@ public class LibraryTensorFlowObjectDetectionNoLight {
 
     /**
      * This method has an algorithm that reads the right two minerals.
+     *
      * @return Returns the current gold position.
      */
     public String readMineral() {
@@ -249,6 +252,7 @@ public class LibraryTensorFlowObjectDetectionNoLight {
 
     /**
      * This method turns on the the phone light
+     *
      * @param on This is the value we use to set the phone light to "ON"
      */
     private void phoneLight(boolean on) {

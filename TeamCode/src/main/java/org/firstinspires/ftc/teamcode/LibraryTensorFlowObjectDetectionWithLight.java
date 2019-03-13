@@ -62,8 +62,9 @@ public class LibraryTensorFlowObjectDetectionWithLight {
 
     /**
      * Sets the robot and telemetry for the program.
+     *
      * @param newHardwareBeep A new variable for Hardware Beep
-     * @param newTelemetry A call to use telemetry
+     * @param newTelemetry    A call to use telemetry
      */
     public LibraryTensorFlowObjectDetectionWithLight(HardwareBeep newHardwareBeep, Telemetry newTelemetry) {
 
@@ -74,6 +75,7 @@ public class LibraryTensorFlowObjectDetectionWithLight {
 
     /**
      * This method starts up the phone light and reads the mineral position.
+     *
      * @return This return function sends back the gold position
      */
     public String findMineral() {
@@ -247,6 +249,7 @@ public class LibraryTensorFlowObjectDetectionWithLight {
 
     /**
      * This method is called to start up the phone light
+     *
      * @param on This parameter is used to start up the phone light
      */
     private void phoneLight(boolean on) {

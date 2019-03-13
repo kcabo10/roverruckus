@@ -22,6 +22,7 @@ public class TeleOpProgram extends OpMode {
     // Setting arm_state, arm_extrusion_state, and basket_state values to zero for arm state machine.
     private int arm_state = 0;
     private int arm_extrusion_state = 0;
+    private int right_trigger_state = 0;
     private int basket_state = 0;
     // Calling hardware map.
     private HardwareBeep robot = new HardwareBeep();
@@ -33,6 +34,7 @@ public class TeleOpProgram extends OpMode {
     // Setting scaling to full speed.
     private double scaleFactor = 1;
     private double scaleTurningSpeed = 1;
+    private boolean right_trigger_pushed = false;
 
     /**
      * This method reverses the direction of the mecanum drive.
@@ -192,8 +194,30 @@ public class TeleOpProgram extends OpMode {
                 } else if (gamepad2.right_trigger > 0) {
                     robot.armExtrusion.setPower(-1);
                     robot.basket.setPosition(.4);
+                    right_trigger_pushed = true;
+
                 } else {
                     robot.armExtrusion.setPower(0);
+                    right_trigger_pushed = false;
+                }
+                switch (right_trigger_state) {
+                    case 0:
+                        if (right_trigger_pushed) {
+                            armtime.reset();
+                            //move out the arm
+                            robot.arm.setPower(1);
+                            right_trigger_state = 1;
+                            right_trigger_pushed = false;
+                        }
+                        break;
+                    case 1:
+                        if (armtime.seconds() >= .1) {
+                            //turn off motor
+                            robot.arm.setPower(0);
+                        }
+                        right_trigger_pushed = false;
+                        right_trigger_state = 0;
+                        break;
                 }
                 break;
             case 1:

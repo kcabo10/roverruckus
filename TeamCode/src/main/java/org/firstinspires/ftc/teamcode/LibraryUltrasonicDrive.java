@@ -17,6 +17,7 @@ public class LibraryUltrasonicDrive {
     //DcMotor motor;
     HardwareBeep robot = new HardwareBeep();
     Telemetry telemetry;
+    boolean readLeftSensor = false;
     int read_distance_left = 0;
     int read_distance_right = 0;
 
@@ -97,14 +98,23 @@ public class LibraryUltrasonicDrive {
         // keep looping while we are still active, and BOTH motors are running.
         while (robot.leftFront.isBusy() && robot.leftBack.isBusy() && robot.rightFront.isBusy() && robot.rightBack.isBusy()) {
 
+            if (!readLeftSensor && runtime.milliseconds() > 100) {
+                telemetry.addData("Left Distance", robot.leftSonic.getDistance());
+                telemetry.addData("Incrementor", i++);
+                telemetry.update();
+                robot.leftSonic.ping();
+                readLeftSensor = true;
+
+            }
+
             if (runtime.milliseconds() > 200) {
 
-                read_distance_left = robot.leftSonic.getDistance();
-                read_distance_right = robot.rightSonic.getDistance();
-
-                robot.leftSonic.ping();
+                telemetry.addData("Right Distance", robot.rightSonic.getDistance());
+                telemetry.addData("Incrementor", i++);
+                telemetry.update();
                 robot.rightSonic.ping();
                 runtime.reset();
+                readLeftSensor = false;
             }
 
 

@@ -10,9 +10,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * <p>
  * <b>Summary:</b>
  * <p>
- *  This is our autonomous program for the crater side on both sides of the field. This program runs
- *  without the phone light for Tensor Flow. This is the go to program. This programs lands, hits off the gold mineral, deposits the team marker, and parks in
- *  our alligances crater.
+ * This is our autonomous program for the crater side on both sides of the field. This program runs
+ * without the phone light for Tensor Flow. This is the go to program. This programs lands, hits off the gold mineral, deposits the team marker, and parks in
+ * our alligances crater.
  */
 @Autonomous(name = "Crater Program No Light", group = "Beep")
 public class CraterProgramNoLight extends LinearOpMode {
@@ -62,7 +62,7 @@ public class CraterProgramNoLight extends LinearOpMode {
 
         // landing the robot
         robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.lift.setTargetPosition(-18000);
+        robot.lift.setTargetPosition(-11760);
         robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.lift.setPower(1);
 
@@ -104,7 +104,7 @@ public class CraterProgramNoLight extends LinearOpMode {
         double[] LEFT_CRATER_MARKER = {-1.5, 2.9};
 
         // Parking position for all mineral positions
-        double[] RED_CRATER_PARKING = {.8, 2.7};
+        double[] RED_CRATER_PARKING = {.7, 2.7};
 
         // This is a switch block that plays the program in relation to the mineral position that
         // Tensor Flow reads
@@ -319,8 +319,8 @@ public class CraterProgramNoLight extends LinearOpMode {
                     printTelemetry(50);
                 }
                 break;
-                // should never get to this case but in case it can't find the mineral position
-                // it goes to this default case
+            // should never get to this case but in case it can't find the mineral position
+            // it goes to this default case
             default:
                 telemetry.addData("Telemetry", "Didn't see gold pos");
                 telemetry.update();
@@ -472,6 +472,7 @@ public class CraterProgramNoLight extends LinearOpMode {
 
     /**
      * This method prints telemetry for our autonomous program
+     *
      * @param codePos This is the value we use in telemetry to see where in the code we are
      */
     private void printTelemetry(int codePos) {
@@ -487,7 +488,7 @@ public class CraterProgramNoLight extends LinearOpMode {
      */
     private void lowerLift() {
         robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.lift.setTargetPosition(14500);
+        robot.lift.setTargetPosition(11760);
         robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.lift.setPower(1);
     }
@@ -516,7 +517,7 @@ public class CraterProgramNoLight extends LinearOpMode {
                 telemetry.update();
                 break;
 
-                // If it reads unknown than it goes to this default case
+            // If it reads unknown than it goes to this defaul   t case
             default:
                 telemetry.addData("Telemetry", "Unknown Position");
                 telemetry.update();

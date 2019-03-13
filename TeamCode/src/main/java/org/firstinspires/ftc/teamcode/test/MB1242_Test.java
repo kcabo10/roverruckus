@@ -9,14 +9,14 @@ import org.firstinspires.ftc.teamcode.HardwareBeep;
 import org.firstinspires.ftc.teamcode.sensors.SensorMB1242;
 
 @Disabled
-@TeleOp(name="Rear Ultrasonic Testing", group="Test")
+@TeleOp(name = "Rear Ultrasonic Testing", group = "Test")
 //@Disabled
 public class MB1242_Test extends LinearOpMode {
-    HardwareBeep robot = new HardwareBeep();
-
-//    SensorMB1242 rearUS
-    boolean last = false;
     public ElapsedTime runtime = new ElapsedTime();
+    HardwareBeep robot = new HardwareBeep();
+    //    SensorMB1242 rearUS
+    boolean last = false;
+    boolean readLeftSensor = false;
     int i = 0;
 
     @Override
@@ -35,8 +35,8 @@ public class MB1242_Test extends LinearOpMode {
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
-            telemetry.addData("waitForStart()", i++);
-            telemetry.update();
+        telemetry.addData("waitForStart()", i++);
+        telemetry.update();
         //rearUS.run();
 //        telemetry.addData("rearUS.run", "");
 //        telemetry.update();
@@ -46,19 +46,26 @@ public class MB1242_Test extends LinearOpMode {
         sleep(2000);
 
         // run until the end of the match (driver presses STOP)
-        while (opModeIsActive()&&!isStopRequested()) {
+        while (opModeIsActive() && !isStopRequested()) {
 
-            if (runtime.milliseconds() > 200){
-
-                telemetry.addData("Distance",leftSonic.getDistance());
-                telemetry.addData("Distance",rightSonic.getDistance());
+            if (!readLeftSensor && runtime.milliseconds() > 100) {
+                telemetry.addData("Left Distance", leftSonic.getDistance());
                 telemetry.addData("Incrementor", i++);
                 telemetry.update();
                 leftSonic.ping();
-                rightSonic.ping();
-                runtime.reset();
+                readLeftSensor = true;
+
             }
 
+            if (runtime.milliseconds() > 200) {
+
+                telemetry.addData("Right Distance", rightSonic.getDistance());
+                telemetry.addData("Incrementor", i++);
+                telemetry.update();
+                rightSonic.ping();
+                runtime.reset();
+                readLeftSensor = false;
+            }
 
 
             /**
