@@ -171,9 +171,9 @@ public class TeleOpProgram extends OpMode {
         // When the right bumper is being pressed the intake power is set to .5.
         // Otherwise the power is set to zero.
         if (gamepad1.right_trigger > 0) {
-            robot.intake.setPower(-0.50);
+            robot.intake.setPower(-0.75);
         } else if (gamepad1.right_bumper) {
-            robot.intake.setPower(0.50);
+            robot.intake.setPower(0.75);
         } else {
             robot.intake.setPower(0);
         }
