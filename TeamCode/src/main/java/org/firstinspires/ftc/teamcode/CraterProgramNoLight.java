@@ -104,7 +104,7 @@ public class CraterProgramNoLight extends LinearOpMode {
         double[] LEFT_CRATER_MARKER = {-1.5, 2.9};
 
         // Parking position for all mineral positions
-        double[] RED_CRATER_PARKING = {.7, 2.7};
+        double[] RED_CRATER_PARKING = {.9, 2.7};
 
         // This is a switch block that plays the program in relation to the mineral position that
         // Tensor Flow reads
@@ -171,7 +171,7 @@ public class CraterProgramNoLight extends LinearOpMode {
                     gridNavigation.driveToPosition(RED_CRATER_PARKING[X], RED_CRATER_PARKING[Y], .7);
                     // drop arm to park
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    robot.arm.setTargetPosition(800);
+                    robot.arm.setTargetPosition(850);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     robot.arm.setPower(1);
                     while (robot.arm.isBusy()) {
@@ -243,7 +243,7 @@ public class CraterProgramNoLight extends LinearOpMode {
                     gridNavigation.driveToPosition(RED_CRATER_PARKING[X], RED_CRATER_PARKING[Y], .7);
                     // bring arm down to park
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    robot.arm.setTargetPosition(800);
+                    robot.arm.setTargetPosition(850);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     robot.arm.setPower(1);
                     while (robot.arm.isBusy()) {
@@ -308,7 +308,7 @@ public class CraterProgramNoLight extends LinearOpMode {
                     gridNavigation.driveToPosition(RED_CRATER_PARKING[X], RED_CRATER_PARKING[Y], .7);
                     // bring arm down to park
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    robot.arm.setTargetPosition(800);
+                    robot.arm.setTargetPosition(850);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     robot.arm.setPower(1);
                     while (robot.arm.isBusy()) {
@@ -372,18 +372,18 @@ public class CraterProgramNoLight extends LinearOpMode {
         robot.leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.leftFront.setTargetPosition(500);
-        robot.leftBack.setTargetPosition(500);
-        robot.rightFront.setTargetPosition(500);
-        robot.rightBack.setTargetPosition(500);
+        robot.leftFront.setTargetPosition(600);
+        robot.leftBack.setTargetPosition(600);
+        robot.rightFront.setTargetPosition(600);
+        robot.rightBack.setTargetPosition(600);
         robot.leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.leftBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.rightBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.leftBack.setPower(.5);
-        robot.leftFront.setPower(.5);
-        robot.rightBack.setPower(.5);
-        robot.rightFront.setPower(.5);
+        robot.leftBack.setPower(1);
+        robot.leftFront.setPower(1);
+        robot.rightBack.setPower(1);
+        robot.rightFront.setPower(1);
 
         while (robot.rightFront.isBusy()) {
 
@@ -401,12 +401,6 @@ public class CraterProgramNoLight extends LinearOpMode {
         while (robot.arm.isBusy()) {
         }
         robot.arm.setPower(.111);
-
-        // Start intake to suck in minerals
-        robot.intake.setPower(1);
-        sleep(1000);
-        robot.intake.setPower(0);
-
         // Continuous while block
         while (true) {
 
@@ -430,8 +424,9 @@ public class CraterProgramNoLight extends LinearOpMode {
             robot.leftFront.setPower(.5);
             robot.rightBack.setPower(.5);
             robot.rightFront.setPower(.5);
+            runtime.reset();
 
-            while (robot.rightFront.isBusy()) {
+            while (runtime.seconds() == 3) {
 
             }
             robot.leftBack.setPower(0);
