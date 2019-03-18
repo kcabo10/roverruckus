@@ -63,7 +63,7 @@ public class CraterProgramWithLight extends LinearOpMode {
 
         // landing the robot
         robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.lift.setTargetPosition(-11760);
+        robot.lift.setTargetPosition(-12500);
         robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.lift.setPower(1);
 
@@ -168,16 +168,6 @@ public class CraterProgramWithLight extends LinearOpMode {
                     while (robot.arm.isBusy()) {
                     }
                     robot.arm.setPower(.111);
-                    // drive to crater parking position
-                    gridNavigation.driveToPosition(RED_CRATER_PARKING[X], RED_CRATER_PARKING[Y], .7);
-                    // drop arm to park
-                    robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    robot.arm.setTargetPosition(800);
-                    robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    robot.arm.setPower(1);
-                    while (robot.arm.isBusy()) {
-                    }
-                    robot.arm.setPower(.111);
 
                 } else {
                     telemetry.addData("Telemetry", "No Position Found");
@@ -240,16 +230,6 @@ public class CraterProgramWithLight extends LinearOpMode {
                     while (robot.arm.isBusy()) {
                     }
                     robot.arm.setPower(.111);
-                    // drive to crater parking position
-                    gridNavigation.driveToPosition(RED_CRATER_PARKING[X], RED_CRATER_PARKING[Y], .7);
-                    // bring arm down to park
-                    robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    robot.arm.setTargetPosition(800);
-                    robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    robot.arm.setPower(1);
-                    while (robot.arm.isBusy()) {
-                    }
-                    robot.arm.setPower(.111);
                 } else {
                     telemetry.addData("Telemetry", "No Position Found");
                     printTelemetry(50);
@@ -305,16 +285,6 @@ public class CraterProgramWithLight extends LinearOpMode {
                     while (robot.arm.isBusy()) {
                     }
                     robot.arm.setPower(.111);
-                    // drive to crater parking position
-                    gridNavigation.driveToPosition(RED_CRATER_PARKING[X], RED_CRATER_PARKING[Y], .7);
-                    // bring arm down to park
-                    robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    robot.arm.setTargetPosition(800);
-                    robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    robot.arm.setPower(1);
-                    while (robot.arm.isBusy()) {
-                    }
-                    robot.arm.setPower(.111);
                 } else {
                     telemetry.addData("Telemetry", "No Position Found");
                     printTelemetry(50);
@@ -327,6 +297,18 @@ public class CraterProgramWithLight extends LinearOpMode {
                 telemetry.update();
                 break;
         }
+
+        // drive to crater parking position
+        gridNavigation.driveToPosition(RED_CRATER_PARKING[X], RED_CRATER_PARKING[Y], .7);
+        // bring arm down to park
+        robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.arm.setTargetPosition(800);
+        robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.arm.setPower(1);
+        while (robot.arm.isBusy()) {
+        }
+        robot.arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.arm.setPower(.25);
         // Once it goes through the case block it does the following
         telemetry.addData("Parked Ready to pull out arm", "");
         telemetry.update();
@@ -359,15 +341,6 @@ public class CraterProgramWithLight extends LinearOpMode {
         robot.rightBack.setPower(0);
         robot.rightFront.setPower(0);
 
-        // Lift up arm
-        robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.arm.setTargetPosition(-400);
-        robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.arm.setPower(1);
-        while (robot.arm.isBusy()) {
-        }
-        robot.arm.setPower(.111);
-
         // driving forward
         robot.leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -394,20 +367,6 @@ public class CraterProgramWithLight extends LinearOpMode {
         robot.rightBack.setPower(0);
         robot.rightFront.setPower(0);
 
-        // Bringing the arm down
-        robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.arm.setTargetPosition(400);
-        robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.arm.setPower(1);
-        while (robot.arm.isBusy()) {
-        }
-        robot.arm.setPower(.111);
-
-        // Start intake to suck in minerals
-        robot.intake.setPower(1);
-        sleep(1000);
-        robot.intake.setPower(0);
-
         // Continuous while block
         while (true) {
 
@@ -415,24 +374,17 @@ public class CraterProgramWithLight extends LinearOpMode {
             robot.intake.setPower(1);
 
             // driving backwards
-            robot.leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            robot.leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            robot.rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            robot.rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            robot.leftFront.setTargetPosition(-250);
-            robot.leftBack.setTargetPosition(-250);
-            robot.rightFront.setTargetPosition(-250);
-            robot.rightBack.setTargetPosition(-250);
-            robot.leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.leftBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.rightBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.leftBack.setPower(.5);
-            robot.leftFront.setPower(.5);
-            robot.rightBack.setPower(.5);
-            robot.rightFront.setPower(.5);
+            robot.leftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            robot.leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            robot.rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            robot.rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            robot.leftBack.setPower(-.5);
+            robot.leftFront.setPower(-.5);
+            robot.rightBack.setPower(-.5);
+            robot.rightFront.setPower(-.5);
+            runtime.reset();
 
-            while (robot.rightFront.isBusy()) {
+            while (runtime.seconds() <= 1) {
 
             }
             robot.leftBack.setPower(0);
@@ -440,25 +392,18 @@ public class CraterProgramWithLight extends LinearOpMode {
             robot.rightBack.setPower(0);
             robot.rightFront.setPower(0);
 
-            // driving forward
-            robot.leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            robot.leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            robot.rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            robot.rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            robot.leftFront.setTargetPosition(250);
-            robot.leftBack.setTargetPosition(250);
-            robot.rightFront.setTargetPosition(250);
-            robot.rightBack.setTargetPosition(250);
-            robot.leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.leftBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.rightBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            // driving forwards
+            robot.leftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            robot.leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            robot.rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            robot.rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             robot.leftBack.setPower(.5);
             robot.leftFront.setPower(.5);
             robot.rightBack.setPower(.5);
             robot.rightFront.setPower(.5);
+            runtime.reset();
 
-            while (robot.rightFront.isBusy()) {
+            while (runtime.seconds() <= 1) {
 
             }
             robot.leftBack.setPower(0);
