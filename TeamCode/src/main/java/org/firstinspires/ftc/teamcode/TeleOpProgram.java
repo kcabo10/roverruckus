@@ -229,7 +229,7 @@ public class TeleOpProgram extends OpMode {
                 //  This case is the constant state that waits for the trigger or bumper to be pressed.
 
                 // The arm is set to default to the game pad 2 right stick
-                robot.arm.setPower(gamepad2.right_stick_y * .75);
+                robot.arm.setPower(gamepad2.right_stick_y * -.75);
 
                 // When the left bumper on game pad 1 is pressed the arm moves to a vertical set position of about 90 degrees.
                 // When the left trigger on game pad 1 is pressed the arms moves to a horizontal set position of about 180 degrees.

@@ -261,7 +261,7 @@ public class CraterProgramNoLight extends LinearOpMode {
                     }
                     robot.arm.setPower(.111);
                     // drive toward wall to get to depot
-                    gridNavigation.driveToPosition(0, 2.5, .5);
+                    gridNavigation.driveToPosition(.2, 2.5, .5);
                     // drive to depot to deposit marker
                     gridNavigation.driveToPosition(CENTER_CRATER_MARKER[X], CENTER_CRATER_MARKER[Y], .5);
                     // lower arm
@@ -379,6 +379,15 @@ public class CraterProgramNoLight extends LinearOpMode {
         robot.leftFront.setPower(0);
         robot.rightBack.setPower(0);
         robot.rightFront.setPower(0);
+
+        // bring arm up
+        robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.arm.setTargetPosition(400);
+        robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.arm.setPower(1);
+        while (robot.arm.isBusy()) {
+        }
+        robot.arm.setPower(0);
     }
 
     /**
