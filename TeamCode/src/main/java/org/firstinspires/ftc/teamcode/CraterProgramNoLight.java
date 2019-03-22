@@ -98,14 +98,12 @@ public class CraterProgramNoLight extends LinearOpMode {
         double[] RED_CRATER_CENTER = {1.1, 1.1};
 
         // Center marker pos
-        double[] CENTER_CRATER_MARKER = {-1.5, 2.85};
+        double[] RED_CRATER_MARKER = {-1.5, 2.9};
         // Right marker pos
         double[] RIGHT_CRATER_MARKER = {-1.5, 2.5};
-        // Left marker pos
-        double[] LEFT_CRATER_MARKER = {-1.5, 2.9};
 
         // Parking position for all mineral positions
-        double[] RED_CRATER_PARKING = {1, 2.8};
+        double[] RED_CRATER_PARKING = {1.1, 2.8};
 
         // This is a switch block that plays the program in relation to the mineral position that
         // Tensor Flow reads
@@ -123,7 +121,7 @@ public class CraterProgramNoLight extends LinearOpMode {
                     lowerLift();
                     // drops arm
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    robot.arm.setTargetPosition(750);
+                    robot.arm.setTargetPosition(-643);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     robot.arm.setPower(1);
                     while (robot.arm.isBusy()) {
@@ -135,24 +133,26 @@ public class CraterProgramNoLight extends LinearOpMode {
                     telemetry.addData("Grid Nav Goto Pos Y", RED_CRATER_LEFT[Y]);
                     // brings arm up
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    robot.arm.setTargetPosition(-800);
+                    robot.arm.setTargetPosition(686);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     robot.arm.setPower(1);
                     while (robot.arm.isBusy()) {
                     }
                     // set power to .111 to hold arm position so it doesn't fall
+                    robot.arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                     robot.arm.setPower(.111);
-                    gridNavigation.driveToPosition(0, 2.5, .5);
+                    gridNavigation.driveToPosition(0, 2.7, .5);
                     // drives toward depot to deposit marker
-                    gridNavigation.driveToPosition(LEFT_CRATER_MARKER[X], LEFT_CRATER_MARKER[Y], .5);
+                    gridNavigation.driveToPosition(RED_CRATER_MARKER[X], RED_CRATER_MARKER[Y], .5);
                     // lower arm slightly
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    robot.arm.setTargetPosition(450);
+                    robot.arm.setTargetPosition(-386);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     robot.arm.setPower(1);
                     while (robot.arm.isBusy()) {
                     }
                     // set arm power to .111 to hold arm in position
+                    robot.arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                     robot.arm.setPower(.111);
                     // run intake to deposit marker
                     robot.intake.setPower(.6);
@@ -162,11 +162,12 @@ public class CraterProgramNoLight extends LinearOpMode {
                     runtime.reset();
                     // bring arm up
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    robot.arm.setTargetPosition(-450);//-644 is to come from mat to stopping point
+                    robot.arm.setTargetPosition(386);//-644 is to come from mat to stopping point
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     robot.arm.setPower(1);
                     while (robot.arm.isBusy()) {
                     }
+                    robot.arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                     robot.arm.setPower(.111);
 
                 } else {
@@ -187,7 +188,7 @@ public class CraterProgramNoLight extends LinearOpMode {
                     lowerLift();
                     // drop arm
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    robot.arm.setTargetPosition(750);
+                    robot.arm.setTargetPosition(-643);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     robot.arm.setPower(1);
                     while (robot.arm.isBusy()) {
@@ -199,11 +200,12 @@ public class CraterProgramNoLight extends LinearOpMode {
                     telemetry.addData("Grid Nav Goto Pos Y", RED_CRATER_RIGHT[Y]);
                     // bring up arm
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    robot.arm.setTargetPosition(-800);
+                    robot.arm.setTargetPosition(686);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     robot.arm.setPower(1);
                     while (robot.arm.isBusy()) {
                     }
+                    robot.arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                     robot.arm.setPower(.111);
                     // drive toward wall to get to depot
                     gridNavigation.driveToPosition(0, 2.5, .5);
@@ -211,11 +213,12 @@ public class CraterProgramNoLight extends LinearOpMode {
                     gridNavigation.driveToPosition(RIGHT_CRATER_MARKER[X], RIGHT_CRATER_MARKER[Y], .5);
                     // lower arm to deposit marker
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    robot.arm.setTargetPosition(450);
+                    robot.arm.setTargetPosition(-385);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     robot.arm.setPower(1);
                     while (robot.arm.isBusy()) {
                     }
+                    robot.arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                     robot.arm.setPower(.111);
                     // run intake to deposit marker
                     robot.intake.setPower(1);
@@ -224,11 +227,12 @@ public class CraterProgramNoLight extends LinearOpMode {
                     runtime.reset();
                     // bring arm up
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    robot.arm.setTargetPosition(-450);//-644 is to come from mat to stopping point
+                    robot.arm.setTargetPosition(385);//-644 is to come from mat to stopping point
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     robot.arm.setPower(1);
                     while (robot.arm.isBusy()) {
                     }
+                    robot.arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                     robot.arm.setPower(.111);
                 } else {
                     telemetry.addData("Telemetry", "No Position Found");
@@ -242,7 +246,7 @@ public class CraterProgramNoLight extends LinearOpMode {
                 if (goldPosition == "CENTER") {
                     // lower arm
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    robot.arm.setTargetPosition(750);
+                    robot.arm.setTargetPosition(-643);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     robot.arm.setPower(1);
                     while (robot.arm.isBusy()) {
@@ -254,23 +258,25 @@ public class CraterProgramNoLight extends LinearOpMode {
                     lowerLift();
                     // bring arm up
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    robot.arm.setTargetPosition(-800);
+                    robot.arm.setTargetPosition(686);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     robot.arm.setPower(1);
                     while (robot.arm.isBusy()) {
                     }
+                    robot.arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                     robot.arm.setPower(.111);
                     // drive toward wall to get to depot
-                    gridNavigation.driveToPosition(.2, 2.5, .5);
+                    gridNavigation.driveToPosition(0, 2.7, .5);
                     // drive to depot to deposit marker
-                    gridNavigation.driveToPosition(CENTER_CRATER_MARKER[X], CENTER_CRATER_MARKER[Y], .5);
+                    gridNavigation.driveToPosition(RED_CRATER_MARKER[X], RED_CRATER_MARKER[Y], .5);
                     // lower arm
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    robot.arm.setTargetPosition(450);
+                    robot.arm.setTargetPosition(-386);
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     robot.arm.setPower(1);
                     while (robot.arm.isBusy()) {
                     }
+                    robot.arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                     robot.arm.setPower(.111);
                     // run intake to deposit marker
                     robot.intake.setPower(1);
@@ -279,11 +285,12 @@ public class CraterProgramNoLight extends LinearOpMode {
                     runtime.reset();
                     // bring arm back up
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    robot.arm.setTargetPosition(-450);//-644 is to come from mat to stopping point
+                    robot.arm.setTargetPosition(386);//-644 is to come from mat to stopping point
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     robot.arm.setPower(1);
                     while (robot.arm.isBusy()) {
                     }
+                    robot.arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                     robot.arm.setPower(.111);
                 } else {
                     telemetry.addData("Telemetry", "No Position Found");
@@ -302,13 +309,13 @@ public class CraterProgramNoLight extends LinearOpMode {
         gridNavigation.driveToPosition(RED_CRATER_PARKING[X], RED_CRATER_PARKING[Y], .7);
         // bring arm down to park
         robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.arm.setTargetPosition(800);
+        robot.arm.setTargetPosition(-686);
         robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.arm.setPower(1);
         while (robot.arm.isBusy()) {
         }
         robot.arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        robot.arm.setPower(.15);
+        robot.arm.setPower(-.15);
         // Once it goes through the case block it does the following
         telemetry.addData("Parked Ready to pull out arm", "");
         telemetry.update();
@@ -343,13 +350,13 @@ public class CraterProgramNoLight extends LinearOpMode {
 
         // bring arm up
         robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.arm.setTargetPosition(-400);
+        robot.arm.setTargetPosition(385);
         robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.arm.setPower(1);
         while (robot.arm.isBusy()) {
         }
         robot.arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        robot.arm.setPower(-.15);
+        robot.arm.setPower(.15);
 
         // start intake
         robot.intake.setPower(1);
@@ -380,14 +387,6 @@ public class CraterProgramNoLight extends LinearOpMode {
         robot.rightBack.setPower(0);
         robot.rightFront.setPower(0);
 
-        // bring arm up
-        robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.arm.setTargetPosition(400);
-        robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.arm.setPower(1);
-        while (robot.arm.isBusy()) {
-        }
-        robot.arm.setPower(0);
     }
 
     /**
