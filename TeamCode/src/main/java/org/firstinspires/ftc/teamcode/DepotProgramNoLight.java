@@ -91,6 +91,7 @@ public class DepotProgramNoLight extends LinearOpMode {
 
         int X = 0;
         int Y = 1;
+        double ARMTIMEOUT = .8;
 
         // Left mineral pos
         double[] RED_DEPOT_LEFT = {1.2, 2.4};
@@ -99,13 +100,17 @@ public class DepotProgramNoLight extends LinearOpMode {
         // center mineral pos
         double[] RED_DEPOT_CENTER = {1.1, 1.1};
 
-        // right and center marker pos
-        double[] RED_DEPOT_MARKER = {1.6, 2.6};
-        // left mineral marker pos
+        // right marker pos
+        double[] RIGHT_DEPOT_MARKER = {1.6, 2.7};
+        // center marker pos
+        double[] CENTER_DEPOT_MARKER = {1.6, 2.6};
+        // left marker pos
         double[] LEFT_DEPOT_MARKER = {1.6, 2.4};
 
         // Parking pos for all mineral positions
-        double[] RED_DEPOT_PARKING = {-.8, 2.65};
+        double[] LEFT_DEPOT_PARKING = {-.7, 2.65};
+        double[] RIGHT_DEPOT_PARKING = {-.7, 2.45};
+        double[] CENTER_DEPOT_PARKING = {-.6, 2.65};
 
         // This is a switch block that plays the program in relation to the mineral position that
         // Tensor Flow reads
@@ -138,10 +143,27 @@ public class DepotProgramNoLight extends LinearOpMode {
                     robot.arm.setTargetPosition(420);//-644 is to come from mat to stopping point
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     robot.arm.setPower(1);
+                    runtime.reset();
                     while (robot.arm.isBusy()) {
+                        if (runtime.seconds() > ARMTIMEOUT) {
+                            break;
+                        }
+                        telemetry.addData("Seconds Elapsed", runtime.seconds());
+                        telemetry.update();
                     }
                     robot.arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                     robot.arm.setPower(.111);
+                    // drive to crater parking position
+                    gridNavigation.driveToPosition(LEFT_DEPOT_PARKING[X], LEFT_DEPOT_PARKING[Y], .7);
+                    // bring arm down to park
+                    robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    robot.arm.setTargetPosition(-686);
+                    robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    robot.arm.setPower(1);
+                    while (robot.arm.isBusy()) {
+                    }
+                    robot.arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                    robot.arm.setPower(-.15);
 
                 } else {
                     telemetry.addData("Telemetry", "No Position Found");
@@ -182,10 +204,10 @@ public class DepotProgramNoLight extends LinearOpMode {
                     robot.arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                     robot.arm.setPower(.111);
                     // drive around minerals to get to depot
-                    gridNavigation.driveToPosition(.5, 1.5, .5);
+                    gridNavigation.driveToPosition(.6, 1.5, .5);
                     gridNavigation.driveToPosition(.5, 2.5, .5);
                     // drive towards depot to deposit marker
-                    gridNavigation.driveToPosition(RED_DEPOT_MARKER[X], RED_DEPOT_MARKER[Y], .5);
+                    gridNavigation.driveToPosition(RIGHT_DEPOT_MARKER[X], RIGHT_DEPOT_MARKER[Y], .5);
                     // bring arm down
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.arm.setTargetPosition(-420);
@@ -206,10 +228,27 @@ public class DepotProgramNoLight extends LinearOpMode {
                     robot.arm.setTargetPosition(420);//-644 is to come from mat to stopping point
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     robot.arm.setPower(1);
+                    runtime.reset();
                     while (robot.arm.isBusy()) {
+                        if (runtime.seconds() > ARMTIMEOUT) {
+                            break;
+                        }
+                        telemetry.addData("Seconds Elapsed", runtime.seconds());
+                        telemetry.update();
                     }
                     robot.arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                     robot.arm.setPower(.111);
+                    // drive to crater parking position
+                    gridNavigation.driveToPosition(RIGHT_DEPOT_PARKING[X], RIGHT_DEPOT_PARKING[Y], .7);
+                    // bring arm down to park
+                    robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    robot.arm.setTargetPosition(-686);
+                    robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    robot.arm.setPower(1);
+                    while (robot.arm.isBusy()) {
+                    }
+                    robot.arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                    robot.arm.setPower(-.15);
                 } else {
                     telemetry.addData("Telemetry", "No Position Found");
                     printTelemetry(50);
@@ -249,7 +288,7 @@ public class DepotProgramNoLight extends LinearOpMode {
                     gridNavigation.driveToPosition(.65, 1.5, .5);
                     gridNavigation.driveToPosition(.2, 2.5, .5);
                     // drive to depot to deposit marker
-                    gridNavigation.driveToPosition(RED_DEPOT_MARKER[X], RED_DEPOT_MARKER[Y], .5);
+                    gridNavigation.driveToPosition(CENTER_DEPOT_MARKER[X], CENTER_DEPOT_MARKER[Y], .5);
                     // bring arm down
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.arm.setTargetPosition(-420);
@@ -269,9 +308,26 @@ public class DepotProgramNoLight extends LinearOpMode {
                     robot.arm.setTargetPosition(420);//-644 is to come from mat to stopping point
                     robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     robot.arm.setPower(1);
+                    runtime.reset();
                     while (robot.arm.isBusy()) {
+                        if (runtime.seconds() > ARMTIMEOUT) {
+                            break;
+                        }
+                        telemetry.addData("Seconds Elapsed", runtime.seconds());
+                        telemetry.update();
                     }
                     robot.arm.setPower(.111);
+                    // drive to crater parking position
+                    gridNavigation.driveToPosition(CENTER_DEPOT_PARKING[X], CENTER_DEPOT_PARKING[Y], .7);
+                    // bring arm down to park
+                    robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    robot.arm.setTargetPosition(-686);
+                    robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    robot.arm.setPower(1);
+                    while (robot.arm.isBusy()) {
+                    }
+                    robot.arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                    robot.arm.setPower(-.15);
                 } else {
                     telemetry.addData("Telemetry", "No Position Found");
                     printTelemetry(70);
@@ -290,17 +346,6 @@ public class DepotProgramNoLight extends LinearOpMode {
                 break;
         }
 
-        // drive to crater parking position
-        gridNavigation.driveToPosition(RED_DEPOT_PARKING[X], RED_DEPOT_PARKING[Y], .7);
-        // bring arm down to park
-        robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.arm.setTargetPosition(-686);
-        robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.arm.setPower(1);
-        while (robot.arm.isBusy()) {
-        }
-        robot.arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        robot.arm.setPower(-.15);
         // Once it goes through the case block it does the following
         telemetry.addData("Parked Ready to pull out arm", "");
         telemetry.update();

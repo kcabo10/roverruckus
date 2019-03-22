@@ -145,7 +145,7 @@ public class LibraryTensorFlowObjectDetectionWithLight {
         timer.reset();
 
         // while mineral position is not found and the timer counts 6 seconds
-        while (currentPos == "" && timer.seconds() < 6) { /**DEBUG CHANGED TO 600 */
+        while (currentPos == "" && timer.seconds() < 3) { /**DEBUG CHANGED TO 600 */
             // getUpdatedRecognitions() will return null if no new information is available since
             if (tfod != null) {
                 // the last time that call was made.
@@ -174,7 +174,18 @@ public class LibraryTensorFlowObjectDetectionWithLight {
 
                                 recognitionLinkedList.addFirst(recognition);
                             } else {
-                                recognitionLinkedList.add(recognition);
+                                //Add the recognition after the one that its directly lower than
+                                for (int i = 0; i < recognitionLinkedList.size(); i++) {
+                                    if (recognition.getBottom() > recognitionLinkedList.get(i).getBottom()) {
+                                        recognitionLinkedList.add(i, recognition);
+                                        break;
+                                    }
+                                    //if we're analyzing the last element, then add to the end of list
+                                    if (i == recognitionLinkedList.size() - 1) {
+                                        recognitionLinkedList.add(recognition);
+                                        break;
+                                    }
+                                }
                             }
                         }
 
