@@ -76,24 +76,24 @@ public class LibraryGridNavigation {
 
         // This converts the radians given by the atan2 funtion to degrees.
         tanAngle = (float) Math.toDegrees(theta);
-//        if (tanAngle > 180) {
-//            tanAngle = tanAngle - 360;
-//        } else if (tanAngle < -180) {
-//            tanAngle = tanAngle + 360;
-//        }
+        if (tanAngle > 180) {
+            tanAngle = tanAngle - 360;
+        } else if (tanAngle < -180) {
+            tanAngle = tanAngle + 360;
+        }
 
         // These set the previous destination coordinates to the next starting coordinates.
         xOrigin = xDestination;
         yOrigin = yDestination;
 
         turnAngle = tanAngle - StartingAngle;
-        if (turnAngle > 180) {
-            turnAngle = turnAngle - 360;
-        } else if (turnAngle < -180) {
-            turnAngle = turnAngle + 360;
-        } else {
-
-        }
+//        if (turnAngle > 180) {
+//            turnAngle = turnAngle - 360;
+//        } else if (turnAngle < -180) {
+//            turnAngle = turnAngle + 360;
+//        } else {
+//
+//        }
         System.out.println("xLeg is " + xLeg);
         System.out.println("yLeg is " + yLeg);
         System.out.println("Start Angle is " + StartingAngle);
@@ -112,7 +112,7 @@ public class LibraryGridNavigation {
      */
     public float getTurnAngle(double xDestination, double yDestination) {
 
-        float tanAngle = 0; // comment
+        float tanAngle = 0;
 
         double xLeg = xDestination - xOrigin;
 
@@ -124,7 +124,7 @@ public class LibraryGridNavigation {
         telemetry.addData("X pos", xLeg);
         System.out.println(yLeg);
         telemetry.addData("Y pos", yLeg);
-
+        // This converts the radians naturally given by atan2 to degrees.
         tanAngle = (float) Math.toDegrees(theta);
         while ((tanAngle > 180) || (tanAngle < -180)) {
             if (tanAngle > 180) {
@@ -133,14 +133,15 @@ public class LibraryGridNavigation {
                 tanAngle = tanAngle + 360;
             }
         }
-
+        // Prints telemetry to the phone.
         System.out.println("Start Angle is " + StartingAngle);
         telemetry.addData("Start Angle is ", StartingAngle);
         System.out.println("Tangent Angle is " + tanAngle);
         telemetry.addData("Tangent Angle is ", tanAngle);
+        // Sets the previous destination coordinates to the new starting coordinates.
         xOrigin = xDestination;
         yOrigin = yDestination;
-
+        // Corrects the turn angle to account for the robot's current heading.
         turnAngle = tanAngle - StartingAngle;
 //            if(180 > turnAngle){
 //                turnAngle = turnAngle - 360;
