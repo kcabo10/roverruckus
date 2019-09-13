@@ -77,7 +77,7 @@ public class CraterProgramNoLight extends LinearOpMode {
         robot.latch.setPower(-1);
 
         // Waiting for 1.15 seconds before it stops the servo
-        while (runtime.seconds() < 1.2) {
+        while (runtime.seconds() < 1.5) {
 
         }
         // Sets power to 0 to stop the latch
@@ -99,14 +99,15 @@ public class CraterProgramNoLight extends LinearOpMode {
         double[] RED_CRATER_CENTER = {1.1, 1.1};
 
         // Center marker pos
-        double[] RED_CRATER_MARKER = {-1.5, 2.9};
+        double[] LEFT_CRATER_MARKER = {-1.5, 2.9};
+        double[] CENTER_CRATER_MARKER = {-1.5, 2.7};
         // Right marker pos
         double[] RIGHT_CRATER_MARKER = {-1.5, 2.5};
 
         // Parking position for all mineral positions
         double[] RIGHT_CRATER_PARKING = {.8, 2.8};
-        double[] CENTER_CRATER_PARKING = {1, 2.8};
-        double[] LEFT_CRATER_PARKING = {1, 2.8};
+        double[] CENTER_CRATER_PARKING = {.75, 2.95};
+        double[] LEFT_CRATER_PARKING = {1.1, 2.95};
 
         // This is a switch block that plays the program in relation to the mineral position that
         // Tensor Flow reads
@@ -146,7 +147,7 @@ public class CraterProgramNoLight extends LinearOpMode {
                     robot.arm.setPower(.111);
                     gridNavigation.driveToPosition(0, 2.7, .5);
                     // drives toward depot to deposit marker
-                    gridNavigation.driveToPosition(RED_CRATER_MARKER[X], RED_CRATER_MARKER[Y], .5);
+                    gridNavigation.driveToPosition(LEFT_CRATER_MARKER[X], LEFT_CRATER_MARKER[Y], .5);
                     // lower arm slightly
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.arm.setTargetPosition(-386);
@@ -304,7 +305,7 @@ public class CraterProgramNoLight extends LinearOpMode {
                     // drive toward wall to get to depot
                     gridNavigation.driveToPosition(0, 2.7, .5);
                     // drive to depot to deposit marker
-                    gridNavigation.driveToPosition(RED_CRATER_MARKER[X], RED_CRATER_MARKER[Y], .5);
+                    gridNavigation.driveToPosition(CENTER_CRATER_MARKER[X], CENTER_CRATER_MARKER[Y], .5);
                     // lower arm
                     robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.arm.setTargetPosition(-386);
@@ -483,7 +484,7 @@ public class CraterProgramNoLight extends LinearOpMode {
                 telemetry.addData("Telemetry", "Unknown Position");
                 telemetry.update();
                 // sets mineral pos to center as default
-                goldPosition = "CENTER";
+                goldPosition = "RIGHT";
                 break;
         }
 

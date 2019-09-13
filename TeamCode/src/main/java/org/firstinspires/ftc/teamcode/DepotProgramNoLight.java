@@ -77,7 +77,7 @@ public class DepotProgramNoLight extends LinearOpMode {
         robot.latch.setPower(-1);
 
         //wait for 1.15 seconds
-        while (runtime.seconds() < 1.15) {
+        while (runtime.seconds() < 1.5) {
 
         }
         // set servo power to 0

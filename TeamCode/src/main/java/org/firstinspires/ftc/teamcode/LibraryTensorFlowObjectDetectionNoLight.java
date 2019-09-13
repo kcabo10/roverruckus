@@ -150,7 +150,7 @@ public class LibraryTensorFlowObjectDetectionNoLight {
         timer.reset();
 
         // while mineral position is not found and the timer counts 6 seconds
-        while (currentPos == "" && timer.seconds() < 3) { /**DEBUG CHANGED TO 600 */
+        while (currentPos == "" && timer.seconds() < 2) { /**DEBUG CHANGED TO 600 */
             // getUpdatedRecognitions() will return null if no new information is available since
             if (tfod != null) {
                 // the last time that call was made.
